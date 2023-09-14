@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.get('/', async (req, res) => {
   const clients = await dbfunctions.getClients()
-  if (clients.lenght == 0) {
+  if (clients.length == 0) {
     return res.status(400).json({ message: 'Clients list is empty.' })
   }
   // setTimeout(() => {

@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 import Logo from "./Logo";
 import MainNav from "./MainNav";
+import Sidebar from "./Sidebar";
+import Header from "./Header";
 
 const StyledAppLayout = styled.div`
   display: flex;
@@ -11,27 +13,10 @@ const StyledAppLayout = styled.div`
   gap: 0.3rem;
 `;
 
-const Sidebar = styled.div`
-  flex-basis: 25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 4rem;
-  background: white;
-  border-right: 1px solid ${(props) => props.theme.baseColors.grey100};
-  padding: 1rem 2rem;
-`;
-
 const Main = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-`;
-
-const Header = styled.div`
-  width: 100%;
-  background: white;
-  border-bottom: 1px solid ${(props) => props.theme.baseColors.grey100};
-  padding: 1.5rem 0;
 `;
 
 const Container = styled.div`

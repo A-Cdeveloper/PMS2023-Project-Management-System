@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { getClients } from "../../services/apiClients";
+import { useClients } from "./useClients";
 
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Table";
 import ClientRow from "./ClientRow";
+import Pagination from "../../ui/Pagination";
 
 const clientCols = [
   "Client",
@@ -15,21 +16,11 @@ const clientCols = [
 ];
 
 const ClientsTable = () => {
-  const [clients, setClients] = useState();
+  const { isLoading, error, clients, count } = useClients();
+  if (isLoading) return <Spinner />;
+  if (error) return <p>{error.message}</p>;
 
-  useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        const data = await getClients();
-        console.log(data);
-        setClients(data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-
-    fetchClients();
-  }, []);
+  console.log(count);
 
   return (
     <>
@@ -43,10 +34,9 @@ const ClientsTable = () => {
           )}
         />
       </Table>
-      {/* <Table.Footer>
+      <Table.Footer>
         <Pagination count={count} />
       </Table.Footer>
-      <Spinner /> */}
     </>
   );
 };

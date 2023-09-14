@@ -21,7 +21,7 @@ const StyledNavLink = styled(NavLink)`
     gap: 1.2rem;
     font-size: 1.6rem;
     font-weight: 500;
-    padding: 1rem 2.4rem;
+    padding: 1.2rem 2.4rem;
     transition: all 0.3s;
     color: ${(props) => props.theme.baseColors.grey600};
   }

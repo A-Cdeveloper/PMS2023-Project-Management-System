@@ -44,23 +44,15 @@ const StyledRow = styled(TableRow)`
   }
 `;
 
-// const Footer = styled.footer`
-//   background-color: var(--color-grey-50);
-//   display: flex;
-//   justify-content: center;
-//   padding: 1.2rem;
+const Footer = styled.footer`
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
 
-//   /* This will hide the footer when it contains no child elements. Possible thanks to the parent selector :has 🎉 */
-//   &:not(:has(*)) {
-//     display: none;
-//   }
-// `;
-
-const Empty = styled.p`
-  font-size: 1.6rem;
-  font-weight: 500;
-  text-align: center;
-  margin: 2.4rem;
+  /* hide the footer when it contains no child elements. */
+  &:not(:has(*)) {
+    display: none;
+  }
 `;
 
 const TableContext = createContext();
@@ -91,9 +83,6 @@ const Row = ({ children }) => {
 };
 
 const Body = ({ data, render }) => {
-  if (data && data.length === 0)
-    return <Empty>No data to show in this moment</Empty>;
-  console.log(data);
   return <StyledBody>{data && data.map(render)}</StyledBody>;
   //return null;
 };
@@ -101,6 +90,6 @@ const Body = ({ data, render }) => {
 Table.Header = Header;
 Table.Body = Body;
 Table.Row = Row;
-// Table.Footer = Footer;
+Table.Footer = Footer;
 
 export default Table;

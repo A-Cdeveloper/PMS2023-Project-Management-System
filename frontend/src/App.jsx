@@ -1,6 +1,8 @@
 import GlobalStyle from "./styles/GlobalStyles";
 import ThemeStyle from "./styles/ThemeStyle";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import AppLayout from "./ui/AppLayout";
 import Dashboard from "./pages/Dashboard";
@@ -11,6 +13,15 @@ import Clients from "./pages/Clients";
 import PageNotFound from "./pages/PageNotFound";
 
 import Notifications from "./ui/Notifications";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // staleTime: 60 * 1000,
+      staleTime: 0,
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {
@@ -29,9 +40,12 @@ const router = createBrowserRouter([
 function App() {
   return (
     <ThemeStyle>
-      <GlobalStyle />
-      <RouterProvider router={router} />
-      <Notifications />
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools />
+        <GlobalStyle />
+        <RouterProvider router={router} />
+        <Notifications />
+      </QueryClientProvider>
     </ThemeStyle>
   );
 }
