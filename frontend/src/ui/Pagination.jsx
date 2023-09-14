@@ -96,9 +96,7 @@ const Pagination = ({ count }) => {
           <HiChevronLeft />
           <span>Previus</span>
         </PaginationButton>
-        {/* <PaginationButton>1</PaginationButton>
-        <PaginationButton>2</PaginationButton>
-        <PaginationButton>3</PaginationButton> */}
+
         <PaginationButton
           onClick={nextPage}
           disabled={currentPage === pageCount}

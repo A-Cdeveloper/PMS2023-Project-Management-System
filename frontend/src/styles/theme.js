@@ -67,6 +67,7 @@ export const theme = {
     },
   },
   shadow: {
+    xs: "0 0rem .1rem rgba(0, 0, 0, 0.3)",
     sm: "0 0rem .5rem rgba(0, 0, 0, 0.3)",
     md: "0 0.1rem .8rem rgba(0, 0, 0, 0.4)",
     lg: "0 2.4rem 3.2rem rgba(0, 0, 0, 0.4)",

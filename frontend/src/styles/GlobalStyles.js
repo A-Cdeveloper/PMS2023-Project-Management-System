@@ -18,7 +18,7 @@ const GlobalStyles = createGlobalStyle`
   body {
     background: ${theme.baseColors.grey50};
     font-family: ${theme.fonts.Poppins.join(",")};
-    color: ${theme.baseColors.grey600};
+    color: ${theme.baseColors.grey700};
     font-size: ${theme.fontSizes.regular};
     line-height: ${theme.lineHeight.regular};
     font-weight: ${theme.fontWeight.regular};

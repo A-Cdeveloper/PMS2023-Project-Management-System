@@ -31,9 +31,6 @@ const Container = styled.div`
 
 const View = styled.div`
   max-width: 70vw;
-  & h1 {
-    margin-bottom: 2rem;
-  }
 `;
 
 const AppLayout = () => {

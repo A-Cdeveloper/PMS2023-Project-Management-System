@@ -6,7 +6,7 @@ const StyledTable = styled.div`
   background-color: ${(props) => props.theme.baseColors.grey100};
   font-weight: ${(props) => props.theme.fontWeight.semibold};
   border-radius: 7px;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   overflow: hidden;
 `;
 
@@ -32,12 +32,12 @@ const StyledBody = styled.section`
 `;
 
 const StyledRow = styled(TableRow)`
-  padding: 1.2rem 1.5rem;
+  padding: 1.5rem 1.5rem;
   background: white;
   font-size: 1.4rem;
   font-weight: ${(props) => props.theme.fontWeight.regular};
   border: 1px solid ${(props) => props.theme.baseColors.grey100};
-  color: ${(props) => props.theme.baseColors.grey500};
+  color: ${(props) => props.theme.baseColors.grey600};
 
   &:nth-child(even) {
     background: ${(props) => props.theme.baseColors.grey50};
