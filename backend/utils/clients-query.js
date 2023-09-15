@@ -1,7 +1,10 @@
 const db = require('./connection')
 
-const getClients = async () => {
-  const [clients] = await db.query('SELECT * FROM pms_clients')
+const getClients = async (from, number) => {
+  const [clients] = await db.query('SELECT * FROM pms_clients LIMIT ?,?', [
+    from,
+    number,
+  ])
   return clients
 }
 

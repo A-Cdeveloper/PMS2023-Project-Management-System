@@ -1,39 +1,42 @@
 import styled, { css } from "styled-components";
 import { useSearchParams } from "react-router-dom";
-import { useState } from "react";
-import { useBookings } from "../features/bookings/useBookings";
 
 const StyledFilter = styled.div`
-  border: 1px solid var(--color-grey-100);
-  background-color: var(--color-grey-0);
-  box-shadow: var(--shadow-sm);
-  border-radius: var(--border-radius-sm);
+  border: 1px solid ${(props) => props.theme.baseColors.grey100};
+  background-color: #fff;
+  border-radius: ${(props) => props.theme.border.borderRadius.md};
+  color: ${(props) => props.theme.baseColors.grey500};
   padding: 0.4rem;
   display: flex;
   gap: 0.4rem;
 `;
 
 const FilterButton = styled.button`
-  background-color: var(--color-grey-0);
+  background: none;
   border: none;
 
   ${(props) =>
     props.active &&
     css`
-      background-color: var(--color-brand-600);
-      color: var(--color-brand-50);
+      background-color: ${(props) => props.theme.baseColors.grey500};
+      color: #fff;
     `}
 
-  border-radius: var(--border-radius-sm);
-  font-weight: 500;
+  border-radius: ${(props) => props.theme.border.borderRadius.md};
+  font-weight: ${(props) => props.theme.fontWeight.semibold};
   font-size: 1.4rem;
   /* To give the same height as select */
   padding: 0.44rem 0.8rem;
   transition: all 0.3s;
 
+  &:active,
+  &:focus {
+    outline: none;
+  }
+
   &:hover:not(:disabled) {
-    background-color: var(--color-brand-600);
-    color: var(--color-brand-50);
+    background-color: ${(props) => props.theme.baseColors.grey500};
+    color: #fff;
   }
 `;
 

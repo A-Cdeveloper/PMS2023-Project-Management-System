@@ -1,12 +1,18 @@
 import { API_URL } from "../utils/constants";
 import { sortingArray } from "../utils/helpers";
+import { PAGE_SIZE } from "../utils/constants";
 
 export const wait = (duration) => {
   return new Promise((resolve) => setTimeout(resolve, duration));
 };
 
-export const getClients = async ({ sortBy }) => {
-  const response = await fetch(`${API_URL}/clients/`);
+export const getClients = async ({ sortBy, filter, page }) => {
+  let from = 0;
+  if (page) {
+    from = (page - 1) * PAGE_SIZE;
+  }
+
+  let response = await fetch(`${API_URL}/clients/${from}/${PAGE_SIZE}`);
   const data = await response.json();
 
   if (sortBy) {
@@ -20,6 +26,8 @@ export const getClients = async ({ sortBy }) => {
   if (response.status === 400) {
     throw new Error(data.message);
   }
+
+  console.log(JSON.stringify(filter));
 
   //await wait(3000);
   return data;

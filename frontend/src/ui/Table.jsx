@@ -50,9 +50,9 @@ const Footer = styled.footer`
   padding: 2rem 1rem;
 
   /* hide the footer when it contains no child elements. */
-  &:not(:has(*)) {
+  /* &:not(:has(*)) {
     display: none;
-  }
+  } */
 `;
 
 const TableContext = createContext();

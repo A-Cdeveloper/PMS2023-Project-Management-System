@@ -4,7 +4,6 @@ import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Table";
 import ClientRow from "./ClientRow";
 import Pagination from "../../ui/Pagination";
-import { useSearchParams } from "react-router-dom";
 import Empty from "../../ui/Empty";
 
 const clientCols = [
@@ -17,26 +16,11 @@ const clientCols = [
 ];
 
 const ClientsTable = () => {
-  const [searchParams] = useSearchParams();
   const { isLoading, error, clients, count } = useClients();
 
   if (isLoading) return <Spinner />;
   if (error) return <p>{error.message}</p>;
-
-  // FILTER
-  const filteredValue = searchParams.get("filter");
-
-  const filteredClients = filteredValue
-    ? clients.filter((client) => {
-        return (
-          client.client_name.trim().toLowerCase().includes(filteredValue) ||
-          client.client_adresse.trim().toLowerCase().includes(filteredValue) ||
-          client.client_contact.trim().toLowerCase().includes(filteredValue)
-        );
-      })
-    : clients;
-
-  if (filteredClients.length === 0) return <Empty resource="clients" />;
+  if (clients.length === 0) return <Empty resource="clients" />;
 
   return (
     <>
@@ -44,7 +28,7 @@ const ClientsTable = () => {
         <Table.Header />
 
         <Table.Body
-          data={filteredClients}
+          data={clients}
           render={(client) => (
             <ClientRow key={client.client_id} client={client} />
           )}

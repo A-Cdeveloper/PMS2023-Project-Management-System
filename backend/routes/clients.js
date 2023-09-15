@@ -4,8 +4,10 @@ const dbfunctions = require('../utils/clients-query')
 const router = express.Router()
 // /users
 
-router.get('/', async (req, res) => {
-  const clients = await dbfunctions.getClients()
+router.get('/:from/:number', async (req, res) => {
+  const { from, number } = req.params
+
+  const clients = await dbfunctions.getClients(+from, +number)
   if (clients.length == 0) {
     return res.status(400).json({ message: 'Clients list is empty.' })
   }
