@@ -1,10 +1,19 @@
 const db = require('./connection')
 
-const getClients = async (from, number) => {
-  const [clients] = await db.query('SELECT * FROM pms_clients LIMIT ?,?', [
-    from,
-    number,
-  ])
+const getClients = async () => {
+  const query = 'SELECT * FROM pms_clients ORDER BY pms_clients.client_name ASC'
+
+  const [clients] = await db.query(query)
+  return clients
+}
+
+const getClientsRange = async (from, number, order) => {
+  const query =
+    'SELECT * FROM pms_clients ORDER BY pms_clients.client_name ' +
+    order +
+    ' LIMIT ?,?'
+
+  const [clients] = await db.query(query, [from, number])
   return clients
 }
 
@@ -57,6 +66,8 @@ const deleteClient = async (client_id) => {
 
 module.exports = {
   getClients,
+  // getClientsOrdering,
+  getClientsRange,
   getSingleClient,
   addClient,
   updateClient,

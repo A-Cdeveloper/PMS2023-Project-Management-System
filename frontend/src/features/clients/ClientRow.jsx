@@ -6,7 +6,12 @@ import {
   HiOutlineNewspaper,
   HiOutlineGlobeAlt,
   HiEllipsisVertical,
+  HiSquare2Stack,
+  HiPencil,
+  HiTrash,
 } from "react-icons/hi2";
+import Menus from "../../ui/Menus";
+import Modal from "../../ui/Modal";
 
 const Client = styled.div`
   font-weight: 500;
@@ -60,9 +65,30 @@ const ClientRow = ({ client }) => {
         </a>
       </CellIcon>
 
-      <CellIcon>
-        <HiEllipsisVertical />
-      </CellIcon>
+      <div>
+        <Modal>
+          <Menus>
+            <Menus.Toggle id={client_id} />
+
+            <Menus.List id={client_id}>
+              <Modal.OpenButton opens="client-edit">
+                <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+              </Modal.OpenButton>
+              <Modal.OpenButton opens="client-delete">
+                <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+              </Modal.OpenButton>
+            </Menus.List>
+          </Menus>
+
+          <Modal.Window name="client-edit">
+            Edit window {client_id}
+          </Modal.Window>
+
+          <Modal.Window name="client-delete">
+            Delete window {client_id}
+          </Modal.Window>
+        </Modal>
+      </div>
     </Table.Row>
   );
 };

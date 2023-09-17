@@ -6,7 +6,7 @@ import FilterText from "../../ui/FilterText";
 function ClientsTableOperations() {
   return (
     <TableOperations>
-      <FilterText placeholder="Search clients..." />
+      {/* <FilterText placeholder="Search clients..." /> */}
       <SortBy
         options={[
           { value: "client_name-asc", label: "Sort by name (asc)" },

@@ -38,6 +38,10 @@ const GlobalStyles = createGlobalStyle`
   button {
     cursor: pointer;
   }
+
+  button:focus{
+    outline: none;
+  }
   
   *:disabled {
     cursor: not-allowed;

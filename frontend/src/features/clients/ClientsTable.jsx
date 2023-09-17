@@ -1,10 +1,13 @@
-import { useClients } from "./useClients";
+import { useFilterClients } from "./useFilterClients";
 
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Table";
 import ClientRow from "./ClientRow";
 import Pagination from "../../ui/Pagination";
 import Empty from "../../ui/Empty";
+import { useClients } from "./useClients";
+import Modal from "../../ui/Modal";
+import { useState } from "react";
 
 const clientCols = [
   "Client",
@@ -16,7 +19,8 @@ const clientCols = [
 ];
 
 const ClientsTable = () => {
-  const { isLoading, error, clients, count } = useClients();
+  const { isLoading, error, clients } = useFilterClients();
+  const { count } = useClients();
 
   if (isLoading) return <Spinner />;
   if (error) return <p>{error.message}</p>;
@@ -29,7 +33,7 @@ const ClientsTable = () => {
 
         <Table.Body
           data={clients}
-          render={(client) => (
+          renderItem={(client) => (
             <ClientRow key={client.client_id} client={client} />
           )}
         />

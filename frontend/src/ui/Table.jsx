@@ -15,6 +15,7 @@ const TableRow = styled.div`
   grid-template-columns: ${(props) => props.columns};
   grid-gap: 3rem;
   transition: none;
+  align-items: center;
 `;
 
 const StyledHeader = styled(TableRow)`
@@ -82,8 +83,8 @@ const Row = ({ children }) => {
   return <StyledRow columns={columns}>{children}</StyledRow>;
 };
 
-const Body = ({ data, render }) => {
-  return <StyledBody>{data && data.map(render)}</StyledBody>;
+const Body = ({ data, renderItem }) => {
+  return <StyledBody>{data && data.map(renderItem)}</StyledBody>;
   //return null;
 };
 

@@ -27,10 +27,12 @@ const Buttons = styled.div`
 
 const PaginationButton = styled.button`
   background-color: ${(props) =>
-    props.active ? " var(--color-brand-600)" : "var(--color-grey-50)"};
-  color: ${(props) => (props.active ? " var(--color-brand-50)" : "inherit")};
+    props.active
+      ? props.theme.baseColors.grey500
+      : props.theme.baseColors.grey50};
+  color: "inherit";
   border: none;
-  border-radius: var(--border-radius-sm);
+  border-radius: ${(props) => props.theme.border.borderRadius.md};
   font-weight: 500;
   font-size: 1.4rem;
 
@@ -55,8 +57,11 @@ const PaginationButton = styled.button`
   }
 
   &:hover:not(:disabled) {
-    background-color: var(--color-brand-600);
-    color: var(--color-brand-50);
+    background: ${(props) => props.theme.baseColors.grey500};
+    color: #fff;
+  }
+  &:focus {
+    outline: none;
   }
 `;
 
@@ -78,7 +83,7 @@ const Pagination = ({ count }) => {
     setSearchParams(searchParams);
   };
 
-  if (pageCount <= 1) return null;
+  //if (pageCount <= 1) return null;
 
   return (
     <StyledPagination>

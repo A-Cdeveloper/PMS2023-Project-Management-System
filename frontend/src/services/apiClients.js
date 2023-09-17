@@ -1,23 +1,13 @@
 import { API_URL } from "../utils/constants";
-import { sortingArray } from "../utils/helpers";
 import { PAGE_SIZE } from "../utils/constants";
 
 export const wait = (duration) => {
   return new Promise((resolve) => setTimeout(resolve, duration));
 };
 
-export const getClients = async ({ sortBy, filter, page }) => {
-  let from = 0;
-  if (page) {
-    from = (page - 1) * PAGE_SIZE;
-  }
-
-  let response = await fetch(`${API_URL}/clients/${from}/${PAGE_SIZE}`);
-  const data = await response.json();
-
-  if (sortBy) {
-    return sortingArray(data, sortBy[0], sortBy[1]);
-  }
+//////////////////////////////////////////////////////////////////
+export const getClients = async () => {
+  const response = await fetch(`${API_URL}/clients/`);
 
   if (response.status === 404) {
     throw new Error("Clients list could't be loaded!");
@@ -27,7 +17,31 @@ export const getClients = async ({ sortBy, filter, page }) => {
     throw new Error(data.message);
   }
 
-  console.log(JSON.stringify(filter));
+  const data = await response.json();
+
+  return { data, count: data.length };
+};
+
+//////////////////////////////////////////////////////////////////
+export const getFilteredClients = async ({ sortBy, page }) => {
+  let from = 0;
+  let response;
+  if (page && sortBy) {
+    from = (page - 1) * PAGE_SIZE;
+    response = await fetch(
+      `${API_URL}/clients/filter/${from}/${PAGE_SIZE}/${sortBy[1]}`
+    );
+  }
+
+  const data = await response.json();
+
+  if (response.status === 404) {
+    throw new Error("Clients list could't be loaded!");
+  }
+
+  if (response.status === 400) {
+    throw new Error(data.message);
+  }
 
   //await wait(3000);
   return data;

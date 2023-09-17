@@ -4,10 +4,33 @@ const dbfunctions = require('../utils/clients-query')
 const router = express.Router()
 // /users
 
-router.get('/:from/:number', async (req, res) => {
-  const { from, number } = req.params
+router.get('/', async (req, res) => {
+  const clients = await dbfunctions.getClients()
+  if (clients.length == 0) {
+    return res.status(400).json({ message: 'Clients list is empty.' })
+  }
+  // setTimeout(() => {
+  //   return res.status(231).send(clients);
+  // }, 6000);
+  return res.status(231).send(clients)
+})
 
-  const clients = await dbfunctions.getClients(+from, +number)
+// router.get('/ordering/:order', async (req, res) => {
+//   const { order } = req.params
+//   const clients = await dbfunctions.getClientsOrdering(order)
+//   if (clients.length == 0) {
+//     return res.status(400).json({ message: 'Clients list is empty.' })
+//   }
+//   // setTimeout(() => {
+//   //   return res.status(231).send(clients);
+//   // }, 6000);
+//   return res.status(231).send(clients)
+// })
+
+router.get('/filter/:from/:number/:order', async (req, res) => {
+  const { from, number, order } = req.params
+
+  const clients = await dbfunctions.getClientsRange(+from, +number, order)
   if (clients.length == 0) {
     return res.status(400).json({ message: 'Clients list is empty.' })
   }

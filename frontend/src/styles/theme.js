@@ -36,6 +36,7 @@ export const theme = {
     Poppins: ["Poppins", "sans-serif"],
     Sono: ["Sono", "sans-serif"],
   },
+  backdrop: "#e5e7eb",
   fontSizes: {
     regular: "1.6rem",
     small: ".7rem",
