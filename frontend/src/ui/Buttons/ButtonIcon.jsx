@@ -12,6 +12,7 @@ const StyledButtonIcon = styled.button`
   background: ${(props) =>
     props.type ? props.theme.colors[props.type][100] : "none"};
   color: ${(props) => (props.type ? "#fff" : props.theme.colors.grey900)};
+  font-size: 1.4rem;
 
   &:hover {
     background: ${(props) =>

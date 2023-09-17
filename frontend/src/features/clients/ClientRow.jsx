@@ -12,6 +12,7 @@ import {
 } from "react-icons/hi2";
 import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
+import AddEditClient from "./AddEditClient";
 
 const Client = styled.div`
   font-weight: 500;
@@ -81,7 +82,7 @@ const ClientRow = ({ client }) => {
           </Menus>
 
           <Modal.Window name="client-edit">
-            Edit window {client_id}
+            <AddEditClient clientToEdit={client} />
           </Modal.Window>
 
           <Modal.Window name="client-delete">

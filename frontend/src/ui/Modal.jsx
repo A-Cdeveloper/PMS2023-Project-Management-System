@@ -12,8 +12,8 @@ const StyledModal = styled.div`
   transform: translate(-50%, -50%);
   background-color: #fff;
   border-radius: ${(props) => props.theme.border.borderRadius.md};
-  box-shadow: ${(props) => props.theme.shadow.md};
-  padding: 3.2rem 4rem;
+  box-shadow: ${(props) => props.theme.shadow.sm};
+  padding: 3.2rem 6rem 3.2rem 3rem;
   transition: all 0.5s;
 `;
 
@@ -37,8 +37,8 @@ const Button = styled.button`
   transform: translateX(0.8rem);
   transition: all 0.2s;
   position: absolute;
-  top: 0.5rem;
-  right: 1.2rem;
+  top: 1rem;
+  right: 2rem;
 
   &:hover {
     background-color: var(--color-grey-100);
@@ -57,7 +57,7 @@ const Button = styled.button`
 const ModalContext = createContext();
 
 const Modal = ({ children }) => {
-  const [openWindow, setOpenWindow] = useState(null);
+  const [openWindow, setOpenWindow] = useState("client-add");
 
   const openModal = (name) => {
     setOpenWindow(name);
@@ -83,13 +83,13 @@ const OpenButton = ({ children, opens }) => {
 
 const Window = ({ children, name }) => {
   const { closeModal, openWindow } = useContext(ModalContext);
-  const { refEl } = useOutsideClick(closeModal);
+  //const { refEl } = useOutsideClick(closeModal);
 
   if (openWindow !== name) return;
   return createPortal(
     <Overlay>
-      <StyledModal ref={refEl}>
-        <div>{children}</div>
+      <StyledModal>
+        {cloneElement(children, { onCloseModal: closeModal })}
         <Button onClick={closeModal}>
           <HiXMark />
         </Button>

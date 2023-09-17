@@ -30,29 +30,42 @@ const addClient = async (client) => {
     client_name,
     client_adresse,
     client_contact,
+    client_phone,
+    client_fax,
     client_email,
     client_site,
   } = client
   await db.query(
-    'INSERT INTO pms_clients (client_name, client_adresse, client_contact, client_email, client_site) VALUES (?,?,?,?,?)',
-    [client_name, client_adresse, client_contact, client_email, client_site]
+    'INSERT INTO pms_clients (client_name, client_adresse, client_contact,client_phone,client_fax, client_email, client_site) VALUES (?,?,?,?,?,?,?)',
+    [
+      client_name,
+      client_adresse,
+      client_contact,
+      client_phone,
+      client_fax,
+      client_email,
+      client_site,
+    ]
   )
 }
 
 const updateClient = async (client, client_id) => {
   const {
-    client_name,
     client_adresse,
     client_contact,
+    client_phone,
+    client_fax,
     client_email,
     client_site,
   } = client
   await db.query(
-    'UPDATE pms_clients SET client_name=? , client_adresse=?, client_contact=?, client_email=?, client_site=? WHERE client_id=?',
+    'UPDATE pms_clients SET client_name=? , client_adresse=?, client_contact=?,client_contact=?,client_phone=?, client_fax=?, client_site=? WHERE client_id=?',
     [
       client_name,
       client_adresse,
       client_contact,
+      client_phone,
+      client_fax,
       client_email,
       client_site,
       client_id,
