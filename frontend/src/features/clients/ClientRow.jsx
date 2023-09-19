@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+import { singleClient } from "../../services/apiClients";
 
 import styled from "styled-components";
 import Table from "../../ui/Table";
@@ -36,6 +38,7 @@ const ClientRow = ({ client }) => {
   const navigate = useNavigate();
   const { isCloneLoading, cloneClient } = useCloneClient();
   const { isDeleteLoading, deleteClient } = useDeleteClient();
+  const queryClient = useQueryClient();
 
   const {
     client_id,
@@ -47,6 +50,13 @@ const ClientRow = ({ client }) => {
     client_email,
     client_site,
   } = client;
+
+  const prefetchClientHandler = async (client_id) => {
+    await queryClient.prefetchQuery({
+      queryKey: ["client", client_id],
+      queryFn: () => singleClient(client_id),
+    });
+  };
 
   return (
     <Table.Row>
@@ -84,8 +94,9 @@ const ClientRow = ({ client }) => {
               <Menus.Button
                 icon={<HiEye />}
                 onClick={() => {
-                  navigate(`/clients/25`);
+                  navigate(`/clients/${client_id}`);
                 }}
+                onMouseOver={() => prefetchClientHandler(client_id)}
               >
                 See details
               </Menus.Button>

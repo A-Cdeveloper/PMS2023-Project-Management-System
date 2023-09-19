@@ -34,7 +34,7 @@ const FilterText = ({ placeholder }) => {
       placeholder={placeholder}
       ref={filterRef}
       onChange={filterTextHandler}
-      value={searchParams.get("filterByText")}
+      value={searchParams.get("filterByText") || ""}
     />
   );
 };

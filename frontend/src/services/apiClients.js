@@ -128,3 +128,20 @@ export const editClient = async (clientId, updatedClient) => {
 
   return data;
 };
+
+///////////////////////////////////////////////////////////////////////
+export const singleClient = async (client_id) => {
+  const response = await fetch(`${API_URL}/clients/client/${client_id}`);
+
+  const data = await response.json();
+
+  if (response.status === 404) {
+    throw new Error("Client not found");
+  }
+
+  if (response.status === 400) {
+    throw new Error(data.message);
+  }
+
+  return data;
+};

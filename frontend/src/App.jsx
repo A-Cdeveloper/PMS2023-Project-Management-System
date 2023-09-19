@@ -10,6 +10,7 @@ import Users from "./pages/Users";
 import Projects from "./pages/Projects";
 import Tasks from "./pages/Tasks";
 import Clients from "./pages/Clients";
+import Client from "./pages/Client";
 import PageNotFound from "./pages/PageNotFound";
 
 import Notifications from "./ui/Notifications";
@@ -29,7 +30,13 @@ const router = createBrowserRouter([
     errorElement: <PageNotFound />,
     children: [
       { path: "/", element: <Dashboard /> },
-      { path: "/clients", element: <Clients /> },
+      {
+        path: "/clients",
+        children: [
+          { index: true, element: <Clients /> },
+          { path: ":clientId", element: <Client /> },
+        ],
+      },
       { path: "/projects", element: <Projects /> },
       { path: "/tasks", element: <Tasks /> },
       { path: "/users", element: <Users /> },

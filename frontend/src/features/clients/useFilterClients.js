@@ -13,9 +13,6 @@ export const useFilterClients = () => {
   // PAGINATION
   const page = searchParams?.get("page") ? +searchParams.get("page") : 1;
 
-  // FILTER BY TEXT
-  const filteredTextValue = searchParams.get("filterByText");
-
   const {
     isLoading,
     error,
@@ -24,31 +21,6 @@ export const useFilterClients = () => {
     queryKey: ["clients", sortBy, page],
     queryFn: () => getFilteredClientsApi({ sortBy, page }),
   });
-
-  // FILTER TEXT INPUT - client
-  // const filteredTextValue = searchParams.get("filterByText");
-
-  // const filteredClients =
-  //   filteredTextValue && clients
-  //     ? clients.filter((client) => {
-  //         return (
-  //           client.client_name
-  //             .trim()
-  //             .toLowerCase()
-  //             .includes(filteredTextValue) ||
-  //           client.client_adresse
-  //             .trim()
-  //             .toLowerCase()
-  //             .includes(filteredTextValue) ||
-  //           client.client_contact
-  //             .trim()
-  //             .toLowerCase()
-  //             .includes(filteredTextValue)
-  //         );
-  //       })
-  //     : clients;
-
-  // console.log(filteredClients);
 
   return {
     isLoading,

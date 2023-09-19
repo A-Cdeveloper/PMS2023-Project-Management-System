@@ -41,9 +41,9 @@ router.get('/filter/:from/:number/:order', async (req, res) => {
   return res.status(231).send(clients)
 })
 
-router.get('/:client_id', async (req, res) => {
+router.get('/client/:client_id', async (req, res) => {
   const cid = req.params.client_id
-  const client = await dbfunctions.getSingleClient(null, cid)
+  const client = await dbfunctions.getSingleClient(cid)
   if (!client) {
     return res.status(400).json({ message: 'Client not exist.' })
   }

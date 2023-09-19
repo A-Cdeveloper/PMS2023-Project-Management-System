@@ -136,7 +136,7 @@ const List = ({ id, children }) => {
   );
 };
 /*/******************/
-const Button = ({ children, icon, onClick }) => {
+const Button = ({ children, icon, onClick, onMouseOver }) => {
   const { close } = useContext(MenuContext);
 
   const handleClick = () => {
@@ -146,7 +146,7 @@ const Button = ({ children, icon, onClick }) => {
 
   return (
     <li>
-      <StyledButton onClick={handleClick}>
+      <StyledButton onClick={handleClick} onMouseOver={onMouseOver}>
         {icon}
         {children}
       </StyledButton>
