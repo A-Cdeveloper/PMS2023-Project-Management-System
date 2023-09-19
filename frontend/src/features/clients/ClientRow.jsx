@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import styled from "styled-components";
 import Table from "../../ui/Table";
 import {
@@ -5,14 +7,17 @@ import {
   HiOutlinePhone,
   HiOutlineNewspaper,
   HiOutlineGlobeAlt,
-  HiEllipsisVertical,
-  HiSquare2Stack,
+  HiOutlineDocumentDuplicate,
   HiPencil,
   HiTrash,
+  HiEye,
 } from "react-icons/hi2";
 import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
 import AddEditClient from "./AddEditClient";
+import ConfirmModal from "../../ui/ConfirmModal";
+import useCloneClient from "./useCloneClient";
+import useDeleteClient from "./useDeleteClient";
 
 const Client = styled.div`
   font-weight: 500;
@@ -28,6 +33,10 @@ const CellIcon = styled.div`
 `;
 
 const ClientRow = ({ client }) => {
+  const navigate = useNavigate();
+  const { isCloneLoading, cloneClient } = useCloneClient();
+  const { isDeleteLoading, deleteClient } = useDeleteClient();
+
   const {
     client_id,
     client_name,
@@ -72,9 +81,25 @@ const ClientRow = ({ client }) => {
             <Menus.Toggle id={client_id} />
 
             <Menus.List id={client_id}>
+              <Menus.Button
+                icon={<HiEye />}
+                onClick={() => {
+                  navigate(`/clients/25`);
+                }}
+              >
+                See details
+              </Menus.Button>
+
               <Modal.OpenButton opens="client-edit">
                 <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
               </Modal.OpenButton>
+
+              <Modal.OpenButton opens="client-clone">
+                <Menus.Button icon={<HiOutlineDocumentDuplicate />}>
+                  Duplicate
+                </Menus.Button>
+              </Modal.OpenButton>
+
               <Modal.OpenButton opens="client-delete">
                 <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
               </Modal.OpenButton>
@@ -85,8 +110,24 @@ const ClientRow = ({ client }) => {
             <AddEditClient clientToEdit={client} />
           </Modal.Window>
 
+          <Modal.Window name="client-clone">
+            {/* CLONE window {client_id} */}
+            <ConfirmModal
+              resourceName="client"
+              operation="clone"
+              onConfirm={() => cloneClient(client_id)}
+              disabled={isCloneLoading}
+            />
+          </Modal.Window>
+
           <Modal.Window name="client-delete">
-            Delete window {client_id}
+            {/* Delete window {client_id} */}
+            <ConfirmModal
+              resourceName="client"
+              operation="delete"
+              onConfirm={() => deleteClient(client_id)}
+              disabled={isDeleteLoading}
+            />
           </Modal.Window>
         </Modal>
       </div>

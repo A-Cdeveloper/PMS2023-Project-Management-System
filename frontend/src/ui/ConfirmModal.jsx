@@ -1,0 +1,69 @@
+import styled from "styled-components";
+import Button from "./Buttons/Button";
+import Headline from "./Headline";
+
+const StyledConfirmModal = styled.div`
+  width: 40rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+
+  & p {
+    color: var(--color-grey-500);
+    margin-bottom: 1.2rem;
+  }
+
+  & div {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.2rem;
+  }
+`;
+
+function ConfirmModal({
+  resourceName,
+  operation,
+  onConfirm,
+  disabled,
+  onCloseModal,
+}) {
+  const conformActionHandler = () => {
+    onConfirm();
+    onCloseModal();
+  };
+
+  return (
+    <StyledConfirmModal>
+      <Headline as="h3">
+        {operation === "delete" ? "Delete" : "Duplicate"} {resourceName}
+      </Headline>
+      <p>
+        {operation === "delete"
+          ? `Are you sure you want to delete this ${resourceName} permanently? This
+        action cannot be undone.`
+          : `Are you sure you want to duplicate this ${resourceName}?`}
+      </p>
+
+      <div>
+        <Button
+          variation="secondary"
+          size="medium"
+          disabled={disabled}
+          onClick={onCloseModal}
+        >
+          Cancel
+        </Button>
+        <Button
+          variation={operation === "delete" ? "danger" : "info"}
+          size="medium"
+          disabled={disabled}
+          onClick={conformActionHandler}
+        >
+          {operation === "delete" ? "Delete" : "Duplicate"}
+        </Button>
+      </div>
+    </StyledConfirmModal>
+  );
+}
+
+export default ConfirmModal;

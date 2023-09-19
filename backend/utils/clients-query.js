@@ -1,7 +1,8 @@
 const db = require('./connection')
 
-const getClients = async () => {
-  const query = 'SELECT * FROM pms_clients ORDER BY pms_clients.client_name ASC'
+const getClients = async (order) => {
+  const query =
+    'SELECT * FROM pms_clients ORDER BY pms_clients.client_name ' + order
 
   const [clients] = await db.query(query)
   return clients
@@ -16,6 +17,8 @@ const getClientsRange = async (from, number, order) => {
   const [clients] = await db.query(query, [from, number])
   return clients
 }
+
+// getClientsRange(0, 5, 'ASC').then((res) => console.log(res))
 
 const getSingleClient = async (client_name, client_id) => {
   const [client] = await db.query(
@@ -51,6 +54,7 @@ const addClient = async (client) => {
 
 const updateClient = async (client, client_id) => {
   const {
+    client_name,
     client_adresse,
     client_contact,
     client_phone,
@@ -59,7 +63,7 @@ const updateClient = async (client, client_id) => {
     client_site,
   } = client
   await db.query(
-    'UPDATE pms_clients SET client_name=? , client_adresse=?, client_contact=?,client_contact=?,client_phone=?, client_fax=?, client_site=? WHERE client_id=?',
+    'UPDATE pms_clients SET client_name=? , client_adresse=?, client_contact=?,client_phone=?, client_fax=?, client_email=?, client_site=? WHERE client_id=?',
     [
       client_name,
       client_adresse,

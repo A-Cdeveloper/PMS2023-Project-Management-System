@@ -45,7 +45,7 @@ const variations = {
     }
   `,
   info: css`
-    color: ${(props) => props.theme.colors.grey900};
+    color: ${(props) => props.theme.colors.grey700};
     background-color: ${(props) => props.theme.colors.info[100]};
 
     &:hover {

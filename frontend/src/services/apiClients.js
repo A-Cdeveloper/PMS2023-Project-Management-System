@@ -6,8 +6,8 @@ export const wait = (duration) => {
 };
 
 //////////////////////////////////////////////////////////////////
-export const getClients = async () => {
-  const response = await fetch(`${API_URL}/clients/`);
+export const getClients = async ({ sortBy }) => {
+  const response = await fetch(`${API_URL}/clients/${sortBy[1]}`);
 
   if (response.status === 404) {
     throw new Error("Clients list could't be loaded!");
@@ -19,7 +19,7 @@ export const getClients = async () => {
 
   const data = await response.json();
 
-  return { data, count: data.length };
+  return data;
 };
 
 //////////////////////////////////////////////////////////////////
@@ -61,6 +61,65 @@ export const addNewClient = async (newClient) => {
 
   if (response.status === 404) {
     throw new Error("Client can't be added! Please try again");
+  }
+
+  if (response.status === 400) {
+    throw new Error(data.message);
+  }
+
+  return data;
+};
+
+///////////////////////////////////////////////////////////////////////
+export const cloneClient = async (clientId) => {
+  const response = await fetch(`${API_URL}/clients/${clientId}/duplicate`, {
+    method: "POST",
+  });
+  const data = await response.json();
+
+  if (response.status === 404) {
+    throw new Error("Client can't be duplicated! Please try again");
+  }
+
+  if (response.status === 400) {
+    throw new Error(data.message);
+  }
+
+  return data;
+};
+
+///////////////////////////////////////////////////////////////////////
+export const deleteClient = async (clientId) => {
+  const response = await fetch(`${API_URL}/clients/${clientId}/delete`, {
+    method: "DELETE",
+  });
+  const data = await response.json();
+
+  if (response.status === 404) {
+    throw new Error("Client can't be deleted! Please try again");
+  }
+
+  if (response.status === 400) {
+    throw new Error(data.message);
+  }
+
+  return data;
+};
+
+///////////////////////////////////////////////////////////////////////
+export const editClient = async (clientId, updatedClient) => {
+  const response = await fetch(`${API_URL}/clients/${clientId}/edit`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedClient),
+  });
+
+  const data = await response.json();
+
+  if (response.status === 404) {
+    throw new Error("Client can't be edit! Please try again");
   }
 
   if (response.status === 400) {

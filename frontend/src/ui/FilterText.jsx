@@ -25,6 +25,7 @@ const FilterText = ({ placeholder }) => {
           "filterByText",
           filterRef?.current?.value.trim().toLowerCase()
         );
+    searchParams.delete("page");
     setSearchParams(searchParams);
   };
 
@@ -33,6 +34,7 @@ const FilterText = ({ placeholder }) => {
       placeholder={placeholder}
       ref={filterRef}
       onChange={filterTextHandler}
+      value={searchParams.get("filterByText")}
     />
   );
 };

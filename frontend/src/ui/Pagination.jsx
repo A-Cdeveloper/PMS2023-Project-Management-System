@@ -68,6 +68,7 @@ const PaginationButton = styled.button`
 const Pagination = ({ count }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const filteredTextValue = searchParams.get("filterByText");
   const currentPage = !searchParams.get("page") ? 1 : +searchParams.get("page");
   const pageCount = Math.ceil(count / PAGE_SIZE);
 
@@ -87,29 +88,41 @@ const Pagination = ({ count }) => {
 
   return (
     <StyledPagination>
-      <p>
-        Showing{" "}
-        <span>{currentPage === 1 ? 1 : (currentPage - 1) * PAGE_SIZE + 1}</span>{" "}
-        to{" "}
-        <span>
-          {currentPage !== pageCount ? PAGE_SIZE * currentPage : count}
-        </span>{" "}
-        of <span>{count}</span> results
-      </p>
-      <Buttons>
-        <PaginationButton onClick={prevPage} disabled={currentPage === 1}>
-          <HiChevronLeft />
-          <span>Previus</span>
-        </PaginationButton>
+      {!filteredTextValue && (
+        <p>
+          Showing{" "}
+          <span>
+            {currentPage === 1 ? 1 : (currentPage - 1) * PAGE_SIZE + 1}
+          </span>{" "}
+          to{" "}
+          <span>
+            {currentPage !== pageCount ? PAGE_SIZE * currentPage : count}
+          </span>{" "}
+          of <span>{count}</span> results
+        </p>
+      )}
+      {filteredTextValue && (
+        <p>
+          <span>{count}</span> results
+        </p>
+      )}
 
-        <PaginationButton
-          onClick={nextPage}
-          disabled={currentPage === pageCount}
-        >
-          <span>Next</span>
-          <HiChevronRight />
-        </PaginationButton>
-      </Buttons>
+      {!filteredTextValue && (
+        <Buttons>
+          <PaginationButton onClick={prevPage} disabled={currentPage === 1}>
+            <HiChevronLeft />
+            <span>Previus</span>
+          </PaginationButton>
+
+          <PaginationButton
+            onClick={nextPage}
+            disabled={currentPage === pageCount}
+          >
+            <span>Next</span>
+            <HiChevronRight />
+          </PaginationButton>
+        </Buttons>
+      )}
     </StyledPagination>
   );
 };

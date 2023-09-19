@@ -1,6 +1,5 @@
 import TableOperations from "../../ui/TableOperations";
 import SortBy from "../../ui/SortBy";
-import Filter from "../../ui/Filter";
 import FilterText from "../../ui/FilterText";
 import NewRecord from "../../ui/Buttons/NewRecord";
 import AddEditClient from "./AddEditClient";
@@ -8,7 +7,7 @@ import AddEditClient from "./AddEditClient";
 function ClientsTableOperations() {
   return (
     <TableOperations>
-      {/* <FilterText placeholder="Search clients..." /> */}
+      <FilterText placeholder="Search clients..." />
       <SortBy
         options={[
           { value: "client_name-asc", label: "Sort by name (asc)" },

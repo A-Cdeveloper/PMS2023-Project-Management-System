@@ -4,8 +4,9 @@ const dbfunctions = require('../utils/clients-query')
 const router = express.Router()
 // /users
 
-router.get('/', async (req, res) => {
-  const clients = await dbfunctions.getClients()
+router.get('/:order', async (req, res) => {
+  const { order } = req.params
+  const clients = await dbfunctions.getClients(order)
   if (clients.length == 0) {
     return res.status(400).json({ message: 'Clients list is empty.' })
   }
@@ -59,7 +60,7 @@ router.post('/new', async (req, res) => {
   res.status(231).json({ message: 'Client succesfully added.' })
 })
 
-router.post('/:client_id/copy', async (req, res) => {
+router.post('/:client_id/duplicate', async (req, res) => {
   const cid = req.params.client_id
   const client = await dbfunctions.getSingleClient(null, cid)
   if (!client) {
@@ -69,6 +70,8 @@ router.post('/:client_id/copy', async (req, res) => {
     client_name,
     client_adresse,
     client_contact,
+    client_phone,
+    client_fax,
     client_email,
     client_site,
   } = client
@@ -77,10 +80,12 @@ router.post('/:client_id/copy', async (req, res) => {
     client_name,
     client_adresse,
     client_contact,
+    client_phone,
+    client_fax,
     client_email,
     client_site,
   })
-  res.status(231).json({ message: 'Client succesfully copied.' })
+  res.status(231).json({ client, message: 'Client succesfully duplicated.' })
 })
 
 router.patch('/:client_id/edit', async (req, res) => {
@@ -91,7 +96,7 @@ router.patch('/:client_id/edit', async (req, res) => {
     return res.status(400).json({ message: 'Client not exist.' })
   }
   await dbfunctions.updateClient(postClient, cid)
-  res.status(231).json({ message: 'Client succesfully updated.' })
+  res.status(231).json({ client, message: 'Client succesfully updated.' })
 })
 
 router.delete('/:client_id/delete', async (req, res) => {
@@ -101,7 +106,7 @@ router.delete('/:client_id/delete', async (req, res) => {
     return res.status(400).json({ message: 'Client not exist.' })
   }
   await dbfunctions.deleteClient(cid)
-  res.status(231).json({ message: 'Client succesfully deleted.' })
+  res.status(231).json({ client, message: 'Client succesfully deleted.' })
 })
 
 module.exports = router

@@ -57,7 +57,7 @@ const Button = styled.button`
 const ModalContext = createContext();
 
 const Modal = ({ children }) => {
-  const [openWindow, setOpenWindow] = useState("client-add");
+  const [openWindow, setOpenWindow] = useState(null);
 
   const openModal = (name) => {
     setOpenWindow(name);

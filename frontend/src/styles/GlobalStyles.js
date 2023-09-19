@@ -101,6 +101,9 @@ const GlobalStyles = createGlobalStyle`
     color: ${theme.baseColors.grey600};
     max-width: 50rem;
     padding: "1.2rem 1.8rem";
+    font-weight: ${theme.fontWeight.regular};
+  }
+  .toaststyle span{
     font-weight: ${theme.fontWeight.semibold};
   }
   

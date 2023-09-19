@@ -7,9 +7,11 @@ import Input from "../../ui/Form/Input";
 import Textarea from "../../ui/Form/Textarea";
 import Button from "../../ui/Buttons/Button";
 import Spinner from "../../ui/Spinner";
+import useEditClient from "./useEditClient";
 
 const AddEditClient = ({ clientToEdit = {}, onCloseModal }) => {
-  const { isAddNewLaoding, addNewClient } = useAddClient();
+  const { isAddNewLoading, addNewClient } = useAddClient();
+  const { isEditLoading, editClient } = useEditClient();
 
   const isEdit = !!clientToEdit.client_id;
   const {
@@ -20,14 +22,24 @@ const AddEditClient = ({ clientToEdit = {}, onCloseModal }) => {
   } = useForm({ defaultValues: isEdit ? clientToEdit : {} });
 
   const onSubmit = (data) => {
-    addNewClient(data, {
-      onSuccess: () => {
-        onCloseModal();
-      },
-    });
+    if (isEdit) {
+      editClient(
+        { clientId: clientToEdit.client_id, updatedClient: data },
+        {
+          onSuccess: () => {
+            onCloseModal();
+          },
+        }
+      );
+      console.log(data);
+    } else {
+      addNewClient(data, {
+        onSuccess: () => {
+          onCloseModal();
+        },
+      });
+    }
   };
-
-  if (isAddNewLaoding) return <Spinner />;
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>

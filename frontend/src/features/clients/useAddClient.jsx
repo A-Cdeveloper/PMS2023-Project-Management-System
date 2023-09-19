@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 const useAddClient = () => {
   const queryClient = useQueryClient();
 
-  const { isLoading: isAddNewLaoding, mutate: addNewClient } = useMutation({
+  const { isLoading: isAddNewLoading, mutate: addNewClient } = useMutation({
     mutationFn: addNewClientApi,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["clients"] });
@@ -14,7 +14,7 @@ const useAddClient = () => {
     onError: (err) => toast.error(err.message),
   });
 
-  return { isAddNewLaoding, addNewClient };
+  return { isAddNewLoading, addNewClient };
 };
 
 export default useAddClient;
