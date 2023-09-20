@@ -28,10 +28,10 @@ router.get('/:order', async (req, res) => {
 //   return res.status(231).send(clients)
 // })
 
-router.get('/filter/:from/:number/:order', async (req, res) => {
-  const { from, number, order } = req.params
+router.get('/filter/:from/:perPage/:order', async (req, res) => {
+  const { from, perPage, order } = req.params
 
-  const clients = await dbfunctions.getClientsRange(+from, +number, order)
+  const clients = await dbfunctions.getClientsRange(+from, +perPage, order)
   if (clients.length == 0) {
     return res.status(400).json({ message: 'Clients list is empty.' })
   }

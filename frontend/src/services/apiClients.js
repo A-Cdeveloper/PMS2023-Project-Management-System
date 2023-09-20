@@ -23,13 +23,13 @@ export const getClients = async ({ sortBy }) => {
 };
 
 //////////////////////////////////////////////////////////////////
-export const getFilteredClients = async ({ sortBy, page }) => {
+export const getFilteredClients = async ({ sortBy, page, perPage }) => {
   let from = 0;
   let response;
   if (page && sortBy) {
-    from = (page - 1) * PAGE_SIZE;
+    from = (page - 1) * perPage;
     response = await fetch(
-      `${API_URL}/clients/filter/${from}/${PAGE_SIZE}/${sortBy[1]}`
+      `${API_URL}/clients/filter/${from}/${perPage}/${sortBy[1]}`
     );
   }
 
