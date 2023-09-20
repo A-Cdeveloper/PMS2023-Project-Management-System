@@ -81,7 +81,7 @@ router.patch('/:task_id/edit', async (req, res) => {
   if (!task) {
     return res.status(400).json({ message: 'Task not exist.' })
   }
-  await dbfunctions.U(postTask, tid)
+  await dbfunctions.updateTask(postTask, tid)
   res.status(231).json({ message: 'Task succesfully updated.' })
 })
 

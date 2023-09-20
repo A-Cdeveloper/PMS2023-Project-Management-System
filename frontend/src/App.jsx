@@ -14,6 +14,7 @@ import Client from "./pages/Client";
 import PageNotFound from "./pages/PageNotFound";
 
 import Notifications from "./ui/Notifications";
+import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
       { path: "/projects", element: <Projects /> },
       { path: "/tasks", element: <Tasks /> },
       { path: "/users", element: <Users /> },
+      { path: "/settings", element: <Settings /> },
     ],
   },
 ]);

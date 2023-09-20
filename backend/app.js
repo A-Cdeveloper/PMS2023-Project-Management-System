@@ -18,10 +18,12 @@ const usersRoute = require('./routes/users')
 const clientsRoute = require('./routes/clients')
 const projectsRoute = require('./routes/projects')
 const tasksRoute = require('./routes/tasks')
+const settignsRoute = require('./routes/settings')
 app.use('/users', usersRoute)
 app.use('/clients', clientsRoute)
 app.use('/projects', projectsRoute)
 app.use('/tasks', tasksRoute)
+app.use('/settings', settignsRoute)
 //
 // error handler
 app.use((req, res, next) => {
