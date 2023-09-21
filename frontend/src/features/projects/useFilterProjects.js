@@ -1,20 +1,19 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
-import { getFilteredClients as getFilteredClientsApi } from "../../services/apiClients";
+import { getFilteredProjects as getFilteredProjectsApi } from "../../services/apiProjects";
 import { useSettings } from "../settings/useSettings";
-import { useClients } from "./useClients";
+import { useProjects } from "./useProjects";
 
-export const useFilterClients = () => {
+export const useFilterProjects = () => {
   const [searchParams] = useSearchParams();
   const { settings = {} } = useSettings();
-  const { clients: allClients } = useClients();
-  const { clients_per_page } = settings;
+  const { projects: allProjects } = useProjects();
+  const { projects_per_page } = settings;
   const queryClient = useQueryClient();
-
   // SORTING - server
   const sortBy = searchParams?.get("sortBy")
     ? searchParams.get("sortBy").split("-")
-    : ["client_name", "asc"];
+    : ["project_name", "asc"];
 
   // PAGINATION
   const page = searchParams?.get("page") ? +searchParams.get("page") : 1;
@@ -22,22 +21,22 @@ export const useFilterClients = () => {
   const {
     isLoading,
     error,
-    data: clients = {},
+    data: projects = {},
   } = useQuery({
-    queryKey: ["clients", sortBy, page],
+    queryKey: ["projects", sortBy, page],
     queryFn: () =>
-      getFilteredClientsApi({ sortBy, page, perPage: clients_per_page }),
-    enabled: !!clients_per_page,
+      getFilteredProjectsApi({ sortBy, page, perPage: projects_per_page }),
+    enabled: !!projects_per_page,
   });
 
-  if (page < Math.ceil(allClients.length / clients_per_page)) {
+  if (page < Math.ceil(allProjects.length / projects_per_page)) {
     queryClient.prefetchQuery({
-      queryKey: ["clients", sortBy, page + 1],
+      queryKey: ["projects", sortBy, page + 1],
       queryFn: () =>
-        getFilteredClientsApi({
+        getFilteredProjectsApi({
           sortBy,
           page: page + 1,
-          perPage: clients_per_page,
+          perPage: projects_per_page,
         }),
     });
   }
@@ -45,6 +44,6 @@ export const useFilterClients = () => {
   return {
     isLoading,
     error,
-    clients,
+    projects,
   };
 };

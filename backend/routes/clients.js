@@ -10,28 +10,20 @@ router.get('/:order', async (req, res) => {
   if (clients.length == 0) {
     return res.status(400).json({ message: 'Clients list is empty.' })
   }
-  // setTimeout(() => {
-  //   return res.status(231).send(clients);
-  // }, 6000);
+
   return res.status(231).send(clients)
 })
 
-// router.get('/ordering/:order', async (req, res) => {
-//   const { order } = req.params
-//   const clients = await dbfunctions.getClientsOrdering(order)
-//   if (clients.length == 0) {
-//     return res.status(400).json({ message: 'Clients list is empty.' })
-//   }
-//   // setTimeout(() => {
-//   //   return res.status(231).send(clients);
-//   // }, 6000);
-//   return res.status(231).send(clients)
-// })
-
 router.get('/filter/:from/:perPage/:order', async (req, res) => {
   const { from, perPage, order } = req.params
+  const [orderBy, orderDirection] = order.split('=')
 
-  const clients = await dbfunctions.getClientsRange(+from, +perPage, order)
+  const clients = await dbfunctions.getClientsRange(
+    +from,
+    +perPage,
+    orderBy,
+    orderDirection
+  )
   if (clients.length == 0) {
     return res.status(400).json({ message: 'Clients list is empty.' })
   }

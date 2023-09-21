@@ -66,12 +66,14 @@ const PaginationButton = styled.button`
   }
 `;
 
-const Pagination = ({ count }) => {
+const Pagination = ({ count, resource }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { settings = {} } = useSettings();
-  const { clients_per_page: PAGE_SIZE } = settings;
+  const { [resource]: PAGE_SIZE } = settings;
 
   const filteredTextValue = searchParams.get("filterByText");
+  const filteredStatus = searchParams.get("status");
+
   const currentPage = !searchParams.get("page") ? 1 : +searchParams.get("page");
   const pageCount = Math.ceil(count / PAGE_SIZE);
 
@@ -91,7 +93,7 @@ const Pagination = ({ count }) => {
 
   return (
     <StyledPagination>
-      {!filteredTextValue && (
+      {!filteredTextValue && (!filteredStatus || filteredStatus === "all") ? (
         <p>
           Showing{" "}
           <span>
@@ -103,14 +105,14 @@ const Pagination = ({ count }) => {
           </span>{" "}
           of <span>{count}</span> results
         </p>
-      )}
-      {filteredTextValue && (
+      ) : null}
+      {filteredTextValue || (filteredStatus && filteredStatus !== "all") ? (
         <p>
           <span>{count}</span> results
         </p>
-      )}
+      ) : null}
 
-      {!filteredTextValue && (
+      {!filteredTextValue && (!filteredStatus || filteredStatus === "all") ? (
         <Buttons>
           <PaginationButton onClick={prevPage} disabled={currentPage === 1}>
             <HiChevronLeft />
@@ -125,7 +127,7 @@ const Pagination = ({ count }) => {
             <HiChevronRight />
           </PaginationButton>
         </Buttons>
-      )}
+      ) : null}
     </StyledPagination>
   );
 };

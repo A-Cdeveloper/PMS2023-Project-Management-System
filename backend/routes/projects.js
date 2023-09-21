@@ -5,9 +5,26 @@ const dbfunctionsHelper = require('../utils/clients-query')
 const router = express.Router()
 // /users
 
-router.get('/', async (req, res) => {
-  const projects = await dbfunctions.getProjects()
+router.get('/:order', async (req, res) => {
+  const { order } = req.params
+  const projects = await dbfunctions.getProjects(order)
   if (projects.lenght == 0) {
+    return res.status(400).json({ message: 'Projects list is empty.' })
+  }
+
+  return res.status(231).send(projects)
+})
+
+router.get('/filter/:from/:perPage/:order', async (req, res) => {
+  const { from, perPage, order } = req.params
+  const [orderBy, orderDirection] = order.split('=')
+  const projects = await dbfunctions.getProjectsRange(
+    +from,
+    +perPage,
+    orderBy,
+    orderDirection
+  )
+  if (projects.length == 0) {
     return res.status(400).json({ message: 'Projects list is empty.' })
   }
   // setTimeout(() => {

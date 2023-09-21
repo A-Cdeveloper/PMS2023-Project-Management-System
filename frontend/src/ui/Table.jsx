@@ -13,7 +13,6 @@ const StyledTable = styled.div`
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: ${(props) => props.columns};
-  grid-gap: 3rem;
   transition: none;
   align-items: center;
 `;

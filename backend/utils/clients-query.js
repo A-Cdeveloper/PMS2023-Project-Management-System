@@ -8,10 +8,12 @@ const getClients = async (order) => {
   return clients
 }
 
-const getClientsRange = async (from, perPage, order) => {
+const getClientsRange = async (from, perPage, orderBy, orderDirection) => {
   const query =
-    'SELECT * FROM pms_clients ORDER BY pms_clients.client_name ' +
-    order +
+    'SELECT * FROM pms_clients ORDER BY ' +
+    orderBy +
+    ' ' +
+    orderDirection +
     ' LIMIT ?,?'
 
   const [clients] = await db.query(query, [from, perPage])

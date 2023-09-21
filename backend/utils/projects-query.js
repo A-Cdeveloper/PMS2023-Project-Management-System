@@ -1,11 +1,26 @@
 const db = require('./connection')
 
-const getProjects = async () => {
-  const [projects] = await db.query(
-    'SELECT pms_projects.*, pms_clients.client_name FROM pms_projects, pms_clients WHERE client_id = project_client_id'
-  )
+const getProjects = async (order) => {
+  const query =
+    'SELECT * FROM pms_projects ORDER BY pms_projects.project_name ' + order
+
+  const [projects] = await db.query(query)
   return projects
 }
+
+const getProjectsRange = async (from, perPage, orderBy, orderDirection) => {
+  const query =
+    'SELECT pms_projects.*, pms_clients.client_name FROM pms_projects, pms_clients WHERE client_id = project_client_id ORDER BY ' +
+    orderBy +
+    ' ' +
+    orderDirection +
+    ' LIMIT ?,?'
+
+  const [projects] = await db.query(query, [from, perPage])
+  return projects
+}
+
+// getProjectsRange(0, 5, 'ASC').then((res) => console.log(res))
 
 const getSingleProject = async (project_name, project_id) => {
   const [project] = await db.query(
@@ -98,6 +113,7 @@ const deleteProject = async (project_id) => {
 
 module.exports = {
   getProjects,
+  getProjectsRange,
   getSingleProject,
   addProject,
   updateProject,

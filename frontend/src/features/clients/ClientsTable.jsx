@@ -55,6 +55,7 @@ const ClientsTable = () => {
       <Table.Footer>
         <Pagination
           count={filteredTextValue ? shownClients.length : allClients.length}
+          resource="clients_per_page"
         />
       </Table.Footer>
     </>

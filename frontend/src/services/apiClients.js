@@ -1,5 +1,4 @@
 import { API_URL } from "../utils/constants";
-import { PAGE_SIZE } from "../utils/constants";
 
 export const wait = (duration) => {
   return new Promise((resolve) => setTimeout(resolve, duration));
@@ -29,7 +28,7 @@ export const getFilteredClients = async ({ sortBy, page, perPage }) => {
   if (page && sortBy) {
     from = (page - 1) * perPage;
     response = await fetch(
-      `${API_URL}/clients/filter/${from}/${perPage}/${sortBy[1]}`
+      `${API_URL}/clients/filter/${from}/${perPage}/${sortBy.join("=")}`
     );
   }
 
