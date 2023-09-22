@@ -6,7 +6,7 @@ export const wait = (duration) => {
 
 //////////////////////////////////////////////////////////////////
 export const getClients = async ({ sortBy }) => {
-  const response = await fetch(`${API_URL}/clients/${sortBy[1]}`);
+  const response = await fetch(`${API_URL}/clients/${sortBy.join("=")}`);
 
   if (response.status === 404) {
     throw new Error("Clients list could't be loaded!");

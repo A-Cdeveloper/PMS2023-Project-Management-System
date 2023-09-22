@@ -1,8 +1,8 @@
 const db = require('./connection')
 
-const getProjects = async (order) => {
+const getProjects = async (orderBy, orderDirection) => {
   const query =
-    'SELECT * FROM pms_projects ORDER BY pms_projects.project_name ' + order
+    'SELECT * FROM pms_projects ORDER BY ' + orderBy + ' ' + orderDirection
 
   const [projects] = await db.query(query)
   return projects

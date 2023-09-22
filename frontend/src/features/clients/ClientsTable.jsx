@@ -8,6 +8,8 @@ import Pagination from "../../ui/Pagination";
 import Empty from "../../ui/Empty";
 import { useSearchParams } from "react-router-dom";
 
+// import { filteredRecords } from "../../utils/helpers";
+
 const clientCols = [
   "Client",
   "Adresse",
@@ -24,6 +26,7 @@ const ClientsTable = () => {
 
   //filter results
   const filteredTextValue = searchParams.get("filterByText");
+
   const shownClients = filteredTextValue
     ? allClients.filter(
         (client) =>
@@ -55,6 +58,7 @@ const ClientsTable = () => {
       <Table.Footer>
         <Pagination
           count={filteredTextValue ? shownClients.length : allClients.length}
+          filter={!!filteredTextValue}
           resource="clients_per_page"
         />
       </Table.Footer>

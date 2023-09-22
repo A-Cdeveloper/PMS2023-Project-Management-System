@@ -46,7 +46,9 @@ const Filter = ({ filterField, options }) => {
 
   const handleClick = (value) => {
     searchParams.set(filterField, value);
-    if (searchParams.get("page")) searchParams.set("page", 1);
+    if (value === "all") searchParams.delete(filterField);
+    if (searchParams.get("page")) searchParams.delete("page");
+    if (searchParams.get("sortBy")) searchParams.delete("sortBy");
     setSearchParams(searchParams);
   };
 

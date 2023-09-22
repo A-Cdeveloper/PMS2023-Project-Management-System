@@ -6,7 +6,7 @@ export const wait = (duration) => {
 
 //////////////////////////////////////////////////////////////////
 export const getProjects = async ({ sortBy }) => {
-  const response = await fetch(`${API_URL}/projects/${sortBy[1]}`);
+  const response = await fetch(`${API_URL}/projects/${sortBy.join("=")}`);
 
   if (response.status === 404) {
     throw new Error("Projects list could't be loaded!");

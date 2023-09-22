@@ -25,6 +25,7 @@ const FilterText = ({ placeholder }) => {
           "filterByText",
           filterRef?.current?.value.trim().toLowerCase()
         );
+
     searchParams.delete("page");
     setSearchParams(searchParams);
   };

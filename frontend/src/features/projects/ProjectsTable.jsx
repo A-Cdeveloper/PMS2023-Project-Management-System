@@ -22,45 +22,52 @@ const projectCols = [
   "Protfolio",
 ];
 
+const filteredProjects = (
+  allProjects,
+  projects,
+  filteredTextValue,
+  filteredStatus
+) => {
+  if (!filteredTextValue && filteredStatus) {
+    return allProjects.filter(
+      (project) => project.project_status === filteredStatus
+    );
+  }
+  if (filteredTextValue && !filteredStatus) {
+    return allProjects.filter((project) =>
+      project.project_name.trim().toLowerCase().includes(filteredTextValue)
+    );
+  }
+
+  if (filteredTextValue && filteredStatus) {
+    return allProjects
+      .filter((project) => project.project_status === filteredStatus)
+      .filter((project) =>
+        project.project_name.trim().toLowerCase().includes(filteredTextValue)
+      );
+  }
+
+  return projects;
+};
+
 const ProjectsTable = () => {
   const [searchParams] = useSearchParams();
   const { isLoading, error, projects } = useFilterProjects();
   const { projects: allProjects } = useProjects();
 
-  console.log(projects);
+  console.log(allProjects);
 
   //filter results
   const filteredTextValue = searchParams.get("filterByText");
-  const filteredStatus = searchParams?.get("status")
-    ? searchParams.get("status")
-    : "all";
+  // //filter by status
+  const filteredStatus = searchParams.get("status");
 
-  let shownProjects =
-    filteredTextValue || filteredStatus
-      ? allProjects.filter(
-          (project) =>
-            project.project_name
-              .trim()
-              .toLowerCase()
-              .includes(filteredTextValue) &&
-            project.project_status === filteredStatus
-        )
-      : projects;
-
-  //filter by status
-
-  // const filteredStatus = searchParams?.get("status")
-  //   ? searchParams.get("status")
-  //   : "all";
-
-  // console.log(filteredStatus);
-
-  // shownProjects =
-  //   filteredStatus !== "all"
-  //     ? allProjects.filter(
-  //         (project) => project.project_status === filteredStatus
-  //       )
-  //     : projects;
+  const shownProjects = filteredProjects(
+    allProjects,
+    projects,
+    filteredTextValue,
+    filteredStatus
+  );
 
   if (isLoading) return <Spinner />;
   if (error) return <p>{error.message}</p>;
@@ -84,11 +91,12 @@ const ProjectsTable = () => {
       <Table.Footer>
         <Pagination
           count={
-            filteredTextValue || filteredStatus !== "all"
+            !!filteredTextValue || !!filteredStatus
               ? shownProjects.length
               : allProjects.length
           }
           resource="projects_per_page"
+          filter={!!filteredTextValue || !!filteredStatus}
         />
       </Table.Footer>
     </>

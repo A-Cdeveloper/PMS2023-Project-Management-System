@@ -7,7 +7,8 @@ const router = express.Router()
 
 router.get('/:order', async (req, res) => {
   const { order } = req.params
-  const projects = await dbfunctions.getProjects(order)
+  const [orderBy, orderDirection] = order.split('=')
+  const projects = await dbfunctions.getProjects(orderBy, orderDirection)
   if (projects.lenght == 0) {
     return res.status(400).json({ message: 'Projects list is empty.' })
   }

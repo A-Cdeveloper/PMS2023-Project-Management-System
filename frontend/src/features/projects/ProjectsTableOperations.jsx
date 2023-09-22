@@ -2,8 +2,8 @@ import TableOperations from "../../ui/TableOperations";
 import SortBy from "../../ui/SortBy";
 import FilterText from "../../ui/FilterText";
 import Filter from "../../ui/Filter";
-// import NewRecord from "../../ui/Buttons/NewRecord";
-// import AddEditClient from "./AddEditClient";
+import NewRecord from "../../ui/Buttons/NewRecord";
+import AddEditClient from "../clients/AddEditClient";
 
 function ClientsTableOperations() {
   return (
@@ -42,9 +42,9 @@ function ClientsTableOperations() {
           },
         ]}
       />
-      {/* <NewRecord record="client">
+      <NewRecord record="project">
         <AddEditClient />
-      </NewRecord> */}
+      </NewRecord>
     </TableOperations>
   );
 }

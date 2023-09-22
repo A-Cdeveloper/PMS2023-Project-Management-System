@@ -6,7 +6,8 @@ const router = express.Router()
 
 router.get('/:order', async (req, res) => {
   const { order } = req.params
-  const clients = await dbfunctions.getClients(order)
+  const [orderBy, orderDirection] = order.split('=')
+  const clients = await dbfunctions.getClients(orderBy, orderDirection)
   if (clients.length == 0) {
     return res.status(400).json({ message: 'Clients list is empty.' })
   }
