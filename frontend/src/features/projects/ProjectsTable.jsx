@@ -3,7 +3,6 @@ import { useProjects } from "./useProjects";
 
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Table";
-// import ClientRow from "./ClientRow";
 import Pagination from "../../ui/Pagination";
 import Empty from "../../ui/Empty";
 import { useSearchParams } from "react-router-dom";
@@ -55,7 +54,7 @@ const ProjectsTable = () => {
   const { isLoading, error, projects } = useFilterProjects();
   const { projects: allProjects } = useProjects();
 
-  console.log(allProjects);
+  console.log(projects);
 
   //filter results
   const filteredTextValue = searchParams.get("filterByText");
@@ -77,7 +76,7 @@ const ProjectsTable = () => {
     <>
       <Table
         cols={projectCols}
-        columns="23rem 23rem 7rem 8rem 10rem repeat(2, 1fr) 10rem 10rem 10rem"
+        columns="23rem 23rem 7rem 8rem 10rem repeat(2, 1fr) 10rem 10rem 10rem 4rem"
       >
         <Table.Header />
 

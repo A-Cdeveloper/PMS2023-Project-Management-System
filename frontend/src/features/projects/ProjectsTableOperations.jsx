@@ -5,11 +5,12 @@ import Filter from "../../ui/Filter";
 import NewRecord from "../../ui/Buttons/NewRecord";
 import AddEditClient from "../clients/AddEditClient";
 
+import { projectStatus } from "./ProjectParameters";
+
 function ClientsTableOperations() {
   return (
     <TableOperations>
       <FilterText placeholder="Search projects..." />
-      Status:
       <Filter
         filterField="status"
         options={[
@@ -20,6 +21,11 @@ function ClientsTableOperations() {
           { value: "working", label: "working" },
         ]}
       />
+
+      {/* <Filter
+        filterField="status"
+        options={[{ value: "all", label: "All" }, ...projectStatus]}
+      /> */}
       <SortBy
         options={[
           { value: "project_name-asc", label: "Sort by name (asc)" },

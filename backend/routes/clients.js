@@ -94,7 +94,7 @@ router.patch('/:client_id/edit', async (req, res) => {
 
 router.delete('/:client_id/delete', async (req, res) => {
   const cid = req.params.client_id
-  const client = await dbfunctions.getSingleClient(null, cid)
+  const client = await dbfunctions.getSingleClient(cid)
   if (!client) {
     return res.status(400).json({ message: 'Client not exist.' })
   }

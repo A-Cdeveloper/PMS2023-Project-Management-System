@@ -69,64 +69,64 @@ export const getFilteredProjects = async ({ sortBy, page, perPage }) => {
 //   return data;
 // };
 
-// ///////////////////////////////////////////////////////////////////////
-// export const cloneClient = async (clientId) => {
-//   const response = await fetch(`${API_URL}/clients/${clientId}/duplicate`, {
-//     method: "POST",
-//   });
-//   const data = await response.json();
+///////////////////////////////////////////////////////////////////////
+export const cloneProject = async (projectId) => {
+  const response = await fetch(`${API_URL}/projects/${projectId}/duplicate`, {
+    method: "POST",
+  });
+  const data = await response.json();
 
-//   if (response.status === 404) {
-//     throw new Error("Client can't be duplicated! Please try again");
-//   }
+  if (response.status === 404) {
+    throw new Error("Project can't be duplicated! Please try again");
+  }
 
-//   if (response.status === 400) {
-//     throw new Error(data.message);
-//   }
+  if (response.status === 400) {
+    throw new Error(data.message);
+  }
 
-//   return data;
-// };
-
-// ///////////////////////////////////////////////////////////////////////
-// export const deleteClient = async (clientId) => {
-//   const response = await fetch(`${API_URL}/clients/${clientId}/delete`, {
-//     method: "DELETE",
-//   });
-//   const data = await response.json();
-
-//   if (response.status === 404) {
-//     throw new Error("Client can't be deleted! Please try again");
-//   }
-
-//   if (response.status === 400) {
-//     throw new Error(data.message);
-//   }
-
-//   return data;
-// };
+  return data;
+};
 
 // ///////////////////////////////////////////////////////////////////////
-// export const editClient = async (clientId, updatedClient) => {
-//   const response = await fetch(`${API_URL}/clients/${clientId}/edit`, {
-//     method: "PATCH",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(updatedClient),
-//   });
+export const deleteProject = async (projectId) => {
+  const response = await fetch(`${API_URL}/projects/${projectId}/delete`, {
+    method: "DELETE",
+  });
+  const data = await response.json();
 
-//   const data = await response.json();
+  if (response.status === 404) {
+    throw new Error("Project can't be deleted! Please try again");
+  }
 
-//   if (response.status === 404) {
-//     throw new Error("Client can't be edit! Please try again");
-//   }
+  if (response.status === 400) {
+    throw new Error(data.message);
+  }
 
-//   if (response.status === 400) {
-//     throw new Error(data.message);
-//   }
+  return data;
+};
 
-//   return data;
-// };
+// ///////////////////////////////////////////////////////////////////////
+export const editProject = async (projectId, updatedProject) => {
+  const response = await fetch(`${API_URL}/projects/${projectId}/edit`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedProject),
+  });
+
+  const data = await response.json();
+
+  if (response.status === 404) {
+    throw new Error("Project can't be edit! Please try again");
+  }
+
+  if (response.status === 400) {
+    throw new Error(data.message);
+  }
+
+  return data;
+};
 
 // ///////////////////////////////////////////////////////////////////////
 // export const singleClient = async (client_id) => {

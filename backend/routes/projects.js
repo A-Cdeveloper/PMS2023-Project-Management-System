@@ -58,9 +58,9 @@ router.post('/new', async (req, res) => {
   res.status(231).json({ message: 'Project succesfully added.' })
 })
 
-router.post('/:project_id/copy', async (req, res) => {
+router.post('/:project_id/duplicate', async (req, res) => {
   const pid = req.params.project_id
-  const project = await dbfunctions.getSingleProject(null, pid)
+  const project = await dbfunctions.getSingleProject(pid)
   if (!project) {
     return res.status(400).json({ message: 'Project not exist.' })
   }
@@ -97,28 +97,28 @@ router.post('/:project_id/copy', async (req, res) => {
     project_status,
     project_online,
   })
-  res.status(231).json({ message: 'Project succesfully copied.' })
+  res.status(231).json({ project, message: 'Project succesfully copied.' })
 })
 
 router.patch('/:project_id/edit', async (req, res) => {
   const postProject = req.body
   const pid = req.params.project_id
-  const project = await dbfunctions.getSingleProject(null, pid)
+  const project = await dbfunctions.getSingleProject(pid)
   if (!project) {
     return res.status(400).json({ message: 'Project not exist.' })
   }
   await dbfunctions.updateProject(postProject, pid)
-  res.status(231).json({ message: 'Project succesfully updated.' })
+  res.status(231).json({ project, message: 'Project succesfully updated.' })
 })
 
 router.delete('/:project_id/delete', async (req, res) => {
   const pid = req.params.project_id
-  const project = await dbfunctions.getSingleProject(null, pid)
+  const project = await dbfunctions.getSingleProject(pid)
   if (!project) {
     return res.status(400).json({ message: 'Project not exist.' })
   }
   await dbfunctions.deleteProject(pid)
-  res.status(231).json({ message: 'Project succesfully deleted.' })
+  res.status(231).json({ project, message: 'Project succesfully deleted.' })
 })
 
 module.exports = router

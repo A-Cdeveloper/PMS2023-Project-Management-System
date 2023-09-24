@@ -2,7 +2,10 @@ const db = require('./connection')
 
 const getProjects = async (orderBy, orderDirection) => {
   const query =
-    'SELECT * FROM pms_projects ORDER BY ' + orderBy + ' ' + orderDirection
+    'SELECT pms_projects.*, pms_clients.client_name FROM pms_projects, pms_clients WHERE client_id = project_client_id ORDER BY ' +
+    orderBy +
+    ' ' +
+    orderDirection
 
   const [projects] = await db.query(query)
   return projects
@@ -22,10 +25,10 @@ const getProjectsRange = async (from, perPage, orderBy, orderDirection) => {
 
 // getProjectsRange(0, 5, 'ASC').then((res) => console.log(res))
 
-const getSingleProject = async (project_name, project_id) => {
+const getSingleProject = async (project_id) => {
   const [project] = await db.query(
-    'SELECT * FROM pms_projects WHERE project_name=? OR project_id=?',
-    [project_name, project_id]
+    'SELECT * FROM pms_projects WHERE project_id=?',
+    [project_id]
   )
   return project[0]
 }

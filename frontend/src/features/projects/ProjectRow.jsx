@@ -1,38 +1,33 @@
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import styled from "styled-components";
+import useCloneProject from "./useCloneProject";
+import useDeleteProject from "./useDeleteProject";
 
 // import { singleClient } from "../../services/apiClients";
 
 import { formatDate } from "../../utils/helpers";
-
-import Table from "../../ui/Table";
 import {
-  HiOutlineEnvelope,
-  HiOutlinePhone,
-  HiOutlineNewspaper,
+  projectPlatforms,
+  projectHosting,
+  projectStatus,
+} from "./ProjectParameters";
+
+import {
   HiOutlineGlobeAlt,
   HiOutlineDocumentDuplicate,
   HiPencil,
   HiTrash,
   HiEye,
-  HiOutlineClock,
+  HiOutlineCheck,
 } from "react-icons/hi2";
-import {
-  FaCloud,
-  FaDatabase,
-  FaPhp,
-  FaRegCreditCard,
-  FaTypo3,
-  FaWordpressSimple,
-} from "react-icons/fa";
+
+import Table from "../../ui/Table";
 import Tag from "../../ui/Tag";
 import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
-import AddEditClient from "../clients/AddEditClient";
+import AddEditProject from "./AddEditProject";
 import ConfirmModal from "../../ui/ConfirmModal";
-// import useCloneClient from "../clients/useCloneClient";
-// import useDeleteClient from "../clients/useDeleteClient";
 
 const Project = styled.div`
   font-weight: 500;
@@ -49,8 +44,8 @@ const CellIcon = styled.div`
 
 const ProjectRow = ({ project }) => {
   const navigate = useNavigate();
-  // const { isCloneLoading, cloneClient } = useCloneClient();
-  // const { isDeleteLoading, deleteClient } = useDeleteClient();
+  const { isCloneLoading, cloneProject } = useCloneProject();
+  const { isDeleteLoading, deleteProject } = useDeleteProject();
   const queryClient = useQueryClient();
 
   const {
@@ -61,6 +56,7 @@ const ProjectRow = ({ project }) => {
     project_platform,
     project_hosting,
     project_update,
+    project_last_update,
     project_start_date,
     project_end_date,
     project_status,
@@ -84,104 +80,95 @@ const ProjectRow = ({ project }) => {
         </a>
       </CellIcon>
       <CellIcon>
-        {project_platform === "WORDPRESS" && <FaWordpressSimple />}
-        {project_platform === "PHPMYSQL" || project_online === "OPENCART" ? (
-          <>
-            <FaPhp />
-            <FaDatabase />
-          </>
-        ) : null}
-        {project_platform === "WOOCOMMERCE" && <FaRegCreditCard />}
-        {project_platform === "TYPO3" && <FaTypo3 />}
-        {project_platform === "OWNCLOUD" && <FaCloud />}
+        {projectPlatforms().map((platform) => {
+          return (
+            platform.label === project_platform && (
+              <span key={platform.label}>{platform.icon}</span>
+            )
+          );
+        })}
       </CellIcon>
 
-      <div>{project_hosting}</div>
-
+      <div>
+        {projectHosting.map((hosting) => {
+          return (
+            hosting.value === project_hosting && (
+              <span key={hosting.label}>{hosting.label}</span>
+            )
+          );
+        })}
+      </div>
       <div>{formatDate(project_start_date)}</div>
       <div>{formatDate(project_end_date)}</div>
       <div>
-        <Tag type={project_status}>{project_status}</Tag>
+        {projectStatus.map((status) => {
+          return (
+            status.value === project_status && (
+              <Tag key={project_status} type={status.value}>
+                {status.label}
+              </Tag>
+            )
+          );
+        })}
       </div>
-      <div>{project_update}</div>
-      <div>{project_online}</div>
-      {/* <CellIcon>
-        <a href={`tel: ${client_phone}`}>
-          <HiOutlinePhone />
-        </a>
-        {client_fax && (
-          <a href={`tel: ${client_fax}`}>
-            <HiOutlineNewspaper />
-          </a>
-        )}
-      </CellIcon>
-
-      <CellIcon>
-        <a href={`mailto: ${client_email}`} title={client_email}>
-          <HiOutlineEnvelope />
-        </a>
-      </CellIcon>
-      <CellIcon>
-        <a href={client_site} target="_blank" title={client_site}>
-          <HiOutlineGlobeAlt />
-        </a>
-      </CellIcon> */}
+      <div>
+        {project_update}
+        <br />
+        {formatDate(project_last_update)}
+      </div>
+      <CellIcon>{project_online === "Ja" && <HiOutlineCheck />}</CellIcon>
 
       <div>
         <Modal>
-          {/* <Menus>
-            <Menus.Toggle id={client_id} />
+          <Menus>
+            <Menus.Toggle id={project_id} />
 
-            <Menus.List id={client_id}>
+            <Menus.List id={project_id}>
               <Menus.Button
                 icon={<HiEye />}
                 onClick={() => {
-                  navigate(`/clients/${client_id}`);
+                  navigate(`/project/${project_id}`);
                 }}
-                onMouseOver={() => prefetchClientHandler(client_id)}
+                // onMouseOver={() => prefetchClientHandler(project_id)}
               >
                 See details
               </Menus.Button>
 
-              <Modal.OpenButton opens="client-edit">
+              <Modal.OpenButton opens="project-edit">
                 <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
               </Modal.OpenButton>
 
-              <Modal.OpenButton opens="client-clone">
+              <Modal.OpenButton opens="project-clone">
                 <Menus.Button icon={<HiOutlineDocumentDuplicate />}>
                   Duplicate
                 </Menus.Button>
               </Modal.OpenButton>
 
-              <Modal.OpenButton opens="client-delete">
+              <Modal.OpenButton opens="project-delete">
                 <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
               </Modal.OpenButton>
             </Menus.List>
-          </Menus> */}
+          </Menus>
+          <Modal.Window name="project-edit">
+            <AddEditProject projectToEdit={project} />
+          </Modal.Window>
 
-          {/* <Modal.Window name="client-edit">
-            <AddEditClient clientToEdit={client} />
-          </Modal.Window> */}
-
-          {/* <Modal.Window name="client-clone">
-       
+          <Modal.Window name="project-clone">
             <ConfirmModal
-              resourceName="client"
+              resourceName="project"
               operation="clone"
-              onConfirm={() => cloneClient(client_id)}
+              onConfirm={() => cloneProject(project_id)}
               disabled={isCloneLoading}
             />
-          </Modal.Window> */}
-
-          {/* <Modal.Window name="client-delete">
-           
+          </Modal.Window>
+          <Modal.Window name="project-delete">
             <ConfirmModal
-              resourceName="client"
+              resourceName="project"
               operation="delete"
-              onConfirm={() => deleteClient(client_id)}
+              onConfirm={() => deleteProject(project_id)}
               disabled={isDeleteLoading}
             />
-          </Modal.Window> */}
+          </Modal.Window>
         </Modal>
       </div>
     </Table.Row>
