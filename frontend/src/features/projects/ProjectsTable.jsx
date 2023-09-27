@@ -1,25 +1,14 @@
+import { useSearchParams } from "react-router-dom";
 import { useFilterProjects } from "./useFilterProjects";
 import { useProjects } from "./useProjects";
 
 import Spinner from "../../ui/Spinner";
-import Table from "../../ui/Table";
+import Table from "../../ui/Data/Table";
 import Pagination from "../../ui/Pagination";
-import Empty from "../../ui/Empty";
-import { useSearchParams } from "react-router-dom";
+import Empty from "../../ui/Data/Empty";
 import ProjectRow from "./ProjectRow";
 
-const projectCols = [
-  "Project",
-  "Client",
-  "Url",
-  "Tech",
-  "Hosting",
-  "Start Date",
-  "End Date",
-  "Status",
-  "Update",
-  "Protfolio",
-];
+import { projectCols } from "./ProjectParameters";
 
 const filteredProjects = (
   allProjects,
@@ -54,7 +43,7 @@ const ProjectsTable = () => {
   const { isLoading, error, projects } = useFilterProjects();
   const { projects: allProjects } = useProjects();
 
-  console.log(projects);
+  //console.log(projects);
 
   //filter results
   const filteredTextValue = searchParams.get("filterByText");

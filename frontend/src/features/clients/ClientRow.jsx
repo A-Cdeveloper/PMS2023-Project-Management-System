@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { singleClient } from "../../services/apiClients";
 
 import styled from "styled-components";
-import Table from "../../ui/Table";
+import Table from "../../ui/Data/Table";
 import {
   HiOutlineEnvelope,
   HiOutlinePhone,
@@ -67,6 +67,9 @@ const ClientRow = ({ client }) => {
         <a href={`tel: ${client_phone}`}>
           <HiOutlinePhone />
         </a>
+      </CellIcon>
+
+      <CellIcon>
         {client_fax && (
           <a href={`tel: ${client_fax}`}>
             <HiOutlineNewspaper />

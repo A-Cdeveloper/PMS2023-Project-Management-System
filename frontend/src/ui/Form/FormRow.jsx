@@ -3,9 +3,9 @@ import styled from "styled-components";
 const StyledFormRow = styled.div`
   display: grid;
   align-items: center;
-  grid-template-columns: 18rem 1fr;
+  grid-template-columns: 15rem 1fr;
   gap: 4rem;
-  padding: 1rem 0 2rem 0;
+  padding: 1rem 0 1.5rem 0;
   position: relative;
 
   /* &:first-child {
@@ -13,7 +13,7 @@ const StyledFormRow = styled.div`
   } */
 
   &:last-child {
-    padding-top: 4rem;
+    padding-top: 2rem;
     display: flex;
     justify-content: end;
   }
@@ -32,7 +32,7 @@ const Error = styled.span`
   color: ${(props) => props.theme.colors.danger[100]};
   position: absolute;
   right: 0rem;
-  bottom: 0rem;
+  bottom: -0.5rem;
 `;
 
 const FormRow = ({ label, error, children }) => {

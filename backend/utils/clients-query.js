@@ -20,12 +20,10 @@ const getClientsRange = async (from, perPage, orderBy, orderDirection) => {
   return clients
 }
 
-// getClientsRange(0, 5, 'ASC').then((res) => console.log(res))
-
-const getSingleClient = async (client_id) => {
+const getSingleClient = async (client_name, client_id) => {
   const [client] = await db.query(
-    'SELECT * FROM pms_clients WHERE client_id=?',
-    [client_id]
+    'SELECT * FROM pms_clients WHERE client_name=? OR client_id=?',
+    [client_name, client_id]
   )
   return client[0]
 }

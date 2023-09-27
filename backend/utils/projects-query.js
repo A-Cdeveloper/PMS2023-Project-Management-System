@@ -25,10 +25,10 @@ const getProjectsRange = async (from, perPage, orderBy, orderDirection) => {
 
 // getProjectsRange(0, 5, 'ASC').then((res) => console.log(res))
 
-const getSingleProject = async (project_id) => {
+const getSingleProject = async (project_name, project_id) => {
   const [project] = await db.query(
-    'SELECT * FROM pms_projects WHERE project_id=?',
-    [project_id]
+    'SELECT * FROM pms_projects WHERE project_name=? OR project_id=?',
+    [project_name, project_id]
   )
   return project[0]
 }
@@ -39,8 +39,6 @@ const addProject = async (project) => {
     project_name,
     project_url,
     project_platform,
-    project_update,
-    project_last_update,
     project_hosting,
     project_description,
     project_ftpdata,
@@ -48,17 +46,14 @@ const addProject = async (project) => {
     project_start_date,
     project_end_date,
     project_status,
-    project_online,
   } = project
   await db.query(
-    'INSERT INTO pms_projects (project_client_id,project_name,project_url,project_platform,project_update,project_last_update,project_hosting,project_description,project_ftpdata,project_dbdata,project_start_date,project_end_date,project_status,project_online) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+    'INSERT INTO pms_projects (project_client_id,project_name,project_url,project_platform,project_hosting,project_description,project_ftpdata,project_dbdata,project_start_date,project_end_date,project_status) VALUES (?,?,?,?,?,?,?,?,?,?,?)',
     [
       project_client_id,
       project_name,
       project_url,
       project_platform,
-      project_update,
-      project_last_update,
       project_hosting,
       project_description,
       project_ftpdata,
@@ -66,7 +61,6 @@ const addProject = async (project) => {
       project_start_date,
       project_end_date,
       project_status,
-      project_online,
     ]
   )
 }

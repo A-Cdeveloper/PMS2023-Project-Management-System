@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
+import { formatDate } from "../../utils/helpers";
+
 import styled from "styled-components";
 import useCloneProject from "./useCloneProject";
 import useDeleteProject from "./useDeleteProject";
 
-// import { singleClient } from "../../services/apiClients";
+import { singleProject } from "../../services/apiProjects";
 
-import { formatDate } from "../../utils/helpers";
 import {
   projectPlatforms,
   projectHosting,
@@ -22,8 +23,8 @@ import {
   HiOutlineCheck,
 } from "react-icons/hi2";
 
-import Table from "../../ui/Table";
-import Tag from "../../ui/Tag";
+import Table from "../../ui/Data/Table";
+import Tag from "../../ui/Data/Tag";
 import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
 import AddEditProject from "./AddEditProject";
@@ -63,12 +64,12 @@ const ProjectRow = ({ project }) => {
     project_online,
   } = project;
 
-  // const prefetchClientHandler = async (client_id) => {
-  //   await queryClient.prefetchQuery({
-  //     queryKey: ["client", client_id],
-  //     queryFn: () => singleClient(client_id),
-  //   });
-  // };
+  const prefetchProjectHandler = async (project_id) => {
+    await queryClient.prefetchQuery({
+      queryKey: ["project", project_id],
+      queryFn: () => singleProject(project_id),
+    });
+  };
 
   return (
     <Table.Row>
@@ -127,9 +128,9 @@ const ProjectRow = ({ project }) => {
               <Menus.Button
                 icon={<HiEye />}
                 onClick={() => {
-                  navigate(`/project/${project_id}`);
+                  navigate(`/projects/${project_id}`);
                 }}
-                // onMouseOver={() => prefetchClientHandler(project_id)}
+                onMouseOver={() => prefetchProjectHandler(project_id)}
               >
                 See details
               </Menus.Button>

@@ -47,27 +47,27 @@ export const getFilteredProjects = async ({ sortBy, page, perPage }) => {
 };
 
 // ///////////////////////////////////////////////////////////////////////
-// export const addNewClient = async (newClient) => {
-//   const response = await fetch(`${API_URL}/clients/new`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(newClient),
-//   });
+export const addNewProject = async (newProject) => {
+  const response = await fetch(`${API_URL}/projects/new`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newProject),
+  });
 
-//   const data = await response.json();
+  const data = await response.json();
 
-//   if (response.status === 404) {
-//     throw new Error("Client can't be added! Please try again");
-//   }
+  if (response.status === 404) {
+    throw new Error("Project can't be added! Please try again");
+  }
 
-//   if (response.status === 400) {
-//     throw new Error(data.message);
-//   }
+  if (response.status === 400) {
+    throw new Error(data.message);
+  }
 
-//   return data;
-// };
+  return data;
+};
 
 ///////////////////////////////////////////////////////////////////////
 export const cloneProject = async (projectId) => {
@@ -124,23 +124,23 @@ export const editProject = async (projectId, updatedProject) => {
   if (response.status === 400) {
     throw new Error(data.message);
   }
-
+  await wait(3000);
   return data;
 };
 
 // ///////////////////////////////////////////////////////////////////////
-// export const singleClient = async (client_id) => {
-//   const response = await fetch(`${API_URL}/clients/client/${client_id}`);
+export const singleProject = async (project_id) => {
+  const response = await fetch(`${API_URL}/projects/project/${project_id}`);
 
-//   const data = await response.json();
+  const data = await response.json();
 
-//   if (response.status === 404) {
-//     throw new Error("Client not found");
-//   }
+  if (response.status === 404) {
+    throw new Error("Project not found");
+  }
 
-//   if (response.status === 400) {
-//     throw new Error(data.message);
-//   }
+  if (response.status === 400) {
+    throw new Error(data.message);
+  }
 
-//   return data;
-// };
+  return data;
+};

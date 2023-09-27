@@ -8,6 +8,7 @@ import AppLayout from "./ui/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
 import Projects from "./pages/Projects";
+import Project from "./pages/Project";
 import Tasks from "./pages/Tasks";
 import Clients from "./pages/Clients";
 import Client from "./pages/Client";
@@ -38,7 +39,14 @@ const router = createBrowserRouter([
           { path: ":clientId", element: <Client /> },
         ],
       },
-      { path: "/projects", element: <Projects /> },
+      {
+        path: "/projects",
+        children: [
+          { index: true, element: <Projects /> },
+          { path: ":projectId", element: <Project /> },
+        ],
+      },
+
       { path: "/tasks", element: <Tasks /> },
       { path: "/users", element: <Users /> },
       { path: "/settings", element: <Settings /> },

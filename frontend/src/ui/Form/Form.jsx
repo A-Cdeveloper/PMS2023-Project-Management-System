@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const StyledForm = styled.form`
-  padding: 1rem 1rem 0 1rem;
+  //padding: 1rem 1rem 0 1rem;
   background-color: #fff;
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);

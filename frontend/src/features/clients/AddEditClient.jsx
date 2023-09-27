@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import useAddClient from "./useAddClient";
+import useEditClient from "./useEditClient";
 
 import Form from "../../ui/Form/Form";
 import FormRow from "../../ui/Form/FormRow";
@@ -7,7 +8,6 @@ import Input from "../../ui/Form/Input";
 import Textarea from "../../ui/Form/Textarea";
 import Button from "../../ui/Buttons/Button";
 import Spinner from "../../ui/Spinner";
-import useEditClient from "./useEditClient";
 
 const AddEditClient = ({ clientToEdit = {}, onCloseModal }) => {
   const { isAddNewLoading, addNewClient } = useAddClient();

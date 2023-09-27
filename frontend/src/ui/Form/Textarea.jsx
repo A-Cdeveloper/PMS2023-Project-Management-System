@@ -8,7 +8,7 @@ const Textarea = styled.textarea`
   background-color: #fff;
   box-shadow: ${(props) => props.theme.shadow.xs};
   width: 100%;
-  height: 8rem;
+  height: 7rem;
   &:focus {
     outline: 1px solid ${(props) => props.theme.baseColors.grey300};
   }

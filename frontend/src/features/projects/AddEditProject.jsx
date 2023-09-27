@@ -1,7 +1,6 @@
-import { useForm } from "react-hook-form";
-// import useAddClient from "./useAddClient";
+import { useForm, Controller } from "react-hook-form";
 import useEditProject from "./useEditProject";
-// import { useClients } from "../clients/useClients";
+import useAddProject from "./useAddProject";
 
 import {
   projectHosting,
@@ -16,13 +15,12 @@ import Input from "../../ui/Form/Input";
 import Textarea from "../../ui/Form/Textarea";
 import Select from "../../ui/Form/Select";
 import Button from "../../ui/Buttons/Button";
-// import Spinner from "../../ui/Spinner";
 
-const AddEditClient = ({ projectToEdit = {}, onCloseModal }) => {
-  //   const { isAddNewLoading, addNewClient } = useAddClient();
+const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
+  const { isAddNewLoading, addNewProject } = useAddProject();
   const { isEditLoading, editProject } = useEditProject();
 
-  //console.log(projectToEdit);
+  console.log(projectToEdit);
 
   const isEdit = !!projectToEdit.project_id;
   const {
@@ -30,27 +28,30 @@ const AddEditClient = ({ projectToEdit = {}, onCloseModal }) => {
     handleSubmit,
     watch,
     formState: { errors },
+    control,
+    reset,
+    getValues,
   } = useForm({ defaultValues: isEdit ? projectToEdit : {} });
 
+  const loadingState = isAddNewLoading || isEditLoading;
+
   const onSubmit = (data) => {
-    console.log(data);
-    // if (isEdit) {
-    //   editClient(
-    //     { clientId: clientToEdit.client_id, updatedClient: data },
-    //     {
-    //       onSuccess: () => {
-    //         onCloseModal();
-    //       },
-    //     }
-    //   );
-    //   console.log(data);
-    // } else {
-    //   addNewClient(data, {
-    //     onSuccess: () => {
-    //       onCloseModal();
-    //     },
-    //   });
-    // }
+    if (isEdit) {
+      editProject(
+        { projectId: projectToEdit.project_id, updatedProject: data },
+        {
+          onSuccess: () => {
+            onCloseModal();
+          },
+        }
+      );
+    } else {
+      addNewProject(data, {
+        onSuccess: () => {
+          onCloseModal();
+        },
+      });
+    }
   };
 
   return (
@@ -59,34 +60,51 @@ const AddEditClient = ({ projectToEdit = {}, onCloseModal }) => {
         <Input
           {...register("project_name", { required: "This field is required" })}
           aria-invalid={errors.project_name ? "true" : "false"}
+          disabled={loadingState}
         />
       </FormRow>
 
-      <FormRow label="Client" error={errors?.client_name}>
-        <Select
+      <FormRow label="Client" error={errors?.project_client_id}>
+        <Controller
+          control={control}
+          name="project_client_id"
+          disabled={loadingState}
+          required="This field is required"
+          render={({ field }) => {
+            return (
+              <Select
+                {...field}
+                onChange={(e) => {
+                  return field.onChange(e.target.value);
+                }}
+              >
+                {projectAllClients().map((client) => (
+                  <option key={client.value} value={client.value}>
+                    {client.label}
+                  </option>
+                ))}
+              </Select>
+            );
+          }}
+        />
+
+        {/* <Select
           {...register("project_client_id", {
             required: "This field is required",
+            valueAsNumber: true,
           })}
+          defaultValue={projectToEdit.project_client_id}
+          disabled={loadingState}
         >
           {projectAllClients().map((client) => (
-            <option key={client.value} value={+client.value}>
+            <option
+              key={client.value}
+              value={client.value}
+            >
               {client.label}
             </option>
           ))}
-        </Select>
-      </FormRow>
-
-      <FormRow label="Url" error={errors?.project_url}>
-        <Input
-          type="url"
-          {...register("project_url", {
-            pattern: {
-              value: /^(http(s)?:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$/,
-              message: "Please specify a valid url (ex.https://)",
-            },
-          })}
-          aria-invalid={errors.project_url ? "true" : "false"}
-        />
+        </Select> */}
       </FormRow>
 
       <FormRow label="Platform" error={errors?.project_platform}>
@@ -94,6 +112,7 @@ const AddEditClient = ({ projectToEdit = {}, onCloseModal }) => {
           {...register("project_platform", {
             required: "This field is required",
           })}
+          disabled={loadingState}
         >
           {projectPlatforms().map((platform) => (
             <option key={platform.label} value={platform.value}>
@@ -108,6 +127,7 @@ const AddEditClient = ({ projectToEdit = {}, onCloseModal }) => {
           {...register("project_hosting", {
             required: "This field is required",
           })}
+          disabled={loadingState}
         >
           {projectHosting.map((hosting) => (
             <option key={hosting.label} value={hosting.value}>
@@ -116,12 +136,124 @@ const AddEditClient = ({ projectToEdit = {}, onCloseModal }) => {
           ))}
         </Select>
       </FormRow>
+      <FormRow label="Description" error={errors?.project_description}>
+        <Textarea
+          type="textarea"
+          {...register("project_description")}
+          aria-invalid={errors.project_description ? "true" : "false"}
+          disabled={loadingState}
+        />
+      </FormRow>
+
+      <FormRow label="FTP" error={errors?.project_ftpdata}>
+        <Textarea
+          type="textarea"
+          {...register("project_ftpdata")}
+          aria-invalid={errors.project_ftpdata ? "true" : "false"}
+          disabled={loadingState}
+        />
+      </FormRow>
+
+      <FormRow label="Database" error={errors?.project_dbdata}>
+        <Textarea
+          type="textarea"
+          {...register("project_dbdata")}
+          aria-invalid={errors.project_dbdata ? "true" : "false"}
+          disabled={loadingState}
+        />
+      </FormRow>
+
+      <FormRow label="Url" error={errors?.project_url}>
+        <Input
+          type="url"
+          {...register("project_url", {
+            pattern: {
+              value: /^(http(s)?:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$/,
+              message: "Please specify a valid url (ex.https://)",
+            },
+          })}
+          aria-invalid={errors.project_url ? "true" : "false"}
+          disabled={loadingState}
+        />
+      </FormRow>
+
+      <FormRow label="Start date" error={errors?.project_start_date}>
+        <Controller
+          control={control}
+          name="project_start_date"
+          disabled={loadingState}
+          render={({ field }) => {
+            const defDate = {
+              ...field,
+              value: field.value && field.value.slice(0, -14),
+              // : new Date(new Date()).toISOString().slice(0, -5),
+            };
+            return (
+              <Input
+                type="date"
+                max={
+                  getValues("project_end_date") &&
+                  getValues("project_end_date").slice(0, -14)
+                }
+                {...defDate}
+                aria-invalid={errors.project_start_date ? "true" : "false"}
+                onChange={(e) => {
+                  if (e.target.value === "") {
+                    reset({
+                      project_start_date: "",
+                    });
+                    return;
+                  }
+                  field.onChange(new Date(e.target.value).toISOString());
+                }}
+              />
+            );
+          }}
+        />
+      </FormRow>
+
+      <FormRow label="End date" error={errors?.project_end_date}>
+        <Controller
+          disabled={loadingState}
+          control={control}
+          name="project_end_date"
+          render={({ field }) => {
+            const defDate = {
+              ...field,
+              value: field.value && field.value.slice(0, -14),
+            };
+            return (
+              <Input
+                type="date"
+                min={
+                  getValues("project_start_date") &&
+                  getValues("project_start_date").slice(0, -14)
+                }
+                {...defDate}
+                aria-invalid={errors.project_end_date ? "true" : "false"}
+                onChange={(e) => {
+                  if (e.target.value === "") {
+                    reset({
+                      project_end_date: "",
+                    });
+                    return;
+                  }
+
+                  return field.onChange(new Date(e.target.value).toISOString());
+                }}
+              />
+            );
+          }}
+        />
+      </FormRow>
 
       <FormRow label="Status" error={errors?.project_status}>
         <Select
           {...register("project_status", {
             required: "This field is required",
           })}
+          defaultValue={!isEdit && projectStatus[1].value}
+          disabled={loadingState}
         >
           {projectStatus.map((status) => (
             <option key={status.label} value={status.value}>
@@ -131,68 +263,8 @@ const AddEditClient = ({ projectToEdit = {}, onCloseModal }) => {
         </Select>
       </FormRow>
 
-      {/* <FormRow label="Client adresse" error={errors?.client_adresse}>
-        <Textarea
-          type="textarea"
-          {...register("client_adresse", {
-            required: "This field is required",
-          })}
-          aria-invalid={errors.client_adresse ? "true" : "false"}
-        />
-      </FormRow> */}
-
-      {/* <FormRow label="Contact person" error={errors?.client_contact}>
-        <Input
-          type="text"
-          {...register("client_contact", {
-            required: false,
-          })}
-        />
-      </FormRow> */}
-
-      {/* <FormRow label="Phone" error={errors?.client_phone}>
-        <Input
-          type="tel"
-          {...register("client_phone", {
-            required: "This field is required",
-            pattern: {
-              value: /^\+(?:[0-9] ?){6,14}[0-9]$/,
-              message: "Please specify a valid phone number (ex. +49xxx)",
-            },
-          })}
-          aria-invalid={errors.client_phone ? "true" : "false"}
-        />
-      </FormRow> */}
-
-      {/* <FormRow label="Fax" error={errors?.client_fax}>
-        <Input
-          type="tel"
-          {...register("client_fax", {
-            pattern: {
-              value: /^\+(?:[0-9] ?){6,14}[0-9]$/,
-              message: "Please specify a valid fax number (ex. +49xxx)",
-            },
-          })}
-          aria-invalid={errors.client_fax ? "true" : "false"}
-        />
-      </FormRow> */}
-
-      {/* <FormRow label="E-Mail" error={errors?.client_email}>
-        <Input
-          type="email"
-          {...register("client_email", {
-            required: "This field is required",
-            pattern: {
-              value: /\S+@\S+\.\S+/,
-              message: "Please specify a valid email",
-            },
-          })}
-          aria-invalid={errors.client_email ? "true" : "false"}
-        />
-      </FormRow> */}
-
       <FormRow>
-        <Button variation="primary" size="medium">
+        <Button variation="primary" size="medium" disabled={loadingState}>
           {isEdit ? "Submit Changes" : "Add new project"}
         </Button>
       </FormRow>
@@ -200,4 +272,4 @@ const AddEditClient = ({ projectToEdit = {}, onCloseModal }) => {
   );
 };
 
-export default AddEditClient;
+export default AddEditProject;

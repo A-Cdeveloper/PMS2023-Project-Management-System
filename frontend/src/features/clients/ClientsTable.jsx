@@ -1,23 +1,14 @@
 import { useFilterClients } from "./useFilterClients";
 import { useClients } from "./useClients";
-
-import Spinner from "../../ui/Spinner";
-import Table from "../../ui/Table";
-import ClientRow from "./ClientRow";
-import Pagination from "../../ui/Pagination";
-import Empty from "../../ui/Empty";
 import { useSearchParams } from "react-router-dom";
 
-// import { filteredRecords } from "../../utils/helpers";
+import Spinner from "../../ui/Spinner";
+import Table from "../../ui/Data/Table";
+import ClientRow from "./ClientRow";
+import Pagination from "../../ui/Pagination";
+import Empty from "../../ui/Data/Empty";
 
-const clientCols = [
-  "Client",
-  "Adresse",
-  "Contact Person",
-  "Phone/Fax",
-  "Email",
-  "URL",
-];
+import { clientCols } from "./ClientParameters";
 
 const ClientsTable = () => {
   const [searchParams] = useSearchParams();
@@ -45,7 +36,10 @@ const ClientsTable = () => {
 
   return (
     <>
-      <Table cols={clientCols} columns="repeat(3, 1fr) 12rem 10rem 10rem 4rem">
+      <Table
+        cols={clientCols}
+        columns="repeat(3, 1fr) 8rem 8rem 8rem 10rem 4rem"
+      >
         <Table.Header />
 
         <Table.Body

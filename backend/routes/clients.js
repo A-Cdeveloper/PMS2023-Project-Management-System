@@ -36,7 +36,7 @@ router.get('/filter/:from/:perPage/:order', async (req, res) => {
 
 router.get('/client/:client_id', async (req, res) => {
   const cid = req.params.client_id
-  const client = await dbfunctions.getSingleClient(cid)
+  const client = await dbfunctions.getSingleClient(null, cid)
   if (!client) {
     return res.status(400).json({ message: 'Client not exist.' })
   }
@@ -45,7 +45,7 @@ router.get('/client/:client_id', async (req, res) => {
 
 router.post('/new', async (req, res) => {
   const postClient = req.body
-  const client = await dbfunctions.getSingleClient(postClient.client_name)
+  const client = await dbfunctions.getSingleClient(postClient.client_name, null)
   if (client) {
     return res.status(400).json({ message: 'Client already exist.' })
   }
@@ -84,7 +84,7 @@ router.post('/:client_id/duplicate', async (req, res) => {
 router.patch('/:client_id/edit', async (req, res) => {
   const postClient = req.body
   const cid = req.params.client_id
-  const client = await dbfunctions.getSingleClient(null, cid)
+  const client = await dbfunctions.getSingleClient(postClient.client_name, cid)
   if (!client) {
     return res.status(400).json({ message: 'Client not exist.' })
   }

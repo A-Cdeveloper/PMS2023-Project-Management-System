@@ -1,50 +1,28 @@
+import { useQueryClient } from "@tanstack/react-query";
+
 import { useClient } from "./useClient";
 import { useParams } from "react-router-dom";
 import { useMoveBack } from "../../hooks/useMoveBack";
 
-import { useQueryClient } from "@tanstack/react-query";
-
 import Headline from "../../ui/Headline";
 import ButtonText from "../../ui/Buttons/ButtonText";
 import Row from "../../ui/Row";
-import styled from "styled-components";
-import Spinner from "../../ui/Spinner";
+import DataDetailsContainer from "../../ui/Data/DataDetails";
 
-const ClientDetailsBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  background: #fff;
-  padding: 1rem;
-`;
-
-const ClientBox = styled.div`
-  padding: 1rem 2rem;
-  display: flex;
-  flex: 70%;
-  font-size: 1.5rem;
-  border-bottom: 1px solid ${(props) => props.theme.baseColors.grey200};
-`;
-const ClientBoxTitle = styled(ClientBox)`
-  padding: 1rem 2rem;
-  display: flex;
-  flex: 50%;
-  background: ${(props) => props.theme.baseColors.grey200};
-  font-weight: 600;
-  flex: 30%;
-  border-bottom: 1px solid #fff;
-`;
+import { clientCols } from "./ClientParameters";
 
 const ClientDetail = () => {
   const moveBack = useMoveBack();
-  //const { isLoading, error, client = {} } = useClient();
+  const { isLoading, error, client: clientSingle = {} } = useClient();
   const { clientId } = useParams();
 
   const queryClient = useQueryClient();
-  const client = queryClient.getQueryData(["client", +clientId]);
+
+  const client = queryClient.getQueryData(["client", +clientId])
+    ? queryClient.getQueryData(["client", +clientId])
+    : clientSingle;
 
   const {
-    client_id,
     client_name,
     client_adresse,
     client_contact,
@@ -54,6 +32,20 @@ const ClientDetail = () => {
     client_site,
   } = client;
 
+  const obj = {};
+
+  Object.values(client).map((element, index) => {
+    obj[clientCols[index]] = element;
+  });
+
+  // Object.entries(client)((element, index) => {
+  //   obj[element] = clientCols[index];
+  // });
+
+  // const data = [];
+
+  console.log(obj);
+
   return (
     <>
       <Row type="horizontal">
@@ -61,23 +53,23 @@ const ClientDetail = () => {
         <ButtonText onClick={moveBack}> ← Back</ButtonText>
       </Row>
       <Row type="horizontal" style={{ alignItems: "flex-start" }}>
-        <ClientDetailsBox>
-          <ClientBoxTitle>Adresse</ClientBoxTitle>
-          <ClientBox>{client_adresse}</ClientBox>
-          <ClientBoxTitle>Contact person</ClientBoxTitle>
-          <ClientBox>{client_contact}</ClientBox>
-        </ClientDetailsBox>
+        <DataDetailsContainer>
+          {/* <DataBoxTitle>Adresse</DataBoxTitle>
+          <DataBox>{client_adresse}</DataBox>
+          <DataBoxTitle>Contact person</DataBoxTitle>
+          <DataBox>{client_contact}</DataBox> */}
+        </DataDetailsContainer>
 
-        <ClientDetailsBox>
-          <ClientBoxTitle>Phone</ClientBoxTitle>
-          <ClientBox>{client_phone}</ClientBox>
-          <ClientBoxTitle>Fax</ClientBoxTitle>
-          <ClientBox>{client_fax}</ClientBox>
-          <ClientBoxTitle>E-Mail</ClientBoxTitle>
-          <ClientBox>{client_email}</ClientBox>
-          <ClientBoxTitle>Website</ClientBoxTitle>
-          <ClientBox>{client_site}</ClientBox>
-        </ClientDetailsBox>
+        <DataDetailsContainer>
+          {/* <DataBoxTitle>Phone</DataBoxTitle>
+          <DataBox>{client_phone}</DataBox>
+          <DataBoxTitle>Fax</DataBoxTitle>
+          <DataBox>{client_fax}</DataBox>
+          <DataBoxTitle>E-Mail</DataBoxTitle>
+          <DataBox>{client_email}</DataBox>
+          <DataBoxTitle>Website</DataBoxTitle>
+          <DataBox>{client_site}</DataBox> */}
+        </DataDetailsContainer>
       </Row>
 
       <Headline as="h2">Projects</Headline>

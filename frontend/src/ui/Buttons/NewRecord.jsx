@@ -10,7 +10,7 @@ const NewRecord = ({ children, record }) => {
           Add {record}
         </ButtonIcon>
       </Modal.OpenButton>
-      <Modal.Window name="client-add">{children}</Modal.Window>
+      <Modal.Window name={`${record}-add`}>{children}</Modal.Window>
     </Modal>
   );
 };

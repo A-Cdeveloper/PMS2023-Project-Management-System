@@ -16,11 +16,25 @@ export const projectAllClients = () => {
     return { value: client.client_id, label: client.client_name };
   });
 
-  return clientsList;
+  return [{ value: "", label: "" }, ...clientsList];
 };
+
+export const projectCols = [
+  "Project",
+  "Client",
+  "Url",
+  "Tech",
+  "Hosting",
+  "Start Date",
+  "End Date",
+  "Status",
+  "Update",
+  "Protfolio",
+];
 
 export const projectPlatforms = () => {
   return [
+    { value: "", label: "", icon: "" },
     { value: "WORDPRESS", label: "WORDPRESS", icon: <FaWordpressSimple /> },
     { value: "WOOCOMMERCE", label: "WOOCOMMERCE", icon: <FaRegCreditCard /> },
     {
@@ -39,6 +53,7 @@ export const projectPlatforms = () => {
 };
 
 export const projectHosting = [
+  { value: "", label: "" },
   { value: "he", label: "HOSTEUROPE" },
   { value: "1und1", label: "IONOS" },
   { value: "strato", label: "STRATO" },
@@ -47,8 +62,9 @@ export const projectHosting = [
 ];
 
 export const projectStatus = [
-  { value: "online", label: "online" },
-  { value: "archive", label: "archive" },
+  { value: "", label: "" },
   { value: "future", label: "future" },
   { value: "working", label: "working" },
+  { value: "online", label: "online" },
+  { value: "archive", label: "archive" },
 ];

@@ -34,7 +34,7 @@ router.get('/filter/:from/:perPage/:order', async (req, res) => {
   return res.status(231).send(projects)
 })
 
-router.get('/:project_id', async (req, res) => {
+router.get('/project/:project_id', async (req, res) => {
   const pid = req.params.project_id
   const project = await dbfunctions.getSingleProject(null, pid)
   if (!project) {
@@ -50,7 +50,10 @@ router.get('/:project_id', async (req, res) => {
 
 router.post('/new', async (req, res) => {
   const postProject = req.body
-  const project = await dbfunctions.getSingleProject(postProject.project_name)
+  const project = await dbfunctions.getSingleProject(
+    postProject.project_name,
+    null
+  )
   if (project) {
     return res.status(400).json({ message: 'Project already exist.' })
   }
@@ -60,7 +63,7 @@ router.post('/new', async (req, res) => {
 
 router.post('/:project_id/duplicate', async (req, res) => {
   const pid = req.params.project_id
-  const project = await dbfunctions.getSingleProject(pid)
+  const project = await dbfunctions.getSingleProject(null, pid)
   if (!project) {
     return res.status(400).json({ message: 'Project not exist.' })
   }
@@ -103,7 +106,10 @@ router.post('/:project_id/duplicate', async (req, res) => {
 router.patch('/:project_id/edit', async (req, res) => {
   const postProject = req.body
   const pid = req.params.project_id
-  const project = await dbfunctions.getSingleProject(pid)
+  const project = await dbfunctions.getSingleProject(
+    postProject.project_name,
+    pid
+  )
   if (!project) {
     return res.status(400).json({ message: 'Project not exist.' })
   }
@@ -113,7 +119,7 @@ router.patch('/:project_id/edit', async (req, res) => {
 
 router.delete('/:project_id/delete', async (req, res) => {
   const pid = req.params.project_id
-  const project = await dbfunctions.getSingleProject(pid)
+  const project = await dbfunctions.getSingleProject(null, pid)
   if (!project) {
     return res.status(400).json({ message: 'Project not exist.' })
   }

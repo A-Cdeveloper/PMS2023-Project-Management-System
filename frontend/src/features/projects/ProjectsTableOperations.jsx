@@ -1,9 +1,9 @@
-import TableOperations from "../../ui/TableOperations";
+import TableOperations from "../../ui/Data/TableOperations";
 import SortBy from "../../ui/SortBy";
 import FilterText from "../../ui/FilterText";
 import Filter from "../../ui/Filter";
 import NewRecord from "../../ui/Buttons/NewRecord";
-import AddEditClient from "../clients/AddEditClient";
+import AddEditProject from "./AddEditProject";
 
 import { projectStatus } from "./ProjectParameters";
 
@@ -22,10 +22,6 @@ function ClientsTableOperations() {
         ]}
       />
 
-      {/* <Filter
-        filterField="status"
-        options={[{ value: "all", label: "All" }, ...projectStatus]}
-      /> */}
       <SortBy
         options={[
           { value: "project_name-asc", label: "Sort by name (asc)" },
@@ -49,7 +45,7 @@ function ClientsTableOperations() {
         ]}
       />
       <NewRecord record="project">
-        <AddEditClient />
+        <AddEditProject />
       </NewRecord>
     </TableOperations>
   );
