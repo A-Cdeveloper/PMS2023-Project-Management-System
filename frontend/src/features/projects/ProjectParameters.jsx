@@ -68,3 +68,11 @@ export const projectStatus = [
   { value: "online", label: "online" },
   { value: "archive", label: "archive" },
 ];
+
+export const projectUpdateStatus = [
+  { value: "", label: "" },
+  { value: "per month", label: "per month" },
+  { value: "quarterly", label: "quarterly" },
+  { value: "six months", label: "six months" },
+  { value: "per year", label: "per year" },
+];

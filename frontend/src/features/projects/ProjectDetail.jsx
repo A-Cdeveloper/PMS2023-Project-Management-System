@@ -14,12 +14,20 @@ import {
   DataBoxTitle,
   DataBoxContent,
 } from "../../ui/Data/DataDetails";
-import { projectHosting, projectPlatforms } from "./ProjectParameters";
+import {
+  projectHosting,
+  projectPlatforms,
+  projectUpdateStatus,
+} from "./ProjectParameters";
 import { formatDate } from "../../utils/helpers";
+import Switch from "../../ui/Form/Switch";
+import Select from "../../ui/Form/Select";
+import useEditProject from "./useEditProject";
 
 const ProjectDetail = () => {
   const moveBack = useMoveBack();
   const { isLoading, error, project: projectSingle = {} } = useProject();
+  const { isEditLoading, editProject } = useEditProject();
   const { projectId } = useParams();
 
   const queryClient = useQueryClient();
@@ -29,6 +37,7 @@ const ProjectDetail = () => {
 
   const {
     client_name,
+    project_id,
     project_name,
     project_status,
     project_url,
@@ -47,7 +56,7 @@ const ProjectDetail = () => {
     <>
       <Row type="horizontal">
         <Row type="horizontal">
-          <Headline as="h1">{project_name}</Headline>&nbsp;
+          <Headline as="h1">{project_name}</Headline>&nbsp;&nbsp;
           <Tag key={project_status} type={project_status}>
             {project_status}
           </Tag>
@@ -124,10 +133,7 @@ const ProjectDetail = () => {
             <DataBoxContent>
               <>
                 {project_online}
-                <label class="switch">
-                  <input type="checkbox" />
-                  <span class="slider round"></span>
-                </label>
+                <Switch />
               </>
             </DataBoxContent>
           </DataBox>
@@ -136,7 +142,29 @@ const ProjectDetail = () => {
         <DataDetailsContainer>
           <DataBox>
             <DataBoxTitle>Update period</DataBoxTitle>
-            <DataBoxContent>{project_update}</DataBoxContent>
+            <DataBoxContent>
+              <>
+                <Select
+                  defaultChecked={project_update}
+                  onChange={(e) =>
+                    editProject({
+                      projectId: project_id,
+                      updatedProject: {
+                        ...project,
+                        project_update: e.target.value,
+                      },
+                    })
+                  }
+                  disabled={isEditLoading}
+                >
+                  {projectUpdateStatus.map((status) => (
+                    <option key={status.label} value={status.value}>
+                      {status.label}
+                    </option>
+                  ))}
+                </Select>
+              </>
+            </DataBoxContent>
           </DataBox>
           <DataBox>
             <DataBoxTitle>Last update</DataBoxTitle>
