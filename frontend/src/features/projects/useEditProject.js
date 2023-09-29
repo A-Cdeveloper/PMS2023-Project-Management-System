@@ -10,8 +10,13 @@ const useEditProject = () => {
       editProjectApi(projectId, updatedProject),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({
+        queryKey: ["project", data.project.project_id],
+      });
 
-      toast.success(`Project ${data.project.project_name} succesfully edited!`);
+      toast.success(
+        `Project ${data.project.project_name} succesfully updated!`
+      );
     },
     onError: (err) => toast.error(err.message),
   });

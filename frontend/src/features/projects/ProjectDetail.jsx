@@ -2,38 +2,20 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { useParams } from "react-router-dom";
 import { useMoveBack } from "../../hooks/useMoveBack";
+import { useProject } from "./useProject";
 
 import Headline from "../../ui/Headline";
 import ButtonText from "../../ui/Buttons/ButtonText";
 import Row from "../../ui/Row";
-import styled from "styled-components";
 import Tag from "../../ui/Data/Tag";
-import { useProject } from "./useProject";
-
-const ClientDetailsBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  background: #fff;
-  padding: 1rem;
-`;
-
-const ClientBox = styled.div`
-  padding: 1rem 2rem;
-  display: flex;
-  flex: 70%;
-  font-size: 1.5rem;
-  border-bottom: 1px solid ${(props) => props.theme.baseColors.grey200};
-`;
-const ClientBoxTitle = styled(ClientBox)`
-  padding: 1rem 2rem;
-  display: flex;
-  flex: 50%;
-  background: ${(props) => props.theme.baseColors.grey200};
-  font-weight: 600;
-  flex: 30%;
-  border-bottom: 1px solid #fff;
-`;
+import {
+  DataDetailsContainer,
+  DataBox,
+  DataBoxTitle,
+  DataBoxContent,
+} from "../../ui/Data/DataDetails";
+import { projectHosting, projectPlatforms } from "./ProjectParameters";
+import { formatDate } from "../../utils/helpers";
 
 const ProjectDetail = () => {
   const moveBack = useMoveBack();
@@ -45,38 +27,125 @@ const ProjectDetail = () => {
     ? queryClient.getQueryData(["project", +projectId])
     : projectSingle;
 
-  const { project_id, project_name, project_status } = project;
+  const {
+    client_name,
+    project_name,
+    project_status,
+    project_url,
+    project_platform,
+    project_hosting,
+    project_description,
+    project_access_data,
+    project_start_date,
+    project_end_date,
+    project_update,
+    project_last_update,
+    project_online,
+  } = project;
 
   return (
     <>
       <Row type="horizontal">
-        <Headline as="h1">{project_name}</Headline>
-        <Tag key={project_status} type={project_status}>
-          {project_status}
-        </Tag>
+        <Row type="horizontal">
+          <Headline as="h1">{project_name}</Headline>&nbsp;
+          <Tag key={project_status} type={project_status}>
+            {project_status}
+          </Tag>
+        </Row>
         <ButtonText onClick={moveBack}> ← Back</ButtonText>
       </Row>
-      {/* <Row type="horizontal" style={{ alignItems: "flex-start" }}>
-        <ClientDetailsBox>
-          <ClientBoxTitle>Adresse</ClientBoxTitle>
-          <ClientBox>{client_adresse}</ClientBox>
-          <ClientBoxTitle>Contact person</ClientBoxTitle>
-          <ClientBox>{client_contact}</ClientBox>
-        </ClientDetailsBox>
+      <Row type="horizontal">
+        <DataDetailsContainer>
+          <DataBox>
+            <DataBoxTitle>Client</DataBoxTitle>
+            <DataBoxContent>{client_name}</DataBoxContent>
+          </DataBox>
+          <DataBox>
+            <DataBoxTitle>Url</DataBoxTitle>
+            <DataBoxContent>
+              <a href={project_url} target="_blank" title={project_url}>
+                {project_url}
+              </a>
+            </DataBoxContent>
+          </DataBox>
+          <DataBox>
+            <DataBoxTitle>Platform</DataBoxTitle>
+            <DataBoxContent>
+              {projectPlatforms().map((platform) => {
+                return (
+                  platform.value === project_platform && (
+                    <span key={platform.label}>{platform.label}</span>
+                  )
+                );
+              })}
+            </DataBoxContent>
+          </DataBox>
+          <DataBox>
+            <DataBoxTitle>Hosting</DataBoxTitle>
+            <DataBoxContent>
+              {projectHosting.map((hosting) => {
+                return (
+                  hosting.value === project_hosting && (
+                    <span key={hosting.label}>{hosting.label}</span>
+                  )
+                );
+              })}
+            </DataBoxContent>
+          </DataBox>
+          <DataBox>
+            <DataBoxTitle>Description</DataBoxTitle>
+            <DataBoxContent>{project_description}</DataBoxContent>
+          </DataBox>
+          <DataBox>
+            <DataBoxTitle>Access data</DataBoxTitle>
+            <DataBoxContent>
+              <a
+                href={project_access_data}
+                target="_blank"
+                title={project_access_data}
+              >
+                {project_access_data}
+              </a>
+            </DataBoxContent>
+          </DataBox>
+          <DataBox>
+            <DataBoxTitle>Start date</DataBoxTitle>
+            <DataBoxContent>{formatDate(project_start_date)}</DataBoxContent>
+          </DataBox>
+          <DataBox>
+            <DataBoxTitle>End date</DataBoxTitle>
+            <DataBoxContent>{formatDate(project_end_date)}</DataBoxContent>
+          </DataBox>
+        </DataDetailsContainer>
 
-        <ClientDetailsBox>
-          <ClientBoxTitle>Phone</ClientBoxTitle>
-          <ClientBox>{client_phone}</ClientBox>
-          <ClientBoxTitle>Fax</ClientBoxTitle>
-          <ClientBox>{client_fax}</ClientBox>
-          <ClientBoxTitle>E-Mail</ClientBoxTitle>
-          <ClientBox>{client_email}</ClientBox>
-          <ClientBoxTitle>Website</ClientBoxTitle>
-          <ClientBox>{client_site}</ClientBox>
-        </ClientDetailsBox> 
-      </Row>*/}
+        <DataDetailsContainer>
+          <DataBox>
+            <DataBoxTitle>Portfolio</DataBoxTitle>
+            <DataBoxContent>
+              <>
+                {project_online}
+                <label class="switch">
+                  <input type="checkbox" />
+                  <span class="slider round"></span>
+                </label>
+              </>
+            </DataBoxContent>
+          </DataBox>
+        </DataDetailsContainer>
 
-      <Headline as="h2">Tasks</Headline>
+        <DataDetailsContainer>
+          <DataBox>
+            <DataBoxTitle>Update period</DataBoxTitle>
+            <DataBoxContent>{project_update}</DataBoxContent>
+          </DataBox>
+          <DataBox>
+            <DataBoxTitle>Last update</DataBoxTitle>
+            <DataBoxContent>{project_last_update}</DataBoxContent>
+          </DataBox>
+        </DataDetailsContainer>
+      </Row>
+
+      {/* <Headline as="h2">Tasks</Headline> */}
     </>
   );
 };

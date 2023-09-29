@@ -49,6 +49,7 @@ const ClientRow = ({ client }) => {
     client_fax,
     client_email,
     client_site,
+    project_per_client,
   } = client;
 
   const prefetchClientHandler = async (client_id) => {
@@ -87,6 +88,7 @@ const ClientRow = ({ client }) => {
           <HiOutlineGlobeAlt />
         </a>
       </CellIcon>
+      <div style={{ textAlign: "center" }}>{project_per_client}</div>
 
       <div>
         <Modal>

@@ -2,7 +2,10 @@ const db = require('./connection')
 
 const getClients = async (orderBy, orderDirection) => {
   const query =
-    'SELECT * FROM pms_clients ORDER BY ' + orderBy + ' ' + orderDirection
+    'SELECT pms_clients.*, count(*) as project_per_client FROM pms_projects, pms_clients WHERE client_id = project_client_id GROUP BY project_client_id ORDER BY ' +
+    orderBy +
+    ' ' +
+    orderDirection
 
   const [clients] = await db.query(query)
   return clients
@@ -10,7 +13,7 @@ const getClients = async (orderBy, orderDirection) => {
 
 const getClientsRange = async (from, perPage, orderBy, orderDirection) => {
   const query =
-    'SELECT * FROM pms_clients ORDER BY ' +
+    'SELECT pms_clients.*, count(*) as project_per_client FROM pms_projects, pms_clients WHERE client_id = project_client_id GROUP BY project_client_id ORDER BY ' +
     orderBy +
     ' ' +
     orderDirection +
@@ -22,7 +25,7 @@ const getClientsRange = async (from, perPage, orderBy, orderDirection) => {
 
 const getSingleClient = async (client_name, client_id) => {
   const [client] = await db.query(
-    'SELECT * FROM pms_clients WHERE client_name=? OR client_id=?',
+    'SELECT pms_clients.*, count(*) as project_per_client FROM pms_projects, pms_clients WHERE (client_name=? OR client_id=?) AND client_id = project_client_id GROUP BY project_client_id',
     [client_name, client_id]
   )
   return client[0]

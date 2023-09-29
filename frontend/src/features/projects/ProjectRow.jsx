@@ -21,6 +21,7 @@ import {
   HiTrash,
   HiEye,
   HiOutlineCheck,
+  HiXMark,
 } from "react-icons/hi2";
 
 import Table from "../../ui/Data/Table";
@@ -39,6 +40,7 @@ const CellIcon = styled.div`
   & svg {
     width: 2rem;
     height: 2rem;
+    margin: auto;
     // margin: 0 0.5rem;
   }
 `;
@@ -112,12 +114,14 @@ const ProjectRow = ({ project }) => {
           );
         })}
       </div>
-      <div>
+      <div style={{ textAlign: "center" }}>
         {project_update}
         <br />
         {formatDate(project_last_update)}
       </div>
-      <CellIcon>{project_online === "Ja" && <HiOutlineCheck />}</CellIcon>
+      <CellIcon>
+        {project_online === "Ja" ? <HiOutlineCheck /> : <HiXMark />}
+      </CellIcon>
 
       <div>
         <Modal>

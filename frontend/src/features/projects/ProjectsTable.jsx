@@ -43,8 +43,6 @@ const ProjectsTable = () => {
   const { isLoading, error, projects } = useFilterProjects();
   const { projects: allProjects } = useProjects();
 
-  //console.log(projects);
-
   //filter results
   const filteredTextValue = searchParams.get("filterByText");
   // //filter by status

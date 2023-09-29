@@ -18,7 +18,7 @@ const status = {
 const Tag = styled.span`
   display: block;
   text-align: center;
-  width: 80%;
+  width: auto;
   text-transform: uppercase;
   font-size: 1.1rem;
   font-weight: ${(props) => props.theme.fontWeight.bold};

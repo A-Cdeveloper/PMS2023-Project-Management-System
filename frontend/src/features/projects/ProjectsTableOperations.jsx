@@ -26,6 +26,9 @@ function ClientsTableOperations() {
         options={[
           { value: "project_name-asc", label: "Sort by name (asc)" },
           { value: "project_name-desc", label: "Sort by name (desc)" },
+          { value: "client_name-asc", label: "Sort by client (asc)" },
+          { value: "client_name-desc", label: "Sort by client (desc)" },
+
           {
             value: "project_start_date-asc",
             label: "Sort by start date (earlier first)",

@@ -12,6 +12,14 @@ function ClientsTableOperations() {
         options={[
           { value: "client_name-asc", label: "Sort by name (asc)" },
           { value: "client_name-desc", label: "Sort by name (desc)" },
+          {
+            value: "project_per_client-asc",
+            label: "Sort by projects num (asc)",
+          },
+          {
+            value: "project_per_client-desc",
+            label: "Sort by projects num (desc)",
+          },
         ]}
       />
       <NewRecord record="client">

@@ -15,6 +15,8 @@ const ClientsTable = () => {
   const { isLoading, error, clients } = useFilterClients();
   const { clients: allClients } = useClients();
 
+  console.log(clients);
+
   //filter results
   const filteredTextValue = searchParams.get("filterByText");
 
@@ -38,7 +40,7 @@ const ClientsTable = () => {
     <>
       <Table
         cols={clientCols}
-        columns="repeat(3, 1fr) 8rem 8rem 8rem 10rem 4rem"
+        columns="repeat(3, 1fr) 8rem 8rem 8rem 8rem 10rem 4rem"
       >
         <Table.Header />
 

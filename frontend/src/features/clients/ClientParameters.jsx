@@ -6,4 +6,5 @@ export const clientCols = [
   "Fax",
   "Email",
   "URL",
+  "Projects",
 ];

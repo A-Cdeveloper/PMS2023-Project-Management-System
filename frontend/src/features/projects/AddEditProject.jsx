@@ -87,24 +87,6 @@ const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
             );
           }}
         />
-
-        {/* <Select
-          {...register("project_client_id", {
-            required: "This field is required",
-            valueAsNumber: true,
-          })}
-          defaultValue={projectToEdit.project_client_id}
-          disabled={loadingState}
-        >
-          {projectAllClients().map((client) => (
-            <option
-              key={client.value}
-              value={client.value}
-            >
-              {client.label}
-            </option>
-          ))}
-        </Select> */}
       </FormRow>
 
       <FormRow label="Platform" error={errors?.project_platform}>
@@ -145,20 +127,16 @@ const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
         />
       </FormRow>
 
-      <FormRow label="FTP" error={errors?.project_ftpdata}>
-        <Textarea
-          type="textarea"
-          {...register("project_ftpdata")}
-          aria-invalid={errors.project_ftpdata ? "true" : "false"}
-          disabled={loadingState}
-        />
-      </FormRow>
-
-      <FormRow label="Database" error={errors?.project_dbdata}>
-        <Textarea
-          type="textarea"
-          {...register("project_dbdata")}
-          aria-invalid={errors.project_dbdata ? "true" : "false"}
+      <FormRow label="Access data" error={errors?.project_access_data}>
+        <Input
+          type="url"
+          {...register("project_access_data", {
+            pattern: {
+              value: /^(http(s)?:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$/,
+              message: "Please specify a valid url (ex.https://)",
+            },
+          })}
+          aria-invalid={errors.project_access_data ? "true" : "false"}
           disabled={loadingState}
         />
       </FormRow>
