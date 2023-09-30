@@ -43,21 +43,20 @@ const ClientsTable = () => {
         columns="repeat(3, 1fr) 8rem 8rem 8rem 8rem 10rem 4rem"
       >
         <Table.Header />
-
         <Table.Body
           data={shownClients}
           renderItem={(client) => (
             <ClientRow key={client.client_id} client={client} />
           )}
         />
+        <Table.Footer>
+          <Pagination
+            count={filteredTextValue ? shownClients.length : allClients.length}
+            filter={!!filteredTextValue}
+            resource="clients_per_page"
+          />
+        </Table.Footer>{" "}
       </Table>
-      <Table.Footer>
-        <Pagination
-          count={filteredTextValue ? shownClients.length : allClients.length}
-          filter={!!filteredTextValue}
-          resource="clients_per_page"
-        />
-      </Table.Footer>
     </>
   );
 };

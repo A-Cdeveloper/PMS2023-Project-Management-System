@@ -1,9 +1,24 @@
 const db = require('./connection')
 
-const getTasks = async () => {
+const getTasks = async (orderBy, orderDirection) => {
   const [tasks] = await db.query(
-    'SELECT pms_tasks.*, pms_clients.client_name, pms_projects.project_name FROM pms_tasks, pms_clients, pms_projects WHERE project_client_id=client_id AND task_project_id = project_id'
+    'SELECT pms_tasks.*, pms_clients.client_name, pms_projects.project_name FROM pms_tasks, pms_clients, pms_projects WHERE project_client_id=client_id AND task_project_id = project_id ORDER BY ' +
+      orderBy +
+      ' ' +
+      orderDirection
   )
+  return tasks
+}
+
+const getTasksRange = async (from, perPage, orderBy, orderDirection) => {
+  const query =
+    'SELECT pms_tasks.*, pms_clients.client_name, pms_projects.project_name FROM pms_tasks, pms_clients, pms_projects WHERE project_client_id=client_id AND task_project_id = project_id ORDER BY ' +
+    orderBy +
+    ' ' +
+    orderDirection +
+    ' LIMIT ?,?'
+
+  const [tasks] = await db.query(query, [from, perPage])
   return tasks
 }
 
@@ -82,6 +97,7 @@ const deleteTask = async (task_id) => {
 
 module.exports = {
   getTasks,
+  getTasksRange,
   getSingleTask,
   addTask,
   updateTask,

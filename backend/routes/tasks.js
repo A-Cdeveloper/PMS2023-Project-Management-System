@@ -6,15 +6,33 @@ const dbfunctionsHelper2 = require('../utils/clients-query')
 const router = express.Router()
 // /users
 
-router.get('/', async (req, res) => {
-  const tasks = await dbfunctions.getTasks()
-  if (tasks.lenght == 0) {
+router.get('/:order', async (req, res) => {
+  const { order } = req.params
+  const [orderBy, orderDirection] = order.split('=')
+  const tasks = await dbfunctions.getTasks(orderBy, orderDirection)
+  if (tasks.length == 0) {
+    return res.status(400).json({ message: 'Tasks list is empty.' })
+  }
+  //return res.status(231).send({ tasks: tasks.length })
+  return res.status(231).send(tasks)
+})
+
+router.get('/filter/:from/:perPage/:order', async (req, res) => {
+  const { from, perPage, order } = req.params
+  const [orderBy, orderDirection] = order.split('=')
+  const tasks = await dbfunctions.getTasksRange(
+    +from,
+    +perPage,
+    orderBy,
+    orderDirection
+  )
+  if (tasks.length == 0) {
     return res.status(400).json({ message: 'Tasks list is empty.' })
   }
   return res.status(231).send(tasks)
 })
 
-router.get('/:task_id', async (req, res) => {
+router.get('/task/:task_id', async (req, res) => {
   const tid = req.params.task_id
   const task = await dbfunctions.getSingleTask(null, tid)
   if (!task) {
@@ -24,11 +42,22 @@ router.get('/:task_id', async (req, res) => {
     null,
     task.task_project_id
   )
+  if (!project) {
+    return res
+      .status(400)
+      .json({ message: 'Task is not connected to any project.' })
+  }
 
   const client = await dbfunctionsHelper2.getSingleClient(
-    project.client_name,
     project.project_client_id
   )
+
+  if (!client) {
+    return res
+      .status(400)
+      .json({ message: 'Task is not connected to any client.' })
+  }
+
   const { project_name } = project
   const { client_name } = client
   res.status(231).send({ ...task, project_name, client_name })

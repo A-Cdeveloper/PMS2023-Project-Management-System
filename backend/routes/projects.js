@@ -9,7 +9,7 @@ router.get('/:order', async (req, res) => {
   const { order } = req.params
   const [orderBy, orderDirection] = order.split('=')
   const projects = await dbfunctions.getProjects(orderBy, orderDirection)
-  if (projects.lenght == 0) {
+  if (projects.length == 0) {
     return res.status(400).json({ message: 'Projects list is empty.' })
   }
 
@@ -28,9 +28,6 @@ router.get('/filter/:from/:perPage/:order', async (req, res) => {
   if (projects.length == 0) {
     return res.status(400).json({ message: 'Projects list is empty.' })
   }
-  // setTimeout(() => {
-  //   return res.status(231).send(clients);
-  // }, 6000);
   return res.status(231).send(projects)
 })
 

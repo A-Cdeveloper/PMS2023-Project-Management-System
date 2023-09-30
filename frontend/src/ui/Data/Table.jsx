@@ -48,6 +48,7 @@ const Footer = styled.footer`
   display: flex;
   justify-content: center;
   padding: 2rem 1rem;
+  background-color: ${(props) => props.theme.baseColors.grey200};
 
   /* hide the footer when it contains no child elements. */
   /* &:not(:has(*)) {

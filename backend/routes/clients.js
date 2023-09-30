@@ -2,8 +2,8 @@ const express = require('express')
 const dbfunctions = require('../utils/clients-query')
 
 const router = express.Router()
-// /users
 
+/// full clients list
 router.get('/:order', async (req, res) => {
   const { order } = req.params
   const [orderBy, orderDirection] = order.split('=')
@@ -15,6 +15,7 @@ router.get('/:order', async (req, res) => {
   return res.status(231).send(clients)
 })
 
+/// filtered and limited clients list
 router.get('/filter/:from/:perPage/:order', async (req, res) => {
   const { from, perPage, order } = req.params
   const [orderBy, orderDirection] = order.split('=')
@@ -28,24 +29,23 @@ router.get('/filter/:from/:perPage/:order', async (req, res) => {
   if (clients.length == 0) {
     return res.status(400).json({ message: 'Clients list is empty.' })
   }
-  // setTimeout(() => {
-  //   return res.status(231).send(clients);
-  // }, 6000);
   return res.status(231).send(clients)
 })
 
+// single client
 router.get('/client/:client_id', async (req, res) => {
   const cid = req.params.client_id
-  const client = await dbfunctions.getSingleClient(null, cid)
+  const client = await dbfunctions.getSingleClient(cid)
   if (!client) {
     return res.status(400).json({ message: 'Client not exist.' })
   }
   res.status(231).send(client)
 })
 
+// new client
 router.post('/new', async (req, res) => {
   const postClient = req.body
-  const client = await dbfunctions.getSingleClient(postClient.client_name, null)
+  const client = await dbfunctions.getDuplicateClient(postClient.client_name)
   if (client) {
     return res.status(400).json({ message: 'Client already exist.' })
   }
@@ -53,38 +53,26 @@ router.post('/new', async (req, res) => {
   res.status(231).json({ message: 'Client succesfully added.' })
 })
 
+// duplicate client
 router.post('/:client_id/duplicate', async (req, res) => {
   const cid = req.params.client_id
-  const client = await dbfunctions.getSingleClient(null, cid)
+  const client = await dbfunctions.getSingleClient(cid)
   if (!client) {
     return res.status(400).json({ message: 'Client not exist.' })
   }
-  let {
-    client_name,
-    client_adresse,
-    client_contact,
-    client_phone,
-    client_fax,
-    client_email,
-    client_site,
-  } = client
-  client_name = `${client_name} - COPY`
+
+  client.client_name = `${client.client_name} - COPY`
   await dbfunctions.addClient({
-    client_name,
-    client_adresse,
-    client_contact,
-    client_phone,
-    client_fax,
-    client_email,
-    client_site,
+    ...client,
   })
   res.status(231).json({ client, message: 'Client succesfully duplicated.' })
 })
 
+// edit client
 router.patch('/:client_id/edit', async (req, res) => {
   const postClient = req.body
   const cid = req.params.client_id
-  const client = await dbfunctions.getSingleClient(postClient.client_name, cid)
+  const client = await dbfunctions.getSingleClient(cid)
   if (!client) {
     return res.status(400).json({ message: 'Client not exist.' })
   }
@@ -92,9 +80,12 @@ router.patch('/:client_id/edit', async (req, res) => {
   res.status(231).json({ client, message: 'Client succesfully updated.' })
 })
 
+// delete client
 router.delete('/:client_id/delete', async (req, res) => {
   const cid = req.params.client_id
+
   const client = await dbfunctions.getSingleClient(cid)
+
   if (!client) {
     return res.status(400).json({ message: 'Client not exist.' })
   }
