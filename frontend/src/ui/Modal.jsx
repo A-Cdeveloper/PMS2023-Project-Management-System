@@ -3,7 +3,6 @@ import { createPortal } from "react-dom";
 
 import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
-//import useOutsideClick from "../hooks/useOutsideClick";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -39,18 +38,23 @@ const Button = styled.button`
   position: absolute;
   top: 1rem;
   right: 2rem;
+  background-color: ${(props) => props.theme.baseColors.grey100};
+  height: 3.2rem;
 
   &:hover {
-    background-color: var(--color-grey-100);
+    background-color: ${(props) => props.theme.baseColors.grey200};
+    & > svg {
+      fill: ${(props) => props.theme.baseColors.grey500};
+    }
   }
 
   & svg {
     width: 2.4rem;
     height: 2.4rem;
     /* Sometimes we need both */
-    /* fill: var(--color-grey-500);
-    stroke: var(--color-grey-500); */
-    color: var(--color-grey-500);
+    fill: ${(props) => props.theme.baseColors.grey400};
+    stroke: ${(props) => props.theme.baseColors.grey400};
+    color: ${(props) => props.theme.baseColors.grey400};
   }
 `;
 

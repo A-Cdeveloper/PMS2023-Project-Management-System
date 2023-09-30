@@ -11,7 +11,7 @@ const StyledFilter = styled.div`
   gap: 0.4rem;
 `;
 
-const FilterButton = styled.button`
+export const FilterButton = styled.button`
   background: none;
   border: none;
 

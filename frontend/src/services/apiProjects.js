@@ -124,7 +124,7 @@ export const editProject = async (projectId, updatedProject) => {
   if (response.status === 400) {
     throw new Error(data.message);
   }
-  await wait(3000);
+  // await wait(3000);
   return data;
 };
 

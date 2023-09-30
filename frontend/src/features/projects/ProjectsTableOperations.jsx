@@ -24,26 +24,28 @@ function ClientsTableOperations() {
 
       <SortBy
         options={[
-          { value: "project_name-asc", label: "Sort by name (asc)" },
-          { value: "project_name-desc", label: "Sort by name (desc)" },
-          { value: "client_name-asc", label: "Sort by client (asc)" },
-          { value: "client_name-desc", label: "Sort by client (desc)" },
+          { value: "project_name-asc", label: "Sort by Name (asc)" },
+          { value: "project_name-desc", label: "Sort by Name (desc)" },
+          { value: "client_name-asc", label: "Sort by Client (asc)" },
+          { value: "client_name-desc", label: "Sort by Client (desc)" },
+          // { value: "project_platform-asc", label: "Sort by Platform (asc)" },
+          // { value: "project_platform-desc", label: "Sort by Platform (desc)" },
 
           {
             value: "project_start_date-asc",
-            label: "Sort by start date (earlier first)",
+            label: "Sort by Start date (earlier first)",
           },
           {
             value: "project_start_date-desc",
-            label: "Sort by start date (recent first)",
+            label: "Sort by Start date (recent first)",
           },
           {
             value: "project_end_date-asc",
-            label: "Sort by end date (earlier first)",
+            label: "Sort by End date (earlier first)",
           },
           {
             value: "project_end_date-desc",
-            label: "Sort by end date (recent first)",
+            label: "Sort by End date (recent first)",
           },
         ]}
       />

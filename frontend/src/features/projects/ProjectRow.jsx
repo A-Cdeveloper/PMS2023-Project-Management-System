@@ -21,7 +21,7 @@ import {
   HiTrash,
   HiEye,
   HiOutlineCheck,
-  HiXMark,
+  HiOutlineMinus,
 } from "react-icons/hi2";
 
 import Table from "../../ui/Data/Table";
@@ -37,11 +37,18 @@ const Project = styled.div`
 
 const CellIcon = styled.div`
   display: flex;
+
   & svg {
     width: 2rem;
     height: 2rem;
     margin: auto;
     // margin: 0 0.5rem;
+  }
+`;
+
+const StatusDiv = styled.div`
+  & > span {
+    width: 80%;
   }
 `;
 
@@ -103,7 +110,7 @@ const ProjectRow = ({ project }) => {
       </div>
       <div>{formatDate(project_start_date)}</div>
       <div>{formatDate(project_end_date)}</div>
-      <div>
+      <StatusDiv>
         {projectStatus.map((status) => {
           return (
             status.value === project_status && (
@@ -113,14 +120,20 @@ const ProjectRow = ({ project }) => {
             )
           );
         })}
-      </div>
-      <div style={{ textAlign: "center" }}>
-        {project_update}
-        <br />
-        {formatDate(project_last_update)}
-      </div>
+      </StatusDiv>
       <CellIcon>
-        {project_online === "Ja" ? <HiOutlineCheck /> : <HiXMark />}
+        {project_update ? (
+          <>
+            {project_update}
+            <br />
+            {formatDate(project_last_update)}
+          </>
+        ) : (
+          <HiOutlineMinus />
+        )}
+      </CellIcon>
+      <CellIcon>
+        {project_online === "Ja" ? <HiOutlineCheck /> : <HiOutlineMinus />}
       </CellIcon>
 
       <div>

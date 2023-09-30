@@ -69,23 +69,32 @@ const variations = {
 const StyledButton = styled.button`
   border: none;
   border-radius: ${(props) => props.theme.border.borderRadius.md};
-  box-shadow: ${(props) => props.theme.shadow.md};
+  box-shadow: ${(props) => props.theme.shadow.sm};
   font-weight: ${(props) => props.theme.fontWeight.semibold};
   transition: all 0.1s ease-in;
+  text-transform: uppercase;
 
   &:focus {
-    box-shadow: ${(props) => props.theme.shadow.sm};
+    box-shadow: ${(props) => props.theme.shadow.xs};
     outline: none;
-    transform: translateY(-1px);
+    transform: translateY(1px);
   }
 
   ${(props) => sizes[props.size]}
   ${(props) => variations[props.variation]}
+  background-color: ${(props) =>
+    props.active ? props.theme.baseColors.grey500 : null};
+  color: ${(props) => (props.active ? "#fff" : null)};
 `;
 
-const Button = ({ children, variation, size, onClick }) => {
+const Button = ({ children, variation, size, active = false, onClick }) => {
   return (
-    <StyledButton variation={variation} size={size} onClick={onClick}>
+    <StyledButton
+      variation={variation}
+      size={size}
+      active={active}
+      onClick={onClick}
+    >
       {children}
     </StyledButton>
   );

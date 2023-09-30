@@ -21,4 +21,10 @@ export const DataBoxContent = styled(DataBox)`
   padding: 1rem 2rem;
   flex: 50%;
   border-bottom: 1px solid ${(props) => props.theme.baseColors.grey200};
+
+  & > a svg {
+    width: 2rem;
+    height: 2rem;
+    margin-left: 1rem;
+  }
 `;

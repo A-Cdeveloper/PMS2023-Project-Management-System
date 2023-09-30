@@ -3,9 +3,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useProject } from "./useProject";
+import { formatDate } from "../../utils/helpers";
 
 import Headline from "../../ui/Headline";
 import ButtonText from "../../ui/Buttons/ButtonText";
+import Button from "../../ui/Buttons/Button";
 import Row from "../../ui/Row";
 import Tag from "../../ui/Data/Tag";
 import {
@@ -17,16 +19,19 @@ import {
 import {
   projectHosting,
   projectPlatforms,
+  projectStatus,
   projectUpdateStatus,
 } from "./ProjectParameters";
-import { formatDate } from "../../utils/helpers";
 import Switch from "../../ui/Form/Switch";
 import Select from "../../ui/Form/Select";
 import useEditProject from "./useEditProject";
+import Input from "../../ui/Form/Input";
+import ButtonGroup from "../../ui/Buttons/ButtonGroup";
+import { HiOutlineArrowTopRightOnSquare } from "react-icons/hi2";
 
 const ProjectDetail = () => {
   const moveBack = useMoveBack();
-  const { isLoading, error, project: projectSingle = {} } = useProject();
+  const { project: projectSingle = {} } = useProject();
   const { isEditLoading, editProject } = useEditProject();
   const { projectId } = useParams();
 
@@ -72,9 +77,14 @@ const ProjectDetail = () => {
           <DataBox>
             <DataBoxTitle>Url</DataBoxTitle>
             <DataBoxContent>
-              <a href={project_url} target="_blank" title={project_url}>
-                {project_url}
-              </a>
+              {project_url && (
+                <>
+                  {project_url}
+                  <a href={project_url} target="_blank" title={project_url}>
+                    <HiOutlineArrowTopRightOnSquare />
+                  </a>
+                </>
+              )}
             </DataBoxContent>
           </DataBox>
           <DataBox>
@@ -108,13 +118,18 @@ const ProjectDetail = () => {
           <DataBox>
             <DataBoxTitle>Access data</DataBoxTitle>
             <DataBoxContent>
-              <a
-                href={project_access_data}
-                target="_blank"
-                title={project_access_data}
-              >
-                {project_access_data}
-              </a>
+              {project_access_data && (
+                <>
+                  {project_access_data}
+                  <a
+                    href={project_access_data}
+                    target="_blank"
+                    title={project_access_data}
+                  >
+                    <HiOutlineArrowTopRightOnSquare />
+                  </a>
+                </>
+              )}
             </DataBoxContent>
           </DataBox>
           <DataBox>
@@ -127,48 +142,150 @@ const ProjectDetail = () => {
           </DataBox>
         </DataDetailsContainer>
 
-        <DataDetailsContainer>
-          <DataBox>
-            <DataBoxTitle>Portfolio</DataBoxTitle>
-            <DataBoxContent>
-              <>
-                {project_online}
-                <Switch />
-              </>
-            </DataBoxContent>
-          </DataBox>
-        </DataDetailsContainer>
+        {project_status === "online" && (
+          <DataDetailsContainer>
+            <DataBox>
+              <DataBoxTitle>Portfolio</DataBoxTitle>
+              <DataBoxContent>
+                <>
+                  <Switch
+                    checked={project_online === "Ja"}
+                    onChange={(e) =>
+                      editProject(
+                        {
+                          projectId: project_id,
+                          updatedProject: {
+                            ...project,
+                            project_online: e.target.checked ? "Ja" : "",
+                          },
+                        },
+                        {
+                          onSettled: () => {
+                            queryClient.invalidateQueries({
+                              queryKey: ["project", project_id],
+                            });
+                          },
+                        }
+                      )
+                    }
+                  />
+                </>
+              </DataBoxContent>
+            </DataBox>
+          </DataDetailsContainer>
+        )}
+
+        {project_status === "online" && (
+          <DataDetailsContainer>
+            <DataBox>
+              <DataBoxTitle>Update period</DataBoxTitle>
+              <DataBoxContent>
+                <>
+                  <Select
+                    defaultValue={project_update}
+                    onChange={(e) =>
+                      editProject(
+                        {
+                          projectId: project_id,
+                          updatedProject: {
+                            ...project,
+                            project_update: e.target.value,
+                          },
+                        },
+                        {
+                          onSettled: () => {
+                            queryClient.invalidateQueries({
+                              queryKey: ["project", project_id],
+                            });
+                          },
+                        }
+                      )
+                    }
+                    disabled={isEditLoading}
+                  >
+                    {projectUpdateStatus.map((status) => (
+                      <option key={status.label} value={status.value}>
+                        {status.label}
+                      </option>
+                    ))}
+                  </Select>
+                </>
+              </DataBoxContent>
+            </DataBox>
+            <DataBox>
+              <DataBoxTitle>Last update</DataBoxTitle>
+              <DataBoxContent>
+                <Input
+                  type="date"
+                  defaultValue={
+                    project_last_update
+                      ? project_last_update.slice(0, -14)
+                      : null
+                  }
+                  onChange={(e) =>
+                    editProject(
+                      {
+                        projectId: project_id,
+                        updatedProject: {
+                          ...project,
+                          project_last_update: e.target.value,
+                        },
+                      },
+                      {
+                        onSettled: () => {
+                          queryClient.invalidateQueries({
+                            queryKey: ["project", project_id],
+                          });
+                        },
+                      }
+                    )
+                  }
+                />
+              </DataBoxContent>
+            </DataBox>
+          </DataDetailsContainer>
+        )}
 
         <DataDetailsContainer>
           <DataBox>
-            <DataBoxTitle>Update period</DataBoxTitle>
-            <DataBoxContent>
-              <>
-                <Select
-                  defaultChecked={project_update}
-                  onChange={(e) =>
-                    editProject({
-                      projectId: project_id,
-                      updatedProject: {
-                        ...project,
-                        project_update: e.target.value,
-                      },
-                    })
-                  }
-                  disabled={isEditLoading}
-                >
-                  {projectUpdateStatus.map((status) => (
-                    <option key={status.label} value={status.value}>
-                      {status.label}
-                    </option>
-                  ))}
-                </Select>
-              </>
+            <DataBoxContent style={{ justifyContent: "end", border: "none" }}>
+              <ButtonGroup>
+                {projectStatus.map((status, index) => {
+                  return index !== 0 ? (
+                    <Button
+                      size="medium"
+                      variation={
+                        status.value === project_status ? "disabled" : null
+                      }
+                      active={
+                        status.value === project_status ? status.value : null
+                      }
+                      key={status.value}
+                      onClick={(e) =>
+                        editProject(
+                          {
+                            projectId: project_id,
+                            updatedProject: {
+                              ...project,
+                              project_status: status.value,
+                            },
+                          },
+                          {
+                            onSettled: () => {
+                              queryClient.invalidateQueries({
+                                queryKey: ["project", project_id],
+                              });
+                            },
+                          }
+                        )
+                      }
+                    >
+                      {status.value}
+                    </Button>
+                  ) : null;
+                })}
+              </ButtonGroup>
             </DataBoxContent>
-          </DataBox>
-          <DataBox>
-            <DataBoxTitle>Last update</DataBoxTitle>
-            <DataBoxContent>{project_last_update}</DataBoxContent>
           </DataBox>
         </DataDetailsContainer>
       </Row>

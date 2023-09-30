@@ -15,6 +15,7 @@ import {
 } from "../../ui/Data/DataDetails";
 
 import { clientCols } from "./ClientParameters";
+import { HiOutlineArrowTopRightOnSquare } from "react-icons/hi2";
 
 const ClientDetail = () => {
   const moveBack = useMoveBack();
@@ -45,7 +46,19 @@ const ClientDetail = () => {
       return (
         <DataBox key={index}>
           <DataBoxTitle>{clientCols[index - 1]}</DataBoxTitle>
-          <DataBoxContent>{element}</DataBoxContent>
+          <DataBoxContent>
+            {element}
+            {clientCols[index - 1] === "Email" && (
+              <a href={`mailto:${element}`}>
+                <HiOutlineArrowTopRightOnSquare />
+              </a>
+            )}
+            {clientCols[index - 1] === "URL" && (
+              <a href={element} target="_blank" title={element}>
+                <HiOutlineArrowTopRightOnSquare />
+              </a>
+            )}
+          </DataBoxContent>
         </DataBox>
       );
     }

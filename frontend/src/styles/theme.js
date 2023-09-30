@@ -68,10 +68,10 @@ export const theme = {
     },
   },
   shadow: {
-    xs: "0px 0.8rem 2rem rgba(0, 0, 0, 0.05)",
-    sm: "0 0.8rem 2rem rgba(0, 0, 0, 0.2)",
-    md: "0 0.1rem .8rem rgba(0, 0, 0, 0.4)",
-    lg: "0 2.4rem 3.2rem rgba(0, 0, 0, 0.4)",
+    xs: "0 0.3rem .8rem rgba(0, 0, 0, 0.1)",
+    sm: "0 0.3rem .8rem rgba(0, 0, 0, 0.2)",
+    md: "0 0.1rem .8rem rgba(0, 0, 0, 0.3)",
+    lg: "0 2.4rem 3.2rem rgba(0, 0, 0, 0.3)",
   },
   outline: {
     sm: "#4CAF50 solid 1px",

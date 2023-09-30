@@ -1,49 +1,49 @@
 import { styled } from "styled-components";
 
-const StyledSwitch = styled.input.attrs({ type: "checkbox" })`
-  height: 0;
-  width: 0;
-  visibility: hidden;
-  &:checked + label {
-    background: #bada55;
-  }
-  &:checked + label:after {
-    left: calc(100% - 5px);
-    transform: translateX(-100%);
-  }
-`;
-
 const Label = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
-  text-indent: -9999px;
-  width: 60px;
-  height: 30px;
-  background: grey;
-  display: block;
-  border-radius: 100px;
+`;
+const StyledSwitch = styled.div`
+  width: 50px;
+  height: 24px;
+  background: #b3b3b3;
+  border-radius: 32px;
   position: relative;
-  &:after {
+  padding: 4px;
+  transition: background 0.2s ease-in;
+
+  &::before {
     content: "";
+    width: 16px;
+    height: 16px;
     position: absolute;
-    top: 5px;
-    left: 5px;
-    width: 20px;
-    height: 20px;
     background: #fff;
-    border-radius: 90px;
-    transition: 0.3s;
-  }
-  &:active:after {
-    width: 130px;
+    border-radius: 50%;
+    left: 4px;
+    transition: transform 0.2s ease-in;
   }
 `;
 
-const Switch = () => {
+const Input = styled.input.attrs({ type: "checkbox" })`
+  display: none;
+
+  &:checked + ${StyledSwitch} {
+    background: ${(props) => props.theme.colors.info[700]};
+    &::before {
+      transform: translate(26px, 0);
+    }
+  }
+`;
+
+const Switch = ({ checked, onChange }) => {
   return (
-    <>
+    <Label>
+      <Input checked={checked} onChange={onChange} />
       <StyledSwitch />
-      <Label>Toggle</Label>
-    </>
+    </Label>
   );
 };
 
