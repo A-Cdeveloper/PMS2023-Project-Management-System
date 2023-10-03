@@ -55,6 +55,7 @@ const ProjectDetail = () => {
     project_update,
     project_last_update,
     project_online,
+    task_per_project,
   } = project;
 
   console.log(project);
@@ -141,6 +142,10 @@ const ProjectDetail = () => {
           <DataBox>
             <DataBoxTitle>End date</DataBoxTitle>
             <DataBoxContent>{formatDate(project_end_date)}</DataBoxContent>
+          </DataBox>
+          <DataBox>
+            <DataBoxTitle>Tasks</DataBoxTitle>
+            <DataBoxContent>{task_per_project}</DataBoxContent>
           </DataBox>
         </DataDetailsContainer>
 

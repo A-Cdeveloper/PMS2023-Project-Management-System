@@ -2,11 +2,11 @@ const db = require('./connection')
 
 const getTasks = async (startIntervalDate, endItervalDate) => {
   const [tasks] = await db.query(
-    'SELECT pms_tasks.*, pms_clients.client_name,client_id, pms_projects.project_name FROM pms_tasks, pms_clients, pms_projects WHERE project_client_id=client_id AND task_project_id = project_id AND task_add_date BETWEEN CAST("' +
+    'SELECT pms_tasks.*, pms_clients.client_name,client_id, pms_projects.project_name FROM pms_tasks, pms_clients, pms_projects WHERE project_client_id=client_id AND task_project_id = project_id AND DATE(task_add_date) BETWEEN "' +
       startIntervalDate +
-      '" AS DATE) AND CAST("' +
+      '" AND "' +
       endItervalDate +
-      '" AS DATE) ORDER BY task_add_date DESC'
+      '" ORDER BY task_add_date DESC'
   )
   return tasks
 }
@@ -18,21 +18,20 @@ const getTasksRange = async (
   endItervalDate
 ) => {
   const query =
-    'SELECT pms_tasks.*, pms_clients.client_name,client_id, pms_projects.project_name FROM pms_tasks, pms_clients, pms_projects WHERE project_client_id=client_id AND task_project_id = project_id AND task_add_date BETWEEN CAST("' +
+    'SELECT pms_tasks.*, pms_clients.client_name,client_id, pms_projects.project_name FROM pms_tasks, pms_clients, pms_projects WHERE project_client_id=client_id AND task_project_id = project_id AND DATE(task_add_date) BETWEEN "' +
     startIntervalDate +
-    '" AS DATE) AND CAST("' +
+    '" AND "' +
     endItervalDate +
-    '" AS DATE) ORDER BY task_add_date DESC LIMIT ?,?'
+    '" ORDER BY task_add_date DESC LIMIT ?,?'
 
   const [tasks] = await db.query(query, [from, perPage])
   return tasks
 }
 
-const getSingleTask = async (task_name, task_id) => {
-  const [task] = await db.query(
-    'SELECT * FROM pms_tasks WHERE task_name=? OR task_id=?',
-    [task_name, task_id]
-  )
+const getSingleTask = async (task_id) => {
+  const [task] = await db.query('SELECT * FROM pms_tasks WHERE task_id=?', [
+    task_id,
+  ])
   return task[0]
 }
 

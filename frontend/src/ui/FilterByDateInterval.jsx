@@ -31,13 +31,21 @@ const FilterByDateInterval = () => {
     : formatSqlDate(new Date());
 
   const handleChangeStartInterval = (e) => {
-    searchParams.set("startIntervalDate", e.target.value);
+    if (e.target.value === "") {
+      searchParams.delete("startIntervalDate");
+    } else {
+      searchParams.set("startIntervalDate", e.target.value);
+    }
     searchParams.set("page", 1);
     setSearchParams(searchParams);
   };
 
   const handleChangeEndInterval = (e) => {
-    searchParams.set("endIntervalDate", e.target.value);
+    if (e.target.value === "") {
+      searchParams.delete("endIntervalDate");
+    } else {
+      searchParams.set("endIntervalDate", e.target.value);
+    }
     searchParams.set("page", 1);
     setSearchParams(searchParams);
   };
@@ -50,11 +58,7 @@ const FilterByDateInterval = () => {
           type="date"
           max={endIntervalDate}
           onChange={handleChangeStartInterval}
-          defaultValue={
-            searchParams?.get("startIntervalDate")
-              ? searchParams.get("startIntervalDate")
-              : lastThirtyDays()
-          }
+          value={startIntervalDate}
         />
       </DateIntervalBox>
       <DateIntervalBox>
@@ -64,11 +68,7 @@ const FilterByDateInterval = () => {
           min={startIntervalDate}
           max={formatSqlDate(new Date())}
           onChange={handleChangeEndInterval}
-          defaultValue={
-            searchParams?.get("endIntervalDate")
-              ? searchParams.get("endIntervalDate")
-              : formatSqlDate(new Date())
-          }
+          value={endIntervalDate}
         />
       </DateIntervalBox>
     </FliterContainer>

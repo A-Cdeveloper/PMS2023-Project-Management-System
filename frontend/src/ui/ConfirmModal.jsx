@@ -24,6 +24,7 @@ function ConfirmModal({
   resourceName,
   operation,
   onConfirm,
+  connectedResurces,
   disabled,
   onCloseModal,
 }) {
@@ -32,17 +33,35 @@ function ConfirmModal({
     onCloseModal();
   };
 
+  let message = (
+    <p>
+      {operation === "delete"
+        ? `Are you sure you want to delete this ${resourceName} permanently? This
+  action cannot be undone.`
+        : `Are you sure you want to duplicate this ${resourceName}?`}
+    </p>
+  );
+
+  if (connectedResurces) {
+    message = (
+      <>
+        <p>
+          {`This ${resourceName} has connected ${
+            resourceName === "project" ? "tasks" : "projects"
+          }.`}
+          <br />
+          You must remove them before delete!
+        </p>
+      </>
+    );
+  }
+
   return (
     <StyledConfirmModal>
       <Headline as="h3">
         {operation === "delete" ? "Delete" : "Duplicate"} {resourceName}
       </Headline>
-      <p>
-        {operation === "delete"
-          ? `Are you sure you want to delete this ${resourceName} permanently? This
-        action cannot be undone.`
-          : `Are you sure you want to duplicate this ${resourceName}?`}
-      </p>
+      {message}
 
       <div>
         <Button
@@ -53,14 +72,16 @@ function ConfirmModal({
         >
           Cancel
         </Button>
-        <Button
-          variation={operation === "delete" ? "danger" : "info"}
-          size="medium"
-          disabled={disabled}
-          onClick={conformActionHandler}
-        >
-          {operation === "delete" ? "Delete" : "Duplicate"}
-        </Button>
+        {!connectedResurces && (
+          <Button
+            variation={operation === "delete" ? "danger" : "info"}
+            size="medium"
+            disabled={disabled}
+            onClick={conformActionHandler}
+          >
+            {operation === "delete" ? "Delete" : "Duplicate"}
+          </Button>
+        )}
       </div>
     </StyledConfirmModal>
   );

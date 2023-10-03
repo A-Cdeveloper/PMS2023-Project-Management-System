@@ -36,7 +36,7 @@ router.get('/filter/:from/:perPage/:order', async (req, res) => {
 router.get('/client/:client_id', async (req, res) => {
   const cid = req.params.client_id
   const client = await dbfunctions.getSingleClient(cid)
-  if (!client) {
+  if (!client || client.client_id === null) {
     return res.status(400).json({ message: 'Client not exist.' })
   }
   res.status(231).send(client)

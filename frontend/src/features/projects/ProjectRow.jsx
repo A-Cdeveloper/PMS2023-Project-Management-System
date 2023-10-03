@@ -79,6 +79,7 @@ const ProjectRow = ({ project }) => {
     project_end_date,
     project_status,
     project_online,
+    task_per_project,
   } = project;
 
   const prefetchProjectHandler = async (project_id) => {
@@ -153,6 +154,7 @@ const ProjectRow = ({ project }) => {
       <CellIcon>
         {project_online === "Ja" ? <HiOutlineCheck /> : <HiOutlineMinus />}
       </CellIcon>
+      <div style={{ textAlign: "center" }}>{task_per_project}</div>
 
       <div>
         <Modal>
@@ -201,6 +203,7 @@ const ProjectRow = ({ project }) => {
             <ConfirmModal
               resourceName="project"
               operation="delete"
+              connectedResurces={task_per_project !== 0}
               onConfirm={() => deleteProject(project_id)}
               disabled={isDeleteLoading}
             />

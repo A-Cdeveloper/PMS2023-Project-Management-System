@@ -30,6 +30,7 @@ export const projectCols = [
   "Status",
   "Update",
   "Protfolio",
+  "Tasks",
 ];
 
 export const projectPlatforms = () => {

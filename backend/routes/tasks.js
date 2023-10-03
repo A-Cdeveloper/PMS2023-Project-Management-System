@@ -6,7 +6,7 @@ const dbfunctionsHelper2 = require('../utils/clients-query')
 const router = express.Router()
 // /users
 
-router.get('/:startDate/:endDate', async (req, res) => {
+router.get('/tasks/:startDate/:endDate', async (req, res) => {
   const { startDate, endDate } = req.params
   const tasks = await dbfunctions.getTasks(startDate, endDate)
   if (tasks.length == 0) {
@@ -33,7 +33,7 @@ router.get('/filter/:from/:perPage/:startDate/:endDate', async (req, res) => {
 
 router.get('/task/:task_id', async (req, res) => {
   const tid = req.params.task_id
-  const task = await dbfunctions.getSingleTask(null, tid)
+  const task = await dbfunctions.getSingleTask(tid)
   if (!task) {
     return res.status(400).json({ message: 'Task not exist.' })
   }
@@ -68,9 +68,9 @@ router.post('/new', async (req, res) => {
   res.status(231).json({ message: 'Task succesfully added.' })
 })
 
-router.post('/:task_id/copy', async (req, res) => {
+router.post('/:task_id/duplicate', async (req, res) => {
   const tid = req.params.task_id
-  const task = await dbfunctions.getSingleTask(null, tid)
+  const task = await dbfunctions.getSingleTask(tid)
   if (!task) {
     return res.status(400).json({ message: 'Task not exist.' })
   }
@@ -87,6 +87,11 @@ router.post('/:task_id/copy', async (req, res) => {
     task_status,
   } = task
   task_name = `${task_name} - COPY`
+  task_status = `open`
+  task_add_date = new Date()
+  task_start_time = null
+  task_end_time = null
+
   await dbfunctions.addTask({
     task_project_id,
     task_name,
@@ -99,7 +104,7 @@ router.post('/:task_id/copy', async (req, res) => {
     task_end_time,
     task_status,
   })
-  res.status(231).json({ message: 'Task succesfully copied.' })
+  res.status(231).json({ task, message: 'Task succesfully copied.' })
 })
 
 router.patch('/:task_id/edit', async (req, res) => {
@@ -115,12 +120,12 @@ router.patch('/:task_id/edit', async (req, res) => {
 
 router.delete('/:task_id/delete', async (req, res) => {
   const tid = req.params.task_id
-  const task = await dbfunctions.getSingleTask(null, tid)
+  const task = await dbfunctions.getSingleTask(tid)
   if (!task) {
     return res.status(400).json({ message: 'Task not exist.' })
   }
-  await dbfunctions.deleteTask(Tid)
-  res.status(231).json({ message: 'Task succesfully deleted.' })
+  await dbfunctions.deleteTask(tid)
+  res.status(231).json({ task, message: 'Task succesfully deleted.' })
 })
 
 module.exports = router

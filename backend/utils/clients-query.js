@@ -40,20 +40,29 @@ const getDuplicateClient = async (client_name) => {
 }
 
 const addClient = async (client) => {
+  const {
+    client_name,
+    client_adresse,
+    client_contact,
+    client_phone,
+    client_fax,
+    client_email,
+    client_site,
+  } = client
+
   await db.query(
-    `INSERT INTO pms_clients (${[
-      ...Object.keys(client),
-    ]}) VALUES (?,?,?,?,?,?,?)`,
-    Object.values(client)
+    `INSERT INTO pms_clients (client_name, client_adresse, client_contact,client_phone,client_fax, client_email, client_site) VALUES (?,?,?,?,?,?,?)`,
+    [
+      client_name,
+      client_adresse,
+      client_contact,
+      client_phone,
+      client_fax,
+      client_email,
+      client_site,
+    ]
   )
 }
-
-// const addClient = async (client) => {
-//   await db.query(
-//     `INSERT INTO pms_clients (client_name, client_adresse, client_contact,client_phone,client_fax, client_email, client_site) VALUES (?,?,?,?,?,?,?)`,
-//     Object.values(client)
-//   )
-// }
 
 const updateClient = async (client, client_id) => {
   const {

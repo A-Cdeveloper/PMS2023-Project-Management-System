@@ -34,7 +34,7 @@ router.get('/filter/:from/:perPage/:order', async (req, res) => {
 router.get('/project/:project_id', async (req, res) => {
   const pid = req.params.project_id
   const project = await dbfunctions.getSingleProject(null, pid)
-  if (!project) {
+  if (!project || project.project_id === null) {
     return res.status(400).json({ message: 'Project not exist.' })
   }
   const client = await dbfunctionsHelper.getSingleClient(

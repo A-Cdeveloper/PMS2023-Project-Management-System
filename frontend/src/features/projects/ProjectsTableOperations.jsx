@@ -24,8 +24,14 @@ function ClientsTableOperations() {
           { value: "project_name-desc", label: "Sort by Name (desc)" },
           { value: "client_name-asc", label: "Sort by Client (asc)" },
           { value: "client_name-desc", label: "Sort by Client (desc)" },
-          // { value: "project_platform-asc", label: "Sort by Platform (asc)" },
-          // { value: "project_platform-desc", label: "Sort by Platform (desc)" },
+          {
+            value: "task_per_project-asc",
+            label: "Sort by Tasks num (asc)",
+          },
+          {
+            value: "task_per_project-desc",
+            label: "Sort by Tasks num (desc)",
+          },
 
           {
             value: "project_start_date-asc",

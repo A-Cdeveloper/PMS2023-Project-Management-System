@@ -121,13 +121,10 @@ const ClientRow = ({ client }) => {
               </Modal.OpenButton>
             </Menus.List>
           </Menus>
-
           <Modal.Window name="client-edit">
             <AddEditClient clientToEdit={client} />
           </Modal.Window>
-
           <Modal.Window name="client-clone">
-            {/* CLONE window {client_id} */}
             <ConfirmModal
               resourceName="client"
               operation="clone"
@@ -135,12 +132,11 @@ const ClientRow = ({ client }) => {
               disabled={isCloneLoading}
             />
           </Modal.Window>
-
           <Modal.Window name="client-delete">
-            {/* Delete window {client_id} */}
             <ConfirmModal
               resourceName="client"
               operation="delete"
+              connectedResurces={project_per_client !== 0}
               onConfirm={() => deleteClient(client_id)}
               disabled={isDeleteLoading}
             />

@@ -7,19 +7,29 @@ import {
 } from "../../utils/helpers";
 
 import styled from "styled-components";
-// import useCloneProject from "../projects/useCloneProject";
-// import useDeleteProject from "../projects/useDeleteProject";
+import useCloneTask from "./useCloneTask";
+import useDeleteTask from "./useDeleteTask";
 
 // import { singleProject } from "../../services/apiProjects";
 
 import { taskStatus } from "./TaskParameters";
+
+import {
+  HiOutlineGlobeAlt,
+  HiOutlineDocumentDuplicate,
+  HiPencil,
+  HiTrash,
+  HiEye,
+  HiOutlineCheck,
+  HiOutlineMinus,
+} from "react-icons/hi2";
 
 import Table from "../../ui/Data/Table";
 import Tag from "../../ui/Data/Tag";
 import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
 // import AddEditProject from "../projects/AddEditProject";
-// import ConfirmModal from "../../ui/ConfirmModal";
+import ConfirmModal from "../../ui/ConfirmModal";
 
 const Task = styled.div`
   font-weight: 500;
@@ -48,13 +58,13 @@ const StatusDiv = styled.div`
 
 const TaskRow = ({ task }) => {
   const navigate = useNavigate();
-  // const { isCloneLoading, cloneProject } = useCloneProject();
-  // const { isDeleteLoading, deleteProject } = useDeleteProject();
+  const { isCloneLoading, cloneTask } = useCloneTask();
+  const { isDeleteLoading, deleteTask } = useDeleteTask();
   const queryClient = useQueryClient();
 
   const {
     task_id,
-    task_project_id,
+    task_task_id,
     task_name,
     client_name,
     project_name,
@@ -65,10 +75,10 @@ const TaskRow = ({ task }) => {
     client_id,
   } = task;
 
-  // const prefetchProjectHandler = async (project_id) => {
+  // const prefetchProjectHandler = async (task_id) => {
   //   await queryClient.prefetchQuery({
-  //     queryKey: ["project", project_id],
-  //     queryFn: () => singleProject(project_id),
+  //     queryKey: ["project", task_id],
+  //     queryFn: () => singleProject(task_id),
   //   });
   // };
 
@@ -76,7 +86,7 @@ const TaskRow = ({ task }) => {
     <Table.Row>
       <Task>{task_name}</Task>
       <Project>
-        <Link onClick={() => navigate(`/projects/${task_project_id}`)}>
+        <Link onClick={() => navigate(`/projects/${task_task_id}`)}>
           {project_name}
         </Link>
 
@@ -86,12 +96,10 @@ const TaskRow = ({ task }) => {
           </Link>
         </span>
       </Project>
-
       <div>{formatDate(task_add_date)}</div>
       <div>{formatDateTime(task_start_time)}</div>
       <div>{formatDateTime(task_end_time)}</div>
       <div>{formatDuration(task_start_time, task_end_time)}</div>
-
       <StatusDiv>
         {taskStatus.map((status) => {
           return (
@@ -103,75 +111,59 @@ const TaskRow = ({ task }) => {
           );
         })}
       </StatusDiv>
-      <div>-</div>
-      {/*   <CellIcon>
-        {project_update ? (
-          <>
-            {project_update}
-            <br />
-            {formatDate(project_last_update)}
-          </>
-        ) : (
-          <HiOutlineMinus />
-        )}
-      </CellIcon>
-      <CellIcon>
-        {project_online === "Ja" ? <HiOutlineCheck /> : <HiOutlineMinus />}
-      </CellIcon> */}
-
-      {/* <div>
+      <div>
         <Modal>
           <Menus>
-            <Menus.Toggle id={project_id} />
+            <Menus.Toggle id={task_id} />
 
-            <Menus.List id={project_id}>
+            <Menus.List id={task_id}>
               <Menus.Button
                 icon={<HiEye />}
                 onClick={() => {
-                  navigate(`/projects/${project_id}`);
+                  navigate(`/tasks/${task_id}`);
                 }}
-                onMouseOver={() => prefetchProjectHandler(project_id)}
+                // onMouseOver={() => prefetchProjectHandler(task_id)}
               >
                 See details
               </Menus.Button>
 
-              <Modal.OpenButton opens="project-edit">
+              <Modal.OpenButton opens="task-edit">
                 <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
               </Modal.OpenButton>
 
-              <Modal.OpenButton opens="project-clone">
+              <Modal.OpenButton opens="task-clone">
                 <Menus.Button icon={<HiOutlineDocumentDuplicate />}>
                   Duplicate
                 </Menus.Button>
               </Modal.OpenButton>
 
-              <Modal.OpenButton opens="project-delete">
+              <Modal.OpenButton opens="task-delete">
                 <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
               </Modal.OpenButton>
             </Menus.List>
           </Menus>
-          <Modal.Window name="project-edit">
+          {/* <Modal.Window name="project-edit">
             <AddEditProject projectToEdit={project} />
-          </Modal.Window>
+          </Modal.Window> */}
 
-          <Modal.Window name="project-clone">
+          <Modal.Window name="task-clone">
             <ConfirmModal
-              resourceName="project"
+              resourceName="task"
               operation="clone"
-              onConfirm={() => cloneProject(project_id)}
+              onConfirm={() => cloneTask(task_id)}
               disabled={isCloneLoading}
             />
           </Modal.Window>
-          <Modal.Window name="project-delete">
+          <Modal.Window name="task-delete">
             <ConfirmModal
-              resourceName="project"
+              resourceName="task"
               operation="delete"
-              onConfirm={() => deleteProject(project_id)}
+              onConfirm={() => deleteTask(task_id)}
               disabled={isDeleteLoading}
             />
           </Modal.Window>
         </Modal>
-      </div> */}
+      </div>
     </Table.Row>
   );
 };

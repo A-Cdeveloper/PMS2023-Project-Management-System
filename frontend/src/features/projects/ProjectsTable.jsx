@@ -63,7 +63,7 @@ const ProjectsTable = () => {
     <>
       <Table
         cols={projectCols}
-        columns="23rem 23rem 6rem 6rem 10rem repeat(2, 1fr) 12rem 10rem 10rem 4rem"
+        columns="23rem 23rem 6rem 6rem 10rem repeat(2, 1fr) 12rem 10rem 10rem 4rem 4rem"
       >
         <Table.Header />
         <Table.Body
