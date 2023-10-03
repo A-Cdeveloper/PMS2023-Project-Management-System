@@ -14,11 +14,11 @@ const StyledSelect = styled.select`
     border: 1px solid ${(props) => props.theme.baseColors.grey300};
   }
 
-  /* & option {
-    background-color: white;
-    &:hover {
-      background-color: ${(props) => props.theme.colors.lighter}!important;
-    }
+  /* & > option:nth-child(even) {
+    background: red;
+    display: block;
+    padding-left: 15px;
+    margin-bottom: 10px;
   } */
 `;
 

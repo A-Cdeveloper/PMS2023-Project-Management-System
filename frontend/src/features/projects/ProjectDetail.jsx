@@ -57,6 +57,8 @@ const ProjectDetail = () => {
     project_online,
   } = project;
 
+  console.log(project);
+
   return (
     <>
       <Row type="horizontal">

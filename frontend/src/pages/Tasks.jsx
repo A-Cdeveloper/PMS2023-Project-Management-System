@@ -1,14 +1,18 @@
 import Headline from "../ui/Headline";
 import Row from "../ui/Row";
 import TasksTable from "../features/tasks/TasksTable";
-// import ProjectsTableOperations from "../features/projects/ProjectsTableOperations";
+import TasksTableOperations from "../features/tasks/TasksTableOperations";
+import FilterByDateInterval from "../ui/FilterByDateInterval";
 
 const Tasks = () => {
   return (
     <>
-      <Row type="horizontal">
+      <Row>
         <Headline as="h1">Tasks</Headline>
-        {/* <ProjectsTableOperations /> */}
+      </Row>
+      <Row type="horizontal">
+        <FilterByDateInterval />
+        <TasksTableOperations />
       </Row>
       <TasksTable />
     </>

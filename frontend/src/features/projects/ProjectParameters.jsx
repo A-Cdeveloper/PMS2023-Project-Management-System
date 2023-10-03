@@ -54,15 +54,23 @@ export const projectPlatforms = () => {
 
 export const projectHosting = [
   { value: "", label: "" },
-  { value: "he", label: "HOSTEUROPE" },
-  { value: "1und1", label: "IONOS" },
-  { value: "strato", label: "STRATO" },
-  { value: "domainfactory", label: "DOMAINFACTORY" },
-  { value: "other", label: "OTHER" },
+  { value: "he", label: "KIS", link: "https://sso.hosteurope.de/" },
+  { value: "1und1", label: "IONOS", link: "https://login.ionos.com/" },
+  {
+    value: "strato",
+    label: "STRATO",
+    link: "https://www.strato.de/apps/CustomerService#/skl",
+  },
+  {
+    value: "domainfactory",
+    label: "DOMAINFACTORY",
+    link: "https://admin.df.eu/kunde/",
+  },
+  { value: "other", label: "OTHER", link: "" },
 ];
 
 export const projectStatus = [
-  { value: "", label: "" },
+  { value: "all", label: "All" },
   { value: "future", label: "future" },
   { value: "working", label: "working" },
   { value: "online", label: "online" },

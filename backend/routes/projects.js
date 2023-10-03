@@ -38,7 +38,6 @@ router.get('/project/:project_id', async (req, res) => {
     return res.status(400).json({ message: 'Project not exist.' })
   }
   const client = await dbfunctionsHelper.getSingleClient(
-    project.client_name,
     project.project_client_id
   )
   const { client_name } = client

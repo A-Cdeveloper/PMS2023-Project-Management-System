@@ -23,7 +23,7 @@ const FilterText = ({ placeholder }) => {
       ? searchParams.delete("filterByText")
       : searchParams.set(
           "filterByText",
-          filterRef?.current?.value.trim().toLowerCase()
+          filterRef?.current?.value.toLowerCase()
         );
 
     searchParams.delete("page");

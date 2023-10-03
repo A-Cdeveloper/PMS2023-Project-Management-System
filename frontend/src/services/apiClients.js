@@ -11,12 +11,11 @@ export const getClients = async ({ sortBy }) => {
   if (response.status === 404) {
     throw new Error("Clients list could't be loaded!");
   }
+  const data = await response.json();
 
   if (response.status === 400) {
     throw new Error(data.message);
   }
-
-  const data = await response.json();
 
   return data;
 };

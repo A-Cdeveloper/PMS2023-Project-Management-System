@@ -21,6 +21,7 @@ function ClientsTableOperations() {
             label: "Sort by projects num (desc)",
           },
         ]}
+        defaultOptionIndex={0}
       />
       <NewRecord record="client">
         <AddEditClient />

@@ -4,11 +4,23 @@ const status = {
   online: css`
     background: #6fa111;
   `,
+  open: css`
+    background: #6fa111;
+  `,
   archive: css`
+    background: #be3131;
+  `,
+  closed: css`
     background: #be3131;
   `,
   future: css`
     background: #c45f9d;
+  `,
+  working: css`
+    background: #c45f9d;
+  `,
+  invoiced: css`
+    background: #4475b6;
   `,
   working: css`
     background: #4475b6;

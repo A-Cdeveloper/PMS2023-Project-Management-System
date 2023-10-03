@@ -1,38 +1,29 @@
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-import { formatDate } from "../../utils/helpers";
+import {
+  formatDate,
+  formatDateTime,
+  formatDuration,
+} from "../../utils/helpers";
 
 import styled from "styled-components";
-import useCloneProject from "./useCloneProject";
-import useDeleteProject from "./useDeleteProject";
+// import useCloneProject from "../projects/useCloneProject";
+// import useDeleteProject from "../projects/useDeleteProject";
 
-import { singleProject } from "../../services/apiProjects";
+// import { singleProject } from "../../services/apiProjects";
 
-import {
-  projectPlatforms,
-  projectHosting,
-  projectStatus,
-} from "./ProjectParameters";
-
-import {
-  HiOutlineGlobeAlt,
-  HiOutlineDocumentDuplicate,
-  HiPencil,
-  HiTrash,
-  HiEye,
-  HiOutlineCheck,
-  HiOutlineMinus,
-} from "react-icons/hi2";
+import { taskStatus } from "./TaskParameters";
 
 import Table from "../../ui/Data/Table";
 import Tag from "../../ui/Data/Tag";
 import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
-import AddEditProject from "./AddEditProject";
-import ConfirmModal from "../../ui/ConfirmModal";
+// import AddEditProject from "../projects/AddEditProject";
+// import ConfirmModal from "../../ui/ConfirmModal";
 
-const Project = styled.div`
+const Task = styled.div`
   font-weight: 500;
+  padding-right: 1rem;
 `;
 
 const Link = styled.div`
@@ -42,104 +33,78 @@ const Link = styled.div`
   }
 `;
 
-const CellIcon = styled.div`
-  display: flex;
-
-  & svg {
-    width: 2rem;
-    height: 2rem;
-    margin: auto;
-    // margin: 0 0.5rem;
+const Project = styled.div`
+  & > span {
+    display: block;
+    font-size: 1.2rem;
   }
 `;
 
 const StatusDiv = styled.div`
   & > span {
-    width: 80%;
+    width: 90%;
   }
 `;
 
-const ProjectRow = ({ project }) => {
+const TaskRow = ({ task }) => {
   const navigate = useNavigate();
-  const { isCloneLoading, cloneProject } = useCloneProject();
-  const { isDeleteLoading, deleteProject } = useDeleteProject();
+  // const { isCloneLoading, cloneProject } = useCloneProject();
+  // const { isDeleteLoading, deleteProject } = useDeleteProject();
   const queryClient = useQueryClient();
 
   const {
-    project_id,
-    project_client_id,
-    project_name,
+    task_id,
+    task_project_id,
+    task_name,
     client_name,
-    project_url,
-    project_platform,
-    project_hosting,
-    project_update,
-    project_last_update,
-    project_start_date,
-    project_end_date,
-    project_status,
-    project_online,
-  } = project;
+    project_name,
+    task_add_date,
+    task_start_time,
+    task_end_time,
+    task_status,
+    client_id,
+  } = task;
 
-  const prefetchProjectHandler = async (project_id) => {
-    await queryClient.prefetchQuery({
-      queryKey: ["project", project_id],
-      queryFn: () => singleProject(project_id),
-    });
-  };
+  // const prefetchProjectHandler = async (project_id) => {
+  //   await queryClient.prefetchQuery({
+  //     queryKey: ["project", project_id],
+  //     queryFn: () => singleProject(project_id),
+  //   });
+  // };
 
   return (
     <Table.Row>
-      <Project>{project_name}</Project>
-      <Link onClick={() => navigate(`/clients/${project_client_id}`)}>
-        {client_name}
-      </Link>
-      <CellIcon>
-        <a href={project_url} target="_blank" title={project_url}>
-          <HiOutlineGlobeAlt />
-        </a>
-      </CellIcon>
-      <CellIcon>
-        {projectPlatforms().map((platform) => {
-          return (
-            platform.label === project_platform && (
-              <span key={platform.label}>{platform.icon}</span>
-            )
-          );
-        })}
-      </CellIcon>
+      <Task>{task_name}</Task>
+      <Project>
+        <Link onClick={() => navigate(`/projects/${task_project_id}`)}>
+          {project_name}
+        </Link>
 
-      <div>
-        {projectHosting.map((hosting) => {
-          return (
-            hosting.value === project_hosting && (
-              <span key={hosting.label}>
-                <a
-                  href={hosting.link !== "" ? hosting.link : "#"}
-                  target={hosting.link !== "" ? "_blank" : null}
-                  title={hosting.label}
-                >
-                  {hosting.label}
-                </a>
-              </span>
-            )
-          );
-        })}
-      </div>
-      <div>{formatDate(project_start_date)}</div>
-      <div>{formatDate(project_end_date)}</div>
+        <span>
+          <Link onClick={() => navigate(`/clients/${client_id}`)}>
+            - {client_name}
+          </Link>
+        </span>
+      </Project>
+
+      <div>{formatDate(task_add_date)}</div>
+      <div>{formatDateTime(task_start_time)}</div>
+      <div>{formatDateTime(task_end_time)}</div>
+      <div>{formatDuration(task_start_time, task_end_time)}</div>
+
       <StatusDiv>
-        {projectStatus.map((status) => {
+        {taskStatus.map((status) => {
           return (
-            status.value === project_status && (
-              <Tag key={project_status} type={status.value}>
+            status.value === task_status && (
+              <Tag key={task_status} type={status.value}>
                 {status.label}
               </Tag>
             )
           );
         })}
       </StatusDiv>
-      <CellIcon>
+      <div>-</div>
+      {/*   <CellIcon>
         {project_update ? (
           <>
             {project_update}
@@ -152,9 +117,9 @@ const ProjectRow = ({ project }) => {
       </CellIcon>
       <CellIcon>
         {project_online === "Ja" ? <HiOutlineCheck /> : <HiOutlineMinus />}
-      </CellIcon>
+      </CellIcon> */}
 
-      <div>
+      {/* <div>
         <Modal>
           <Menus>
             <Menus.Toggle id={project_id} />
@@ -206,9 +171,9 @@ const ProjectRow = ({ project }) => {
             />
           </Modal.Window>
         </Modal>
-      </div>
+      </div> */}
     </Table.Row>
   );
 };
 
-export default ProjectRow;
+export default TaskRow;

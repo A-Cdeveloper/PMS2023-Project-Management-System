@@ -13,13 +13,9 @@ function ClientsTableOperations() {
       <FilterText placeholder="Search projects..." />
       <Filter
         filterField="status"
-        options={[
-          { value: "all", label: "All" },
-          { value: "online", label: "online" },
-          { value: "archive", label: "archive" },
-          { value: "future", label: "future" },
-          { value: "working", label: "working" },
-        ]}
+        options={projectStatus.map((status) => {
+          return { value: status.value, label: status.label };
+        })}
       />
 
       <SortBy
@@ -48,6 +44,7 @@ function ClientsTableOperations() {
             label: "Sort by End date (recent first)",
           },
         ]}
+        defaultOptionIndex={0}
       />
       <NewRecord record="project">
         <AddEditProject />

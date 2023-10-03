@@ -1,90 +1,78 @@
-// import { useSearchParams } from "react-router-dom";
-// import { useFilterProjects } from "./useFilterProjects";
-// import { useProjects } from "./useProjects";
+import { useSearchParams } from "react-router-dom";
+import { useFilterTasks } from "./useFilterTasks";
+import { useTasks } from "./useTasks";
 
-// import Spinner from "../../ui/Spinner";
+import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Data/Table";
-// import Pagination from "../../ui/Pagination";
-// import Empty from "../../ui/Data/Empty";
-// import ProjectRow from "./ProjectRow";
+import Pagination from "../../ui/Pagination";
+import Empty from "../../ui/Data/Empty";
+import TaskRow from "./TaskRow";
 
-// import { projectCols } from "./ProjectParameters";
+import { taskCols } from "./TaskParameters";
 
-// const filteredProjects = (
-//   allProjects,
-//   projects,
-//   filteredTextValue,
-//   filteredStatus
-// ) => {
-//   if (!filteredTextValue && filteredStatus) {
-//     return allProjects.filter(
-//       (project) => project.project_status === filteredStatus
-//     );
-//   }
-//   if (filteredTextValue && !filteredStatus) {
-//     return allProjects.filter((project) =>
-//       project.project_name.trim().toLowerCase().includes(filteredTextValue)
-//     );
-//   }
+const filteredTasks = (allTasks, tasks, filteredTextValue, filteredStatus) => {
+  if (!filteredTextValue && filteredStatus) {
+    return allTasks.filter((task) => task.task_status === filteredStatus);
+  }
 
-//   if (filteredTextValue && filteredStatus) {
-//     return allProjects
-//       .filter((project) => project.project_status === filteredStatus)
-//       .filter((project) =>
-//         project.project_name.trim().toLowerCase().includes(filteredTextValue)
-//       );
-//   }
+  if (filteredTextValue && !filteredStatus) {
+    return allTasks.filter((task) =>
+      task.task_name.trim().toLowerCase().includes(filteredTextValue)
+    );
+  }
 
-//   return projects;
-// };
+  if (filteredTextValue && filteredStatus) {
+    return allTasks
+      .filter((task) => task.task_status === filteredStatus)
+      .filter((task) =>
+        task.task_name.trim().toLowerCase().includes(filteredTextValue)
+      );
+  }
+
+  return tasks;
+};
 
 const TasksTable = () => {
-  //   const [searchParams] = useSearchParams();
-  //   const { isLoading, error, projects } = useFilterProjects();
-  //   const { projects: allProjects } = useProjects();
+  const [searchParams] = useSearchParams();
+  const { isLoading, error, tasks } = useFilterTasks();
+  const { tasks: allTasks } = useTasks();
 
   //filter results
-  //   const filteredTextValue = searchParams.get("filterByText");
+  const filteredTextValue = searchParams.get("filterByText");
   //   // //filter by status
-  //   const filteredStatus = searchParams.get("status");
+  const filteredStatus = searchParams.get("status");
 
-  //   const shownProjects = filteredProjects(
-  //     allProjects,
-  //     projects,
-  //     filteredTextValue,
-  //     filteredStatus
-  //   );
+  const shownTasks = filteredTasks(
+    allTasks,
+    tasks,
+    filteredTextValue,
+    filteredStatus
+  );
 
-  //   if (isLoading) return <Spinner />;
-  //   if (error) return <p>{error.message}</p>;
-  //   if (shownProjects.length === 0) return <Empty resource="projects" />;
+  if (isLoading) return <Spinner />;
+  if (error) return <p>{error.message}</p>;
+  if (shownTasks.length === 0) return <Empty resource="tasks" />;
 
   return (
     <>
-      <Table
-        cols={[]}
-        columns="23rem 23rem 6rem 6rem 10rem repeat(2, 1fr) 12rem 10rem 10rem 4rem"
-      >
+      <Table cols={taskCols} columns="30rem 26rem repeat(4, 1fr) 10rem 6rem">
         <Table.Header />
-
-        {/* <Table.Body
-          data={shownProjects}
-          renderItem={(project) => (
-            <ProjectRow key={project.project_id} project={project} />
-          )}
-        /> */}
+        <Table.Body
+          data={shownTasks}
+          renderItem={(task) => <TaskRow key={task.task_id} task={task} />}
+        />
       </Table>
-      {/* <Table.Footer>
+      <Table.Footer>
         <Pagination
           count={
             !!filteredTextValue || !!filteredStatus
-              ? shownProjects.length
-              : allProjects.length
+              ? shownTasks.length
+              : allTasks.length
           }
-          resource="projects_per_page"
+          resource="tasks_per_page"
           filter={!!filteredTextValue || !!filteredStatus}
         />
-      </Table.Footer> */}
+      </Table.Footer>
     </>
   );
 };
