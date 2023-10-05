@@ -21,6 +21,7 @@ export const DataBoxContent = styled(DataBox)`
   padding: 1rem 2rem;
   flex: 50%;
   border-bottom: 1px solid ${(props) => props.theme.baseColors.grey200};
+  white-space: pre-wrap;
 
   & > a svg {
     width: 2rem;

@@ -32,9 +32,6 @@ const AddEditTask = ({ taskToEdit = {}, onCloseModal }) => {
 
   const onSubmit = (data) => {
     if (isEdit) {
-      // console.log({
-      //   ...data,
-      // });
       editTask(
         { taskId: taskToEdit.task_id, updatedTask: data },
         {
@@ -126,7 +123,6 @@ const AddEditTask = ({ taskToEdit = {}, onCloseModal }) => {
               control={control}
               // rules={{ required: "This field is required" }}
               name="task_start_time"
-              disabled={loadingState}
               render={({ field }) => {
                 //console.log(field.value.slice(0, -8));
 
@@ -134,15 +130,11 @@ const AddEditTask = ({ taskToEdit = {}, onCloseModal }) => {
                   <Input
                     type="datetime-local"
                     defaultValue={field.value ? field.value.slice(0, -8) : null}
-                    max={
-                      getValues("task_end_time")
-                        ? getValues("task_end_time").slice(0, -8)
-                        : null
-                    }
                     aria-invalid={errors.task_start_time ? "true" : "false"}
                     onChange={(e) => {
                       field.onChange(e.target.value.toString());
                     }}
+                    disabled={loadingState}
                   />
                 );
               }}
@@ -153,7 +145,6 @@ const AddEditTask = ({ taskToEdit = {}, onCloseModal }) => {
             <Controller
               control={control}
               name="task_end_time"
-              disabled={loadingState}
               render={({ field }) => {
                 // console.log(field);
 
@@ -170,6 +161,7 @@ const AddEditTask = ({ taskToEdit = {}, onCloseModal }) => {
                     onChange={(e) => {
                       field.onChange(e.target.value.toString());
                     }}
+                    disabled={loadingState}
                   />
                 );
               }}
@@ -181,14 +173,16 @@ const AddEditTask = ({ taskToEdit = {}, onCloseModal }) => {
               {...register("task_status", {
                 required: "This field is required",
               })}
-              defaultValue={!isEdit && task_status[1].value}
+              defaultValue={!isEdit && taskStatus[1].value}
               disabled={loadingState}
             >
-              {taskStatus.map((status) => (
-                <option key={status.label} value={status.value}>
-                  {status.label}
-                </option>
-              ))}
+              {taskStatus.map((status, index) => {
+                return index !== 0 ? (
+                  <option key={status.label} value={status.value}>
+                    {status.label}
+                  </option>
+                ) : null;
+              })}
             </Select>
           </FormRow>
         </>

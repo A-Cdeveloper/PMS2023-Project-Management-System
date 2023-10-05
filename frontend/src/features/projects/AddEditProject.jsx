@@ -236,11 +236,13 @@ const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
           defaultValue={!isEdit && projectStatus[1].value}
           disabled={loadingState}
         >
-          {projectStatus.map((status) => (
-            <option key={status.label} value={status.value}>
-              {status.label}
-            </option>
-          ))}
+          {projectStatus.map((status, index) => {
+            return index !== 0 ? (
+              <option key={status.label} value={status.value}>
+                {status.label}
+              </option>
+            ) : null;
+          })}
         </Select>
       </FormRow>
 

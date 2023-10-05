@@ -10,7 +10,7 @@ import styled from "styled-components";
 import useCloneTask from "./useCloneTask";
 import useDeleteTask from "./useDeleteTask";
 
-// import { singleProject } from "../../services/apiProjects";
+import { singleTask } from "../../services/apiTasks";
 
 import { taskStatus } from "./TaskParameters";
 
@@ -75,12 +75,12 @@ const TaskRow = ({ task }) => {
     client_id,
   } = task;
 
-  // const prefetchProjectHandler = async (task_id) => {
-  //   await queryClient.prefetchQuery({
-  //     queryKey: ["project", task_id],
-  //     queryFn: () => singleProject(task_id),
-  //   });
-  // };
+  const prefetchTaskHandler = async (task_id) => {
+    await queryClient.prefetchQuery({
+      queryKey: ["task", task_id],
+      queryFn: () => singleTask(task_id),
+    });
+  };
 
   return (
     <Table.Row>
@@ -122,7 +122,7 @@ const TaskRow = ({ task }) => {
                 onClick={() => {
                   navigate(`/tasks/${task_id}`);
                 }}
-                // onMouseOver={() => prefetchProjectHandler(task_id)}
+                onMouseOver={() => prefetchTaskHandler(task_id)}
               >
                 See details
               </Menus.Button>

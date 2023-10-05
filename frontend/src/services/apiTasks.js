@@ -133,3 +133,20 @@ export const editTask = async (taskId, updatedTask) => {
   // await wait(3000);
   return data;
 };
+
+// ///////////////////////////////////////////////////////////////////////
+export const singleTask = async (task_id) => {
+  const response = await fetch(`${API_URL}/tasks/task/${task_id}`);
+
+  const data = await response.json();
+
+  if (response.status === 404) {
+    throw new Error("Task not found");
+  }
+
+  if (response.status === 400) {
+    throw new Error(data.message);
+  }
+
+  return data;
+};

@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import Input from "./Form/Input";
 import styled from "styled-components";
 import { formatSqlDate, lastThirtyDays } from "../utils/helpers";
+import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
 const FliterContainer = styled.div`
   display: flex;
@@ -22,19 +23,32 @@ const Label = styled.span`
 const FilterByDateInterval = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const startIntervalDate = searchParams.get("startIntervalDate")
-    ? searchParams.get("startIntervalDate")
-    : lastThirtyDays();
+  // const startIntervalDate = searchParams.get("startIntervalDate")
+  //   ? searchParams.get("startIntervalDate")
+  //   : lastThirtyDays();
 
-  const endIntervalDate = searchParams?.get("endIntervalDate")
-    ? searchParams.get("endIntervalDate")
-    : formatSqlDate(new Date());
+  // const endIntervalDate = searchParams?.get("endIntervalDate")
+  //   ? searchParams.get("endIntervalDate")
+  //   : formatSqlDate(new Date());
+
+  const [startPoint, setStartPoint] = useLocalStorageState(
+    searchParams.get("startIntervalDate"),
+    "startPoint"
+  );
+  const [endPoint, setEndPoint] = useLocalStorageState(
+    searchParams?.get("endIntervalDate"),
+    "endPoint"
+  );
+
+  //console.log(startIntervalDate, endIntervalDate);
 
   const handleChangeStartInterval = (e) => {
     if (e.target.value === "") {
       searchParams.delete("startIntervalDate");
+      setStartPoint(null);
     } else {
       searchParams.set("startIntervalDate", e.target.value);
+      setStartPoint(e.target.value);
     }
     searchParams.set("page", 1);
     setSearchParams(searchParams);
@@ -43,8 +57,10 @@ const FilterByDateInterval = () => {
   const handleChangeEndInterval = (e) => {
     if (e.target.value === "") {
       searchParams.delete("endIntervalDate");
+      setEndPoint(null);
     } else {
       searchParams.set("endIntervalDate", e.target.value);
+      setEndPoint(e.target.value);
     }
     searchParams.set("page", 1);
     setSearchParams(searchParams);
@@ -56,19 +72,19 @@ const FilterByDateInterval = () => {
         <Label>From:</Label>
         <Input
           type="date"
-          max={endIntervalDate}
+          max={endPoint}
           onChange={handleChangeStartInterval}
-          value={startIntervalDate}
+          value={startPoint || lastThirtyDays()}
         />
       </DateIntervalBox>
       <DateIntervalBox>
         <Label>To:</Label>
         <Input
           type="date"
-          min={startIntervalDate}
+          min={startPoint}
           max={formatSqlDate(new Date())}
           onChange={handleChangeEndInterval}
-          value={endIntervalDate}
+          value={endPoint || formatSqlDate(new Date())}
         />
       </DateIntervalBox>
     </FliterContainer>
