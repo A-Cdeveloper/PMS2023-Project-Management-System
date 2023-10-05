@@ -13,7 +13,12 @@ export const sortingArray = (array, field, order = "asc") => {
 
 export const formatDate = (date) => {
   if (!date) return "-";
-  return format(new Date(date), "dd.MM.yyyy");
+  const convertDate = new Date(date).toLocaleString("de-DE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+  return convertDate;
 };
 
 export const formatSqlDate = (date) => {
@@ -23,9 +28,15 @@ export const formatSqlDate = (date) => {
 
 export const formatDateTime = (date) => {
   if (!date) return "-";
-  return format(new Date(date), "dd.MM.yyyy HH:mm", {
-    locale: eoLocale,
+  const convertDate = new Date(date).toLocaleString("de-DE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
   });
+  return convertDate;
 };
 
 export const formatDuration = (startDate, endDate) => {

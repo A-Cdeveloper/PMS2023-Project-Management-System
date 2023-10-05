@@ -1,9 +1,8 @@
 import TableOperations from "../../ui/Data/TableOperations";
-import SortBy from "../../ui/SortBy";
 import FilterText from "../../ui/FilterText";
 import Filter from "../../ui/Filter";
-// import NewRecord from "../../ui/Buttons/NewRecord";
-// import AddEditProject from "./AddEditProject";
+import NewRecord from "../../ui/Buttons/NewRecord";
+import AddEditTask from "./AddEditTask";
 import { taskStatus } from "./TaskParameters";
 
 function TasksTableOperations() {
@@ -16,9 +15,9 @@ function TasksTableOperations() {
           return { value: status.value, label: status.label };
         })}
       />
-      {/* <NewRecord record="project">
-        <AddEditProject />
-      </NewRecord> */}
+      <NewRecord record="task">
+        <AddEditTask />
+      </NewRecord>
     </TableOperations>
   );
 }

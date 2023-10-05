@@ -1,23 +1,14 @@
-// import {
-//   FaCloud,
-//   FaDatabase,
-//   FaPhp,
-//   FaRegCreditCard,
-//   FaTypo3,
-//   FaWordpressSimple,
-// } from "react-icons/fa";
+import { useProjects } from "../projects/useProjects";
 
-// import { useClients } from "../clients/useClients";
+export const taskAllProjects = () => {
+  const { projects } = useProjects();
 
-// export const projectAllClients = () => {
-//   const { clients } = useClients();
+  const projectsList = projects.map((project) => {
+    return { value: project.project_id, label: project.project_name };
+  });
 
-//   const clientsList = clients.map((client) => {
-//     return { value: client.client_id, label: client.client_name };
-//   });
-
-//   return [{ value: "", label: "" }, ...clientsList];
-// };
+  return [{ value: "", label: "" }, ...projectsList];
+};
 
 export const taskCols = [
   "Task",

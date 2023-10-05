@@ -15,7 +15,7 @@ const ClientsTable = () => {
   const { isLoading, error, clients } = useFilterClients();
   const { clients: allClients } = useClients();
 
-  console.log(clients);
+  // console.log(clients);
 
   //filter results
   const filteredTextValue = searchParams.get("filterByText");

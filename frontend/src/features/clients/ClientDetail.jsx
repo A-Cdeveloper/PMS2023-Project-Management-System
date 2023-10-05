@@ -16,6 +16,7 @@ import {
 
 import { clientCols } from "./ClientParameters";
 import { HiOutlineArrowTopRightOnSquare } from "react-icons/hi2";
+import ProjectsTable from "../projects/ProjectsTable";
 
 const ClientDetail = () => {
   const moveBack = useMoveBack();
@@ -75,6 +76,7 @@ const ClientDetail = () => {
       </Row>
 
       <Headline as="h2">Projects</Headline>
+      <ProjectsTable />
     </>
   );
 };

@@ -16,11 +16,9 @@ const status = {
   future: css`
     background: #c45f9d;
   `,
-  working: css`
-    background: #c45f9d;
-  `,
+
   invoiced: css`
-    background: #4475b6;
+    background: #032949;
   `,
   working: css`
     background: #4475b6;

@@ -110,12 +110,12 @@ router.post('/:task_id/duplicate', async (req, res) => {
 router.patch('/:task_id/edit', async (req, res) => {
   const postTask = req.body
   const tid = req.params.task_id
-  const task = await dbfunctions.getSingleTask(null, tid)
+  const task = await dbfunctions.getSingleTask(tid)
   if (!task) {
     return res.status(400).json({ message: 'Task not exist.' })
   }
   await dbfunctions.updateTask(postTask, tid)
-  res.status(231).json({ message: 'Task succesfully updated.' })
+  res.status(231).json({ task, message: 'Task succesfully updated.' })
 })
 
 router.delete('/:task_id/delete', async (req, res) => {

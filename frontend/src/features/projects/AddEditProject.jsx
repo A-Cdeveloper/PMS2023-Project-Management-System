@@ -163,8 +163,9 @@ const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
           render={({ field }) => {
             const defDate = {
               ...field,
-              value: field.value && field.value.slice(0, -14),
-              // : new Date(new Date()).toISOString().slice(0, -5),
+              value: field.value
+                ? field.value.slice(0, -14)
+                : new Date(new Date()).toISOString().slice(0, -5),
             };
             return (
               <Input
@@ -198,7 +199,9 @@ const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
           render={({ field }) => {
             const defDate = {
               ...field,
-              value: field.value && field.value.slice(0, -14),
+              value: field.value
+                ? field.value.slice(0, -14)
+                : new Date(new Date()).toISOString().slice(0, -5),
             };
             return (
               <Input
@@ -242,7 +245,12 @@ const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
       </FormRow>
 
       <FormRow>
-        <Button variation="primary" size="medium" disabled={loadingState}>
+        <Button
+          variation="primary"
+          size="medium"
+          disabled={loadingState}
+          active={null}
+        >
           {isEdit ? "Submit Changes" : "Add new project"}
         </Button>
       </FormRow>

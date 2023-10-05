@@ -21,6 +21,8 @@ const AddEditClient = ({ clientToEdit = {}, onCloseModal }) => {
     formState: { errors },
   } = useForm({ defaultValues: isEdit ? clientToEdit : {} });
 
+  const loadingState = isAddNewLoading || isEditLoading;
+
   const onSubmit = (data) => {
     if (isEdit) {
       editClient(
@@ -47,6 +49,7 @@ const AddEditClient = ({ clientToEdit = {}, onCloseModal }) => {
         <Input
           {...register("client_name", { required: "This field is required" })}
           aria-invalid={errors.client_name ? "true" : "false"}
+          disabled={loadingState}
         />
       </FormRow>
 
@@ -57,6 +60,7 @@ const AddEditClient = ({ clientToEdit = {}, onCloseModal }) => {
             required: "This field is required",
           })}
           aria-invalid={errors.client_adresse ? "true" : "false"}
+          disabled={loadingState}
         />
       </FormRow>
 
@@ -66,6 +70,7 @@ const AddEditClient = ({ clientToEdit = {}, onCloseModal }) => {
           {...register("client_contact", {
             required: false,
           })}
+          disabled={loadingState}
         />
       </FormRow>
 
@@ -80,6 +85,7 @@ const AddEditClient = ({ clientToEdit = {}, onCloseModal }) => {
             },
           })}
           aria-invalid={errors.client_phone ? "true" : "false"}
+          disabled={loadingState}
         />
       </FormRow>
 
@@ -93,6 +99,7 @@ const AddEditClient = ({ clientToEdit = {}, onCloseModal }) => {
             },
           })}
           aria-invalid={errors.client_fax ? "true" : "false"}
+          disabled={loadingState}
         />
       </FormRow>
 
@@ -107,6 +114,7 @@ const AddEditClient = ({ clientToEdit = {}, onCloseModal }) => {
             },
           })}
           aria-invalid={errors.client_email ? "true" : "false"}
+          disabled={loadingState}
         />
       </FormRow>
 
@@ -120,10 +128,16 @@ const AddEditClient = ({ clientToEdit = {}, onCloseModal }) => {
             },
           })}
           aria-invalid={errors.client_site ? "true" : "false"}
+          disabled={loadingState}
         />
       </FormRow>
       <FormRow>
-        <Button variation="primary" size="medium">
+        <Button
+          variation="primary"
+          size="medium"
+          active={null}
+          disabled={loadingState}
+        >
           {isEdit ? "Submit Changes" : "Add new client"}
         </Button>
       </FormRow>

@@ -52,6 +52,29 @@ export const getFilteredTasks = async ({
   return data;
 };
 
+// ///////////////////////////////////////////////////////////////////////
+export const addNewTask = async (newTask) => {
+  const response = await fetch(`${API_URL}/tasks/new`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newTask),
+  });
+
+  const data = await response.json();
+
+  if (response.status === 404) {
+    throw new Error("Task can't be added! Please try again");
+  }
+
+  if (response.status === 400) {
+    throw new Error(data.message);
+  }
+
+  return data;
+};
+
 ///////////////////////////////////////////////////////////////////////
 export const cloneTask = async (taskId) => {
   const response = await fetch(`${API_URL}/tasks/${taskId}/duplicate`, {
@@ -85,5 +108,28 @@ export const deleteTask = async (taskId) => {
     throw new Error(data.message);
   }
 
+  return data;
+};
+
+// ///////////////////////////////////////////////////////////////////////
+export const editTask = async (taskId, updatedTask) => {
+  const response = await fetch(`${API_URL}/tasks/${taskId}/edit`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedTask),
+  });
+
+  const data = await response.json();
+
+  if (response.status === 404) {
+    throw new Error("Task can't be edit! Please try again");
+  }
+
+  if (response.status === 400) {
+    throw new Error(data.message);
+  }
+  // await wait(3000);
   return data;
 };

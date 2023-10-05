@@ -28,7 +28,7 @@ import Table from "../../ui/Data/Table";
 import Tag from "../../ui/Data/Tag";
 import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
-// import AddEditProject from "../projects/AddEditProject";
+import AddEditTask from "./AddEditTask";
 import ConfirmModal from "../../ui/ConfirmModal";
 
 const Task = styled.div`
@@ -64,7 +64,7 @@ const TaskRow = ({ task }) => {
 
   const {
     task_id,
-    task_task_id,
+    task_project_id,
     task_name,
     client_name,
     project_name,
@@ -86,7 +86,7 @@ const TaskRow = ({ task }) => {
     <Table.Row>
       <Task>{task_name}</Task>
       <Project>
-        <Link onClick={() => navigate(`/projects/${task_task_id}`)}>
+        <Link onClick={() => navigate(`/projects/${task_project_id}`)}>
           {project_name}
         </Link>
 
@@ -142,9 +142,9 @@ const TaskRow = ({ task }) => {
               </Modal.OpenButton>
             </Menus.List>
           </Menus>
-          {/* <Modal.Window name="project-edit">
-            <AddEditProject projectToEdit={project} />
-          </Modal.Window> */}
+          <Modal.Window name="task-edit">
+            <AddEditTask taskToEdit={task} />
+          </Modal.Window>
 
           <Modal.Window name="task-clone">
             <ConfirmModal
