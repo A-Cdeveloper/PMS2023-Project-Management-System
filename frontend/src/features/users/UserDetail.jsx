@@ -2,8 +2,8 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { useParams } from "react-router-dom";
 import { useMoveBack } from "../../hooks/useMoveBack";
-import { useTask } from "./useTask";
-import { formatDate, formatDateTime } from "../../utils/helpers";
+import { useUser } from "./useUser";
+// import { formatDate, formatDateTime } from "../../utils/helpers";
 
 import Headline from "../../ui/Headline";
 import ButtonText from "../../ui/Buttons/ButtonText";
@@ -16,58 +16,53 @@ import {
   DataBoxTitle,
   DataBoxContent,
 } from "../../ui/Data/DataDetails";
-import { taskStatus } from "./TaskParameters";
+// import { taskStatus } from "./TaskParameters";
 
-import useEditTask from "./useEditTask";
+// import useEditTask from "./useEditTask";
 
 import ButtonGroup from "../../ui/Buttons/ButtonGroup";
 // import { HiOutlineArrowTopRightOnSquare } from "react-icons/hi2";
 import { formatDuration } from "../../utils/helpers";
 import Input from "../../ui/Form/Input";
 
-const TaskDetail = () => {
+const UserDetail = () => {
   const moveBack = useMoveBack();
-  const { task: taskSingle = {} } = useTask();
-  const { isEditLoading, editTask } = useEditTask();
-  const { taskId } = useParams();
+  const { user: userSingle = {} } = useUser();
+  //   const { isEditLoading, editTask } = useEditTask();
+  const { userId } = useParams();
 
   const queryClient = useQueryClient();
-  const task = queryClient.getQueryData(["task", +taskId])
-    ? queryClient.getQueryData(["task", +taskId])
-    : taskSingle;
+  const user = queryClient.getQueryData(["user", +userId])
+    ? queryClient.getQueryData(["user", +userId])
+    : userSingle;
 
   const {
-    task_id,
-    task_project_id,
-    task_name,
-    client_name,
-    project_name,
-    task_description,
-    task_notice,
-    task_add_date,
-    task_start_time,
-    task_end_time,
-    task_status,
-    client_id,
-  } = task;
+    uid,
+    first_name,
+    last_name,
+    username,
+    email,
+    created_date,
+    last_login,
+    role,
+    verified,
+  } = user;
 
-  console.log(task);
+  console.log(user);
 
   return (
     <>
       <Row type="horizontal">
         <Row type="horizontal">
-          <Headline as="h3">{task_name}</Headline>&nbsp;&nbsp;
-          <Tag key={task_status} type={task_status}>
-            {task_status}
-          </Tag>
+          <Headline as="h3">
+            {first_name} {last_name}
+          </Headline>
           &nbsp;&nbsp;
-          {formatDuration(task_start_time, task_end_time)}
         </Row>
         <ButtonText onClick={moveBack}> ← Back</ButtonText>
       </Row>
 
-      <Row type="horizontal">
+      {/* <Row type="horizontal">
         <DataDetailsContainer>
           <DataBox>
             <DataBoxTitle>Project</DataBoxTitle>
@@ -198,55 +193,9 @@ const TaskDetail = () => {
             </DataBoxContent>
           </DataBox>
         </DataDetailsContainer>
-      </Row>
-
-      {/*  
-
-
-
-        {project_status === "online" && (
-          <DataDetailsContainer>
-
-            <DataBox>
-              <DataBoxTitle>Last update</DataBoxTitle>
-              <DataBoxContent>
-                <Input
-                  type="date"
-                  defaultValue={
-                    project_last_update
-                      ? project_last_update.slice(0, -14)
-                      : null
-                  }
-                  onChange={(e) =>
-                    editProject(
-                      {
-                        projectId: project_id,
-                        updatedProject: {
-                          ...project,
-                          project_last_update: e.target.value,
-                        },
-                      },
-                      {
-                        onSettled: () => {
-                          queryClient.invalidateQueries({
-                            queryKey: ["project", project_id],
-                          });
-                        },
-                      }
-                    )
-                  }
-                />
-              </DataBoxContent>
-            </DataBox>
-          </DataDetailsContainer>
-        )}
-
-
-      
-
-      {/* <Headline as="h2">Tasks</Headline> */}
+      </Row> */}
     </>
   );
 };
 
-export default TaskDetail;
+export default UserDetail;

@@ -1,5 +1,4 @@
 import { format, differenceInMinutes } from "date-fns";
-import eoLocale from "date-fns/locale/de";
 
 export const sortingArray = (array, field, order = "asc") => {
   if (order !== "asc")

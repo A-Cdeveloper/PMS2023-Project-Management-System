@@ -5,7 +5,7 @@ const Input = styled.input`
   background-color: #fff;
   border-radius: ${(props) => props.theme.border.borderRadius.sm};
   box-shadow: ${(props) => props.theme.shadow.xs};
-  padding: 0.5rem 1.2rem;
+  padding: 0.7rem 1.2rem;
   &:focus {
     outline: 1px solid ${(props) => props.theme.baseColors.grey300};
   }
@@ -15,7 +15,15 @@ const Input = styled.input`
     css`
       box-shadow: none;
       font-size: 1.4rem;
-      padding: 0.8rem 0.5rem;
+      padding: 0rem 0.5rem;
+    `}
+
+  ${(props) =>
+    props.type === "datetime-local" &&
+    css`
+      box-shadow: none;
+      font-size: 1.4rem;
+      padding: 0rem 0.5rem;
     `}
 `;
 

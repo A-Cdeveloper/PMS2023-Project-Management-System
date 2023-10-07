@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import defaultAvatar from "../../../public/default-user.jpg";
+import defaultAvatar from "/default-user.jpg";
 // import { useUser } from "./useUser";
 
 const StyledUserAvatar = styled.div`
