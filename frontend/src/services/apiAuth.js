@@ -24,6 +24,25 @@ export const login = async ({ username, password }) => {
     throw new Error(data.message);
   }
 
-  await wait(5000);
+  await wait(1000);
+  return data;
+};
+
+///////////////////////////////////////////////////////////////////
+export const logout = async ({ refreshToken }) => {
+  const response = await fetch(`${API_URL}/users/logout`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ refreshToken }),
+  });
+
+  const data = await response.json();
+
+  if (response.status === 400) {
+    throw new Error("Failed! Please try again");
+  }
+
   return data;
 };

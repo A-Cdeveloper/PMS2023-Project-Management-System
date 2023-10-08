@@ -6,9 +6,12 @@ import Input from "../../ui/Form/Input";
 import useLogin from "./useLogin";
 import SpinnerMini from "../../ui/SpinnerMini";
 import FormRowVertical from "../../ui/Form/FormRowVertical";
-import { useCurrentUser } from "../../context/authContext";
+
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -24,6 +27,7 @@ function LoginForm() {
         onSettled: () => {
           setUsername("");
           setPassword("");
+          navigate("/", { replace: true });
         },
       }
     );

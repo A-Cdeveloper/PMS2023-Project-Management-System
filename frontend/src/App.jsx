@@ -36,6 +36,8 @@ const queryClient = new QueryClient({
 });
 
 const router = createBrowserRouter([
+  { path: "/login", element: <Login /> },
+
   {
     element: (
       <ProtectedRoute>
@@ -76,21 +78,20 @@ const router = createBrowserRouter([
       { path: "/settings", element: <Settings /> },
     ],
   },
-  { path: "/login", element: <Login /> },
 ]);
 
 function App() {
   return (
-    <AuthContextProvider>
-      <ThemeStyle>
-        <QueryClientProvider client={queryClient}>
+    <ThemeStyle>
+      <QueryClientProvider client={queryClient}>
+        <AuthContextProvider>
           <ReactQueryDevtools />
           <GlobalStyle />
           <RouterProvider router={router} />
-          <Notifications />
-        </QueryClientProvider>
-      </ThemeStyle>
-    </AuthContextProvider>
+          <Notifications />{" "}
+        </AuthContextProvider>
+      </QueryClientProvider>
+    </ThemeStyle>
   );
 }
 

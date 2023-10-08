@@ -80,7 +80,18 @@ router.post('/login', async (req, res) => {
 
 router.post('/logout', async (req, res) => {
   const refreshToken = req.body.refreshToken
+
+  if (refreshToken === undefined) {
+    return res.status(400).json({ message: 'Refresh token not found.' })
+  }
+
+  const existingUser = await dbfunctions.getRefreshToken(refreshToken)
+  if (existingUser === undefined) {
+    return res.status(400).json({ message: 'Bad refresh token.' })
+  }
+
   await dbfunctions.clearRefreshToken(refreshToken)
+  return res.status(231).json({ message: 'You are logout.' })
 })
 
 // // refresh token

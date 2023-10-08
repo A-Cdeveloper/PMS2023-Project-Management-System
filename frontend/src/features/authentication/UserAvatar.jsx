@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import defaultAvatar from "/default-user.jpg";
+import { useCurrentUser } from "../../context/authContext";
 // import { useUser } from "./useUser";
 
 const StyledUserAvatar = styled.div`
@@ -22,7 +23,9 @@ const Avatar = styled.img`
   outline: 2px solid var(--color-grey-100);
 `;
 
-const UserAvatar = ({ avatar: userAavatar, fullName: userFullName }) => {
+const UserAvatar = () => {
+  const { user } = useCurrentUser();
+
   // current user
   // const {
   //   user: {
@@ -33,7 +36,9 @@ const UserAvatar = ({ avatar: userAavatar, fullName: userFullName }) => {
   let uAvatar = (
     <>
       <Avatar src={defaultAvatar} alt={`Avatar for`} />
-      {/* <span>{fullName}</span> */}
+      <span>
+        {user.first_name} {user.last_name}
+      </span>
     </>
   );
 
