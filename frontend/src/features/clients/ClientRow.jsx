@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { singleClient } from "../../services/apiClients";
+import { useAccessToken } from "../../context/authContext";
 
 import styled from "styled-components";
 import Table from "../../ui/Data/Table";
@@ -39,6 +40,7 @@ const ClientRow = ({ client }) => {
   const { isCloneLoading, cloneClient } = useCloneClient();
   const { isDeleteLoading, deleteClient } = useDeleteClient();
   const queryClient = useQueryClient();
+  const accessToken = useAccessToken();
 
   const {
     client_id,
@@ -55,7 +57,7 @@ const ClientRow = ({ client }) => {
   const prefetchClientHandler = async (client_id) => {
     await queryClient.prefetchQuery({
       queryKey: ["client", client_id],
-      queryFn: () => singleClient(client_id),
+      queryFn: () => singleClient({ client_id, accessToken }),
     });
   };
 
@@ -128,7 +130,7 @@ const ClientRow = ({ client }) => {
             <ConfirmModal
               resourceName="client"
               operation="clone"
-              onConfirm={() => cloneClient(client_id)}
+              onConfirm={() => cloneClient({ client_id, accessToken })}
               disabled={isCloneLoading}
             />
           </Modal.Window>
@@ -137,7 +139,7 @@ const ClientRow = ({ client }) => {
               resourceName="client"
               operation="delete"
               connectedResurces={project_per_client !== 0}
-              onConfirm={() => deleteClient(client_id)}
+              onConfirm={() => deleteClient({ client_id, accessToken })}
               disabled={isDeleteLoading}
             />
           </Modal.Window>

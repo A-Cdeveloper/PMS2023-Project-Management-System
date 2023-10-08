@@ -88,12 +88,12 @@ const StyledButton = styled.button`
   color: ${(props) => (props.active ? "#fff" : null)};
 `;
 
-const Button = ({ children, variation, size, active = false, onClick }) => {
+const Button = ({ children, variation, size, active, onClick }) => {
   return (
     <StyledButton
       variation={variation}
       size={size}
-      active={active}
+      active={active && active}
       onClick={onClick}
     >
       {children}

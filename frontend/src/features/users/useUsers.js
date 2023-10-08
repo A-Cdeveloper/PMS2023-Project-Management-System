@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUsers as getUsersApi } from "../../services/apiUsers";
-import { useSearchParams } from "react-router-dom";
-//import { formatSqlDate, lastThirtyDays } from "../../utils/helpers";
+import { useAccessToken } from "../../context/authContext";
 
 export const useUsers = () => {
-  const [searchParams] = useSearchParams();
+  const accessToken = useAccessToken();
 
   const {
     isLoading,
@@ -12,7 +11,7 @@ export const useUsers = () => {
     data: users = [],
   } = useQuery({
     queryKey: ["users"],
-    queryFn: () => getUsersApi(),
+    queryFn: () => getUsersApi({ accessToken }),
     retry: 1,
   });
 

@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import useAddClient from "./useAddClient";
 import useEditClient from "./useEditClient";
+import { useAccessToken } from "../../context/authContext";
 
 import Form from "../../ui/Form/Form";
 import FormRow from "../../ui/Form/FormRow";
@@ -12,6 +13,7 @@ import Spinner from "../../ui/Spinner";
 const AddEditClient = ({ clientToEdit = {}, onCloseModal }) => {
   const { isAddNewLoading, addNewClient } = useAddClient();
   const { isEditLoading, editClient } = useEditClient();
+  const accessToken = useAccessToken();
 
   const isEdit = !!clientToEdit.client_id;
   const {
@@ -26,20 +28,23 @@ const AddEditClient = ({ clientToEdit = {}, onCloseModal }) => {
   const onSubmit = (data) => {
     if (isEdit) {
       editClient(
-        { clientId: clientToEdit.client_id, updatedClient: data },
+        { client_id: clientToEdit.client_id, updatedClient: data, accessToken },
         {
           onSuccess: () => {
             onCloseModal();
           },
         }
       );
-      console.log(data);
+      // console.log(data);
     } else {
-      addNewClient(data, {
-        onSuccess: () => {
-          onCloseModal();
-        },
-      });
+      addNewClient(
+        { newClient: data, accessToken },
+        {
+          onSuccess: () => {
+            onCloseModal();
+          },
+        }
+      );
     }
   };
 

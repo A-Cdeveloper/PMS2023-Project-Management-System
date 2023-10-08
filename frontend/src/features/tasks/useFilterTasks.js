@@ -4,6 +4,7 @@ import { getFilteredTasks as getFilteredTasksApi } from "../../services/apiTasks
 import { useSettings } from "../settings/useSettings";
 import { useTasks } from "./useTasks";
 import { formatSqlDate, lastThirtyDays } from "../../utils/helpers";
+import { useAccessToken } from "../../context/authContext";
 
 export const useFilterTasks = () => {
   const [searchParams] = useSearchParams();
@@ -11,6 +12,7 @@ export const useFilterTasks = () => {
   const { tasks: allTasks } = useTasks();
   const { tasks_per_page } = settings;
   const queryClient = useQueryClient();
+  const accessToken = useAccessToken();
 
   const startIntervalDate = searchParams.get("startIntervalDate")
     ? searchParams.get("startIntervalDate")
@@ -35,6 +37,7 @@ export const useFilterTasks = () => {
         perPage: tasks_per_page,
         startIntervalDate,
         endIntervalDate,
+        accessToken,
       }),
     enabled: !!tasks_per_page,
     retry: 1,
@@ -49,6 +52,7 @@ export const useFilterTasks = () => {
           perPage: tasks_per_page,
           startIntervalDate,
           endIntervalDate,
+          accessToken,
         }),
       retry: 1,
     });

@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { getFilteredProjects as getFilteredProjectsApi } from "../../services/apiProjects";
 import { useSettings } from "../settings/useSettings";
 import { useProjects } from "./useProjects";
+import { useAccessToken } from "../../context/authContext";
 
 export const useFilterProjects = () => {
   const [searchParams] = useSearchParams();
@@ -10,6 +11,7 @@ export const useFilterProjects = () => {
   const { projects: allProjects } = useProjects();
   const { projects_per_page } = settings;
   const queryClient = useQueryClient();
+  const accessToken = useAccessToken();
   // SORTING - server
   const sortBy = searchParams?.get("sortBy")
     ? searchParams.get("sortBy").split("-")
@@ -25,7 +27,12 @@ export const useFilterProjects = () => {
   } = useQuery({
     queryKey: ["projects", sortBy, page],
     queryFn: () =>
-      getFilteredProjectsApi({ sortBy, page, perPage: projects_per_page }),
+      getFilteredProjectsApi({
+        sortBy,
+        page,
+        perPage: projects_per_page,
+        accessToken,
+      }),
     enabled: !!projects_per_page,
   });
 
@@ -37,6 +44,7 @@ export const useFilterProjects = () => {
           sortBy,
           page: page + 1,
           perPage: projects_per_page,
+          accessToken,
         }),
     });
   }

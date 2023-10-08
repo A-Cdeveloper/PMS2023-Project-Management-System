@@ -58,7 +58,7 @@ const ProjectDetail = () => {
     task_per_project,
   } = project;
 
-  console.log(project);
+  //console.log(project);
 
   return (
     <>

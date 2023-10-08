@@ -11,8 +11,8 @@ import useCloneTask from "./useCloneTask";
 import useDeleteTask from "./useDeleteTask";
 
 import { singleTask } from "../../services/apiTasks";
-
 import { taskStatus } from "./TaskParameters";
+import { useAccessToken } from "../../context/authContext";
 
 import {
   HiOutlineGlobeAlt,
@@ -61,6 +61,7 @@ const TaskRow = ({ task }) => {
   const { isCloneLoading, cloneTask } = useCloneTask();
   const { isDeleteLoading, deleteTask } = useDeleteTask();
   const queryClient = useQueryClient();
+  const accessToken = useAccessToken();
 
   const {
     task_id,
@@ -78,7 +79,7 @@ const TaskRow = ({ task }) => {
   const prefetchTaskHandler = async (task_id) => {
     await queryClient.prefetchQuery({
       queryKey: ["task", task_id],
-      queryFn: () => singleTask(task_id),
+      queryFn: () => singleTask({ task_id, accessToken }),
     });
   };
 
@@ -150,7 +151,7 @@ const TaskRow = ({ task }) => {
             <ConfirmModal
               resourceName="task"
               operation="clone"
-              onConfirm={() => cloneTask(task_id)}
+              onConfirm={() => cloneTask({ task_id, accessToken })}
               disabled={isCloneLoading}
             />
           </Modal.Window>
@@ -158,7 +159,7 @@ const TaskRow = ({ task }) => {
             <ConfirmModal
               resourceName="task"
               operation="delete"
-              onConfirm={() => deleteTask(task_id)}
+              onConfirm={() => deleteTask({ task_id, accessToken })}
               disabled={isDeleteLoading}
             />
           </Modal.Window>

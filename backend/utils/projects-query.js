@@ -34,6 +34,14 @@ const getSingleProject = async (project_name, project_id) => {
   return project[0]
 }
 
+const getDuplicateProject = async (project_name) => {
+  const [project] = await db.query(
+    'SELECT project_name FROM pms_projects WHERE project_name =?',
+    [project_name]
+  )
+  return project[0]
+}
+
 const addProject = async (project) => {
   const {
     project_client_id,
@@ -109,6 +117,7 @@ module.exports = {
   getProjects,
   getProjectsRange,
   getSingleProject,
+  getDuplicateProject,
   addProject,
   updateProject,
   deleteProject,

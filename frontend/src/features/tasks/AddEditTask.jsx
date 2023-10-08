@@ -1,7 +1,7 @@
 import { useForm, Controller } from "react-hook-form";
 import useEditTask from "./useEditTask";
 import useAddTask from "./useAddTask";
-
+import { useAccessToken } from "../../context/authContext";
 import { taskAllProjects, taskStatus } from "./TaskParameters";
 
 import Form from "../../ui/Form/Form";
@@ -14,6 +14,7 @@ import Button from "../../ui/Buttons/Button";
 const AddEditTask = ({ taskToEdit = {}, onCloseModal }) => {
   const { isAddNewLoading, addNewTask } = useAddTask();
   const { isEditLoading, editTask } = useEditTask();
+  const accessToken = useAccessToken();
 
   //console.log(taskToEdit);
 
@@ -33,7 +34,7 @@ const AddEditTask = ({ taskToEdit = {}, onCloseModal }) => {
   const onSubmit = (data) => {
     if (isEdit) {
       editTask(
-        { taskId: taskToEdit.task_id, updatedTask: data },
+        { task_id: taskToEdit.task_id, updatedTask: data, accessToken },
         {
           onSuccess: () => {
             onCloseModal();
@@ -43,9 +44,12 @@ const AddEditTask = ({ taskToEdit = {}, onCloseModal }) => {
     } else {
       addNewTask(
         {
-          ...data,
-          task_add_date: new Date(),
-          task_status: "open",
+          newTask: {
+            ...data,
+            task_add_date: new Date(),
+            task_status: "open",
+          },
+          accessToken,
         },
         {
           onSuccess: () => {

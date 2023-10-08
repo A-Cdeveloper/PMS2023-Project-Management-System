@@ -1,12 +1,7 @@
 import toast from "react-hot-toast";
 import Headline from "../ui/Headline";
-import { useCurrentUser } from "../context/authContext";
 
 const Dashboard = () => {
-  const context = useCurrentUser();
-
-  console.log(context);
-
   return (
     <>
       <Headline as="h1">Dashboard</Headline>

@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { getFilteredClients as getFilteredClientsApi } from "../../services/apiClients";
 import { useSettings } from "../settings/useSettings";
 import { useClients } from "./useClients";
+import { useAccessToken } from "../../context/authContext";
 
 export const useFilterClients = () => {
   const [searchParams] = useSearchParams();
@@ -10,6 +11,7 @@ export const useFilterClients = () => {
   const { clients: allClients } = useClients();
   const { clients_per_page } = settings;
   const queryClient = useQueryClient();
+  const accessToken = useAccessToken();
 
   // SORTING - server
   const sortBy = searchParams?.get("sortBy")
@@ -26,7 +28,12 @@ export const useFilterClients = () => {
   } = useQuery({
     queryKey: ["clients", sortBy, page],
     queryFn: () =>
-      getFilteredClientsApi({ sortBy, page, perPage: clients_per_page }),
+      getFilteredClientsApi({
+        sortBy,
+        page,
+        perPage: clients_per_page,
+        accessToken,
+      }),
     enabled: !!clients_per_page,
   });
 
@@ -38,6 +45,7 @@ export const useFilterClients = () => {
           sortBy,
           page: page + 1,
           perPage: clients_per_page,
+          accessToken,
         }),
     });
   }

@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { getProjects as getProjectsApi } from "../../services/apiProjects";
 import { useSearchParams } from "react-router-dom";
+import { getProjects as getProjectsApi } from "../../services/apiProjects";
+import { useAccessToken } from "../../context/authContext";
 
 export const useProjects = () => {
   const [searchParams] = useSearchParams();
+  const accessToken = useAccessToken();
 
   // SORTING - server
   const sortBy = searchParams?.get("sortBy")
@@ -16,7 +18,7 @@ export const useProjects = () => {
     data: projects = [],
   } = useQuery({
     queryKey: ["projects", sortBy],
-    queryFn: () => getProjectsApi({ sortBy }),
+    queryFn: () => getProjectsApi({ sortBy, accessToken }),
   });
 
   return {

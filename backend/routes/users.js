@@ -6,10 +6,12 @@ const jwt = require('jsonwebtoken')
 const dbfunctions = require('../utils/users-query')
 const sendMail = require('../utils/sendemail')
 
+const verifyToken = require('../authMw')
+
 const router = express.Router()
 // /users
 
-router.get('/', async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
   const users = await dbfunctions.getUsers()
   if (users.length == 0) {
     return res.status(400).json({ message: 'Users list is empty.' })
@@ -17,7 +19,7 @@ router.get('/', async (req, res) => {
   return res.status(231).send(users)
 })
 
-router.get('/user/:uid', async (req, res) => {
+router.get('/user/:uid', verifyToken, async (req, res) => {
   const uid = req.params.uid
   const user = await dbfunctions.getSingleUser(null, null, uid)
   if (!user) {
@@ -29,7 +31,7 @@ router.get('/user/:uid', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   const { username, password } = req.body
-  const user = await dbfunctions.getSingleUser(username)
+  const user = await dbfunctions.getSingleUser(username, null, null)
 
   //
   let timeObject = new Date()

@@ -28,7 +28,7 @@ const ClientDetail = () => {
     ? queryClient.getQueryData(["client", +clientId])
     : clientSingle;
 
-  console.log(clientSingle);
+  // console.log(clientSingle);
 
   const {
     client_id,
@@ -76,7 +76,7 @@ const ClientDetail = () => {
       </Row>
 
       <Headline as="h2">Projects</Headline>
-      <ProjectsTable />
+      {/* <ProjectsTable /> */}
     </>
   );
 };

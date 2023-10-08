@@ -4,15 +4,11 @@ import { useLogout } from "./useLogout";
 import ButtonIcon from "../../ui/Buttons/ButtonIcon";
 import { useCurrentUser } from "../../context/authContext";
 
-import { useNavigate } from "react-router-dom";
 const Logout = () => {
-  const { isLoading, logout } = useLogout();
+  const { logout } = useLogout();
   const {
     user: { refreshToken },
   } = useCurrentUser();
-  const navigate = useNavigate();
-
-  console.log(refreshToken);
 
   return (
     <ButtonIcon

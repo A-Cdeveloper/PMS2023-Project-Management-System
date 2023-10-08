@@ -16,7 +16,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    console.log("TEST");
+    // console.log("TEST RENDER");
   }, [storedValue]);
 
   const value = {
@@ -33,4 +33,11 @@ export const useCurrentUser = () => {
   if (context === undefined)
     throw new Error("Context was used outdise provider");
   return context;
+};
+
+export const useAccessToken = () => {
+  const {
+    user: { accessToken },
+  } = useContext(AuthContext);
+  return accessToken;
 };

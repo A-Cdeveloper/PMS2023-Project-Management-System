@@ -6,8 +6,7 @@ const useEditProject = () => {
   const queryClient = useQueryClient();
 
   const { isLoading: isEditLoading, mutate: editProject } = useMutation({
-    mutationFn: ({ projectId, updatedProject }) =>
-      editProjectApi(projectId, updatedProject),
+    mutationFn: editProjectApi,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
       toast.success(

@@ -4,13 +4,13 @@ import Input from "../../ui/Form/Input";
 import { toast } from "react-hot-toast";
 import { useSettings } from "./useSettings";
 import { useUpdateSettings } from "./useUpdateSettings";
-//import { useLocalStorageState } from "../../hooks/useLocalStorageState";
+import { useAccessToken } from "../../context/authContext";
 
 const SettingsForm = () => {
   const { isLoadingSettings, errorGetSettings, settings = {} } = useSettings();
   const { isUpdateSettings, errorUpdateSettings, updateSettings } =
     useUpdateSettings();
-  // const {} = useLocalStorageState();
+  const accessToken = useAccessToken();
 
   const {
     clients_per_page,
@@ -30,7 +30,7 @@ const SettingsForm = () => {
     }
 
     updateSettings(
-      { ...settings, [field]: +e.target.value }
+      { ...settings, [field]: +e.target.value, accessToken }
       // {
       //   // LOCALSTORAGE
       //   onSuccess: () => {

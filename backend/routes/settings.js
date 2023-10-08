@@ -1,9 +1,10 @@
 const express = require('express')
 const dbfunctions = require('../utils/settings-query')
+const verifyToken = require('../authMw')
 
 const router = express.Router()
 
-router.get('/', async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
   const settings = await dbfunctions.getSettings()
   if (!settings) {
     return res.status(400).json({ message: 'No settings.' })
@@ -11,7 +12,7 @@ router.get('/', async (req, res) => {
   return res.status(231).send(settings)
 })
 
-router.patch('/edit', async (req, res) => {
+router.patch('/edit', verifyToken, async (req, res) => {
   const settings = req.body
 
   await dbfunctions.updateSettings(settings)

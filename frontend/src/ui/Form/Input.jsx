@@ -15,7 +15,7 @@ const Input = styled.input`
     css`
       box-shadow: none;
       font-size: 1.4rem;
-      padding: 0rem 0.5rem;
+      padding: 0.5rem 1rem;
     `}
 
   ${(props) =>
@@ -23,7 +23,7 @@ const Input = styled.input`
     css`
       box-shadow: none;
       font-size: 1.4rem;
-      padding: 0rem 0.5rem;
+      padding: 0.5rem 0.5rem;
     `}
 `;
 

@@ -59,7 +59,6 @@ const UserDetail = () => {
           </Headline>
           &nbsp;&nbsp;
         </Row>
-        <ButtonText onClick={moveBack}> ← Back</ButtonText>
       </Row>
 
       {/* <Row type="horizontal">

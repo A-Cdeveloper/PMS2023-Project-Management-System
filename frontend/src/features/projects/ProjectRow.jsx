@@ -7,6 +7,7 @@ import useCloneProject from "./useCloneProject";
 import useDeleteProject from "./useDeleteProject";
 
 import { singleProject } from "../../services/apiProjects";
+import { useAccessToken } from "../../context/authContext";
 
 import {
   projectPlatforms,
@@ -64,6 +65,7 @@ const ProjectRow = ({ project }) => {
   const { isCloneLoading, cloneProject } = useCloneProject();
   const { isDeleteLoading, deleteProject } = useDeleteProject();
   const queryClient = useQueryClient();
+  const accessToken = useAccessToken();
 
   const {
     project_id,
@@ -85,7 +87,7 @@ const ProjectRow = ({ project }) => {
   const prefetchProjectHandler = async (project_id) => {
     await queryClient.prefetchQuery({
       queryKey: ["project", project_id],
-      queryFn: () => singleProject(project_id),
+      queryFn: () => singleProject({ project_id, accessToken }),
     });
   };
 
@@ -195,7 +197,7 @@ const ProjectRow = ({ project }) => {
             <ConfirmModal
               resourceName="project"
               operation="clone"
-              onConfirm={() => cloneProject(project_id)}
+              onConfirm={() => cloneProject({ project_id, accessToken })}
               disabled={isCloneLoading}
             />
           </Modal.Window>
@@ -204,7 +206,7 @@ const ProjectRow = ({ project }) => {
               resourceName="project"
               operation="delete"
               connectedResurces={task_per_project !== 0}
-              onConfirm={() => deleteProject(project_id)}
+              onConfirm={() => deleteProject({ project_id, accessToken })}
               disabled={isDeleteLoading}
             />
           </Modal.Window>

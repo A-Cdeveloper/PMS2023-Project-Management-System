@@ -1,6 +1,7 @@
 import { useForm, Controller } from "react-hook-form";
 import useEditProject from "./useEditProject";
 import useAddProject from "./useAddProject";
+import { useAccessToken } from "../../context/authContext";
 
 import {
   projectHosting,
@@ -19,8 +20,9 @@ import Button from "../../ui/Buttons/Button";
 const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
   const { isAddNewLoading, addNewProject } = useAddProject();
   const { isEditLoading, editProject } = useEditProject();
+  const accessToken = useAccessToken();
 
-  console.log(projectToEdit);
+  // console.log(projectToEdit);
 
   const isEdit = !!projectToEdit.project_id;
   const {
@@ -38,7 +40,11 @@ const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
   const onSubmit = (data) => {
     if (isEdit) {
       editProject(
-        { projectId: projectToEdit.project_id, updatedProject: data },
+        {
+          project_id: projectToEdit.project_id,
+          updatedProject: data,
+          accessToken,
+        },
         {
           onSuccess: () => {
             onCloseModal();
@@ -46,11 +52,14 @@ const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
         }
       );
     } else {
-      addNewProject(data, {
-        onSuccess: () => {
-          onCloseModal();
-        },
-      });
+      addNewProject(
+        { newProject: data, accessToken },
+        {
+          onSuccess: () => {
+            onCloseModal();
+          },
+        }
+      );
     }
   };
 

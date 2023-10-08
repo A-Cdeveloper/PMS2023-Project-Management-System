@@ -7,7 +7,7 @@ const useAddClient = () => {
 
   const { isLoading: isAddNewLoading, mutate: addNewClient } = useMutation({
     mutationFn: addNewClientApi,
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["clients"] });
       toast.success("Client succesfully added!");
     },

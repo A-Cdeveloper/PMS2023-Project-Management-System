@@ -6,7 +6,7 @@ const useEditTask = () => {
   const queryClient = useQueryClient();
 
   const { isLoading: isEditLoading, mutate: editTask } = useMutation({
-    mutationFn: ({ taskId, updatedTask }) => editTaskApi(taskId, updatedTask),
+    mutationFn: editTaskApi,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       toast.success(`Task ${data.task.task_name} succesfully updated!`);

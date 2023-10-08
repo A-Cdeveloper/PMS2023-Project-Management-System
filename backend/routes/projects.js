@@ -1,11 +1,12 @@
 const express = require('express')
 const dbfunctions = require('../utils/projects-query')
 const dbfunctionsHelper = require('../utils/clients-query')
+const verifyToken = require('../authMw')
 
 const router = express.Router()
 // /users
 
-router.get('/:order', async (req, res) => {
+router.get('/:order', verifyToken, async (req, res) => {
   const { order } = req.params
   const [orderBy, orderDirection] = order.split('=')
   const projects = await dbfunctions.getProjects(orderBy, orderDirection)
@@ -16,7 +17,7 @@ router.get('/:order', async (req, res) => {
   return res.status(231).send(projects)
 })
 
-router.get('/filter/:from/:perPage/:order', async (req, res) => {
+router.get('/filter/:from/:perPage/:order', verifyToken, async (req, res) => {
   const { from, perPage, order } = req.params
   const [orderBy, orderDirection] = order.split('=')
   const projects = await dbfunctions.getProjectsRange(
@@ -31,7 +32,7 @@ router.get('/filter/:from/:perPage/:order', async (req, res) => {
   return res.status(231).send(projects)
 })
 
-router.get('/project/:project_id', async (req, res) => {
+router.get('/project/:project_id', verifyToken, async (req, res) => {
   const pid = req.params.project_id
   const project = await dbfunctions.getSingleProject(null, pid)
   if (!project || project.project_id === null) {
@@ -44,11 +45,10 @@ router.get('/project/:project_id', async (req, res) => {
   res.status(231).send({ ...project, client_name })
 })
 
-router.post('/new', async (req, res) => {
-  const postProject = req.body
-  const project = await dbfunctions.getSingleProject(
-    postProject.project_name,
-    null
+router.post('/new', verifyToken, async (req, res) => {
+  const { newProject: postProject } = req.body
+  const project = await dbfunctions.getDuplicateProject(
+    postProject.project_name
   )
   if (project) {
     return res.status(400).json({ message: 'Project already exist.' })
@@ -57,7 +57,7 @@ router.post('/new', async (req, res) => {
   res.status(231).json({ message: 'Project succesfully added.' })
 })
 
-router.post('/:project_id/duplicate', async (req, res) => {
+router.post('/:project_id/duplicate', verifyToken, async (req, res) => {
   const pid = req.params.project_id
   const project = await dbfunctions.getSingleProject(null, pid)
   if (!project) {
@@ -99,8 +99,8 @@ router.post('/:project_id/duplicate', async (req, res) => {
   res.status(231).json({ project, message: 'Project succesfully copied.' })
 })
 
-router.patch('/:project_id/edit', async (req, res) => {
-  const postProject = req.body
+router.patch('/:project_id/edit', verifyToken, async (req, res) => {
+  const { updatedProject: postProject } = req.body
   const pid = req.params.project_id
   const project = await dbfunctions.getSingleProject(
     postProject.project_name,
@@ -113,7 +113,7 @@ router.patch('/:project_id/edit', async (req, res) => {
   res.status(231).json({ project, message: 'Project succesfully updated.' })
 })
 
-router.delete('/:project_id/delete', async (req, res) => {
+router.delete('/:project_id/delete', verifyToken, async (req, res) => {
   const pid = req.params.project_id
   const project = await dbfunctions.getSingleProject(null, pid)
   if (!project) {

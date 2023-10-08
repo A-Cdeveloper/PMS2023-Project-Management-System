@@ -2,11 +2,11 @@ const express = require('express')
 const dbfunctions = require('../utils/tasks-query')
 const dbfunctionsHelper1 = require('../utils/projects-query')
 const dbfunctionsHelper2 = require('../utils/clients-query')
-
+const verifyToken = require('../authMw')
 const router = express.Router()
 // /users
 
-router.get('/tasks/:startDate/:endDate', async (req, res) => {
+router.get('/tasks/:startDate/:endDate', verifyToken, async (req, res) => {
   const { startDate, endDate } = req.params
   const tasks = await dbfunctions.getTasks(startDate, endDate)
   if (tasks.length == 0) {
@@ -16,22 +16,26 @@ router.get('/tasks/:startDate/:endDate', async (req, res) => {
   return res.status(231).send(tasks)
 })
 
-router.get('/filter/:from/:perPage/:startDate/:endDate', async (req, res) => {
-  const { from, perPage, startDate, endDate } = req.params
+router.get(
+  '/filter/:from/:perPage/:startDate/:endDate',
+  verifyToken,
+  async (req, res) => {
+    const { from, perPage, startDate, endDate } = req.params
 
-  const tasks = await dbfunctions.getTasksRange(
-    +from,
-    +perPage,
-    startDate,
-    endDate
-  )
-  if (tasks.length == 0) {
-    return res.status(400).json({ message: 'Tasks list is empty.' })
+    const tasks = await dbfunctions.getTasksRange(
+      +from,
+      +perPage,
+      startDate,
+      endDate
+    )
+    if (tasks.length == 0) {
+      return res.status(400).json({ message: 'Tasks list is empty.' })
+    }
+    return res.status(231).send(tasks)
   }
-  return res.status(231).send(tasks)
-})
+)
 
-router.get('/task/:task_id', async (req, res) => {
+router.get('/task/:task_id', verifyToken, async (req, res) => {
   const tid = req.params.task_id
   const task = await dbfunctions.getSingleTask(tid)
   if (!task) {
@@ -62,13 +66,13 @@ router.get('/task/:task_id', async (req, res) => {
   res.status(231).send({ ...task, project_name, client_name, client_id })
 })
 
-router.post('/new', async (req, res) => {
-  const postTask = req.body
+router.post('/new', verifyToken, async (req, res) => {
+  const { newTask: postTask } = req.body
   await dbfunctions.addTask(postTask)
   res.status(231).json({ message: 'Task succesfully added.' })
 })
 
-router.post('/:task_id/duplicate', async (req, res) => {
+router.post('/:task_id/duplicate', verifyToken, async (req, res) => {
   const tid = req.params.task_id
   const task = await dbfunctions.getSingleTask(tid)
   if (!task) {
@@ -107,8 +111,8 @@ router.post('/:task_id/duplicate', async (req, res) => {
   res.status(231).json({ task, message: 'Task succesfully copied.' })
 })
 
-router.patch('/:task_id/edit', async (req, res) => {
-  const postTask = req.body
+router.patch('/:task_id/edit', verifyToken, async (req, res) => {
+  const { updatedTask: postTask } = req.body
   const tid = req.params.task_id
   const task = await dbfunctions.getSingleTask(tid)
   if (!task) {
@@ -118,7 +122,7 @@ router.patch('/:task_id/edit', async (req, res) => {
   res.status(231).json({ task, message: 'Task succesfully updated.' })
 })
 
-router.delete('/:task_id/delete', async (req, res) => {
+router.delete('/:task_id/delete', verifyToken, async (req, res) => {
   const tid = req.params.task_id
   const task = await dbfunctions.getSingleTask(tid)
   if (!task) {

@@ -6,8 +6,7 @@ const useEditClient = () => {
   const queryClient = useQueryClient();
 
   const { isLoading: isEditLoading, mutate: editClient } = useMutation({
-    mutationFn: ({ clientId, updatedClient }) =>
-      editClientApi(clientId, updatedClient),
+    mutationFn: editClientApi,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["clients"] });
 
