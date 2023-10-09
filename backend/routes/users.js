@@ -43,6 +43,11 @@ router.post('/login', async (req, res) => {
   if (user.verified == 0) {
     return res.status(400).json({ message: 'Account is not verified.' })
   }
+  if (user.refreshToken) {
+    return res
+      .status(400)
+      .json({ message: 'You are already loged in in other device.' })
+  }
 
   try {
     if (!(await bcrypt.compare(password, user.password))) {
