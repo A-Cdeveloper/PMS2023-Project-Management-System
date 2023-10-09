@@ -8,6 +8,7 @@ const StyledButtonIcon = styled.button`
   transition: all 0.2s;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-weight: ${(props) => props.theme.fontWeight.semibold};
   background: ${(props) =>
     props.type ? props.theme.colors[props.type][100] : "none"};
