@@ -13,7 +13,7 @@ router.get('/', verifyToken, async (req, res) => {
 })
 
 router.patch('/edit', verifyToken, async (req, res) => {
-  const settings = req.body
+  const { updatedSettings: settings } = req.body
 
   await dbfunctions.updateSettings(settings)
   res.status(231).json({ message: 'Settings succesfully updated.' })

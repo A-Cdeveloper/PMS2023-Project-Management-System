@@ -16,10 +16,10 @@ export const getSettings = async ({ accessToken }) => {
   if (response.status === 404) {
     throw new Error("Settings could't be loaded!");
   }
+  const data = await response.json();
   if (response.status === 400 || response.status === 401) {
     throw new Error(data.message);
   }
-  const data = await response.json();
   return data;
 };
 
@@ -34,11 +34,10 @@ export const updateSettings = async ({ updatedSettings, accessToken }) => {
     body: JSON.stringify({ updatedSettings }),
   });
 
-  const data = await response.json();
-
   if (response.status === 404) {
     throw new Error("Settings could't be edit! Please try again");
   }
+  const data = await response.json();
 
   if (response.status === 400 || response.status === 401) {
     throw new Error(data.message);

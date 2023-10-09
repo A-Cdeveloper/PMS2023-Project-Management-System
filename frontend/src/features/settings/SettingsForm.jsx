@@ -28,19 +28,11 @@ const SettingsForm = () => {
       toast.error(`Value must be greater then 0`);
       return;
     }
-
-    updateSettings(
-      { ...settings, [field]: +e.target.value, accessToken }
-      // {
-      //   // LOCALSTORAGE
-      //   onSuccess: () => {
-      //     localStorage.setItem(
-      //       "settings",
-      //       JSON.stringify({ ...settings, [field]: +e.target.value })
-      //     );
-      //   },
-      // }
-    );
+    //console.log({ ...settings, [field]: +e.target.value });
+    updateSettings({
+      updatedSettings: { ...settings, [field]: +e.target.value },
+      accessToken,
+    });
   };
 
   return (

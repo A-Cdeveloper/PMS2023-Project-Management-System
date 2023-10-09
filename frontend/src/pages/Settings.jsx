@@ -8,7 +8,9 @@ const Settings = () => {
       <Row>
         <Headline as="h1">Settings</Headline>
       </Row>
-      <SettingsForm />
+      <Row type="horizontal">
+        <SettingsForm />
+      </Row>
     </>
   );
 };
