@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import { useCurrentUser } from "../context/authContext";
+
 import {
   HiOutlineWrenchScrewdriver,
   HiOutlineUserGroup,
@@ -51,6 +53,12 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 function MainNav() {
+  const { user } = useCurrentUser();
+
+  console.log(user);
+
+  const isAdmin = user.role === "admin";
+
   return (
     <nav>
       <NavList>
@@ -60,37 +68,48 @@ function MainNav() {
             <span>Home</span>
           </StyledNavLink>
         </li>
-        <li>
-          <StyledNavLink to="/clients">
-            <HiOutlineUserGroup />
-            <span>Clients</span>
-          </StyledNavLink>
-        </li>
 
-        <li>
-          <StyledNavLink to="/projects">
-            <HiOutlineSquare3Stack3D />
-            <span>Projects</span>
-          </StyledNavLink>
-        </li>
+        {isAdmin && (
+          <>
+            <li>
+              <StyledNavLink to="/clients">
+                <HiOutlineUserGroup />
+                <span>Clients</span>
+              </StyledNavLink>
+            </li>
+
+            <li>
+              <StyledNavLink to="/projects">
+                <HiOutlineSquare3Stack3D />
+                <span>Projects</span>
+              </StyledNavLink>
+            </li>
+          </>
+        )}
+
         <li>
           <StyledNavLink to="/tasks">
             <HiOutlineWrenchScrewdriver />
             <span>Tasks</span>
           </StyledNavLink>
         </li>
-        <li>
-          <StyledNavLink to="/users">
-            <HiOutlineUsers />
-            <span>Users</span>
-          </StyledNavLink>
-        </li>
-        <li>
-          <StyledNavLink to="/settings">
-            <HiOutlineCog6Tooth />
-            <span>Settings</span>
-          </StyledNavLink>
-        </li>
+
+        {isAdmin && (
+          <>
+            <li>
+              <StyledNavLink to="/users">
+                <HiOutlineUsers />
+                <span>Users</span>
+              </StyledNavLink>
+            </li>
+            <li>
+              <StyledNavLink to="/settings">
+                <HiOutlineCog6Tooth />
+                <span>Settings</span>
+              </StyledNavLink>
+            </li>
+          </>
+        )}
       </NavList>
     </nav>
   );
