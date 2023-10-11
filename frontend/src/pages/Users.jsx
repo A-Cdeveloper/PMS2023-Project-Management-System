@@ -10,7 +10,6 @@ const Users = () => {
     <>
       <Row type="horizontal">
         <Headline as="h1">Users</Headline>
-        {/* <FilterByDateInterval /> */}
         <UsersTableOperations />
       </Row>
       <UsersTable />

@@ -5,6 +5,12 @@ import Logo from "./Logo";
 import MainNav from "./MainNav";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
+// import ExpirationModal from "./ExpirationModal";
+import { useCurrentUserTokens } from "../context/authContext";
+// import { endLoginSession } from "../utils/helpers";
+// import Modal from "./Modal";
+// import Headline from "./Headline";
+// import { useEffect } from "react";
 
 const StyledAppLayout = styled.div`
   display: flex;
@@ -34,6 +40,20 @@ const View = styled.div`
 `;
 
 const AppLayout = () => {
+  const {
+    user: { expiresIn },
+  } = useCurrentUserTokens();
+
+  // useEffect(() => {
+  //   let interval = setInterval(() => {
+  //     console.log(endLoginSession(expiresIn));
+  //     if (endLoginSession(expiresIn) <= 0) {
+  //       console.log("HOOREY");
+  //     }
+  //   }, 1000);
+  //   return () => clearInterval(interval);
+  // }, [expiresIn]);
+
   return (
     <StyledAppLayout>
       <Sidebar>
@@ -42,8 +62,15 @@ const AppLayout = () => {
       </Sidebar>
 
       <Main>
-        <Header>#HEADER</Header>
+        <Header />
+
         <Container>
+          {/* <Modal autoOpen={endLoginSession(expiresIn) <= 0 && "modalexp"}>
+            <Modal.Window name="modalexp">
+              <ExpirationModal />
+            </Modal.Window>
+          </Modal> */}
+
           <View>
             <Outlet />
           </View>

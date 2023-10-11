@@ -1,26 +1,4 @@
-import styled from "styled-components";
-
-const StyledFormRow = styled.div`
-  display: grid;
-  align-items: center;
-  grid-template-columns: 15rem 1fr;
-  gap: 4rem;
-  padding: 1rem 0 1.5rem 0;
-  position: relative;
-
-  /* &:first-child {
-    padding-top: 0;
-  } */
-
-  &:last-child {
-    padding-top: 2rem;
-    display: flex;
-    justify-content: end;
-  }
-
-  /* &:not(:last-child) {
-  } */
-`;
+import styled, { css } from "styled-components";
 
 const Label = styled.label`
   font-weight: 500;
@@ -35,9 +13,38 @@ const Error = styled.span`
   bottom: -0.5rem;
 `;
 
-const FormRow = ({ label, error, children }) => {
+const StyledFormRow = styled.div`
+  display: grid;
+  align-items: center;
+  grid-template-columns: 15rem 1fr;
+  gap: 4rem;
+  padding: 1rem 0 1.5rem 0;
+  position: relative;
+
+  &:last-child {
+    padding-top: 2rem;
+    display: flex;
+    justify-content: end;
+  }
+
+  ${(props) =>
+    props.type === "nospace" &&
+    css`
+      padding: 0;
+
+      &:last-child {
+        padding-top: 0rem;
+      }
+
+      ${Error} {
+        position: relative;
+      }
+    `}
+`;
+
+const FormRow = ({ label, error, children, type }) => {
   return (
-    <StyledFormRow>
+    <StyledFormRow type={type}>
       {label && <Label htmlFor={children.props.id}>{label}</Label>}
       {children}
       {error && <Error>{error.message}</Error>}

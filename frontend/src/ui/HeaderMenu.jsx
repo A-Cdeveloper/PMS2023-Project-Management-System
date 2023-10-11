@@ -21,7 +21,7 @@ const StyledLinkIcon = styled.button`
   font-weight: ${(props) => props.theme.fontWeight.semibold};
 
   color: ${(props) => props.theme.colors.info[700]};
-  font-size: 2rem;
+  font-size: 2.2rem;
 `;
 
 const HeaderMenu = () => {

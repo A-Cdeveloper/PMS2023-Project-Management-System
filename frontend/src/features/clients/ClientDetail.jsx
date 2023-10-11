@@ -1,5 +1,4 @@
 import { useQueryClient } from "@tanstack/react-query";
-
 import { useClient } from "./useClient";
 import { useParams } from "react-router-dom";
 import { useMoveBack } from "../../hooks/useMoveBack";
@@ -16,7 +15,6 @@ import {
 
 import { clientCols } from "./ClientParameters";
 import { HiOutlineArrowTopRightOnSquare } from "react-icons/hi2";
-import ProjectsTable from "../projects/ProjectsTable";
 
 const ClientDetail = () => {
   const moveBack = useMoveBack();

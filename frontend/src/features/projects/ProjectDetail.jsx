@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useProject } from "./useProject";
 import { formatDate } from "../../utils/helpers";
+import { useAccessToken } from "../../context/authContext";
 
 import Headline from "../../ui/Headline";
 import ButtonText from "../../ui/Buttons/ButtonText";
@@ -34,6 +35,7 @@ const ProjectDetail = () => {
   const { project: projectSingle = {} } = useProject();
   const { isEditLoading, editProject } = useEditProject();
   const { projectId } = useParams();
+  const accessToken = useAccessToken();
 
   const queryClient = useQueryClient();
   const project = queryClient.getQueryData(["project", +projectId])
@@ -160,11 +162,12 @@ const ProjectDetail = () => {
                     onChange={(e) =>
                       editProject(
                         {
-                          projectId: project_id,
+                          project_id: project_id,
                           updatedProject: {
                             ...project,
                             project_online: e.target.checked ? "Ja" : "",
                           },
+                          accessToken,
                         },
                         {
                           onSettled: () => {
@@ -193,11 +196,12 @@ const ProjectDetail = () => {
                     onChange={(e) =>
                       editProject(
                         {
-                          projectId: project_id,
+                          project_id: project_id,
                           updatedProject: {
                             ...project,
                             project_update: e.target.value,
                           },
+                          accessToken,
                         },
                         {
                           onSettled: () => {
@@ -232,11 +236,12 @@ const ProjectDetail = () => {
                   onChange={(e) =>
                     editProject(
                       {
-                        projectId: project_id,
+                        project_id: project_id,
                         updatedProject: {
                           ...project,
                           project_last_update: e.target.value,
                         },
+                        accessToken,
                       },
                       {
                         onSettled: () => {
@@ -271,11 +276,12 @@ const ProjectDetail = () => {
                       onClick={(e) =>
                         editProject(
                           {
-                            projectId: project_id,
+                            project_id: project_id,
                             updatedProject: {
                               ...project,
                               project_status: status.value,
                             },
+                            accessToken,
                           },
                           {
                             onSettled: () => {

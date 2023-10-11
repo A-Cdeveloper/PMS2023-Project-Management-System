@@ -2,13 +2,13 @@ import { HiArrowRightOnRectangle } from "react-icons/hi2";
 import { useLogout } from "./useLogout";
 
 import ButtonIcon from "../../ui/Buttons/ButtonIcon";
-import { useCurrentUser } from "../../context/authContext";
+import { useCurrentUserTokens } from "../../context/authContext";
 
 const Logout = () => {
   const { logout } = useLogout();
   const {
     user: { refreshToken },
-  } = useCurrentUser();
+  } = useCurrentUserTokens();
 
   return (
     <ButtonIcon

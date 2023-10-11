@@ -35,7 +35,7 @@ router.post('/login', async (req, res) => {
 
   //
   let timeObject = new Date()
-  timeObject = new Date(timeObject.getTime() + 1000 * 60 * 60)
+  timeObject = new Date(timeObject.getTime() + 1000 * 60 * 60 * 24)
 
   if (user == undefined) {
     return res.status(400).json({ message: 'Username not exist.' })
@@ -60,7 +60,7 @@ router.post('/login', async (req, res) => {
     const accessToken = jwt.sign(
       existingUser,
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: '24h' }
     )
     const refreshToken = jwt.sign(
       existingUser,
@@ -71,6 +71,7 @@ router.post('/login', async (req, res) => {
     res.status(200).json({
       message: `Welcome ${user.first_name} ${user.last_name}.`,
       user: {
+        uid: user.uid,
         first_name: user.first_name,
         last_name: user.last_name,
         email: user.email,
@@ -142,61 +143,80 @@ router.post('/logout', async (req, res) => {
 //   )
 // })
 
-// router.post('/register', async (req, res) => {
-//   const { firstname, lastname, username, password, email } = req.body
-//   const user = await dbfunctions.getSingleUser(username)
+router.post('/new', verifyToken, async (req, res) => {
+  const { first_name, last_name, username, password, email, role } = req.body
 
-//   if (user) {
-//     return res.status(400).json({ message: 'Username already exist.' })
-//   }
+  const user = await dbfunctions.getSingleUser(username, null, null)
+  if (user) {
+    return res.status(400).json({ message: 'Username already exist.' })
+  }
+  const userEmail = await dbfunctions.getSingleUser(null, email, null)
+  if (userEmail) {
+    return res
+      .status(400)
+      .json({ message: 'User with this email already exist.' })
+  }
 
-//   const userEmail = await dbfunctions.getSingleUser(null, email)
+  const hashedPassword = await bcrypt.hash(password, 10)
+  const verifedToken = jwt.sign(
+    { username: username },
+    process.env.ACCESS_TOKEN_SECRET,
+    { expiresIn: '24h' }
+  )
+  const newUser = {
+    first_name: first_name,
+    last_name: last_name,
+    user_avatar,
+    username,
+    password: hashedPassword,
+    email,
+    created_date: new Date(),
+    role,
+    verifedToken,
+  }
+  await dbfunctions.createUser(newUser)
 
-//   if (userEmail) {
-//     return res
-//       .status(400)
-//       .json({ message: 'User with this email already exist.' })
-//   }
+  const lastUser = await dbfunctions.getSingleUser(username, null, null)
 
-//   const hashedPassword = await bcrypt.hash(password, 10)
-//   const verifedToken = jwt.sign(
-//     { username: username },
-//     process.env.ACCESS_TOKEN_SECRET,
-//     { expiresIn: '1h' }
-//   )
-//   const newUser = {
-//     first_name: firstname,
-//     last_name: lastname,
-//     username,
-//     password: hashedPassword,
-//     email,
-//     verifedToken,
-//   }
-//   await dbfunctions.createUser(newUser)
-//   const lastUser = await dbfunctions.getSingleUser(username)
+  const message = `Welcome to PMS ${first_name} ${last_name}.
+  Please verify your account clicking on link below
 
-//   const message = `Welcome to PMS ${firstname} ${lastname}.
-//   Please verify your account clicking on link below
+  ${process.env.BASE_URL}/users/user-verify/${lastUser.uid}/${lastUser.verifedToken}`
 
-//   ${process.env.BASE_URL}/users/user-verify/${lastUser.uid}/${lastUser.verifedToken}`
+  await sendMail(email, 'User conformation', message)
+  res.status(231).json({ message: `Conformation email was sent to user.` })
+})
 
-//   await sendMail(email, 'User conformation', message)
-//   res.status(231).json({ message: `User registed.` })
-// })
+// ////////////////////////////////////////////////////////////////
+router.get('/user-verify/:user_id/:verToken', async (req, res) => {
+  const { user_id, verToken } = req.params
+  const user = await dbfunctions.getSingleUser(null, null, user_id)
 
-// //
-// router.get('/user-verify/:user_id/:verToken', async (req, res) => {
-//   const { user_id, verToken } = req.params
-//   const user = await dbfunctions.getSingleUser(null, null, user_id)
+  if (!user) {
+    return res.status(400).json({ message: 'User not exist.' })
+  }
+  if (user.verifedToken !== verToken) {
+    return res.status(400).json({ message: 'Conformation link not valid.' })
+  }
+  await dbfunctions.conformUser(user_id)
+  res.status(231).json({ message: `User conformed.` })
+})
 
-//   if (!user) {
-//     return res.status(400).json({ message: 'User not exist.' })
-//   }
-//   if (user.verifedToken !== verToken) {
-//     return res.status(400).json({ message: 'Conformation link not valid.' })
-//   }
-//   await dbfunctions.conformUser(user_id)
-//   res.status(231).json({ message: `User conformed.` })
-// })
+// ////////////////////////////////////////////////////////////////
+router.patch('/change-password/:user_id', verifyToken, async (req, res) => {
+  const { user_id } = req.params
+  const { newPassword } = req.body
+  const user = await dbfunctions.getSingleUser(null, null, user_id)
+
+  if (!user) {
+    return res.status(400).json({ message: 'User not exist.' })
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10)
+
+  await dbfunctions.editUserPassword(user.uid, hashedPassword)
+
+  res.status(231).json({ message: `User password changed.` })
+})
 
 module.exports = router

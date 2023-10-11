@@ -11,7 +11,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import AppLayout from "./ui/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
-import User from "./pages/User";
+import Account from "./pages/Account";
 import Projects from "./pages/Projects";
 import Project from "./pages/Project";
 import Tasks from "./pages/Tasks";
@@ -72,10 +72,11 @@ const router = createBrowserRouter([
         path: "/users",
         children: [
           { index: true, element: <Users /> },
-          { path: ":userId", element: <User /> },
+          // { path: ":userId", element: <User /> },
         ],
       },
       { path: "/settings", element: <Settings /> },
+      { path: "/account", element: <Account /> },
     ],
   },
 ]);
@@ -88,7 +89,7 @@ function App() {
           <ReactQueryDevtools />
           <GlobalStyle />
           <RouterProvider router={router} />
-          <Notifications />{" "}
+          <Notifications />
         </AuthContextProvider>
       </QueryClientProvider>
     </ThemeStyle>

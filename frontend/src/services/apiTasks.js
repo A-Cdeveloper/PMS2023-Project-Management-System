@@ -1,13 +1,5 @@
 import { API_URL } from "../utils/constants";
-
-export const wait = (duration) => {
-  return new Promise((resolve) => setTimeout(resolve, duration));
-};
-
-const headersObj = {
-  "Content-Type": "application/json",
-  Authorization: "",
-};
+import { headerApiFn, responseApiFn } from "../utils/helpers";
 
 //////////////////////////////////////////////////////////////////
 export const getTasks = async ({
@@ -18,23 +10,11 @@ export const getTasks = async ({
   const response = await fetch(
     `${API_URL}/tasks/tasks/${startIntervalDate}/${endIntervalDate}`,
     {
-      headers: {
-        ...headersObj,
-        Authorization: `token ${accessToken}`,
-      },
+      headers: headerApiFn(accessToken),
     }
   );
-  const data = await response.json();
 
-  if (response.status === 404) {
-    throw new Error("Tasks list could't be loaded!");
-  }
-
-  if (response.status === 400 || response.status === 401) {
-    throw new Error(data.message);
-  }
-
-  return data;
+  return await responseApiFn(response, "Tasks list could't be loaded!");
 };
 
 // //////////////////////////////////////////////////////////////////
@@ -53,137 +33,66 @@ export const getFilteredTasks = async ({
   response = await fetch(
     `${API_URL}/tasks/filter/${from}/${perPage}/${startIntervalDate}/${endIntervalDate}`,
     {
-      headers: {
-        ...headersObj,
-        Authorization: `token ${accessToken}`,
-      },
+      headers: headerApiFn(accessToken),
     }
   );
 
-  const data = await response.json();
-
-  if (response.status === 404) {
-    throw new Error("Tasks list could't be loaded!");
-  }
-
-  if (response.status === 400 || response.status === 401) {
-    throw new Error(data.message);
-  }
-
-  //await wait(3000);
-  return data;
+  return await responseApiFn(response, "Tasks list could't be loaded!");
 };
 
 // ///////////////////////////////////////////////////////////////////////
 export const singleTask = async ({ task_id, accessToken }) => {
   const response = await fetch(`${API_URL}/tasks/task/${task_id}`, {
-    headers: {
-      ...headersObj,
-      Authorization: `token ${accessToken}`,
-    },
+    headers: headerApiFn(accessToken),
   });
 
-  const data = await response.json();
-
-  if (response.status === 404) {
-    throw new Error("Task not found");
-  }
-
-  if (response.status === 400 || response.status === 401) {
-    throw new Error(data.message);
-  }
-
-  return data;
+  return await responseApiFn(response, "Task not found");
 };
 
 // ///////////////////////////////////////////////////////////////////////
 export const addNewTask = async ({ newTask, accessToken }) => {
   const response = await fetch(`${API_URL}/tasks/new`, {
     method: "POST",
-    headers: {
-      ...headersObj,
-      Authorization: `token ${accessToken}`,
-    },
+    headers: headerApiFn(accessToken),
     body: JSON.stringify({ newTask }),
   });
 
-  const data = await response.json();
-
-  if (response.status === 404) {
-    throw new Error("Task can't be added! Please try again");
-  }
-
-  if (response.status === 400 || response.status === 401) {
-    throw new Error(data.message);
-  }
-
-  return data;
+  return await responseApiFn(response, "Task can't be added! Please try again");
 };
 
 ///////////////////////////////////////////////////////////////////////
 export const cloneTask = async ({ task_id, accessToken }) => {
   const response = await fetch(`${API_URL}/tasks/${task_id}/duplicate`, {
     method: "POST",
-    headers: {
-      ...headersObj,
-      Authorization: `token ${accessToken}`,
-    },
+    headers: headerApiFn(accessToken),
   });
-  const data = await response.json();
 
-  if (response.status === 404) {
-    throw new Error("Task can't be duplicated! Please try again");
-  }
-
-  if (response.status === 400 || response.status === 401) {
-    throw new Error(data.message);
-  }
-
-  return data;
+  return await responseApiFn(
+    response,
+    "Task can't be duplicated! Please try again"
+  );
 };
 
 // ///////////////////////////////////////////////////////////////////////
 export const deleteTask = async ({ task_id, accessToken }) => {
   const response = await fetch(`${API_URL}/tasks/${task_id}/delete`, {
     method: "DELETE",
-    headers: {
-      ...headersObj,
-      Authorization: `token ${accessToken}`,
-    },
+    headers: headerApiFn(accessToken),
   });
-  const data = await response.json();
 
-  if (response.status === 404) {
-    throw new Error("Task can't be deleted! Please try again");
-  }
-
-  if (response.status === 400 || response.status === 401) {
-    throw new Error(data.message);
-  }
-
-  return data;
+  return await responseApiFn(
+    response,
+    "Task can't be deleted! Please try again"
+  );
 };
 
 // ///////////////////////////////////////////////////////////////////////
 export const editTask = async ({ task_id, updatedTask, accessToken }) => {
   const response = await fetch(`${API_URL}/tasks/${task_id}/edit`, {
     method: "PATCH",
-    headers: {
-      ...headersObj,
-      Authorization: `token ${accessToken}`,
-    },
+    headers: headerApiFn(accessToken),
     body: JSON.stringify({ updatedTask }),
   });
 
-  const data = await response.json();
-
-  if (response.status === 404) {
-    throw new Error("Task can't be edit! Please try again");
-  }
-
-  if (response.status === 400 || response.status === 401) {
-    throw new Error(data.message);
-  }
-  // await wait(3000);
-  return data;
+  return await responseApiFn(response, "Task can't be edit! Please try again");
 };

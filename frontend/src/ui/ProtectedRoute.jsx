@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCurrentUser } from "../context/authContext";
+import { useCurrentUserTokens } from "../context/authContext";
 
 import Spinner from "../ui/Spinner";
 import { styled } from "styled-components";
@@ -15,7 +15,7 @@ const FullPage = styled.div`
 
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useCurrentUser();
+  const { user, isAuthenticated } = useCurrentUserTokens();
 
   useEffect(() => {
     if (!isAuthenticated) {

@@ -60,8 +60,8 @@ const Button = styled.button`
 
 const ModalContext = createContext();
 
-const Modal = ({ children }) => {
-  const [openWindow, setOpenWindow] = useState(null);
+const Modal = ({ children, autoOpen = null }) => {
+  const [openWindow, setOpenWindow] = useState(autoOpen);
 
   const openModal = (name) => {
     setOpenWindow(name);
@@ -90,6 +90,7 @@ const Window = ({ children, name }) => {
   //const { refEl } = useOutsideClick(closeModal);
 
   if (openWindow !== name) return;
+
   return createPortal(
     <Overlay>
       <StyledModal>

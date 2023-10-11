@@ -25,6 +25,24 @@ const Input = styled.input`
       font-size: 1.4rem;
       padding: 0.5rem 0.5rem;
     `}
+
+    ${(props) =>
+    props.type === "file" &&
+    css`
+      box-shadow: none;
+      border: none;
+      padding: 0;
+      &::file-selector-button {
+        font-weight: bold;
+        color: white;
+        background: ${(props) => props.theme.colors.info[100]};
+        padding: 0.7rem 1rem;
+        border: none;
+        border-radius: 5px;
+        margin-right: 2rem;
+        cursor: pointer;
+      }
+    `}
 `;
 
 export default Input;

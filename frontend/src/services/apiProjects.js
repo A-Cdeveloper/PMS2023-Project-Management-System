@@ -1,33 +1,13 @@
 import { API_URL } from "../utils/constants";
-
-export const wait = (duration) => {
-  return new Promise((resolve) => setTimeout(resolve, duration));
-};
-
-const headersObj = {
-  "Content-Type": "application/json",
-  Authorization: "",
-};
+import { headerApiFn, responseApiFn } from "../utils/helpers";
 
 //////////////////////////////////////////////////////////////////
 export const getProjects = async ({ sortBy, accessToken }) => {
   const response = await fetch(`${API_URL}/projects/${sortBy.join("=")}`, {
-    headers: {
-      ...headersObj,
-      Authorization: `token ${accessToken}`,
-    },
+    headers: headerApiFn(accessToken),
   });
 
-  if (response.status === 404) {
-    throw new Error("Projects list could't be loaded!");
-  }
-  const data = await response.json();
-
-  if (response.status === 400 || response.status === 401) {
-    throw new Error(data.message);
-  }
-
-  return data;
+  return await responseApiFn(response, "Projects list could't be loaded!");
 };
 
 // //////////////////////////////////////////////////////////////////
@@ -44,94 +24,52 @@ export const getFilteredProjects = async ({
     response = await fetch(
       `${API_URL}/projects/filter/${from}/${perPage}/${sortBy.join("=")}`,
       {
-        headers: {
-          ...headersObj,
-          Authorization: `token ${accessToken}`,
-        },
+        headers: headerApiFn(accessToken),
       }
     );
   }
 
-  if (response.status === 404) {
-    throw new Error("Projects list could't be loaded!");
-  }
-
-  const data = await response.json();
-
-  if (response.status === 400 || response.status === 401) {
-    throw new Error(data.message);
-  }
-
-  //await wait(3000);
-  return data;
+  return await responseApiFn(response, "Projects list could't be loaded!");
 };
 
 // ///////////////////////////////////////////////////////////////////////
 export const addNewProject = async ({ newProject, accessToken }) => {
   const response = await fetch(`${API_URL}/projects/new`, {
     method: "POST",
-    headers: {
-      ...headersObj,
-      Authorization: `token ${accessToken}`,
-    },
+    headers: headerApiFn(accessToken),
     body: JSON.stringify({ newProject }),
   });
 
-  const data = await response.json();
-
-  if (response.status === 404) {
-    throw new Error("Project can't be added! Please try again");
-  }
-
-  if (response.status === 400 || response.status === 401) {
-    throw new Error(data.message);
-  }
-
-  return data;
+  return await responseApiFn(
+    response,
+    "Project can't be added! Please try again"
+  );
 };
 
 ///////////////////////////////////////////////////////////////////////
 export const cloneProject = async ({ project_id, accessToken }) => {
   const response = await fetch(`${API_URL}/projects/${project_id}/duplicate`, {
     method: "POST",
-    headers: {
-      ...headersObj,
-      Authorization: `token ${accessToken}`,
-    },
+    headers: headerApiFn(accessToken),
   });
-  const data = await response.json();
 
-  if (response.status === 404) {
-    throw new Error("Project can't be duplicated! Please try again");
-  }
-
-  if (response.status === 400 || response.status === 401) {
-    throw new Error(data.message);
-  }
-
-  return data;
+  return await responseApiFn(
+    response,
+    "Project can't be duplicated! Please try again"
+  );
 };
 
 // ///////////////////////////////////////////////////////////////////////
 export const deleteProject = async ({ project_id, accessToken }) => {
   const response = await fetch(`${API_URL}/projects/${project_id}/delete`, {
     method: "DELETE",
-    headers: {
-      ...headersObj,
-      Authorization: `token ${accessToken}`,
-    },
+    headers: headerApiFn(accessToken),
   });
-  const data = await response.json();
 
-  if (response.status === 404) {
-    throw new Error("Project can't be deleted! Please try again");
-  }
-
-  if (response.status === 400 || response.status === 401) {
-    throw new Error(data.message);
-  }
-
-  return data;
+  return await responseApiFn(
+    response,
+    "Project can't be deleted! Please try again"
+  );
 };
 
 // ///////////////////////////////////////////////////////////////////////
@@ -142,44 +80,21 @@ export const editProject = async ({
 }) => {
   const response = await fetch(`${API_URL}/projects/${project_id}/edit`, {
     method: "PATCH",
-    headers: {
-      ...headersObj,
-      Authorization: `token ${accessToken}`,
-    },
+    headers: headerApiFn(accessToken),
     body: JSON.stringify({ updatedProject }),
   });
 
-  const data = await response.json();
-
-  if (response.status === 404) {
-    throw new Error("Project can't be edit! Please try again");
-  }
-
-  if (response.status === 400 || response.status === 401) {
-    throw new Error(data.message);
-  }
-  // await wait(3000);
-  return data;
+  return await responseApiFn(
+    response,
+    "Project can't be edit! Please try again"
+  );
 };
 
 // ///////////////////////////////////////////////////////////////////////
 export const singleProject = async ({ project_id, accessToken }) => {
   const response = await fetch(`${API_URL}/projects/project/${project_id}`, {
-    headers: {
-      ...headersObj,
-      Authorization: `token ${accessToken}`,
-    },
+    headers: headerApiFn(accessToken),
   });
 
-  const data = await response.json();
-
-  if (response.status === 404) {
-    throw new Error("Project not found");
-  }
-
-  if (response.status === 400 || response.status === 401) {
-    throw new Error(data.message);
-  }
-
-  return data;
+  return await responseApiFn(response, "Project not found");
 };

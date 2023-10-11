@@ -7,11 +7,9 @@ const useEditProject = () => {
 
   const { isLoading: isEditLoading, mutate: editProject } = useMutation({
     mutationFn: editProjectApi,
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
-      toast.success(
-        `Project ${data.project.project_name} succesfully updated!`
-      );
+      toast.success(`Project succesfully updated!`);
     },
     onError: (err) => toast.error(err.message),
   });

@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useTask } from "./useTask";
 import { formatDate, formatDateTime } from "../../utils/helpers";
+import { useAccessToken } from "../../context/authContext";
 
 import Headline from "../../ui/Headline";
 import ButtonText from "../../ui/Buttons/ButtonText";
@@ -30,6 +31,7 @@ const TaskDetail = () => {
   const { task: taskSingle = {} } = useTask();
   const { isEditLoading, editTask } = useEditTask();
   const { taskId } = useParams();
+  const accessToken = useAccessToken();
 
   const queryClient = useQueryClient();
   const task = queryClient.getQueryData(["task", +taskId])
@@ -51,7 +53,7 @@ const TaskDetail = () => {
     client_id,
   } = task;
 
-  console.log(task);
+  // console.log(task);
 
   return (
     <>
@@ -108,11 +110,12 @@ const TaskDetail = () => {
                 onBlur={(e) =>
                   editTask(
                     {
-                      taskId: task_id,
+                      task_id: task_id,
                       updatedTask: {
                         ...task,
                         task_start_time: e.target.value,
                       },
+                      accessToken,
                     },
                     {
                       onSettled: () => {
@@ -136,11 +139,12 @@ const TaskDetail = () => {
                 onBlur={(e) =>
                   editTask(
                     {
-                      taskId: task_id,
+                      task_id: task_id,
                       updatedTask: {
                         ...task,
                         task_end_time: e.target.value,
                       },
+                      accessToken,
                     },
                     {
                       onSettled: () => {
@@ -174,11 +178,12 @@ const TaskDetail = () => {
                       onClick={(e) =>
                         editTask(
                           {
-                            taskId: task_id,
+                            task_id: task_id,
                             updatedTask: {
                               ...task,
                               task_status: status.value,
                             },
+                            accessToken,
                           },
                           {
                             onSettled: () => {

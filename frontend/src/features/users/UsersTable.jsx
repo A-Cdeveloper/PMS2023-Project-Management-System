@@ -39,10 +39,7 @@ const UsersTable = () => {
 
   return (
     <>
-      <Table
-        cols={userCols}
-        columns="repeat(4, 20rem) repeat(2, 1fr) 10rem 10rem  4rem"
-      >
+      <Table cols={userCols} columns="repeat(6, 1fr) 10rem 10rem  4rem">
         <Table.Header />
         <Table.Body
           data={shownUsers}

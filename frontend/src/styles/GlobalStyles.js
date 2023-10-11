@@ -97,10 +97,10 @@ const GlobalStyles = createGlobalStyle`
   }
   .toaststyle {
     font-size: 1.6rem;
-    background: ${theme.baseColors.grey50};
-    color: ${theme.baseColors.grey600};
+    background: ${theme.baseColors.grey700};
+    color: ${theme.baseColors.grey100};
     max-width: 50rem;
-    padding: "1.2rem 1.8rem";
+    padding: "1.5rem 1.8rem";
     font-weight: ${theme.fontWeight.regular};
   }
   .toaststyle span{

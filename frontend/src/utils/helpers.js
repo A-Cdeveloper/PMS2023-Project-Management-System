@@ -1,4 +1,4 @@
-import { format, differenceInMinutes } from "date-fns";
+import { format, differenceInMinutes, differenceInSeconds } from "date-fns";
 
 export const sortingArray = (array, field, order = "asc") => {
   if (order !== "asc")
@@ -56,4 +56,33 @@ export const lastThirtyDays = () => {
   return date.toISOString().split("T")[0];
 };
 
-////////////////////////////////////////////////////////////////////////////////
+export const endLoginSession = (expireTime) => {
+  const now = new Date();
+  const expirationTime = new Date(expireTime);
+  if (differenceInSeconds(expirationTime, now) < 0) return;
+  return differenceInSeconds(expirationTime, now);
+};
+
+////////////////////////////// API //////////////////////////////////////////////////
+
+export const wait = (duration) => {
+  return new Promise((resolve) => setTimeout(resolve, duration));
+};
+
+export const headerApiFn = (accessToken) => {
+  return {
+    "Content-Type": "application/json",
+    Authorization: `token ${accessToken}`,
+  };
+};
+
+export const responseApiFn = async (res, sysmsg) => {
+  if (res.status === 404) {
+    throw new Error(sysmsg);
+  }
+  const data = await res.json();
+  if (res.status === 400 || res.status === 401) {
+    throw new Error(data.message);
+  }
+  return data;
+};

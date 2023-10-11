@@ -28,7 +28,7 @@ export const AuthContextProvider = ({ children }) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export const useCurrentUser = () => {
+export const useCurrentUserTokens = () => {
   const context = useContext(AuthContext);
   if (context === undefined)
     throw new Error("Context was used outdise provider");

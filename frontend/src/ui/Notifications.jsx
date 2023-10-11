@@ -6,7 +6,8 @@ const Notifications = () => {
       position="bottom-right"
       gutter={3}
       containerStyle={{
-        right: 50,
+        right: 30,
+        bottom: 30,
       }}
       toastOptions={{
         className: "toaststyle",

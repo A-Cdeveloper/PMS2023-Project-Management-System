@@ -14,18 +14,44 @@ const getSingleUser = async (username, email, user_id) => {
 }
 
 const createUser = async (user) => {
-  const { first_name, last_name, username, password, email, verifedToken } =
-    user
+  const {
+    first_name,
+    last_name,
+    username,
+    password,
+    email,
+    created_date,
+    role,
+    verifedToken,
+  } = user
   await db.query(
-    'INSERT INTO pms_users (first_name, last_name, username, password, email,verified,verifedToken) VALUES (?,?,?,?,?,?,?)',
-    [first_name, last_name, username, password, email, 0, verifedToken]
+    'INSERT INTO pms_users (first_name, last_name, username, password, email,created_date,role,verified,verifedToken) VALUES (?,?,?,?,?,?,?,?,?)',
+    [
+      first_name,
+      last_name,
+      username,
+      password,
+      email,
+      created_date,
+      role,
+      0,
+      verifedToken,
+    ]
   )
 }
 
-const conformUser = async (user_id) => {
-  await db.query("UPDATE users SET verified = 1, verifedToken='' WHERE uid=?", [
+const editUserPassword = async (user_id, newPassword) => {
+  await db.query('UPDATE pms_users SET password = ? WHERE uid=?', [
+    newPassword,
     user_id,
   ])
+}
+
+const conformUser = async (user_id) => {
+  await db.query(
+    "UPDATE pms_users SET verified = 1, verifedToken='' WHERE uid=?",
+    [user_id]
+  )
 }
 
 // tokens
@@ -55,6 +81,7 @@ module.exports = {
   getUsers,
   getSingleUser,
   createUser,
+  editUserPassword,
   conformUser,
   getRefreshToken,
   updateRefreshToken,

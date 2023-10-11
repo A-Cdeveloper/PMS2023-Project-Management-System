@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import { useCurrentUser } from "../context/authContext";
+import { useCurrentUserTokens } from "../context/authContext";
 
 import {
   HiOutlineWrenchScrewdriver,
@@ -53,9 +53,7 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 function MainNav() {
-  const { user } = useCurrentUser();
-
-  console.log(user);
+  const { user } = useCurrentUserTokens();
 
   const isAdmin = user.role === "admin";
 
