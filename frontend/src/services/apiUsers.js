@@ -35,3 +35,15 @@ export const changeUserPassword = async ({
     "User password can't be changed. Please try again"
   );
 };
+
+/////////////////////////////////////////////////////////////////////
+export const changeProfileImage = async (formData) => {
+  const response = await fetch(`${API_URL}/upload`, {
+    method: "POST",
+    //headers: { "Content-Type": "application/json" },
+    //headers: headerApiFn(accessToken),
+    body: formData,
+  });
+
+  return await responseApiFn(response, "Profile image can't be change!");
+};

@@ -15,11 +15,11 @@ import {
 import Row from "../../ui/Row";
 
 const ChangePassword = () => {
-  const { isLoading, changeUserPassword } = useChangePassword();
+  const { isEditLoading, changeUserPassword } = useChangePassword();
   const {
     user: { uid: user_id, accessToken },
   } = useCurrentUserTokens();
-  // const isEdit = !!clientToEdit.client_id;
+
   const {
     register,
     handleSubmit,
@@ -29,13 +29,10 @@ const ChangePassword = () => {
     formState: { errors },
   } = useForm();
 
-  //   const loadingState = isAddNewLoading || isEditLoading;
-
   const onSubmit = (data) => {
     const { newpassword: newPassword } = data;
     changeUserPassword({ user_id, newPassword, accessToken });
     reset();
-    // console.log(data);
   };
 
   return (
@@ -58,7 +55,7 @@ const ChangePassword = () => {
                   },
                 })}
                 aria-invalid={errors.newpassword ? "true" : "false"}
-                disabled={isLoading}
+                disabled={isEditLoading}
               />
             </FormRow>
           </DataBoxContent>
@@ -76,7 +73,7 @@ const ChangePassword = () => {
                     "Passwords need to match",
                 })}
                 aria-invalid={errors.repassword ? "true" : "false"}
-                disabled={isLoading}
+                disabled={isEditLoading}
               />
             </FormRow>
           </DataBoxContent>
@@ -87,7 +84,7 @@ const ChangePassword = () => {
             variation="primary"
             size="medium"
             active={null}
-            //  disabled={loadingState}
+            disabled={isEditLoading}
           >
             Submit
           </Button>

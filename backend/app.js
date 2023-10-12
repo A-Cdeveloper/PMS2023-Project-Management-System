@@ -1,10 +1,20 @@
 const express = require('express')
+const fileUpload = require('express-fileupload')
 const dotenv = require('dotenv')
 dotenv.config()
 const PORT = process.env.PORT
 
 const app = express()
 app.use(express.json())
+app.use(
+  fileUpload({
+    // limits: {
+    //   fileSize: 10000000, // Around 10MB
+    // },
+    // abortOnLimit: true,
+  })
+)
+app.use(express.static('public'))
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*')
@@ -19,15 +29,18 @@ const clientsRoute = require('./routes/clients')
 const projectsRoute = require('./routes/projects')
 const tasksRoute = require('./routes/tasks')
 const settignsRoute = require('./routes/settings')
+const uploadRoute = require('./routes/upload')
 app.use('/users', usersRoute)
 app.use('/clients', clientsRoute)
 app.use('/projects', projectsRoute)
 app.use('/tasks', tasksRoute)
 app.use('/settings', settignsRoute)
+app.use('/upload', uploadRoute)
 //
+
 // error handler
 app.use((req, res, next) => {
-  const error = new Error('Nije pronađeno.')
+  const error = new Error('Not found.')
   error.status = 404
   next(error)
 })
