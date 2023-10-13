@@ -219,4 +219,19 @@ router.patch('/change-password/:user_id', verifyToken, async (req, res) => {
   res.status(231).json({ message: `User password changed.` })
 })
 
+// ////////////////////////////////////////////////////////////////
+router.patch('/change-avatar/:user_id', async (req, res) => {
+  const { user_id } = req.params
+  const { newAvatarPath } = req.body
+  const user = await dbfunctions.getSingleUser(null, null, user_id)
+
+  if (!user) {
+    return res.status(400).json({ message: 'User not exist.' })
+  }
+
+  await dbfunctions.editUserProfileImage(user.uid, newAvatarPath)
+
+  res.status(231).json({ message: `User profile image changed.` })
+})
+
 module.exports = router

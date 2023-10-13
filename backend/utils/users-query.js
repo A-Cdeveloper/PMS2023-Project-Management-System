@@ -47,6 +47,13 @@ const editUserPassword = async (user_id, newPassword) => {
   ])
 }
 
+const editUserProfileImage = async (user_id, newAvatar) => {
+  await db.query('UPDATE pms_users SET user_avatar = ? WHERE uid=?', [
+    newAvatar,
+    user_id,
+  ])
+}
+
 const conformUser = async (user_id) => {
   await db.query(
     "UPDATE pms_users SET verified = 1, verifedToken='' WHERE uid=?",
@@ -82,6 +89,7 @@ module.exports = {
   getSingleUser,
   createUser,
   editUserPassword,
+  editUserProfileImage,
   conformUser,
   getRefreshToken,
   updateRefreshToken,

@@ -28,6 +28,7 @@ const ProfileImage = styled.img`
   object-fit: cover;
   object-position: center;
   margin-bottom: 2rem;
+  border-radius: 50%;
 `;
 
 const AccountDetail = () => {
@@ -76,11 +77,7 @@ const AccountDetail = () => {
                 style={{ flexDirection: "column", alignItems: "start" }}
               >
                 <ProfileImage
-                  src={
-                    user_avatar
-                      ? `user-images/${user_avatar}`
-                      : "default-user.jpg"
-                  }
+                  src={user_avatar ? user_avatar : "default-user.jpg"}
                   alt={`profile image for ${first_name}`}
                 />
                 <ChangeProfileImage />

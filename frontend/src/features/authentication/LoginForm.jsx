@@ -27,6 +27,8 @@ function LoginForm() {
         onSettled: () => {
           setUsername("");
           setPassword("");
+        },
+        onSuccess: () => {
           navigate("/", { replace: true });
         },
       }

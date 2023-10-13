@@ -37,13 +37,47 @@ export const changeUserPassword = async ({
 };
 
 /////////////////////////////////////////////////////////////////////
-export const changeProfileImage = async (formData) => {
+export const changeProfileImage = async ({ formData, user_id }) => {
+  if (!formData) return;
+
+  ////////////  1. upload image to server ////////////
   const response = await fetch(`${API_URL}/upload`, {
     method: "POST",
-    //headers: { "Content-Type": "application/json" },
     //headers: headerApiFn(accessToken),
     body: formData,
   });
 
-  return await responseApiFn(response, "Profile image can't be change!");
+  if (response.status === 404) {
+    throw new Error("Can't upload image to server.");
+  }
+
+  const data = await response.json();
+
+  const { filename } = data;
+  if (!filename || response.status === 400 || response.status === 401) {
+    throw new Error(data.message);
+  }
+
+  ////////////  2. change user_avatar ////////////
+  const response2 = await fetch(`${API_URL}/users/change-avatar/${user_id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    //headers: headerApiFn(accessToken),
+    body: JSON.stringify({ newAvatarPath: `${API_URL}/${filename}` }),
+  });
+
+  if (response2.status === 404) {
+    throw new Error("Can't change avatar image!");
+  }
+
+  const data2 = await response2.json();
+
+  if (response2.status === 400 || response2.status === 401) {
+    throw new Error(data.message);
+  }
+
+  return data2;
+  // return await responseApiFn(response, "Profile image can't be change!");
 };

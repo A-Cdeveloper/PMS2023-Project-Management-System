@@ -14,7 +14,6 @@ export const useSingleUser = () => {
   } = useQuery({
     queryKey: ["user", uid],
     queryFn: () => singleUserApi({ uid, accessToken }),
-    cacheTime: Infinity,
   });
 
   return {

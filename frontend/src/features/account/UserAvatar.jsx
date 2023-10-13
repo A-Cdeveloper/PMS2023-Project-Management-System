@@ -30,7 +30,7 @@ const UserAvatar = () => {
     uAvatar = (
       <>
         <Avatar
-          src={user_avatar ? `user-images/${user_avatar}` : "default-user.jpg"}
+          src={user_avatar ? user_avatar : "default-user.jpg"}
           alt={`Avatar for ${first_name}`}
         />
         <span>
