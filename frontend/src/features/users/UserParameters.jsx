@@ -8,3 +8,11 @@ export const userCols = [
   "Role",
   "Verified",
 ];
+
+export const userRoles = () => {
+  return [
+    { value: "", label: "", icon: "" },
+    { value: "admin", label: "admin" },
+    { value: "user", label: "user" },
+  ];
+};

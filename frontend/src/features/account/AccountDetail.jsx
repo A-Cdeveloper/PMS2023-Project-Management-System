@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useCurrentUserTokens } from "../../context/authContext";
 import { useSingleUser } from "./useSingleUser";
+import useRemoveProfileImage from "./useRemoveProfileImage";
+
 import { formatDateTime } from "../../utils/helpers";
 
 import Headline from "../../ui/Headline";
@@ -19,6 +21,11 @@ import {
 
 import ChangePassword from "./ChangePassword";
 import ChangeProfileImage from "./ChangeProfileImage";
+import { HiXMark } from "react-icons/hi2";
+
+const ImageHolder = styled.div`
+  position: relative;
+`;
 
 const ProfileImage = styled.img`
   display: block;
@@ -29,15 +36,49 @@ const ProfileImage = styled.img`
   object-position: center;
   margin-bottom: 2rem;
   border-radius: 50%;
+  position: relative;
+`;
+
+const CloseButton = styled.button`
+  background-color: ${(props) => props.theme.colors.danger[100]};
+  border: none;
+  padding: 0.3rem;
+  border-radius: 50%;
+  text-align: center;
+  transform: translateX(0.8rem);
+  position: absolute;
+  top: 0.5rem;
+  left: -0.5rem;
+  width: 2.3rem;
+  height: 2.3rem;
+
+  &:focus,
+  &:active {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: ${(props) => props.theme.colors.danger[700]};
+  }
+
+  & svg {
+    width: 1.6rem;
+    height: 1.6rem;
+    /* Sometimes we need both */
+    fill: white;
+    stroke: white;
+    color: white;
+  }
 `;
 
 const AccountDetail = () => {
   const moveBack = useMoveBack();
 
   const {
-    user: { uid: user_id },
+    user: { uid: user_id, accessToken },
   } = useCurrentUserTokens();
   const { user: userSingle = {} } = useSingleUser();
+  const { isDeleteLoading, removeProfileImage } = useRemoveProfileImage();
 
   const queryClient = useQueryClient();
   const userCurrent = queryClient.getQueryData(["user", user_id])
@@ -74,12 +115,27 @@ const AccountDetail = () => {
           <DataDetailsContainer>
             <DataBox>
               <DataBoxContent
-                style={{ flexDirection: "column", alignItems: "start" }}
+                style={{
+                  flexDirection: "column",
+                  alignItems: "start",
+                }}
               >
-                <ProfileImage
-                  src={user_avatar ? user_avatar : "default-user.jpg"}
-                  alt={`profile image for ${first_name}`}
-                />
+                <ImageHolder>
+                  <ProfileImage
+                    src={user_avatar ? user_avatar : "default-user.jpg"}
+                    alt={`profile image for ${first_name}`}
+                  />
+                  {user_avatar && (
+                    <CloseButton
+                      onClick={() => {
+                        removeProfileImage({ user_id, accessToken });
+                      }}
+                    >
+                      <HiXMark />
+                    </CloseButton>
+                  )}
+                </ImageHolder>
+
                 <ChangeProfileImage />
               </DataBoxContent>
             </DataBox>

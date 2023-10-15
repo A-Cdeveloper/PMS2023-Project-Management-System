@@ -8,10 +8,10 @@ const app = express()
 app.use(express.json())
 app.use(
   fileUpload({
-    // limits: {
-    //   fileSize: 10000000, // Around 10MB
-    // },
-    // abortOnLimit: true,
+    limits: {
+      fileSize: 10000000, // Around 10MB
+    },
+    abortOnLimit: true,
   })
 )
 app.use(express.static('public'))

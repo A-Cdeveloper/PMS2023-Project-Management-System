@@ -23,7 +23,7 @@ const ChangeProfileImage = () => {
     const formData = new FormData();
     formData.append("image", file);
     changeProfileImage(
-      { formData, user_id },
+      { formData, user_id, accessToken },
       {
         onSuccess: () => {
           setFile(null);

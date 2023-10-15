@@ -10,6 +10,17 @@ export const getUsers = async ({ accessToken }) => {
   return await responseApiFn(response, "Users list could't be loaded!");
 };
 
+///////////////////////////////////////////////////////////////////////
+export const addNewUser = async ({ newUser, accessToken }) => {
+  const response = await fetch(`${API_URL}/users/new`, {
+    method: "POST",
+    headers: headerApiFn(accessToken),
+    body: JSON.stringify({ newUser }),
+  });
+
+  return await responseApiFn(response, "User can't be added! Please try again");
+};
+
 // ///////////////////////////////////////////////////////////////////////
 export const singleUser = async ({ uid, accessToken }) => {
   const response = await fetch(`${API_URL}/users/user/${uid}`, {
@@ -37,13 +48,19 @@ export const changeUserPassword = async ({
 };
 
 /////////////////////////////////////////////////////////////////////
-export const changeProfileImage = async ({ formData, user_id }) => {
+export const changeProfileImage = async ({
+  formData,
+  user_id,
+  accessToken,
+}) => {
   if (!formData) return;
 
   ////////////  1. upload image to server ////////////
   const response = await fetch(`${API_URL}/upload`, {
     method: "POST",
-    //headers: headerApiFn(accessToken),
+    headers: {
+      Authorization: `token ${accessToken}`,
+    },
     body: formData,
   });
 
@@ -63,8 +80,8 @@ export const changeProfileImage = async ({ formData, user_id }) => {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `token ${accessToken}`,
     },
-    //headers: headerApiFn(accessToken),
     body: JSON.stringify({ newAvatarPath: `${API_URL}/${filename}` }),
   });
 
@@ -79,5 +96,17 @@ export const changeProfileImage = async ({ formData, user_id }) => {
   }
 
   return data2;
-  // return await responseApiFn(response, "Profile image can't be change!");
+};
+
+/////////////////////////////////////////////////////////////////////
+export const removeProfileImage = async ({ user_id, accessToken }) => {
+  const response = await fetch(`${API_URL}/users/change-avatar/${user_id}`, {
+    method: "PATCH",
+    headers: headerApiFn(accessToken),
+  });
+
+  return await responseApiFn(
+    response,
+    "Profile image can't be deleted. Please try again"
+  );
 };

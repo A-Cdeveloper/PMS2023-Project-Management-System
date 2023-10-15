@@ -54,6 +54,12 @@ const editUserProfileImage = async (user_id, newAvatar) => {
   ])
 }
 
+const removeUserProfileImage = async (user_id) => {
+  await db.query('UPDATE pms_users SET user_avatar = NULL WHERE uid=?', [
+    user_id,
+  ])
+}
+
 const conformUser = async (user_id) => {
   await db.query(
     "UPDATE pms_users SET verified = 1, verifedToken='' WHERE uid=?",

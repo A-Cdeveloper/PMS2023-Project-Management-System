@@ -1,6 +1,8 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
 const dotenv = require('dotenv')
+const crypto = require('crypto')
+
 dotenv.config()
 const jwt = require('jsonwebtoken')
 const dbfunctions = require('../utils/users-query')
@@ -144,7 +146,7 @@ router.post('/logout', async (req, res) => {
 // })
 
 router.post('/new', verifyToken, async (req, res) => {
-  const { first_name, last_name, username, password, email, role } = req.body
+  const { first_name, last_name, username, email, role } = req.body.newUser
 
   const user = await dbfunctions.getSingleUser(username, null, null)
   if (user) {
@@ -157,7 +159,9 @@ router.post('/new', verifyToken, async (req, res) => {
       .json({ message: 'User with this email already exist.' })
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10)
+  const randomPassword = crypto.randomBytes(16).toString('hex')
+  const hashedPassword = await bcrypt.hash(randomPassword, 10)
+
   const verifedToken = jwt.sign(
     { username: username },
     process.env.ACCESS_TOKEN_SECRET,
@@ -166,7 +170,6 @@ router.post('/new', verifyToken, async (req, res) => {
   const newUser = {
     first_name: first_name,
     last_name: last_name,
-    user_avatar,
     username,
     password: hashedPassword,
     email,
@@ -179,9 +182,13 @@ router.post('/new', verifyToken, async (req, res) => {
   const lastUser = await dbfunctions.getSingleUser(username, null, null)
 
   const message = `Welcome to PMS ${first_name} ${last_name}.
-  Please verify your account clicking on link below
-
-  ${process.env.BASE_URL}/users/user-verify/${lastUser.uid}/${lastUser.verifedToken}`
+  
+Please verify your account clicking on link below:
+${process.env.BASE_URL}/users/user-verify/${lastUser.uid}/${lastUser.verifedToken}
+  
+Your login data:
+Username: ${username}
+Temporary password: ${randomPassword}`
 
   await sendMail(email, 'User conformation', message)
   res.status(231).json({ message: `Conformation email was sent to user.` })
@@ -220,7 +227,7 @@ router.patch('/change-password/:user_id', verifyToken, async (req, res) => {
 })
 
 // ////////////////////////////////////////////////////////////////
-router.patch('/change-avatar/:user_id', async (req, res) => {
+router.patch('/change-avatar/:user_id', verifyToken, async (req, res) => {
   const { user_id } = req.params
   const { newAvatarPath } = req.body
   const user = await dbfunctions.getSingleUser(null, null, user_id)
@@ -232,6 +239,20 @@ router.patch('/change-avatar/:user_id', async (req, res) => {
   await dbfunctions.editUserProfileImage(user.uid, newAvatarPath)
 
   res.status(231).json({ message: `User profile image changed.` })
+})
+
+// ////////////////////////////////////////////////////////////////
+router.patch('/remove-avatar/:user_id', verifyToken, async (req, res) => {
+  const { user_id } = req.params
+  const user = await dbfunctions.getSingleUser(null, null, user_id)
+
+  if (!user) {
+    return res.status(400).json({ message: 'User not exist.' })
+  }
+
+  await dbfunctions.removeUserProfileImage(user.uid)
+
+  res.status(231).json({ message: `User profile image removed.` })
 })
 
 module.exports = router

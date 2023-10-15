@@ -1,4 +1,3 @@
-import { API_URL } from "../../utils/constants";
 import styled from "styled-components";
 import { useSingleUser } from "./useSingleUser";
 

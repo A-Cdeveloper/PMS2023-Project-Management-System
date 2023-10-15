@@ -1,8 +1,9 @@
 const express = require('express')
+const verifyToken = require('../authMw')
 
 const router = express.Router()
 
-router.post('/', (req, res) => {
+router.post('/', verifyToken, (req, res) => {
   // Log the files to the console
   if (!req.files) return res.status(400).json({ message: 'File not selected' })
 

@@ -32,6 +32,7 @@ const Input = styled.input`
       box-shadow: none;
       border: none;
       padding: 0;
+      margin-right: 2rem;
       &::file-selector-button {
         font-weight: bold;
         color: white;
