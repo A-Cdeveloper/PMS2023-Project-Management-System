@@ -48,6 +48,20 @@ export const changeUserPassword = async ({
 };
 
 /////////////////////////////////////////////////////////////////////
+export const changeUserRole = async ({ user_id, newRole, accessToken }) => {
+  const response = await fetch(`${API_URL}/users/change-role/${user_id}`, {
+    method: "PATCH",
+    headers: headerApiFn(accessToken),
+    body: JSON.stringify({ newRole }),
+  });
+
+  return await responseApiFn(
+    response,
+    "User role can't be changed. Please try again"
+  );
+};
+
+/////////////////////////////////////////////////////////////////////
 export const changeProfileImage = async ({
   formData,
   user_id,
@@ -108,5 +122,17 @@ export const removeProfileImage = async ({ user_id, accessToken }) => {
   return await responseApiFn(
     response,
     "Profile image can't be deleted. Please try again"
+  );
+};
+
+///////////////////////////////////////////////////////////////////////
+export const deleteUser = async ({ user_id, accessToken }) => {
+  const response = await fetch(`${API_URL}/users/${user_id}/delete`, {
+    method: "DELETE",
+    headers: headerApiFn(accessToken),
+  });
+  return await responseApiFn(
+    response,
+    "User can't be deleted! Please try again"
   );
 };

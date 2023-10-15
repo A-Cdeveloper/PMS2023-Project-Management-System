@@ -26,8 +26,6 @@ const UsersTable = () => {
   const [searchParams] = useSearchParams();
   const { isLoading, error, users: allUsers } = useUsers();
 
-  console.log(allUsers);
-
   //filter results
   const filteredTextValue = searchParams.get("filterByText");
 

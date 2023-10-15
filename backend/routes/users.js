@@ -194,6 +194,25 @@ Temporary password: ${randomPassword}`
   res.status(231).json({ message: `Conformation email was sent to user.` })
 })
 
+//////////////////////////////////////////////////////////////////////////
+router.delete('/:user_id/delete', verifyToken, async (req, res) => {
+  const uid = req.params.user_id
+
+  const user = await dbfunctions.getSingleUser(null, null, uid)
+
+  if (!user) {
+    return res.status(400).json({ message: 'User not exist.' })
+  }
+  await dbfunctions.deleteUser(uid)
+
+  const message = `Hello ${user.first_name} ${user.last_name}.
+
+Your account ${user.username} has been deleted.`
+
+  await sendMail(user.email, 'Account deleted', message)
+  res.status(231).json({ user, message: 'User succesfully deleted.' })
+})
+
 // ////////////////////////////////////////////////////////////////
 router.get('/user-verify/:user_id/:verToken', async (req, res) => {
   const { user_id, verToken } = req.params
@@ -224,6 +243,21 @@ router.patch('/change-password/:user_id', verifyToken, async (req, res) => {
   await dbfunctions.editUserPassword(user.uid, hashedPassword)
 
   res.status(231).json({ message: `User password changed.` })
+})
+
+// ////////////////////////////////////////////////////////////////
+router.patch('/change-role/:user_id', verifyToken, async (req, res) => {
+  const { user_id } = req.params
+  const { newRole } = req.body
+  const user = await dbfunctions.getSingleUser(null, null, user_id)
+
+  if (!user) {
+    return res.status(400).json({ message: 'User not exist.' })
+  }
+
+  await dbfunctions.editUserRole(user.uid, newRole)
+
+  res.status(231).json({ message: `User role  changed.` })
 })
 
 // ////////////////////////////////////////////////////////////////

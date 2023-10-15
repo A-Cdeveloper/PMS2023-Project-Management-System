@@ -47,6 +47,13 @@ const editUserPassword = async (user_id, newPassword) => {
   ])
 }
 
+const editUserRole = async (user_id, newRole) => {
+  await db.query('UPDATE pms_users SET role = ? WHERE uid=?', [
+    newRole,
+    user_id,
+  ])
+}
+
 const editUserProfileImage = async (user_id, newAvatar) => {
   await db.query('UPDATE pms_users SET user_avatar = ? WHERE uid=?', [
     newAvatar,
@@ -90,14 +97,21 @@ const clearRefreshToken = async (refToken) => {
   )
 }
 
+const deleteUser = async (user_id) => {
+  await db.query('DELETE FROM pms_users WHERE uid=?', [user_id])
+}
+
 module.exports = {
   getUsers,
   getSingleUser,
   createUser,
   editUserPassword,
+  editUserRole,
   editUserProfileImage,
+  removeUserProfileImage,
   conformUser,
   getRefreshToken,
   updateRefreshToken,
   clearRefreshToken,
+  deleteUser,
 }

@@ -1,32 +1,18 @@
-import { useNavigate } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
-import {
-  formatDate,
-  formatDateTime,
-  formatDuration,
-} from "../../utils/helpers";
-
+import { formatDateTime } from "../../utils/helpers";
+import { useCurrentUserTokens } from "../../context/authContext";
 import styled from "styled-components";
-// import useCloneTask from "./useCloneTask";
-// import useDeleteTask from "./useDeleteTask";
+import useDeleteUser from "./useDeleteUser";
+import useChangeRole from "./useChangeRole";
 
-// import { singleTask } from "../../services/apiTasks";
+import { userRoles } from "./UserParameters";
 
-// import { taskStatus } from "./TaskParameters";
-
-import {
-  HiEye,
-  HiOutlineCheck,
-  HiOutlineMinus,
-  HiTrash,
-} from "react-icons/hi2";
+import { HiOutlineCheck, HiOutlineMinus, HiTrash } from "react-icons/hi2";
 
 import Table from "../../ui/Data/Table";
-// import Tag from "../../ui/Data/Tag";
 import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
-// import AddEditTask from "./AddEditTask";
 import ConfirmModal from "../../ui/ConfirmModal";
+import Select from "../../ui/Form/Select";
 
 const User = styled.div`
   font-weight: 500;
@@ -44,14 +30,15 @@ const CellIcon = styled.div`
   }
 `;
 
-const TaskRow = ({ user }) => {
-  const navigate = useNavigate();
-  //   const { isCloneLoading, cloneTask } = useCloneTask();
-  //   const { isDeleteLoading, deleteTask } = useDeleteTask();
-  const queryClient = useQueryClient();
+const UserRow = ({ user }) => {
+  const { user: logedUser } = useCurrentUserTokens();
+  const { isDeleteLoading, deleteUser } = useDeleteUser();
+  const { isEditLoading, changeUserRole } = useChangeRole();
+
+  const { accessToken } = logedUser;
 
   const {
-    uid,
+    uid: user_id,
     first_name,
     last_name,
     username,
@@ -62,50 +49,72 @@ const TaskRow = ({ user }) => {
     verified,
   } = user;
 
-  //   const prefetchTaskHandler = async (task_id) => {
-  //     await queryClient.prefetchQuery({
-  //       queryKey: ["task", task_id],
-  //       queryFn: () => singleTask(task_id),
-  //     });
-  //   };
+  //console.log(user);
+
+  const isCurrentLogedUser = user_id === logedUser.uid;
 
   return (
-    <Table.Row>
+    <Table.Row type={isCurrentLogedUser ? "logedUser" : null}>
       <User>{first_name}</User>
       <div>{last_name}</div>
       <div>{username}</div>
       <div>{email}</div>
       <div>{formatDateTime(created_date)}</div>
       <div>{formatDateTime(last_login)}</div>
-      <div>{role}</div>
+
+      <div>
+        {!isCurrentLogedUser ? (
+          <Select
+            defaultValue={role}
+            onChange={(e) => {
+              const newRole = e.target.value;
+              changeUserRole({ user_id, newRole, accessToken });
+            }}
+            disabled={isEditLoading}
+          >
+            {userRoles().map((role, index) => {
+              return index !== 0 ? (
+                <option key={role.label} value={role.value}>
+                  {role.label}
+                </option>
+              ) : null;
+            })}
+          </Select>
+        ) : (
+          role
+        )}
+      </div>
+
       <CellIcon>
         {verified === "1" ? <HiOutlineCheck /> : <HiOutlineMinus />}
       </CellIcon>
 
       <div>
-        <Modal>
-          <Menus>
-            <Menus.Toggle id={uid} />
+        {role !== "admin" && (
+          <Modal>
+            <Menus>
+              <Menus.Toggle id={user_id} />
 
-            <Menus.List id={uid}>
-              <Modal.OpenButton opens="task-delete">
-                <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
-              </Modal.OpenButton>
-            </Menus.List>
-          </Menus>
+              <Menus.List id={user_id}>
+                <Modal.OpenButton opens="user-delete">
+                  <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+                </Modal.OpenButton>
+              </Menus.List>
+            </Menus>
 
-          <Modal.Window name="task-delete">
-            <ConfirmModal
-              resourceName="task"
-              operation="delete"
-              // onConfirm={() => deleteTask(uid)}
-              // disabled={isDeleteLoading}
-            />
-          </Modal.Window>
-        </Modal>
+            <Modal.Window name="user-delete">
+              <ConfirmModal
+                resourceName="user"
+                operation="delete"
+                onConfirm={() => deleteUser({ user_id, accessToken })}
+                disabled={isDeleteLoading}
+              />
+            </Modal.Window>
+          </Modal>
+        )}
       </div>
     </Table.Row>
   );
 };
 
-export default TaskRow;
+export default UserRow;

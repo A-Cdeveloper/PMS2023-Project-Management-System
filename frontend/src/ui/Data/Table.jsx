@@ -37,10 +37,18 @@ const StyledRow = styled(TableRow)`
   font-size: 1.4rem;
   font-weight: ${(props) => props.theme.fontWeight.regular};
   border: 1px solid ${(props) => props.theme.baseColors.grey100};
-  color: ${(props) => props.theme.baseColors.grey600};
+  color: ${(props) =>
+    props.type === "logedUser" ? "#fff" : props.theme.baseColors.grey600};
+  background: ${(props) =>
+    props.type === "logedUser" ? props.theme.baseColors.grey700 : null};
 
   &:nth-child(even) {
-    background: ${(props) => props.theme.baseColors.grey50};
+    color: ${(props) =>
+      props.type === "logedUser" ? "#fff" : props.theme.baseColors.grey600};
+    background: ${(props) =>
+      props.type === "logedUser"
+        ? props.theme.baseColors.grey700
+        : props.theme.baseColors.grey50};
   }
 `;
 
@@ -78,9 +86,13 @@ const Header = () => {
   );
 };
 
-const Row = ({ children }) => {
+const Row = ({ children, type }) => {
   const { columns } = useContext(TableContext);
-  return <StyledRow columns={columns}>{children}</StyledRow>;
+  return (
+    <StyledRow type={type} columns={columns}>
+      {children}
+    </StyledRow>
+  );
 };
 
 const Body = ({ data, renderItem }) => {
