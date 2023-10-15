@@ -21,6 +21,7 @@ import Clients from "./pages/Clients";
 import Client from "./pages/Client";
 import PageNotFound from "./pages/PageNotFound";
 import Login from "./pages/Login";
+import UserConformPage from "./pages/UserConformPage";
 import Settings from "./pages/Settings";
 
 import { AuthContextProvider } from "./context/authContext";
@@ -38,6 +39,10 @@ const queryClient = new QueryClient({
 
 const router = createBrowserRouter([
   { path: "/login", element: <Login /> },
+  {
+    path: "/user-verify/:userId/:verifikationToken",
+    element: <UserConformPage />,
+  },
 
   {
     element: (

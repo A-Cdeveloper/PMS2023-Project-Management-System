@@ -146,7 +146,7 @@ router.post('/logout', async (req, res) => {
 // })
 
 router.post('/new', verifyToken, async (req, res) => {
-  const { first_name, last_name, username, email, role } = req.body.newUser
+  const { first_name, last_name, username, email, role } = req.body
 
   const user = await dbfunctions.getSingleUser(username, null, null)
   if (user) {
@@ -162,11 +162,14 @@ router.post('/new', verifyToken, async (req, res) => {
   const randomPassword = crypto.randomBytes(16).toString('hex')
   const hashedPassword = await bcrypt.hash(randomPassword, 10)
 
-  const verifedToken = jwt.sign(
-    { username: username },
-    process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: '24h' }
-  )
+  // const verifedToken = jwt.sign(
+  //   { username: username },
+  //   process.env.ACCESS_TOKEN_SECRET,
+  //   { expiresIn: '24h' }
+  // )
+
+  const verifedToken = crypto.randomBytes(16).toString('hex')
+
   const newUser = {
     first_name: first_name,
     last_name: last_name,
@@ -184,7 +187,7 @@ router.post('/new', verifyToken, async (req, res) => {
   const message = `Welcome to PMS ${first_name} ${last_name}.
   
 Please verify your account clicking on link below:
-${process.env.BASE_URL}/users/user-verify/${lastUser.uid}/${lastUser.verifedToken}
+${process.env.FRONTEND_URL}/user-verify/${lastUser.uid}/${lastUser.verifedToken}
   
 Your login data:
 Username: ${username}
@@ -219,13 +222,17 @@ router.get('/user-verify/:user_id/:verToken', async (req, res) => {
   const user = await dbfunctions.getSingleUser(null, null, user_id)
 
   if (!user) {
-    return res.status(400).json({ message: 'User not exist.' })
+    return res
+      .status(400)
+      .json({ message: 'User not exist.Please contact app admin.' })
   }
   if (user.verifedToken !== verToken) {
-    return res.status(400).json({ message: 'Conformation link not valid.' })
+    return res.status(400).json({
+      message: 'Conformation link not valid. Please contact app admin.',
+    })
   }
   await dbfunctions.conformUser(user_id)
-  res.status(231).json({ message: `User conformed.` })
+  res.status(231).json({ user, message: `Your registration is now conformed.` })
 })
 
 // ////////////////////////////////////////////////////////////////

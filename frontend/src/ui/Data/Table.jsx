@@ -40,7 +40,7 @@ const StyledRow = styled(TableRow)`
   color: ${(props) =>
     props.type === "logedUser" ? "#fff" : props.theme.baseColors.grey600};
   background: ${(props) =>
-    props.type === "logedUser" ? props.theme.baseColors.grey700 : null};
+    props.type === "logedUser" ? props.theme.baseColors.grey500 : null};
 
   &:nth-child(even) {
     color: ${(props) =>
