@@ -28,6 +28,7 @@ import { AuthContextProvider } from "./context/authContext";
 import Notifications from "./ui/Notifications";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import ForgotPassword from "./pages/ForgotPassword";
+import Services from "./pages/Services";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -86,6 +87,9 @@ const router = createBrowserRouter([
           // { path: ":userId", element: <User /> },
         ],
       },
+
+      { path: "/services", element: <Services /> },
+
       { path: "/settings", element: <Settings /> },
       { path: "/account", element: <Account /> },
     ],
