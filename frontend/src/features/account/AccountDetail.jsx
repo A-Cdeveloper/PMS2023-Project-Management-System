@@ -22,6 +22,11 @@ import {
 import ChangePassword from "./ChangePassword";
 import ChangeProfileImage from "./ChangeProfileImage";
 import { HiXMark } from "react-icons/hi2";
+import Button from "../../ui/Buttons/Button";
+import useDeleteUser from "../users/useDeleteUser";
+import Modal from "../../ui/Modal";
+import ConfirmModal from "../../ui/ConfirmModal";
+import { useNavigate } from "react-router-dom";
 
 const ImageHolder = styled.div`
   position: relative;
@@ -73,12 +78,14 @@ const CloseButton = styled.button`
 
 const AccountDetail = () => {
   const moveBack = useMoveBack();
+  const navigate = useNavigate();
 
   const {
     user: { uid: user_id, accessToken },
   } = useCurrentUserTokens();
   const { user: userSingle = {} } = useSingleUser();
   const { isDeleteLoading, removeProfileImage } = useRemoveProfileImage();
+  const { isDeleteLoading: isDeleteAccount, deleteUser } = useDeleteUser();
 
   const queryClient = useQueryClient();
   const userCurrent = queryClient.getQueryData(["user", user_id])
@@ -96,7 +103,10 @@ const AccountDetail = () => {
     last_login,
     role,
     verified,
+    refreshToken,
   } = userCurrent;
+
+  console.log(userCurrent);
 
   return (
     <>
@@ -168,6 +178,40 @@ const AccountDetail = () => {
             <ChangePassword />
           </DataDetailsContainer>
         </Row>
+
+        <DataDetailsContainer>
+          <DataBox>
+            <DataBoxContent>
+              <Modal>
+                <Modal.OpenButton opens="user-delete">
+                  <Button variation="danger" size="medium">
+                    DELETE ACCOUNT
+                  </Button>
+                </Modal.OpenButton>
+
+                <Modal.Window name="user-delete">
+                  <ConfirmModal
+                    resourceName="account"
+                    operation="delete"
+                    // onConfirm={() => console.log("delete")}
+                    onConfirm={() =>
+                      deleteUser(
+                        { user_id, accessToken },
+                        {
+                          onSettled: () => {
+                            navigate("/login", { replace: true });
+                            localStorage.removeItem("currentUser");
+                          },
+                        }
+                      )
+                    }
+                    disabled={isDeleteLoading}
+                  />
+                </Modal.Window>
+              </Modal>
+            </DataBoxContent>
+          </DataBox>
+        </DataDetailsContainer>
       </Row>
     </>
   );

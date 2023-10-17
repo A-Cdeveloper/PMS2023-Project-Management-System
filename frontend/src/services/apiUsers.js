@@ -15,7 +15,7 @@ export const addNewUser = async ({ newUser, accessToken }) => {
   const response = await fetch(`${API_URL}/users/new`, {
     method: "POST",
     headers: headerApiFn(accessToken),
-    body: JSON.stringify({ newUser }),
+    body: JSON.stringify(newUser),
   });
 
   return await responseApiFn(response, "User can't be added! Please try again");

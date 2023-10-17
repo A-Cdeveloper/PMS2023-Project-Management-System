@@ -42,6 +42,17 @@ function ConfirmModal({
     </p>
   );
 
+  if (resourceName === "account") {
+    message = (
+      <>
+        <p>
+          Are you sure you want to delete your account permanently? <br />
+          This action cannot be undone.
+        </p>
+      </>
+    );
+  }
+
   if (connectedResurces) {
     message = (
       <>
