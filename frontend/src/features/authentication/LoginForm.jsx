@@ -6,6 +6,7 @@ import Input from "../../ui/Form/Input";
 import useLogin from "./useLogin";
 import SpinnerMini from "../../ui/SpinnerMini";
 import FormRowVertical from "../../ui/Form/FormRowVertical";
+import ButtonText from "../../ui/Buttons/ButtonText";
 
 import { useNavigate } from "react-router-dom";
 
@@ -36,33 +37,38 @@ function LoginForm() {
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <FormRowVertical type="vertical" label="Username">
-        <Input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          disabled={isLoginLoading}
-        />
-      </FormRowVertical>
-      <FormRowVertical type="vertical" label="Password">
-        <Input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          disabled={isLoginLoading}
-        />
-      </FormRowVertical>
-      <FormRowVertical>
-        <Button
-          size="large"
-          variation={!isLoginLoading ? "primary" : "disabled"}
-          active=""
-        >
-          {!isLoginLoading ? "Login" : <SpinnerMini />}
-        </Button>
-      </FormRowVertical>
-    </Form>
+    <>
+      <Form onSubmit={handleSubmit}>
+        <FormRowVertical type="vertical" label="Username">
+          <Input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            disabled={isLoginLoading}
+          />
+        </FormRowVertical>
+        <FormRowVertical type="vertical" label="Password">
+          <Input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={isLoginLoading}
+          />
+        </FormRowVertical>
+        <FormRowVertical>
+          <Button
+            size="large"
+            variation={!isLoginLoading ? "primary" : "disabled"}
+            active=""
+          >
+            {!isLoginLoading ? "Login" : <SpinnerMini />}
+          </Button>
+        </FormRowVertical>
+      </Form>
+      <ButtonText onClick={() => navigate("/forgot-password")}>
+        Forgot password?
+      </ButtonText>
+    </>
   );
 }
 

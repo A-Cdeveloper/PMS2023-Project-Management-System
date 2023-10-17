@@ -42,3 +42,16 @@ export const userConformation = async ({
 
   return await responseApiFn(response, "Failed! Please try again");
 };
+
+///////////////////////////////////////////////////////////////////
+export const forgotPassword = async ({ entry }) => {
+  const response = await fetch(`${API_URL}/users/forgot-password/`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ entry }),
+  });
+
+  return await responseApiFn(response, "Failed! Please try again");
+};

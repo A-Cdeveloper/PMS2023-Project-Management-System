@@ -27,6 +27,7 @@ import Settings from "./pages/Settings";
 import { AuthContextProvider } from "./context/authContext";
 import Notifications from "./ui/Notifications";
 import ProtectedRoute from "./ui/ProtectedRoute";
+import ForgotPassword from "./pages/ForgotPassword";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: "/user-verify/:userId/:verifikationToken",
     element: <UserConformPage />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword />,
   },
 
   {

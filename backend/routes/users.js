@@ -197,6 +197,34 @@ Temporary password: ${randomPassword}`
   res.status(231).json({ message: `Conformation email was sent to user.` })
 })
 
+//////////////////////////////////////////////////////////////
+router.patch('/forgot-password', async (req, res) => {
+  const { entry } = req.body
+
+  const user = await dbfunctions.getSingleUser(entry, entry, null)
+  if (!user) {
+    return res
+      .status(400)
+      .json({ message: `User with username/email ${entry} not exist.` })
+  }
+
+  const randomPassword = crypto.randomBytes(16).toString('hex')
+  const hashedPassword = await bcrypt.hash(randomPassword, 10)
+
+  await dbfunctions.editUserPassword(user.uid, hashedPassword)
+
+  const message = `Dear ${user.first_name} ${user.last_name}.
+
+Your requested to change password for username ${user.username}.
+Your new temporary password is: ${randomPassword}`
+
+  await sendMail(user.email, 'Change password request', message)
+  res.status(231).json({
+    username: user.username,
+    message: `Password changed. Email with new password was sent to user.`,
+  })
+})
+
 //////////////////////////////////////////////////////////////////////////
 router.delete('/:user_id/delete', verifyToken, async (req, res) => {
   const uid = req.params.user_id
