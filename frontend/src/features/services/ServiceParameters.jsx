@@ -1,4 +1,4 @@
-export const servicesCols = ["Service", "Type", "Price"];
+export const servicesCols = ["Service", "Type", "Price/hour", "Price/item"];
 
 export const serviceType = [
   { value: "all", label: "All" },

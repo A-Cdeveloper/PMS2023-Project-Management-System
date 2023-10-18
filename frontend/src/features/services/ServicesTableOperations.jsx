@@ -2,7 +2,7 @@ import TableOperations from "../../ui/Data/TableOperations";
 import SortBy from "../../ui/SortBy";
 import FilterText from "../../ui/FilterText";
 import NewRecord from "../../ui/Buttons/NewRecord";
-// import AddEditClient from "./AddEditClient";
+import AddEditService from "./AddEditService";
 
 function ServicesTableOperations() {
   return (
@@ -23,7 +23,9 @@ function ServicesTableOperations() {
         ]}
         defaultOptionIndex={0}
       />
-      <NewRecord record="service">{/* <AddEditClient /> */}</NewRecord>
+      <NewRecord record="service">
+        <AddEditService />
+      </NewRecord>
     </TableOperations>
   );
 }

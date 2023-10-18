@@ -12,25 +12,15 @@ import { servicesCols } from "./ServiceParameters";
 
 const ServicesTable = () => {
   const [searchParams] = useSearchParams();
-  const { isLoading, error, services } = useFilterServices();
+  const { isLoading, error, services = {} } = useFilterServices();
   const { services: allServices } = useServices();
-
-  // console.log(services);
 
   //filter results
   const filteredTextValue = searchParams.get("filterByText");
 
   const shownServices = filteredTextValue
-    ? allServices.filter(
-        (service) =>
-          service.service_name
-            .trim()
-            .toLowerCase()
-            .includes(filteredTextValue) ||
-          service.service_description
-            .trim()
-            .toLowerCase()
-            .includes(filteredTextValue)
+    ? allServices.filter((service) =>
+        service.service_name.trim().toLowerCase().includes(filteredTextValue)
       )
     : services;
 
@@ -40,7 +30,7 @@ const ServicesTable = () => {
 
   return (
     <>
-      <Table cols={servicesCols} columns="1fr 20rem 20rem 4rem">
+      <Table cols={servicesCols} columns="1fr 20rem 20rem 20rem 4rem">
         <Table.Header />
         <Table.Body
           data={shownServices}

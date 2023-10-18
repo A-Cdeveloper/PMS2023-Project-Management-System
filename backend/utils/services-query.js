@@ -37,21 +37,44 @@ const getDuplicateService = async (service_name) => {
 }
 
 const addService = async (service) => {
-  const { service_name, service_description, service_price, service_type } =
-    service
+  const {
+    service_name,
+    service_description,
+    service_price_hour,
+    service_price_total,
+    service_type,
+  } = service
 
   await db.query(
-    `INSERT INTO pms_services (service_name, service_description, service_price, service_type) VALUES (?,?,?,?)`,
-    [service_name, service_description, service_price, service_type]
+    `INSERT INTO pms_services (service_name, service_description, service_price_hour,service_price_total, service_type) VALUES (?,?,?,?,?)`,
+    [
+      service_name,
+      service_description,
+      service_price_hour,
+      service_price_total,
+      service_type,
+    ]
   )
 }
 
 const updateService = async (service, service_id) => {
-  const { service_name, service_description, service_price, service_type } =
-    service
+  const {
+    service_name,
+    service_description,
+    service_price_hour,
+    service_price_total,
+    service_type,
+  } = service
   await db.query(
-    'UPDATE pms_services SET service_name=? , service_description=?, service_price=?,service_type=?  WHERE service_id=?',
-    [service_name, service_description, service_price, service_type, service_id]
+    'UPDATE pms_services SET service_name=? , service_description=?, service_price_hour=?,service_price_total=?,service_type=?  WHERE service_id=?',
+    [
+      service_name,
+      service_description,
+      service_price_hour,
+      service_price_total,
+      service_type,
+      service_id,
+    ]
   )
 }
 

@@ -71,7 +71,7 @@ router.post('/:service_id/duplicate', verifyToken, async (req, res) => {
 })
 
 // // edit service
-router.patch('/:service_id/edit', async (req, res) => {
+router.patch('/:service_id/edit', verifyToken, async (req, res) => {
   const postService = req.body
   const sid = req.params.service_id
   const service = await dbfunctions.getSingleService(sid)
