@@ -63,6 +63,15 @@ export const endLoginSession = (expireTime) => {
   return differenceInSeconds(expirationTime, now);
 };
 
+//////////////////////////////////////////////////////////////////////////////////////
+
+export const formatPrice = (price) => {
+  return Intl.NumberFormat("de-DE", {
+    style: "currency",
+    currency: "EUR",
+  }).format(price);
+};
+
 ////////////////////////////// API //////////////////////////////////////////////////
 
 export const wait = (duration) => {
