@@ -16,7 +16,7 @@ router.get('/:order', verifyToken, async (req, res) => {
 })
 
 /// filtered and limited offer list
-router.get('/filter/:from/:perPage/:order', async (req, res) => {
+router.get('/filter/:from/:perPage/:order', verifyToken, async (req, res) => {
   const { from, perPage, order } = req.params
   const [orderBy, orderDirection] = order.split('=')
 
@@ -33,23 +33,23 @@ router.get('/filter/:from/:perPage/:order', async (req, res) => {
 })
 
 // // single offer
-// router.get('/client/:client_id', verifyToken, async (req, res) => {
-//   const cid = req.params.client_id
-//   const client = await dbfunctions.getSingleClient(cid)
-//   if (!client || client.client_id === null) {
-//     return res.status(400).json({ message: 'Client not exist.' })
-//   }
-//   res.status(231).send(client)
-// })
+router.get('/offer/:offer_id', verifyToken, async (req, res) => {
+  const sid = req.params.offer_id
+  const offer = await dbfunctions.getSingleOffer(sid)
+  if (!offer || offer.offer_id === null) {
+    return res.status(400).json({ message: 'Offer not exist.' })
+  }
+  res.status(231).send(offer)
+})
 
 // // new offer
 router.post('/new', verifyToken, async (req, res) => {
   const postOffer = req.body
-  const offer = await dbfunctions.getDuplicateOffer(postoffer.offer_name)
+  const offer = await dbfunctions.getDuplicateOffer(postOffer.offer_number)
   if (offer) {
     return res.status(400).json({ message: 'Offer already exist.' })
   }
-  await dbfunctions.addoffer(postOffer)
+  await dbfunctions.addOffer(postOffer)
   res.status(231).json({ message: 'Offer succesfully added.' })
 })
 
@@ -61,23 +61,23 @@ router.post('/:offer_id/duplicate', verifyToken, async (req, res) => {
     return res.status(400).json({ message: 'offer not exist.' })
   }
 
-  offer.offer_name = `${offer.offer_name} - COPY`
-  await dbfunctions.addoffer({
+  offer.offer_number = `${offer.offer_number} - COPY`
+  await dbfunctions.addOffer({
     ...offer,
   })
   res.status(231).json({ offer, message: 'Offer succesfully duplicated.' })
 })
 
 // // edit offer
-router.patch('/:offer_id/edit', verifyToken, async (req, res) => {
+router.patch('/:offer_id/edit', async (req, res) => {
   const postOffer = req.body
   const oid = req.params.offer_id
-  const offer = await dbfunctions.getSingleOffer(sid)
+  const offer = await dbfunctions.getSingleOffer(oid)
   if (!offer) {
     return res.status(400).json({ message: 'Offer not exist.' })
   }
   await dbfunctions.updateOffer(postOffer, oid)
-  res.status(231).json({ offer, message: 'offer succesfully updated.' })
+  res.status(231).json({ offer, message: 'Offer succesfully updated.' })
 })
 
 // // delete offer
