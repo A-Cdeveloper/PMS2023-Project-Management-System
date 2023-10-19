@@ -69,7 +69,7 @@ router.post('/:offer_id/duplicate', verifyToken, async (req, res) => {
 })
 
 // // edit offer
-router.patch('/:offer_id/edit', async (req, res) => {
+router.patch('/:offer_id/edit', verifyToken, async (req, res) => {
   const postOffer = req.body
   const oid = req.params.offer_id
   const offer = await dbfunctions.getSingleOffer(oid)
