@@ -29,6 +29,7 @@ import Notifications from "./ui/Notifications";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import ForgotPassword from "./pages/ForgotPassword";
 import Services from "./pages/Services";
+import Offers from "./pages/Offers";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -80,15 +81,12 @@ const router = createBrowserRouter([
           { path: ":taskId", element: <Task /> },
         ],
       },
-      {
-        path: "/users",
-        children: [
-          { index: true, element: <Users /> },
-          // { path: ":userId", element: <User /> },
-        ],
-      },
-
+      { path: "/users", element: <Users /> },
       { path: "/services", element: <Services /> },
+      {
+        path: "/offers",
+        children: [{ index: true, element: <Offers /> }],
+      },
 
       { path: "/settings", element: <Settings /> },
       { path: "/account", element: <Account /> },
