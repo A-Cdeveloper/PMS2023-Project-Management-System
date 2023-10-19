@@ -1,6 +1,6 @@
 import OffersTable from "../features/offers/OffersTable";
 
-//import ServicesTableOperations from "../features/services/ServicesTableOperations";
+import OffersTableOperations from "../features/offers/OffersTableOperations";
 import Headline from "../ui/Headline";
 import Row from "../ui/Row";
 
@@ -9,7 +9,7 @@ const Offers = () => {
     <>
       <Row type="horizontal">
         <Headline as="h1">Offers</Headline>
-        {/* <ServicesTableOperations /> */}
+        <OffersTableOperations />
       </Row>
       <OffersTable />
     </>

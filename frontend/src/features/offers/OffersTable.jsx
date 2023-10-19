@@ -32,7 +32,7 @@ const OffersTable = () => {
 
   return (
     <>
-      <Table cols={offersCols} columns="15rem 15rem 1fr 1fr 20rem 4rem">
+      <Table cols={offersCols} columns="15rem 15rem 1fr 1fr 20rem 8rem">
         <Table.Header />
         <Table.Body
           data={shownOffers}

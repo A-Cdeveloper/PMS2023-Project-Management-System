@@ -24,6 +24,10 @@ const Offer = styled.div`
   padding-right: 4rem;
 `;
 
+const Type = styled.div`
+  text-transform: lowercase;
+`;
+
 const Link = styled.div`
   cursor: pointer;
   &:hover {
@@ -61,9 +65,9 @@ const OfferRow = ({ offer }) => {
       <Link onClick={() => navigate(`/projects/${offer_project_id}`)}>
         {project_name}
       </Link>
-      <div>{offer_type}</div>
+      <Type>{offer_type}</Type>
 
-      {/* <div>
+      <div>
         <Modal>
           <Menus>
             <Menus.Toggle id={offer_id} />
@@ -85,14 +89,14 @@ const OfferRow = ({ offer }) => {
             </Menus.List>
           </Menus>
           <Modal.Window name="offer-edit">
-            <AddEditOffer offerToEdit={offer} />
+            {/* <AddEditOffer offerToEdit={offer} /> */}
           </Modal.Window>
           <Modal.Window name="offer-clone">
             <ConfirmModal
               resourceName="offer"
               operation="clone"
-              onConfirm={() => cloneOffer({ offer_id, accessToken })}
-              disabled={isCloneLoading}
+              // onConfirm={() => cloneOffer({ offer_id, accessToken })}
+              // disabled={isCloneLoading}
             />
           </Modal.Window>
           <Modal.Window name="offer-delete">
@@ -100,12 +104,12 @@ const OfferRow = ({ offer }) => {
               resourceName="offer"
               operation="delete"
               connectedResurces={false}
-              onConfirm={() => deleteOffer({ offer_id, accessToken })}
-              disabled={isDeleteLoading}
+              // onConfirm={() => deleteOffer({ offer_id, accessToken })}
+              // disabled={isDeleteLoading}
             />
           </Modal.Window>
         </Modal>
-      </div> */}
+      </div>
     </Table.Row>
   );
 };

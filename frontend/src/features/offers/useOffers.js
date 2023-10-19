@@ -11,7 +11,7 @@ export const useOffers = () => {
   // SORTING - server
   const sortBy = searchParams?.get("sortBy")
     ? searchParams.get("sortBy").split("-")
-    : ["offer_number", "asc"];
+    : ["offer_date", "desc"];
 
   const {
     isLoading,
