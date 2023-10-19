@@ -18,6 +18,7 @@ const SettingsForm = () => {
     tasks_per_page,
     users_per_page,
     services_per_page,
+    offers_per_page,
   } = settings;
 
   if (errorGetSettings) return <p>{errorGetSettings.message}</p>;
@@ -74,6 +75,7 @@ const SettingsForm = () => {
           id="usersperpage"
         />
       </FormRow>
+
       <FormRow label="Services per page">
         <Input
           type="number"
@@ -83,7 +85,15 @@ const SettingsForm = () => {
           id="servicesperpage"
         />
       </FormRow>
-
+      <FormRow label="Offers per page">
+        <Input
+          type="number"
+          defaultValue={offers_per_page}
+          onBlur={(e) => handleBlur(e, "offers_per_page")}
+          disabled={isLoadingSettings || isUpdateSettings}
+          id="offersperpage"
+        />
+      </FormRow>
       <FormRow></FormRow>
     </Form>
   );
