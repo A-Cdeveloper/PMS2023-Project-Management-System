@@ -148,12 +148,16 @@ const NewOfferFormular = () => {
               <FormRow></FormRow>
             </SectionData>
             <SectionData>
-              <FormRow type="flex" label="Caption" error={errors?.offer_extra}>
+              <FormRow
+                type="flex"
+                label="Caption"
+                error={errors?.offer_caption}
+              >
                 <Input
                   {...register("offer_extra", {
                     required: "This field is required",
                   })}
-                  aria-invalid={errors.offer_extra ? "true" : "false"}
+                  aria-invalid={errors.offer_caption ? "true" : "false"}
                   disabled={false}
                 />
               </FormRow>

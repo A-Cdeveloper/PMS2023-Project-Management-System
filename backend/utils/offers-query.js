@@ -46,20 +46,20 @@ const addOffer = async (offer) => {
     offer_client_adresse,
     offer_project_id,
     offer_type,
-    offer_extra,
+    offer_caption,
     offer_date,
     offer_pdf,
   } = offer
 
   await db.query(
-    `INSERT INTO pms_offers (offer_number,offer_client_id,offer_client_adresse,offer_project_id,offer_type,offer_extra,offer_date,offer_pdf) VALUES (?,?,?,?,?,?,?,?)`,
+    `INSERT INTO pms_offers (offer_number,offer_client_id,offer_client_adresse,offer_project_id,offer_type,offer_caption,offer_date,offer_pdf) VALUES (?,?,?,?,?,?,?,?)`,
     [
       offer_number,
       offer_client_id,
       offer_client_adresse,
       offer_project_id,
       offer_type,
-      offer_extra,
+      offer_caption,
       offer_date,
       offer_pdf,
     ]
@@ -73,19 +73,19 @@ const updateOffer = async (offer, offer_id) => {
     offer_client_adresse,
     offer_project_id,
     offer_type,
-    offer_extra,
+    offer_caption,
     offer_date,
     offer_pdf,
   } = offer
   await db.query(
-    'UPDATE pms_offers SET offer_number=?, offer_client_id=?,offer_client_adresse=?,offer_project_id=?,offer_type=?,offer_extra=?,offer_date=?,offer_pdf=?  WHERE offer_id=?',
+    'UPDATE pms_offers SET offer_number=?, offer_client_id=?,offer_client_adresse=?,offer_project_id=?,offer_type=?,offer_caption=?,offer_date=?,offer_pdf=?  WHERE offer_id=?',
     [
       offer_number,
       offer_client_id,
       offer_client_adresse,
       offer_project_id,
       offer_type,
-      offer_extra,
+      offer_caption,
       offer_date,
       offer_pdf,
       offer_id,

@@ -61,7 +61,7 @@ const OfferRow = ({ offer }) => {
     offer_project_id,
     project_name,
     offer_type,
-    offer_extra,
+    offer_caption,
     offer_date,
     offer_pdf,
   } = offer;
