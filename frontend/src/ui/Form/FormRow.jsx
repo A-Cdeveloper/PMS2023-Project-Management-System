@@ -11,6 +11,12 @@ const Error = styled.span`
   position: absolute;
   right: 0rem;
   bottom: -0.5rem;
+
+  ${(props) =>
+    props.errorposition === "start" &&
+    css`
+      left: 0rem;
+    `}
 `;
 
 const StyledFormRow = styled.div`
@@ -51,12 +57,12 @@ const StyledFormRow = styled.div`
     `}
 `;
 
-const FormRow = ({ label, error, children, type }) => {
+const FormRow = ({ label, error, children, type, errorposition }) => {
   return (
     <StyledFormRow type={type}>
       {label && <Label htmlFor={children.props.id}>{label}</Label>}
       {children}
-      {error && <Error>{error.message}</Error>}
+      {error && <Error errorposition={errorposition}>{error.message}</Error>}
     </StyledFormRow>
   );
 };
