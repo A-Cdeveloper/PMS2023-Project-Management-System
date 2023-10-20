@@ -1,10 +1,11 @@
+import { HiPlusCircle } from "react-icons/hi2";
 import TableOperations from "../../ui/Data/TableOperations";
 import SortBy from "../../ui/SortBy";
-import FilterText from "../../ui/FilterText";
-// import NewRecord from "../../ui/Buttons/NewRecord";
-// import AddEditService from "./AddEditService";
+import ButtonIcon from "../../ui/Buttons/ButtonIcon";
+import { useNavigate } from "react-router-dom";
 
 function ServicesTableOperations() {
+  const navigate = useNavigate();
   return (
     <TableOperations>
       <SortBy
@@ -22,9 +23,15 @@ function ServicesTableOperations() {
         ]}
         defaultOptionIndex={0}
       />
-      {/* <NewRecord record="service">
-        <AddEditService />
-      </NewRecord> */}
+      <ButtonIcon
+        icon={<HiPlusCircle />}
+        type="info"
+        onClick={() => {
+          navigate("/offers/new");
+        }}
+      >
+        Add offer
+      </ButtonIcon>
     </TableOperations>
   );
 }

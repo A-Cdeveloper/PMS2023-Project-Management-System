@@ -9,15 +9,15 @@ import {
   HiPencil,
   HiTrash,
   HiMinus,
+  HiDocumentArrowDown,
 } from "react-icons/hi2";
 import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
 
 import ConfirmModal from "../../ui/ConfirmModal";
-import { formatDate, formatPrice } from "../../utils/helpers";
-// import useCloneOffer from "./useCloneOffer";
-// import useDeleteOffer from "./useDeleteOffer";
-// import AddEditOffer from "./AddEditOffer";
+import { formatDate } from "../../utils/helpers";
+import useCloneOffer from "./useCloneOffer";
+import useDeleteOffer from "./useDeleteOffer";
 
 const Offer = styled.div`
   font-weight: 500;
@@ -28,6 +28,17 @@ const Type = styled.div`
   text-transform: lowercase;
 `;
 
+const CellIcon = styled.div`
+  display: flex;
+  justify-content: center;
+
+  & svg {
+    width: 2rem;
+    height: 2rem;
+    margin: auto;
+  }
+`;
+
 const Link = styled.div`
   cursor: pointer;
   &:hover {
@@ -36,8 +47,8 @@ const Link = styled.div`
 `;
 
 const OfferRow = ({ offer }) => {
-  //   const { isCloneLoading, cloneOffer } = useCloneOffer();
-  //   const { isDeleteLoading, deleteOffer } = useDeleteOffer();
+  const { isCloneLoading, cloneOffer } = useCloneOffer();
+  const { isDeleteLoading, deleteOffer } = useDeleteOffer();
   const accessToken = useAccessToken();
   const navigate = useNavigate();
 
@@ -66,6 +77,15 @@ const OfferRow = ({ offer }) => {
         {project_name}
       </Link>
       <Type>{offer_type}</Type>
+      <CellIcon>
+        {offer_pdf ? (
+          <a href={offer_pdf} target="_blank" title={offer_pdf}>
+            <HiDocumentArrowDown />
+          </a>
+        ) : (
+          <HiMinus />
+        )}
+      </CellIcon>
 
       <div>
         <Modal>
@@ -73,9 +93,7 @@ const OfferRow = ({ offer }) => {
             <Menus.Toggle id={offer_id} />
 
             <Menus.List id={offer_id}>
-              <Modal.OpenButton opens="offer-edit">
-                <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
-              </Modal.OpenButton>
+              <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
 
               <Modal.OpenButton opens="offer-clone">
                 <Menus.Button icon={<HiOutlineDocumentDuplicate />}>
@@ -88,15 +106,13 @@ const OfferRow = ({ offer }) => {
               </Modal.OpenButton>
             </Menus.List>
           </Menus>
-          <Modal.Window name="offer-edit">
-            {/* <AddEditOffer offerToEdit={offer} /> */}
-          </Modal.Window>
+
           <Modal.Window name="offer-clone">
             <ConfirmModal
               resourceName="offer"
               operation="clone"
-              // onConfirm={() => cloneOffer({ offer_id, accessToken })}
-              // disabled={isCloneLoading}
+              onConfirm={() => cloneOffer({ offer_id, accessToken })}
+              disabled={isCloneLoading}
             />
           </Modal.Window>
           <Modal.Window name="offer-delete">
@@ -104,8 +120,8 @@ const OfferRow = ({ offer }) => {
               resourceName="offer"
               operation="delete"
               connectedResurces={false}
-              // onConfirm={() => deleteOffer({ offer_id, accessToken })}
-              // disabled={isDeleteLoading}
+              onConfirm={() => deleteOffer({ offer_id, accessToken })}
+              disabled={isDeleteLoading}
             />
           </Modal.Window>
         </Modal>

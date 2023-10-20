@@ -9,6 +9,8 @@ import {
   createBrowserRouter,
 } from "react-router-dom";
 
+import { AuthContextProvider } from "./context/authContext";
+
 import AppLayout from "./ui/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
@@ -23,13 +25,12 @@ import PageNotFound from "./pages/PageNotFound";
 import Login from "./pages/Login";
 import UserConformPage from "./pages/UserConformPage";
 import Settings from "./pages/Settings";
-
-import { AuthContextProvider } from "./context/authContext";
 import Notifications from "./ui/Notifications";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import ForgotPassword from "./pages/ForgotPassword";
 import Services from "./pages/Services";
 import Offers from "./pages/Offers";
+import NewOffer from "./pages/NewOffer";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -85,7 +86,10 @@ const router = createBrowserRouter([
       { path: "/services", element: <Services /> },
       {
         path: "/offers",
-        children: [{ index: true, element: <Offers /> }],
+        children: [
+          { index: true, element: <Offers /> },
+          { path: "new", element: <NewOffer /> },
+        ],
       },
 
       { path: "/settings", element: <Settings /> },

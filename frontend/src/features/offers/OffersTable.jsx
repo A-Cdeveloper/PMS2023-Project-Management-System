@@ -15,7 +15,7 @@ const OffersTable = () => {
   const { isLoading, error, offers = {} } = useFilterOffers();
   const { offers: allOffers } = useOffers();
 
-  console.log(offers);
+  // console.log(offers);
 
   //filter results
   const filteredTextValue = searchParams.get("filterByText");
@@ -32,7 +32,7 @@ const OffersTable = () => {
 
   return (
     <>
-      <Table cols={offersCols} columns="15rem 15rem 1fr 1fr 20rem 8rem">
+      <Table cols={offersCols} columns="15rem 15rem 1fr 1fr 20rem 6rem 8rem">
         <Table.Header />
         <Table.Body
           data={shownOffers}

@@ -28,6 +28,15 @@ const StyledFormRow = styled.div`
   }
 
   ${(props) =>
+    props.type === "flex" &&
+    css`
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-start;
+    `}
+
+  ${(props) =>
     props.type === "nospace" &&
     css`
       padding: 0;
