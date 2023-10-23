@@ -23,7 +23,7 @@ function ServicesTableOperations() {
         ]}
         defaultOptionIndex={0}
       />
-      <ButtonIcon
+      {/* <ButtonIcon
         icon={<HiPlusCircle />}
         type="info"
         onClick={() => {
@@ -31,7 +31,7 @@ function ServicesTableOperations() {
         }}
       >
         Add offer
-      </ButtonIcon>
+      </ButtonIcon> */}
     </TableOperations>
   );
 }

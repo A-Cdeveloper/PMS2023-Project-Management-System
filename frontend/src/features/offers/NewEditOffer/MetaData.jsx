@@ -3,7 +3,7 @@ import Select from "../../../ui/Form/Select";
 import FormRow from "../../../ui/Form/FormRow";
 import Input from "../../../ui/Form/Input";
 import Textarea from "../../../ui/Form/Textarea";
-import { SectionCaption, Section, SectionData } from "./Sections";
+import { SectionCaption, Section, SectionData } from "./SectionsStyles";
 
 import {
   offerType,
@@ -94,8 +94,6 @@ const MetaData = ({ errors, register, control, reset }) => {
               })}
             </Select>
           </FormRow>
-
-          <FormRow></FormRow>
         </SectionData>
         <SectionData>
           <FormRow
@@ -182,7 +180,6 @@ const MetaData = ({ errors, register, control, reset }) => {
               disabled={false}
             />
           </FormRow>
-          <FormRow></FormRow>
         </SectionData>
       </Section>
     </>

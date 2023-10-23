@@ -31,6 +31,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Services from "./pages/Services";
 import Offers from "./pages/Offers";
 import NewOffer from "./pages/NewOffer";
+import Offer from "./pages/Offer";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -88,6 +89,7 @@ const router = createBrowserRouter([
         path: "/offers",
         children: [
           { index: true, element: <Offers /> },
+          { path: ":offerId", element: <Offer /> },
           { path: "new", element: <NewOffer /> },
         ],
       },

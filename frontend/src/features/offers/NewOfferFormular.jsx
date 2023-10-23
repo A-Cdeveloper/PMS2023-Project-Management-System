@@ -12,6 +12,7 @@ import Row from "../../ui/Row";
 import Form from "../../ui/Form/Form";
 
 import MetaData from "./NewEditOffer/MetaData";
+import ServicesData from "./NewEditOffer/ServicesData";
 
 const NewOfferFormular = () => {
   const moveBack = useMoveBack();
@@ -25,17 +26,11 @@ const NewOfferFormular = () => {
     control,
     reset,
     getValues,
+    setValue,
   } = useForm();
 
   const onSubmit = (data) => {
-    const newOffer = {
-      ...data,
-      services: [
-        { sid: 1, qty1: 2, qty2: 0 },
-        { sid: 3, qty1: 8, qty2: 0 },
-      ],
-    };
-    console.log(newOffer);
+    console.log(data);
   };
 
   //console.log(project);
@@ -49,27 +44,22 @@ const NewOfferFormular = () => {
         </Row>
 
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <MetaData
+          {/* <MetaData
             errors={errors}
             register={register}
             control={control}
             reset={reset}
+          /> */}
+
+          <ServicesData
+            errors={errors}
+            register={register}
+            control={control}
+            reset={reset}
+            getVals={getValues}
+            setVals={setValue}
           />
-          {/* <SectionCaption>Service data</SectionCaption>{" "}
-          <SectionData>
-            <FormRow>
-              <Button
-                variation="primary"
-                size="medium"
-                disabled={false}
-                active={null}
-              >
-                Save
-              </Button>
-              #generatePDF #DELETE #SEND TO CLIENT
-            </FormRow>
-            <FormRow></FormRow>
-          </SectionData> */}
+
           <ButtonGroup>
             <Button
               variation="primary"
@@ -78,14 +68,6 @@ const NewOfferFormular = () => {
               active={null}
             >
               Save
-            </Button>
-            <Button
-              variation="primary"
-              size="medium"
-              disabled={false}
-              active={null}
-            >
-              generatePDF
             </Button>
           </ButtonGroup>
         </Form>

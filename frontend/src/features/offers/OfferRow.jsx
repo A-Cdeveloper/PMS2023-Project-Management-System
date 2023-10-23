@@ -10,6 +10,7 @@ import {
   HiTrash,
   HiMinus,
   HiDocumentArrowDown,
+  HiEye,
 } from "react-icons/hi2";
 import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
@@ -18,6 +19,7 @@ import ConfirmModal from "../../ui/ConfirmModal";
 import { formatDate } from "../../utils/helpers";
 import useCloneOffer from "./useCloneOffer";
 import useDeleteOffer from "./useDeleteOffer";
+import { singleOffer } from "../../services/apiOffers";
 
 const Offer = styled.div`
   font-weight: 500;
@@ -49,6 +51,7 @@ const Link = styled.div`
 const OfferRow = ({ offer }) => {
   const { isCloneLoading, cloneOffer } = useCloneOffer();
   const { isDeleteLoading, deleteOffer } = useDeleteOffer();
+  const queryClient = useQueryClient();
   const accessToken = useAccessToken();
   const navigate = useNavigate();
 
@@ -65,6 +68,13 @@ const OfferRow = ({ offer }) => {
     offer_date,
     offer_pdf,
   } = offer;
+
+  const prefetchProjectHandler = async (offer_id) => {
+    await queryClient.prefetchQuery({
+      queryKey: ["offer", offer_id],
+      queryFn: () => singleOffer({ offer_id, accessToken }),
+    });
+  };
 
   return (
     <Table.Row>
@@ -93,6 +103,16 @@ const OfferRow = ({ offer }) => {
             <Menus.Toggle id={offer_id} />
 
             <Menus.List id={offer_id}>
+              <Menus.Button
+                icon={<HiEye />}
+                onClick={() => {
+                  navigate(`/offers/${offer_id}`);
+                }}
+                onMouseOver={() => prefetchProjectHandler(offer_id)}
+              >
+                See details
+              </Menus.Button>
+
               <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
 
               <Modal.OpenButton opens="offer-clone">
