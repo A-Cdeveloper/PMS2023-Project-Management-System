@@ -1,16 +1,13 @@
-// import { Controller } from "react-hook-form";
 import SelectComplex from "../../../ui/SelectComplex";
-import FormRow from "../../../ui/Form/FormRow";
 import Input from "../../../ui/Form/Input";
 import { useEffect, useState } from "react";
 import Table from "../../../ui/Data/Table";
-import { SectionCaption, Section, SectionData } from "./SectionsStyles";
+import { SectionCaption, Section, SectionCol } from "./SectionsStyles";
 
 import OfferServiceRow from "../OfferServiceRow";
 
 import { offerAllServices } from "../OffersParameters";
 import Button from "../../../ui/Buttons/Button";
-import Row from "../../../ui/Row";
 import { formatPrice } from "../../../utils/helpers";
 
 const ServicesData = ({
@@ -22,39 +19,50 @@ const ServicesData = ({
   setVals,
 }) => {
   const [serviceId, setServiceId] = useState("");
-  const [quantityPerHour, setQuantityPerHour] = useState(0);
+  const [quantity, setQuantity] = useState(0);
   const [includedServices, setIncludedServices] = useState([]);
+
+  // console.log("RENDER SERVICES");
 
   const currentService = offerAllServices()
     ? offerAllServices().filter((item) => item.value === serviceId)[0]
     : {};
 
-  console.log(includedServices);
+  const activePrice = currentService?.service_price_hour
+    ? currentService?.service_price_hour
+    : currentService?.service_price_total
+    ? currentService?.service_price_total
+    : 0;
+
+  const totalPriceCalculator = includedServices.reduce((acc, cur) => {
+    return acc + cur.price;
+  }, 0);
 
   useEffect(() => {
     register("services");
+    register("offer_price");
     setVals("services", includedServices);
-  }, [register, setVals, includedServices]);
+    setVals("offer_price", totalPriceCalculator);
+  }, [includedServices, totalPriceCalculator]);
 
   const addNewServiceHandler = (e) => {
     e.preventDefault();
-    // console.log({
-    //   service_id: service.service_id,
-    //   service_qty_hour: +quantityPerHour,
-    //   service_qty_total: 0,
-    // });
+
+    if (quantity === 0) return;
     setIncludedServices((prevState) => {
       return [
         ...prevState,
         {
           service_id: serviceId,
-          qty_price_hour: +quantityPerHour,
-          qty_price_total: 0,
+          qty_price_hour: currentService?.service_price_hour ? +quantity : 0,
+          qty_price_total: currentService?.service_price_total ? +quantity : 0,
+          price: quantity * +activePrice,
         },
       ];
     });
+
     setServiceId("");
-    setQuantityPerHour(0);
+    setQuantity(0);
   };
 
   const removeServiceHandler = (id) => {
@@ -69,28 +77,33 @@ const ServicesData = ({
 
       {/* ***************************************************************************** */}
 
-      <Table
-        cols={["#", "Service", "Price/Hour", "PriceTotal", "Qty", "Sum", ""]}
-        columns="5rem 1fr 12rem 12rem 8rem 8rem 4rem"
-      >
-        <Table.Header />
-        <Table.Body
-          data={includedServices}
-          renderItem={(serviceItem, index) => (
-            <OfferServiceRow
-              key={serviceItem.service_id}
-              service={serviceItem}
-              num={index}
-              removeService={removeServiceHandler}
-            />
-          )}
-        />
-      </Table>
-
+      {includedServices.length !== 0 && (
+        <Table
+          cols={["#", "Service", "Price/Hour", "Price/Item", "Qty", "Sum", ""]}
+          columns="5rem 1fr 12rem 12rem 8rem 8rem 4rem"
+        >
+          <Table.Header />
+          <Table.Body
+            data={includedServices}
+            renderItem={(serviceItem, index) => (
+              <OfferServiceRow
+                key={serviceItem.service_id}
+                service={serviceItem}
+                num={index}
+                removeService={removeServiceHandler}
+              />
+            )}
+          />
+          <Table.Footer style={{ justifyContent: "end", paddingRight: "8rem" }}>
+            Total price: {formatPrice(totalPriceCalculator)}
+          </Table.Footer>
+        </Table>
+      )}
       {/* ************************************************ */}
 
       <Section>
-        <Row type="horizontal">
+        <SectionCol>
+          <p>Service</p>
           <SelectComplex
             options={offerAllServices()}
             value={serviceId}
@@ -98,33 +111,48 @@ const ServicesData = ({
               setServiceId(+e.target.value);
             }}
           />
-
+        </SectionCol>
+        <SectionCol>
+          <p>Price per hour</p>
           <div>
             {currentService?.service_price_hour
               ? formatPrice(currentService?.service_price_hour)
               : "-"}
           </div>
-
+        </SectionCol>
+        <SectionCol>
+          <p>Price item</p>
           <div>
             {currentService?.service_price_total
               ? formatPrice(currentService?.service_price_total)
               : "-"}
           </div>
+        </SectionCol>
 
+        <SectionCol>
+          <p>Qty</p>
           <Input
             type="number"
-            value={quantityPerHour}
+            value={quantity}
             onChange={(e) => {
-              setQuantityPerHour(e.target.value);
+              setQuantity(e.target.value);
             }}
           />
-          <div>
-            {formatPrice(quantityPerHour * +currentService?.service_price_hour)}
-          </div>
-          <Button variation="info" size="small" onClick={addNewServiceHandler}>
+        </SectionCol>
+
+        <SectionCol>
+          <p>Sum</p>
+          <div>{formatPrice(quantity * +activePrice)}</div>
+        </SectionCol>
+        <SectionCol style={{ justifyContent: "center" }}>
+          <Button
+            variation="danger"
+            size="small"
+            onClick={addNewServiceHandler}
+          >
             Add new
           </Button>
-        </Row>
+        </SectionCol>
       </Section>
     </>
   );

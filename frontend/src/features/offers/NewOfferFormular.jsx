@@ -1,4 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useForm } from "react-hook-form";
 
@@ -13,10 +13,13 @@ import Form from "../../ui/Form/Form";
 
 import MetaData from "./NewEditOffer/MetaData";
 import ServicesData from "./NewEditOffer/ServicesData";
+import useAddOffer from "./useAddOffer";
 
 const NewOfferFormular = () => {
   const moveBack = useMoveBack();
   const accessToken = useAccessToken();
+  const navigate = useNavigate();
+  const { isAddNewLoading, addNewOffer } = useAddOffer();
 
   const {
     register,
@@ -30,10 +33,23 @@ const NewOfferFormular = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    addNewOffer(
+      {
+        newOffer: {
+          ...data,
+          services: JSON.stringify(data.services),
+        },
+        accessToken,
+      },
+      {
+        onSuccess: () => {
+          navigate("/offers");
+        },
+      }
+    );
   };
 
-  //console.log(project);
+  // console.log("RENDER formular");
 
   return (
     <>
@@ -44,12 +60,13 @@ const NewOfferFormular = () => {
         </Row>
 
         <Form onSubmit={handleSubmit(onSubmit)}>
-          {/* <MetaData
+          <MetaData
             errors={errors}
             register={register}
             control={control}
             reset={reset}
-          /> */}
+            isAddNewLoading={isAddNewLoading}
+          />
 
           <ServicesData
             errors={errors}
@@ -58,13 +75,14 @@ const NewOfferFormular = () => {
             reset={reset}
             getVals={getValues}
             setVals={setValue}
+            isAddNewLoading={isAddNewLoading}
           />
 
           <ButtonGroup>
             <Button
               variation="primary"
               size="medium"
-              disabled={false}
+              disabled={isAddNewLoading}
               active={null}
             >
               Save

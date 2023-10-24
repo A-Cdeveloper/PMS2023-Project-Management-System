@@ -8,7 +8,7 @@ const StyledSelect = styled.select`
   border-radius: ${(props) => props.theme.border.borderRadius.md};
   background-color: white;
   font-weight: ${(props) => props.theme.fontWeight.semibold};
-  width: 25%;
+  width: 100%;
   &:active,
   &:focus {
     outline: none;

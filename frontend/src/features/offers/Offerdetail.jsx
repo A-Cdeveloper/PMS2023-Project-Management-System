@@ -109,7 +109,7 @@ const Offerdetail = () => {
 
         <DataDetailsContainer>
           <Table
-            cols={["#", "Service", "Price/Hour", "PriceTotal", "Qty", "Sum"]}
+            cols={["#", "Service", "Price/Hour", "Price/Item", "Qty", "Sum"]}
             columns="5rem 1fr 12rem 12rem 8rem 8rem"
           >
             <Table.Header />

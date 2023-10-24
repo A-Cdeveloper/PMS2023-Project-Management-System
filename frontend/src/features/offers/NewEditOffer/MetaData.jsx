@@ -11,7 +11,7 @@ import {
   offerAllClients,
 } from "../OffersParameters";
 
-const MetaData = ({ errors, register, control, reset }) => {
+const MetaData = ({ errors, register, control, reset, isAddNewLoading }) => {
   return (
     <>
       <SectionCaption>Meta data</SectionCaption>
@@ -28,7 +28,7 @@ const MetaData = ({ errors, register, control, reset }) => {
                 required: "This field is required",
               })}
               aria-invalid={errors.offer_number ? "true" : "false"}
-              disabled={false}
+              disabled={isAddNewLoading}
             />
           </FormRow>
 
@@ -39,7 +39,7 @@ const MetaData = ({ errors, register, control, reset }) => {
             errorposition="start"
           >
             <Controller
-              disabled={false}
+              disabled={isAddNewLoading}
               control={control}
               name="offer_date"
               rules={{ required: "This field is required" }}
@@ -83,7 +83,7 @@ const MetaData = ({ errors, register, control, reset }) => {
                 required: "This field is required",
               })}
               defaultValue={offerType[1].value}
-              disabled={false}
+              disabled={isAddNewLoading}
             >
               {offerType.map((type, index) => {
                 return index !== 0 ? (
@@ -107,7 +107,7 @@ const MetaData = ({ errors, register, control, reset }) => {
                 required: "This field is required",
               })}
               aria-invalid={errors.offer_caption ? "true" : "false"}
-              disabled={false}
+              disabled={isAddNewLoading}
             />
           </FormRow>
           <FormRow
@@ -119,7 +119,7 @@ const MetaData = ({ errors, register, control, reset }) => {
             <Controller
               control={control}
               name="offer_project_id"
-              disabled={false}
+              disabled={isAddNewLoading}
               rules={{ required: "This field is required" }}
               render={({ field }) => {
                 return (
@@ -148,7 +148,7 @@ const MetaData = ({ errors, register, control, reset }) => {
             <Controller
               control={control}
               name="offer_client_id"
-              disabled={false}
+              disabled={isAddNewLoading}
               rules={{ required: "This field is required" }}
               render={({ field }) => {
                 return (
@@ -177,7 +177,7 @@ const MetaData = ({ errors, register, control, reset }) => {
               type="textarea"
               {...register("offer_client_adresse")}
               aria-invalid={errors.offer_client_adresse ? "true" : "false"}
-              disabled={false}
+              disabled={isAddNewLoading}
             />
           </FormRow>
         </SectionData>
