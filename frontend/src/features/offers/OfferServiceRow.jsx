@@ -3,7 +3,7 @@ import Table from "../../ui/Data/Table";
 import { allServices } from "./OffersParameters";
 import { formatPrice } from "../../utils/helpers";
 import { HiMinusCircle } from "react-icons/hi2";
-import ButtonIconText from "../../ui/Buttons/ButtonIconText";
+import ButtonIcon from "../../ui/Buttons/ButtonIcon";
 
 const RightDiv = styled.div`
   text-align: right;
@@ -43,7 +43,7 @@ const OfferServiceRow = ({ service, num, removeService }) => {
 
       <RightDiv>{formatPrice(activeQuantity * +activePrice)}</RightDiv>
       {removeService && (
-        <ButtonIconText
+        <ButtonIcon
           icon={<HiMinusCircle />}
           onClick={() => removeService(service_id)}
         />
