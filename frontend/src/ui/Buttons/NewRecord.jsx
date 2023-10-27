@@ -1,4 +1,4 @@
-import ButtonIcon from "./ButtonIcon";
+import ButtonIconText from "./ButtonIconText";
 import { HiPlusCircle } from "react-icons/hi2";
 import Modal from "../Modal";
 
@@ -6,9 +6,9 @@ const NewRecord = ({ children, record }) => {
   return (
     <Modal>
       <Modal.OpenButton opens={`${record}-add`}>
-        <ButtonIcon icon={<HiPlusCircle />} type="info">
+        <ButtonIconText icon={<HiPlusCircle />} type="info">
           Add {record}
-        </ButtonIcon>
+        </ButtonIconText>
       </Modal.OpenButton>
       <Modal.Window name={`${record}-add`}>{children}</Modal.Window>
     </Modal>

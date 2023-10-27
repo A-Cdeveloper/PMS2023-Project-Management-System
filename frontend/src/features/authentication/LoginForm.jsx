@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { HiEye, HiEyeSlash } from "react-icons/hi2";
+
 import Button from "../../ui/Buttons/Button";
 import Form from "../../ui/Form/Form";
 import Input from "../../ui/Form/Input";
@@ -8,13 +11,12 @@ import SpinnerMini from "../../ui/SpinnerMini";
 import FormRowVertical from "../../ui/Form/FormRowVertical";
 import ButtonText from "../../ui/Buttons/ButtonText";
 
-import { useNavigate } from "react-router-dom";
-
 function LoginForm() {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const { isLoginLoading, login } = useLogin();
 
@@ -48,12 +50,15 @@ function LoginForm() {
           />
         </FormRowVertical>
         <FormRowVertical type="vertical" label="Password">
-          <Input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            disabled={isLoginLoading}
-          />
+          <>
+            <Input
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={isLoginLoading}
+            />
+            <HiEye onClick={() => setShowPassword(!showPassword)} />
+          </>
         </FormRowVertical>
         <FormRowVertical>
           <Button

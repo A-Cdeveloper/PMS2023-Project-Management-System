@@ -5,13 +5,21 @@ const StyledFormRow = styled.div`
   flex-direction: column;
   width: 35rem;
   margin: 2rem auto;
-
+  position: relative;
   /* &:first-child {
     padding-top: 0;
   } */
 
   /* &:not(:last-child) {
   } */
+  & svg {
+    width: 1.7rem;
+    height: 1.7rem;
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    cursor: pointer;
+  }
 `;
 
 const Label = styled.label`

@@ -4,7 +4,7 @@ import { HiOutlineHome } from "react-icons/hi2";
 import Headline from "./Headline";
 import Button from "./Buttons/Button";
 import ButtonText from "./Buttons/ButtonText";
-import ButtonIcon from "./Buttons/ButtonIcon";
+import ButtonIconText from "./Buttons/ButtonIconText";
 import ButtonGroup from "./Buttons/ButtonGroup";
 import Row from "./Row";
 import Logo from "./Logo";
@@ -53,18 +53,18 @@ const ComponentsExample = () => {
       <ButtonText>Button text</ButtonText>
 
       <ButtonGroup>
-        <ButtonIcon icon={<HiOutlineHome />} type="primary">
+        <ButtonIconText icon={<HiOutlineHome />} type="primary">
           Button primary Icon
-        </ButtonIcon>
-        <ButtonIcon icon={<HiOutlineHome />} type="">
+        </ButtonIconText>
+        <ButtonIconText icon={<HiOutlineHome />} type="">
           Button non Icon
-        </ButtonIcon>
-        <ButtonIcon icon={<HiOutlineHome />} type="secondary">
+        </ButtonIconText>
+        <ButtonIconText icon={<HiOutlineHome />} type="secondary">
           Button secondary Icon
-        </ButtonIcon>
-        <ButtonIcon icon={<HiOutlineHome />} type="info">
+        </ButtonIconText>
+        <ButtonIconText icon={<HiOutlineHome />} type="info">
           Button info Icon
-        </ButtonIcon>
+        </ButtonIconText>
       </ButtonGroup>
       <Outlet />
     </>

@@ -1,7 +1,7 @@
 import { HiPlusCircle } from "react-icons/hi2";
 import TableOperations from "../../ui/Data/TableOperations";
 import SortBy from "../../ui/SortBy";
-import ButtonIcon from "../../ui/Buttons/ButtonIcon";
+import ButtonIconText from "../../ui/Buttons/ButtonIconText";
 import { useNavigate } from "react-router-dom";
 
 function ServicesTableOperations() {
@@ -23,7 +23,7 @@ function ServicesTableOperations() {
         ]}
         defaultOptionIndex={0}
       />
-      <ButtonIcon
+      <ButtonIconText
         icon={<HiPlusCircle />}
         type="info"
         onClick={() => {
@@ -31,7 +31,7 @@ function ServicesTableOperations() {
         }}
       >
         Add offer
-      </ButtonIcon>
+      </ButtonIconText>
     </TableOperations>
   );
 }

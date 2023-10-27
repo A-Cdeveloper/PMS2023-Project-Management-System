@@ -1,7 +1,7 @@
 import { HiArrowRightOnRectangle } from "react-icons/hi2";
 import { useLogout } from "./useLogout";
 
-import ButtonIcon from "../../ui/Buttons/ButtonIcon";
+import ButtonIconText from "../../ui/Buttons/ButtonIconText";
 import { useCurrentUserTokens } from "../../context/authContext";
 
 const Logout = () => {
@@ -11,7 +11,7 @@ const Logout = () => {
   } = useCurrentUserTokens();
 
   return (
-    <ButtonIcon
+    <ButtonIconText
       // disabled={true}
       onClick={() => {
         logout({ refreshToken: refreshToken });
@@ -19,7 +19,7 @@ const Logout = () => {
     >
       <HiArrowRightOnRectangle />
       {/* {!isLoading ? <HiArrowRightOnRectangle /> : <SpinnerMini />} */}
-    </ButtonIcon>
+    </ButtonIconText>
   );
 };
 

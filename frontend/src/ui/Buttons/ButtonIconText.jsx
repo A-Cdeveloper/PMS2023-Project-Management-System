@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const StyledButtonIcon = styled.button`
+const StyledButtonIconText = styled.button`
   background: #ccc;
   border: none;
   padding: 0.8rem 1rem;
@@ -27,13 +27,13 @@ const StyledButtonIcon = styled.button`
   }
 `;
 
-const ButtonIcon = ({ icon, type, children, onClick }) => {
+const ButtonIconText = ({ icon, type, children, onClick }) => {
   return (
-    <StyledButtonIcon type={type} onClick={onClick}>
+    <StyledButtonIconText type={type} onClick={onClick}>
       {icon}
       {children}
-    </StyledButtonIcon>
+    </StyledButtonIconText>
   );
 };
 
-export default ButtonIcon;
+export default ButtonIconText;
