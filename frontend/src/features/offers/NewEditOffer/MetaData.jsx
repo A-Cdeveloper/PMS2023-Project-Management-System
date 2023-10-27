@@ -11,7 +11,30 @@ import {
   offerAllClients,
 } from "../OffersParameters";
 
-const MetaData = ({ errors, register, control, reset, isAddNewLoading }) => {
+const MetaData = ({
+  errors,
+  register,
+  control,
+  reset,
+  isAddNewLoading,
+  data = {},
+}) => {
+  const {
+    offer_id,
+    offer_number,
+    offer_client_id,
+    client_name,
+    client_adresse: default_client_addresse,
+    offer_client_adresse,
+    offer_project_id,
+    project_name,
+    offer_type,
+    offer_caption,
+    offer_date,
+    offer_pdf,
+    offer_price,
+  } = data;
+
   return (
     <>
       <SectionCaption>Meta data</SectionCaption>
@@ -29,6 +52,7 @@ const MetaData = ({ errors, register, control, reset, isAddNewLoading }) => {
               })}
               aria-invalid={errors.offer_number ? "true" : "false"}
               disabled={isAddNewLoading}
+              defaultValue={offer_number}
             />
           </FormRow>
 
@@ -43,15 +67,17 @@ const MetaData = ({ errors, register, control, reset, isAddNewLoading }) => {
               control={control}
               name="offer_date"
               rules={{ required: "This field is required" }}
+              defaultValue={offer_date}
               render={({ field }) => {
                 const defDate = {
                   ...field,
-                  value: field.value ? field.value.slice(0, -14) : "",
+                  value: field.value
+                    ? field.value.slice(0, -14)
+                    : offer_date && offer_date.slice(0, -14),
                 };
                 return (
                   <Input
                     type="date"
-                    min={new Date(new Date()).toISOString().slice(0, -14)}
                     {...defDate}
                     aria-invalid={errors.offer_date ? "true" : "false"}
                     onChange={(e) => {
@@ -82,12 +108,17 @@ const MetaData = ({ errors, register, control, reset, isAddNewLoading }) => {
               {...register("offer_type", {
                 required: "This field is required",
               })}
-              defaultValue={offerType[1].value}
               disabled={isAddNewLoading}
             >
               {offerType.map((type, index) => {
                 return index !== 0 ? (
-                  <option key={type.label} value={type.value}>
+                  <option
+                    key={type.label}
+                    value={type.value}
+                    selected={
+                      offer_type && offer_type.toLowerCase() === type.value
+                    }
+                  >
                     {type.label}
                   </option>
                 ) : null;
@@ -108,6 +139,7 @@ const MetaData = ({ errors, register, control, reset, isAddNewLoading }) => {
               })}
               aria-invalid={errors.offer_caption ? "true" : "false"}
               disabled={isAddNewLoading}
+              defaultValue={offer_caption}
             />
           </FormRow>
           <FormRow
@@ -121,6 +153,7 @@ const MetaData = ({ errors, register, control, reset, isAddNewLoading }) => {
               name="offer_project_id"
               disabled={isAddNewLoading}
               rules={{ required: "This field is required" }}
+              defaultValue={offer_project_id}
               render={({ field }) => {
                 return (
                   <Select
@@ -130,7 +163,11 @@ const MetaData = ({ errors, register, control, reset, isAddNewLoading }) => {
                     }}
                   >
                     {offerAllProjects().map((project) => (
-                      <option key={project.value} value={project.value}>
+                      <option
+                        key={project.value}
+                        value={project.value}
+                        selected={offer_project_id === project.value}
+                      >
                         {project.label}
                       </option>
                     ))}
@@ -150,6 +187,7 @@ const MetaData = ({ errors, register, control, reset, isAddNewLoading }) => {
               name="offer_client_id"
               disabled={isAddNewLoading}
               rules={{ required: "This field is required" }}
+              defaultValue={offer_client_id}
               render={({ field }) => {
                 return (
                   <Select
@@ -159,7 +197,11 @@ const MetaData = ({ errors, register, control, reset, isAddNewLoading }) => {
                     }}
                   >
                     {offerAllClients().map((client) => (
-                      <option key={client.value} value={client.value}>
+                      <option
+                        key={client.value}
+                        value={client.value}
+                        selected={offer_client_id === client.value}
+                      >
                         {client.label}
                       </option>
                     ))}
@@ -170,7 +212,7 @@ const MetaData = ({ errors, register, control, reset, isAddNewLoading }) => {
           </FormRow>
           <FormRow
             type="flex"
-            label="Other client address"
+            label="Real client address"
             error={errors?.offer_client_adresse}
           >
             <Textarea
@@ -178,6 +220,7 @@ const MetaData = ({ errors, register, control, reset, isAddNewLoading }) => {
               {...register("offer_client_adresse")}
               aria-invalid={errors.offer_client_adresse ? "true" : "false"}
               disabled={isAddNewLoading}
+              defaultValue={offer_client_adresse}
             />
           </FormRow>
         </SectionData>

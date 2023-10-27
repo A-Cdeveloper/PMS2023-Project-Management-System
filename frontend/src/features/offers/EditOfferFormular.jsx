@@ -16,20 +16,20 @@ import MetaData from "./NewEditOffer/MetaData";
 import ServicesData from "./NewEditOffer/ServicesData";
 import useAddOffer from "./useAddOffer";
 import PromptModal from "../../ui/PromptModal";
+import { useOffer } from "./useOffer";
 
 const EditOfferFormular = () => {
   const moveBack = useMoveBack();
   const accessToken = useAccessToken();
   const navigate = useNavigate();
   const { isAddNewLoading, addNewOffer } = useAddOffer();
+  const { offer: offerSingle = {} } = useOffer();
   const { offerId } = useParams();
 
   const queryClient = useQueryClient();
   const offer = queryClient.getQueryData(["offer", +offerId])
     ? queryClient.getQueryData(["offer", +offerId])
-    : null;
-
-  console.log(offer);
+    : offerSingle;
 
   const {
     register,
@@ -42,23 +42,22 @@ const EditOfferFormular = () => {
     setValue,
   } = useForm();
 
-  console.log(isDirty);
-
   const onSubmit = (data) => {
-    addNewOffer(
-      {
-        newOffer: {
-          ...data,
-          services: JSON.stringify(data.services),
-        },
-        accessToken,
-      },
-      {
-        onSuccess: () => {
-          navigate("/offers");
-        },
-      }
-    );
+    console.log(data);
+    // addNewOffer(
+    //   {
+    //     newOffer: {
+    //       ...data,
+    //       services: JSON.stringify(data.services),
+    //     },
+    //     accessToken,
+    //   },
+    //   {
+    //     onSuccess: () => {
+    //       navigate("/offers");
+    //     },
+    //   }
+    // );
   };
 
   return (
@@ -78,6 +77,7 @@ const EditOfferFormular = () => {
             control={control}
             reset={reset}
             isAddNewLoading={isAddNewLoading}
+            data={offer && offer}
           />
 
           <ServicesData
@@ -88,6 +88,7 @@ const EditOfferFormular = () => {
             getVals={getValues}
             setVals={setValue}
             isAddNewLoading={isAddNewLoading}
+            data={offer.services}
           />
 
           <ButtonGroup>
