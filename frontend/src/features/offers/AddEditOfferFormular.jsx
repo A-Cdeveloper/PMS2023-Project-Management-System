@@ -96,7 +96,9 @@ const AddEditOfferFormular = ({ isEditing }) => {
           <ButtonText onClick={moveBack}> ← Back</ButtonText>
         </Row>
 
-        <PromptModal formStatus={isDirty} />
+        <PromptModal
+          formStatus={isDirty && !isAddNewLoading && !isEditLoading}
+        />
 
         <Form onSubmit={handleSubmit(onSubmit)}>
           <MetaData
