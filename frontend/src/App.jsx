@@ -32,6 +32,7 @@ import Services from "./pages/Services";
 import Offers from "./pages/Offers";
 import NewOffer from "./pages/NewOffer";
 import Offer from "./pages/Offer";
+import EditOffer from "./pages/EditOffer";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -91,6 +92,7 @@ const router = createBrowserRouter([
           { index: true, element: <Offers /> },
           { path: ":offerId", element: <Offer /> },
           { path: "new", element: <NewOffer /> },
+          { path: "edit/:offerId", element: <EditOffer /> },
         ],
       },
 

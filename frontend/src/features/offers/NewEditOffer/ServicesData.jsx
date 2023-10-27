@@ -41,8 +41,8 @@ const ServicesData = ({
   useEffect(() => {
     register("services");
     register("offer_price");
-    setVals("services", includedServices);
-    setVals("offer_price", totalPriceCalculator);
+    setVals("services", includedServices, { shouldDirty: true });
+    setVals("offer_price", totalPriceCalculator, { shouldDirty: true });
   }, [includedServices, totalPriceCalculator]);
 
   const addNewServiceHandler = (e) => {

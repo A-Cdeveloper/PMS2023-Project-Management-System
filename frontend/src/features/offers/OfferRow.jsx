@@ -113,7 +113,15 @@ const OfferRow = ({ offer }) => {
                 See details
               </Menus.Button>
 
-              <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+              <Menus.Button
+                icon={<HiPencil />}
+                onClick={() => {
+                  navigate(`/offers/edit/${offer_id}`);
+                }}
+                onMouseOver={() => prefetchProjectHandler(offer_id)}
+              >
+                Edit
+              </Menus.Button>
 
               <Modal.OpenButton opens="offer-clone">
                 <Menus.Button icon={<HiOutlineDocumentDuplicate />}>

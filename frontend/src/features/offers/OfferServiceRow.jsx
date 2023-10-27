@@ -2,8 +2,8 @@ import styled from "styled-components";
 import Table from "../../ui/Data/Table";
 import { allServices } from "./OffersParameters";
 import { formatPrice } from "../../utils/helpers";
-import Button from "../../ui/Buttons/Button";
-import { HiXMark } from "react-icons/hi2";
+import { HiMinusCircle } from "react-icons/hi2";
+import ButtonIcon from "../../ui/Buttons/ButtonIcon";
 
 const RightDiv = styled.div`
   text-align: right;
@@ -43,9 +43,10 @@ const OfferServiceRow = ({ service, num, removeService }) => {
 
       <RightDiv>{formatPrice(activeQuantity * +activePrice)}</RightDiv>
       {removeService && (
-        <div onClick={() => removeService(service_id)}>
-          <HiXMark />
-        </div>
+        <ButtonIcon
+          icon={<HiMinusCircle />}
+          onClick={() => removeService(service_id)}
+        />
       )}
     </Table.Row>
   );
