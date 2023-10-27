@@ -17,6 +17,7 @@ import ServicesData from "./NewEditOffer/ServicesData";
 import useAddOffer from "./useAddOffer";
 import PromptModal from "../../ui/PromptModal";
 import { useOffer } from "./useOffer";
+import useEditOffer from "./useEditOffer";
 
 const AddEditOfferFormular = ({ isEditing }) => {
   const moveBack = useMoveBack();
@@ -24,6 +25,7 @@ const AddEditOfferFormular = ({ isEditing }) => {
   const navigate = useNavigate();
 
   const { isAddNewLoading, addNewOffer } = useAddOffer();
+  const { isEditLoading, editOffer } = useEditOffer();
 
   let offer;
 
@@ -50,7 +52,24 @@ const AddEditOfferFormular = ({ isEditing }) => {
 
   const onSubmit = (data) => {
     if (isEditing) {
-      console.log(data);
+      // console.log(data);
+      // console.log(offer.offer_id);
+      // console.log(JSON.stringify(data.services));
+      editOffer(
+        {
+          offer_id: offer.offer_id,
+          updatedOffer: {
+            ...data,
+            services: JSON.stringify(data.services),
+          },
+          accessToken,
+        },
+        {
+          onSuccess: () => {
+            navigate("/offers");
+          },
+        }
+      );
     } else {
       addNewOffer(
         {
@@ -85,7 +104,7 @@ const AddEditOfferFormular = ({ isEditing }) => {
             register={register}
             control={control}
             reset={reset}
-            isAddNewLoading={isAddNewLoading}
+            isLoading={isEditing ? isEditLoading : isAddNewLoading}
             data={isEditing && offer}
           />
 

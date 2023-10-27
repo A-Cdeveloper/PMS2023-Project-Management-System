@@ -29,7 +29,7 @@ const AddEditService = ({ serviceToEdit = {}, onCloseModal }) => {
   const loadingState = isAddNewLoading || isEditLoading;
 
   const onSubmit = (data) => {
-    console.log(data);
+    //console.log(data);
     if (isEdit) {
       editService(
         {
