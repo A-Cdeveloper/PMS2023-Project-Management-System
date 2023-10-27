@@ -21,6 +21,7 @@
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.11.0",
     "react-router-dom": "^6.15.0",
+    "react-router-prompt": "^0.5.4",
     "styled-components": "^6.0.7"
   },
   "devDependencies": {

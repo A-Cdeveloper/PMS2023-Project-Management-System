@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useForm } from "react-hook-form";
 
@@ -14,6 +15,7 @@ import Form from "../../ui/Form/Form";
 import MetaData from "./NewEditOffer/MetaData";
 import ServicesData from "./NewEditOffer/ServicesData";
 import useAddOffer from "./useAddOffer";
+import PromptModal from "../../ui/PromptModal";
 
 const NewOfferFormular = () => {
   const moveBack = useMoveBack();
@@ -25,12 +27,14 @@ const NewOfferFormular = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isDirty },
     control,
     reset,
     getValues,
     setValue,
   } = useForm();
+
+  console.log(isDirty);
 
   const onSubmit = (data) => {
     addNewOffer(
@@ -49,8 +53,6 @@ const NewOfferFormular = () => {
     );
   };
 
-  // console.log("RENDER formular");
-
   return (
     <>
       <Row>
@@ -58,6 +60,8 @@ const NewOfferFormular = () => {
           <Headline as="h1">New Offer</Headline>
           <ButtonText onClick={moveBack}> ← Back</ButtonText>
         </Row>
+
+        <PromptModal formStatus={isDirty} />
 
         <Form onSubmit={handleSubmit(onSubmit)}>
           <MetaData
