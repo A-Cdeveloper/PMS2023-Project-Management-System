@@ -10,19 +10,15 @@ import { offerAllServices } from "../OffersParameters";
 import Button from "../../../ui/Buttons/Button";
 import { formatPrice } from "../../../utils/helpers";
 
-const ServicesData = ({
-  errors,
-  register,
-  control,
-  reset,
-  getVals,
-  setVals,
-}) => {
+const ServicesData = ({ register, setVals, data }) => {
   const [serviceId, setServiceId] = useState("");
   const [quantity, setQuantity] = useState(0);
-  const [includedServices, setIncludedServices] = useState([]);
+  const [includedServices, setIncludedServices] = useState(
+    data ? JSON.parse(data) : []
+  );
 
-  // console.log("RENDER SERVICES");
+  // console.log(includedServices);
+  // console.log(data);
 
   const currentService = offerAllServices()
     ? offerAllServices().filter((item) => item.value === serviceId)[0]

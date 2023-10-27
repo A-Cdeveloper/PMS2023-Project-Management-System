@@ -1,7 +1,9 @@
-import NewOfferFormular from "../features/offers/NewOfferFormular";
+//import NewOfferFormular from "../features/offers/NewOfferFormular";
+
+import AddEditOfferFormular from "../features/offers/AddEditOfferFormular";
 
 const NewOffer = () => {
-  return <NewOfferFormular />;
+  return <AddEditOfferFormular />;
 };
 
 export default NewOffer;

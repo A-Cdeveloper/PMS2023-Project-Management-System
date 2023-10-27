@@ -18,18 +18,24 @@ import useAddOffer from "./useAddOffer";
 import PromptModal from "../../ui/PromptModal";
 import { useOffer } from "./useOffer";
 
-const EditOfferFormular = () => {
+const AddEditOfferFormular = ({ isEditing }) => {
   const moveBack = useMoveBack();
   const accessToken = useAccessToken();
   const navigate = useNavigate();
-  const { isAddNewLoading, addNewOffer } = useAddOffer();
-  const { offer: offerSingle = {} } = useOffer();
-  const { offerId } = useParams();
 
-  const queryClient = useQueryClient();
-  const offer = queryClient.getQueryData(["offer", +offerId])
-    ? queryClient.getQueryData(["offer", +offerId])
-    : offerSingle;
+  const { isAddNewLoading, addNewOffer } = useAddOffer();
+
+  let offer;
+
+  if (isEditing) {
+    const { offer: offerSingle = {} } = useOffer();
+    const { offerId } = useParams();
+
+    const queryClient = useQueryClient();
+    offer = queryClient.getQueryData(["offer", +offerId])
+      ? queryClient.getQueryData(["offer", +offerId])
+      : offerSingle;
+  }
 
   const {
     register,
@@ -43,28 +49,31 @@ const EditOfferFormular = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
-    // addNewOffer(
-    //   {
-    //     newOffer: {
-    //       ...data,
-    //       services: JSON.stringify(data.services),
-    //     },
-    //     accessToken,
-    //   },
-    //   {
-    //     onSuccess: () => {
-    //       navigate("/offers");
-    //     },
-    //   }
-    // );
+    if (isEditing) {
+      console.log(data);
+    } else {
+      addNewOffer(
+        {
+          newOffer: {
+            ...data,
+            services: JSON.stringify(data.services),
+          },
+          accessToken,
+        },
+        {
+          onSuccess: () => {
+            navigate("/offers");
+          },
+        }
+      );
+    }
   };
 
   return (
     <>
       <Row>
         <Row type="horizontal">
-          <Headline as="h1">Edit Offer</Headline>
+          <Headline as="h1">{isEditing ? "Edit" : "Add"} Offer</Headline>
           <ButtonText onClick={moveBack}> ← Back</ButtonText>
         </Row>
 
@@ -77,18 +86,13 @@ const EditOfferFormular = () => {
             control={control}
             reset={reset}
             isAddNewLoading={isAddNewLoading}
-            data={offer && offer}
+            data={isEditing && offer}
           />
 
           <ServicesData
-            errors={errors}
             register={register}
-            control={control}
-            reset={reset}
-            getVals={getValues}
             setVals={setValue}
-            isAddNewLoading={isAddNewLoading}
-            data={offer.services}
+            data={isEditing && offer.services}
           />
 
           <ButtonGroup>
@@ -107,4 +111,4 @@ const EditOfferFormular = () => {
   );
 };
 
-export default EditOfferFormular;
+export default AddEditOfferFormular;
