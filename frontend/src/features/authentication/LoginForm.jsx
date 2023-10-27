@@ -10,6 +10,7 @@ import useLogin from "./useLogin";
 import SpinnerMini from "../../ui/SpinnerMini";
 import FormRowVertical from "../../ui/Form/FormRowVertical";
 import ButtonText from "../../ui/Buttons/ButtonText";
+import ButtonIcon from "../../ui/Buttons/ButtonIcon";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -57,7 +58,13 @@ function LoginForm() {
               onChange={(e) => setPassword(e.target.value)}
               disabled={isLoginLoading}
             />
-            <HiEye onClick={() => setShowPassword(!showPassword)} />
+            <ButtonIcon
+              icon={showPassword ? <HiEyeSlash /> : <HiEye />}
+              onClick={(e) => {
+                e.preventDefault();
+                setShowPassword(!showPassword);
+              }}
+            />
           </>
         </FormRowVertical>
         <FormRowVertical>

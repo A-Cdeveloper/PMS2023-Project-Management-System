@@ -7,6 +7,10 @@ const StyledButtonIcon = styled.button`
   transition: all 0.2s;
   display: flex;
 
+  &:focus {
+    outline: none;
+  }
+
   & svg {
     width: 1.7rem;
     height: 1.7rem;
