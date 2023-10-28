@@ -54,7 +54,6 @@ const router = createBrowserRouter([
     path: "/forgot-password",
     element: <ForgotPassword />,
   },
-  { path: "/offers/pdf/:offerId", element: <PdfOffer /> },
 
   {
     element: (
@@ -95,6 +94,7 @@ const router = createBrowserRouter([
           { path: ":offerId", element: <Offer /> },
           { path: "new", element: <NewOffer /> },
           { path: "edit/:offerId", element: <EditOffer /> },
+          { path: "pdf/:offerId", element: <PdfOffer /> },
         ],
       },
 

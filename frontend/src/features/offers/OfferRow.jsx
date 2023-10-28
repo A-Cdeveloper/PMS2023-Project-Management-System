@@ -14,6 +14,7 @@ import {
 } from "react-icons/hi2";
 import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
+import ButtonIcon from "../../ui/Buttons/ButtonIcon";
 
 import ConfirmModal from "../../ui/ConfirmModal";
 import { formatDate } from "../../utils/helpers";
@@ -89,10 +90,16 @@ const OfferRow = ({ offer }) => {
       <Type>{offer_type}</Type>
       <CellIcon>
         {offer_pdf ? (
-          <a href={offer_pdf} target="_blank" title={offer_pdf}>
-            <HiDocumentArrowDown />
-          </a>
+          <ButtonIcon
+            icon={<HiDocumentArrowDown />}
+            onClick={() => {
+              navigate(`pdf/${offer_id}`, { replace: true });
+            }}
+          />
         ) : (
+          // <a href={offer_pdf} target="_blank" title={offer_pdf}>
+
+          // </a>
           <HiMinus />
         )}
       </CellIcon>
