@@ -33,6 +33,7 @@ import Offers from "./pages/Offers";
 import NewOffer from "./pages/NewOffer";
 import Offer from "./pages/Offer";
 import EditOffer from "./pages/EditOffer";
+import PdfOffer from "./pages/PdfOffer";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -53,6 +54,7 @@ const router = createBrowserRouter([
     path: "/forgot-password",
     element: <ForgotPassword />,
   },
+  { path: "/offers/pdf/:offerId", element: <PdfOffer /> },
 
   {
     element: (
