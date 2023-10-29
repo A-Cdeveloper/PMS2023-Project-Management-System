@@ -17,8 +17,12 @@ const StyledButtonIcon = styled.button`
   }
 `;
 
-const ButtonIcon = ({ icon, onClick }) => {
-  return <StyledButtonIcon onClick={onClick}>{icon}</StyledButtonIcon>;
+const ButtonIcon = ({ icon, onClick, onMouseOver }) => {
+  return (
+    <StyledButtonIcon onClick={onClick} onMouseOver={onMouseOver}>
+      {icon}
+    </StyledButtonIcon>
+  );
 };
 
 export default ButtonIcon;

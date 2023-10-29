@@ -1,4 +1,4 @@
-import OfferPDF from "../features/offers/OfferPDF";
+import OfferPDF from "../features/offers/PDFS/OfferPDF";
 
 const PdfOffer = () => {
   return <OfferPDF />;

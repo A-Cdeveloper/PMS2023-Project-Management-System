@@ -8,11 +8,16 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import { PDFViewer } from "@react-pdf/renderer";
-import logo from "../../../public/logo.png";
-import { useParams } from "react-router-dom";
-import Row from "../../ui/Row";
-import ButtonText from "../../ui/Buttons/ButtonText";
-import { useMoveBack } from "../../hooks/useMoveBack";
+import { useParams, useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+import { useOffer } from "../useOffer";
+import { allServices } from "../OffersParameters";
+
+import logo from "../../../../public/logo.png";
+import Row from "../../../ui/Row";
+import ButtonText from "../../../ui/Buttons/ButtonText";
+import { formatDate, formatPrice } from "../../../utils/helpers";
+import { OfferPDFServiceRow } from "./OfferPDFServiceRow";
 
 // Register font
 Font.register({ family: "Helvetica" });
@@ -28,7 +33,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     backgroundColor: "#fff",
-    fontSize: "10px",
     padding: "10px 45px",
     fontSize: "9px",
     lineHeight: 1.3,
@@ -50,8 +54,8 @@ const styles = StyleSheet.create({
 
   datumSection: {
     width: "100vw",
-    flexDirection: "row",
-    justifyContent: "flex-end",
+    flexDirection: "columns",
+    alignItems: "flex-end",
     padding: 0,
   },
 
@@ -107,11 +111,11 @@ const styles = StyleSheet.create({
     paddingRight: "10px",
   },
   std: {
-    width: "20px",
+    width: "50px",
     textAlign: "center",
   },
   price: {
-    width: "40px",
+    width: "70px",
     textAlign: "right",
   },
   gesamt: {
@@ -126,13 +130,34 @@ const styles = StyleSheet.create({
 
 // Create Document Component
 const OfferPDF = () => {
+  const navigate = useNavigate();
+  const { offer: offerSingle = {} } = useOffer();
   const { offerId } = useParams();
-  const moveBack = useMoveBack();
+
+  const queryClient = useQueryClient();
+  const offer = queryClient.getQueryData(["offer", +offerId])
+    ? queryClient.getQueryData(["offer", +offerId])
+    : offerSingle;
+
+  const {
+    offer_id,
+    offer_number,
+    client_adresse: default_client_addresse,
+    offer_client_adresse,
+    project_name,
+    offer_type,
+    offer_caption,
+    offer_date,
+    offer_price,
+    services,
+  } = offer;
+
+  const serviceList = allServices();
 
   return (
     <>
       <Row type="horizontal">
-        <ButtonText onClick={moveBack}> ← Back</ButtonText>
+        <ButtonText onClick={() => navigate("/offers")}> ← Back</ButtonText>
       </Row>
 
       <PDFViewer style={styles.viewer} showToolbar={false}>
@@ -148,18 +173,23 @@ const OfferPDF = () => {
                 Norbert Rixner Webdesign Grillparzerstr. 5 79102 Freiburg
               </Text>
               <Text style={styles.client}>
-                Anette Weiss-Hakenjos Hebammenpraxis Hebelstr. 11 79400 Kandern
+                {offer_client_adresse
+                  ? offer_client_adresse
+                  : default_client_addresse}
               </Text>
             </View>
 
             <View style={styles.datumSection}>
-              <Text>Datum: 15.06.2021</Text>
+              <Text>Angebotsnummer: {offer_number}</Text>
+              <Text>Datum: {formatDate(offer_date)}</Text>
             </View>
 
             <View style={styles.mainSection}>
               <View style={styles.title}>
-                <Text style={styles.bold}>Angebot für Interflex</Text>
-                <Text>- Wordpress Multi-Sites</Text>
+                <Text style={styles.bold}>
+                  {offer_type} für {project_name}
+                </Text>
+                <Text>- {offer_caption}</Text>
               </View>
             </View>
 
@@ -168,43 +198,32 @@ const OfferPDF = () => {
                 <View style={styles.head}>
                   <Text style={[styles.rnumber, styles.bold]}>Pos. </Text>
                   <Text style={[styles.item, styles.bold]}>Bezeichnung</Text>
-                  <Text style={[styles.std, styles.bold]}>STD</Text>
-                  <Text style={[styles.price, styles.bold]}>Preis</Text>
+                  <Text style={[styles.price, styles.bold]}>Preis/Std</Text>
+                  <Text style={[styles.price, styles.bold]}>Preis/Artikel</Text>
+                  <Text style={[styles.std, styles.bold]}>Menge</Text>
                   <Text style={[styles.gesamt, styles.bold]}>Gesamt</Text>
                 </View>
 
-                <View style={styles.body}>
-                  <Text style={styles.rnumber}>1</Text>
-                  <Text style={styles.item}>
-                    Wordpress Multi-Sites Installation 1.Installieren und
-                    Konfigurations-Plugin WPML 2.Vorbereiten des
-                    Hauptstandortelements für die Übersetzung (Fußtext,
-                    Kontaktformular, acf filds...) 3.Duplizieren/übersetzen Sie
-                    alle Seiteninhalte. 4.Konfiguration des Menüs 5.Endprüfung
-                  </Text>
-                  <Text style={styles.std}>14</Text>
-                  <Text style={styles.price}>75.00 € </Text>
-                  <Text style={styles.gesamt}>1,050.00 €</Text>
-                </View>
-
-                <View style={styles.body}>
-                  <Text style={styles.rnumber}>2</Text>
-                  <Text style={styles.item}>
-                    Wordpress Multi-Sites Installation 1.Installieren und
-                    Konfigurations-Plugin 4.Konfiguration des Menüs 5.Endprüfung
-                  </Text>
-                  <Text style={styles.std}>14</Text>
-                  <Text style={styles.price}>75.00 € </Text>
-                  <Text style={styles.gesamt}>1,050.00 €</Text>
-                </View>
+                {services &&
+                  JSON.parse(services).map((item, index) => {
+                    return (
+                      <OfferPDFServiceRow
+                        key={item.service_id}
+                        service={item}
+                        serviceList={serviceList}
+                        styles={styles}
+                        rnb={index}
+                      />
+                    );
+                  })}
               </View>
 
               <View style={styles.body}>
                 <Text style={styles.rnumber}></Text>
                 <Text style={[styles.item, styles.summe]}>Summe:</Text>
-                <Text style={[styles.std, styles.bold]}>14</Text>
-                <Text style={styles.price}></Text>
-                <Text style={[styles.gesamt, styles.bold]}>1,050.00 €</Text>
+                <Text style={[styles.gesamt, styles.bold]}>
+                  {formatPrice(offer_price)}
+                </Text>
               </View>
             </View>
 

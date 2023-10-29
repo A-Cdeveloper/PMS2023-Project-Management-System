@@ -70,7 +70,7 @@ const OfferRow = ({ offer }) => {
     offer_pdf,
   } = offer;
 
-  const prefetchProjectHandler = async (offer_id) => {
+  const prefetchOfferHandler = async (offer_id) => {
     await queryClient.prefetchQuery({
       queryKey: ["offer", offer_id],
       queryFn: () => singleOffer({ offer_id, accessToken }),
@@ -92,6 +92,7 @@ const OfferRow = ({ offer }) => {
         {offer_pdf ? (
           <ButtonIcon
             icon={<HiDocumentArrowDown />}
+            onMouseOver={() => prefetchOfferHandler(offer_id)}
             onClick={() => {
               navigate(`pdf/${offer_id}`, { replace: true });
             }}
@@ -115,7 +116,7 @@ const OfferRow = ({ offer }) => {
                 onClick={() => {
                   navigate(`/offers/${offer_id}`);
                 }}
-                onMouseOver={() => prefetchProjectHandler(offer_id)}
+                onMouseOver={() => prefetchOfferHandler(offer_id)}
               >
                 See details
               </Menus.Button>
@@ -125,7 +126,7 @@ const OfferRow = ({ offer }) => {
                 onClick={() => {
                   navigate(`/offers/edit/${offer_id}`);
                 }}
-                onMouseOver={() => prefetchProjectHandler(offer_id)}
+                onMouseOver={() => prefetchOfferHandler(offer_id)}
               >
                 Edit
               </Menus.Button>
