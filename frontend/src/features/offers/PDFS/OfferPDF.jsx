@@ -1,26 +1,15 @@
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  Font,
-} from "@react-pdf/renderer";
-import { PDFViewer } from "@react-pdf/renderer";
+import { PDFViewer, PDFDownloadLink, StyleSheet } from "@react-pdf/renderer";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { useOffer } from "../useOffer";
 import { allServices } from "../OffersParameters";
 
-import logo from "../../../../public/logo.png";
 import Row from "../../../ui/Row";
-import ButtonText from "../../../ui/Buttons/ButtonText";
-import { formatDate, formatPrice } from "../../../utils/helpers";
-import { OfferPDFServiceRow } from "./OfferPDFServiceRow";
+import ButtonIconText from "../../../ui/Buttons/ButtonIconText";
+import OfferPDFDocument from "./OfferPDFDocument";
 
-// Register font
-Font.register({ family: "Helvetica" });
+import { HiDocumentArrowDown } from "react-icons/hi2";
+import ButtonText from "../../../ui/Buttons/ButtonText";
 
 // Create styles
 const styles = StyleSheet.create({
@@ -28,103 +17,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100vh",
     border: "none",
-  },
-  page: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    backgroundColor: "#fff",
-    padding: "10px 45px",
-    fontSize: "9px",
-    lineHeight: 1.3,
-    fontFamily: "Helvetica",
-  },
-  mainSection: {
-    margin: "10px 0px",
-    padding: 0,
-    //flexGrow: 1,
-    width: "100%",
-  },
-
-  logoSection: {
-    width: "100vw",
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    padding: "10px 0px",
-  },
-
-  datumSection: {
-    width: "100vw",
-    flexDirection: "columns",
-    alignItems: "flex-end",
-    padding: 0,
-  },
-
-  logo: {
-    width: "120",
-  },
-
-  table: {},
-  head: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: "5px",
-    gap: "10px",
-    borderBottom: "1px",
-    borderTop: "1px",
-    borderBottomColor: "#ddd",
-    borderTopColor: "#ddd",
-  },
-  body: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "10px 5px",
-    gap: "10px",
-    borderBottom: "1px",
-    borderBottomColor: "#ddd",
-  },
-
-  bold: {
-    fontFamily: "Helvetica-Bold",
-  },
-  author: {
-    fontSize: "7px",
-    marginBottom: "15px",
-    textDecoration: "underline",
-    opacity: 0.6,
-  },
-  client: {
-    width: "33%",
-  },
-  title: {
-    fontSize: "10px",
-    display: "flex",
-    flexDirection: "column",
-  },
-  rnumber: {
-    width: "20px",
-    textAlign: "center",
-    fontWeight: "bold",
-  },
-  item: {
-    flex: 1,
-    paddingRight: "10px",
-  },
-  std: {
-    width: "50px",
-    textAlign: "center",
-  },
-  price: {
-    width: "70px",
-    textAlign: "right",
-  },
-  gesamt: {
-    width: "50px",
-    textAlign: "right",
-  },
-  summe: {
-    textAlign: "right",
-    fontFamily: "Helvetica-Bold",
   },
 });
 
@@ -139,101 +31,27 @@ const OfferPDF = () => {
     ? queryClient.getQueryData(["offer", +offerId])
     : offerSingle;
 
-  const {
-    offer_id,
-    offer_number,
-    client_adresse: default_client_addresse,
-    offer_client_adresse,
-    project_name,
-    offer_type,
-    offer_caption,
-    offer_date,
-    offer_price,
-    services,
-  } = offer;
-
   const serviceList = allServices();
 
   return (
     <>
       <Row type="horizontal">
         <ButtonText onClick={() => navigate("/offers")}> ← Back</ButtonText>
+
+        <PDFDownloadLink
+          document={
+            <OfferPDFDocument offer={offer} serviceList={serviceList} />
+          }
+          fileName={`${offer.offer_number}.pdf`}
+        >
+          <ButtonIconText icon={<HiDocumentArrowDown />} type="info">
+            Download
+          </ButtonIconText>
+        </PDFDownloadLink>
       </Row>
 
       <PDFViewer style={styles.viewer} showToolbar={false}>
-        <Document>
-          <Page size="A4" style={styles.page}>
-            {/*  */}
-            <View style={styles.logoSection}>
-              <Image src={logo} style={styles.logo} />
-            </View>
-
-            <View style={styles.mainSection}>
-              <Text style={styles.author}>
-                Norbert Rixner Webdesign Grillparzerstr. 5 79102 Freiburg
-              </Text>
-              <Text style={styles.client}>
-                {offer_client_adresse
-                  ? offer_client_adresse
-                  : default_client_addresse}
-              </Text>
-            </View>
-
-            <View style={styles.datumSection}>
-              <Text>Angebotsnummer: {offer_number}</Text>
-              <Text>Datum: {formatDate(offer_date)}</Text>
-            </View>
-
-            <View style={styles.mainSection}>
-              <View style={styles.title}>
-                <Text style={styles.bold}>
-                  {offer_type} für {project_name}
-                </Text>
-                <Text>- {offer_caption}</Text>
-              </View>
-            </View>
-
-            <View style={styles.mainSection}>
-              <View style={styles.table}>
-                <View style={styles.head}>
-                  <Text style={[styles.rnumber, styles.bold]}>Pos. </Text>
-                  <Text style={[styles.item, styles.bold]}>Bezeichnung</Text>
-                  <Text style={[styles.price, styles.bold]}>Preis/Std</Text>
-                  <Text style={[styles.price, styles.bold]}>Preis/Artikel</Text>
-                  <Text style={[styles.std, styles.bold]}>Menge</Text>
-                  <Text style={[styles.gesamt, styles.bold]}>Gesamt</Text>
-                </View>
-
-                {services &&
-                  JSON.parse(services).map((item, index) => {
-                    return (
-                      <OfferPDFServiceRow
-                        key={item.service_id}
-                        service={item}
-                        serviceList={serviceList}
-                        styles={styles}
-                        rnb={index}
-                      />
-                    );
-                  })}
-              </View>
-
-              <View style={styles.body}>
-                <Text style={styles.rnumber}></Text>
-                <Text style={[styles.item, styles.summe]}>Summe:</Text>
-                <Text style={[styles.gesamt, styles.bold]}>
-                  {formatPrice(offer_price)}
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.mainSection}>
-              <Text>Preise in EUR ohne MwSt.</Text>
-            </View>
-
-            {/*  */}
-          </Page>
-        </Document>
+        <OfferPDFDocument offer={offer} serviceList={serviceList} />
       </PDFViewer>
     </>
   );

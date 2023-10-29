@@ -1,7 +1,12 @@
 import { View, Text } from "@react-pdf/renderer";
 import { formatPrice } from "../../../utils/helpers";
 
-export const OfferPDFServiceRow = ({ service, styles, serviceList, rnb }) => {
+export const OfferPDFDocumentServiceRow = ({
+  service,
+  styles,
+  serviceList,
+  rnb,
+}) => {
   const currentService = serviceList
     ? serviceList.filter(
         (cservice) => cservice.service_id === service.service_id

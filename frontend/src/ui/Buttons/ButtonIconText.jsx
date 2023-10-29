@@ -20,6 +20,10 @@ const StyledButtonIconText = styled.button`
       props.type ? props.theme.colors[props.type][700] : "none"};
   }
 
+  &:focus {
+    outline: none;
+  }
+
   & svg {
     width: 2.2rem;
     height: 2.2rem;
