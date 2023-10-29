@@ -44,7 +44,7 @@ export const offerAllServices = () => {
 export const allServices = () => {
   const { services } = useServices();
 
-  console.log(services);
+  //console.log(services);
 
   const servicesFormated = services.map((service) => {
     return {
