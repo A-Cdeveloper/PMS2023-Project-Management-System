@@ -124,6 +124,10 @@ const styles = StyleSheet.create({
     textAlign: "right",
     fontFamily: "Helvetica-Bold",
   },
+  notice: {
+    fontSize: "8px",
+    opacity: 0.8,
+  },
 });
 
 // Create Document Component
@@ -138,6 +142,7 @@ const OfferPDFDocument = ({ offer, serviceList }) => {
     offer_caption,
     offer_date,
     offer_price,
+    offer_notice,
     services,
   } = offer;
 
@@ -199,6 +204,13 @@ const OfferPDFDocument = ({ offer, serviceList }) => {
                   />
                 );
               })}
+          </View>
+
+          <View style={styles.body}>
+            <View style={[styles.title, , styles.notice]}>
+              <Text>Notice:</Text>
+              <Text>{offer_notice}</Text>
+            </View>
           </View>
 
           <View style={styles.body}>

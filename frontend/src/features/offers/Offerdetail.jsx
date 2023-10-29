@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useOffer } from "./useOffer";
 import { formatDate, formatPrice } from "../../utils/helpers";
@@ -44,6 +44,7 @@ const Offerdetail = () => {
   const moveBack = useMoveBack();
   const { offer: offerSingle = {} } = useOffer();
   const { offerId } = useParams();
+  const navigate = useNavigate();
 
   const queryClient = useQueryClient();
   const offer = queryClient.getQueryData(["offer", +offerId])
@@ -62,7 +63,6 @@ const Offerdetail = () => {
     offer_type,
     offer_caption,
     offer_date,
-    offer_pdf,
     offer_notice,
     offer_price,
     services,
@@ -146,8 +146,12 @@ const Offerdetail = () => {
 
         <DataDetailsContainer>
           <TotalPrice>Total price: {formatPrice(offer_price)}</TotalPrice>
-          <Button variation="primary" size="medium">
-            GENERATE PDF
+          <Button
+            variation="primary"
+            size="medium"
+            onClick={() => navigate(`/offers/pdf/${offer_id}`)}
+          >
+            View PDF
           </Button>
         </DataDetailsContainer>
       </Row>

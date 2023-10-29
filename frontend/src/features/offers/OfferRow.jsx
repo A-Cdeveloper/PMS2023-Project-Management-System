@@ -67,7 +67,6 @@ const OfferRow = ({ offer }) => {
     offer_type,
     offer_caption,
     offer_date,
-    offer_pdf,
   } = offer;
 
   const prefetchOfferHandler = async (offer_id) => {
@@ -89,20 +88,13 @@ const OfferRow = ({ offer }) => {
       </Link>
       <Type>{offer_type}</Type>
       <CellIcon>
-        {offer_pdf ? (
-          <ButtonIcon
-            icon={<HiDocumentArrowDown />}
-            onMouseOver={() => prefetchOfferHandler(offer_id)}
-            onClick={() => {
-              navigate(`pdf/${offer_id}`, { replace: true });
-            }}
-          />
-        ) : (
-          // <a href={offer_pdf} target="_blank" title={offer_pdf}>
-
-          // </a>
-          <HiMinus />
-        )}
+        <ButtonIcon
+          icon={<HiDocumentArrowDown />}
+          onMouseOver={() => prefetchOfferHandler(offer_id)}
+          onClick={() => {
+            navigate(`pdf/${offer_id}`, { replace: true });
+          }}
+        />
       </CellIcon>
 
       <div>
