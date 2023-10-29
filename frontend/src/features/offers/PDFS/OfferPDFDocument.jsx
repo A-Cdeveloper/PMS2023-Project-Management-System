@@ -71,7 +71,10 @@ const styles = StyleSheet.create({
     borderBottom: "1px",
     borderBottomColor: "#ddd",
   },
-
+  name: {
+    fontFamily: "Helvetica-Bold",
+    opacity: 0.85,
+  },
   bold: {
     fontFamily: "Helvetica-Bold",
   },
@@ -97,7 +100,14 @@ const styles = StyleSheet.create({
   item: {
     flex: 1,
     paddingRight: "10px",
+    flexDirection: "column",
   },
+  description: {
+    fontSize: "8px",
+    opacity: 0.8,
+    whiteSpace: "pre-wrap",
+  },
+
   std: {
     width: "50px",
     textAlign: "center",
@@ -158,7 +168,9 @@ const OfferPDFDocument = ({ offer, serviceList }) => {
         <View style={styles.mainSection}>
           <View style={styles.title}>
             <Text style={styles.bold}>
-              {offer_type} für {project_name}
+              {offer_type &&
+                offer_type.charAt(0).toUpperCase() + offer_type.slice(1)}{" "}
+              für {project_name}
             </Text>
             <Text>- {offer_caption}</Text>
           </View>

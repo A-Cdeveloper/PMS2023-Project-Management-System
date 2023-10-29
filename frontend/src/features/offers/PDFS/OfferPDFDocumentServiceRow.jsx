@@ -23,9 +23,12 @@ export const OfferPDFDocumentServiceRow = ({
   return (
     <View style={styles.body} key={service.service_id}>
       <Text style={styles.rnumber}>{rnb + 1}</Text>
-      <Text style={styles.item}>
-        <>{currentService.service_name}</>
-      </Text>
+      <View style={styles.item}>
+        <Text style={styles.name}>{currentService.service_name}</Text>
+        <Text style={styles.description}>
+          {currentService?.service_description}
+        </Text>
+      </View>
 
       <Text style={styles.price}>
         {currentService?.service_price_hour
