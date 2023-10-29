@@ -31,6 +31,7 @@ const MetaData = ({
     offer_type,
     offer_caption,
     offer_date,
+    offer_notice,
     offer_pdf,
     offer_price,
   } = data;
@@ -221,6 +222,16 @@ const MetaData = ({
               aria-invalid={errors.offer_client_adresse ? "true" : "false"}
               disabled={isLoading}
               defaultValue={offer_client_adresse}
+            />
+          </FormRow>
+        </SectionData>
+        <SectionData>
+          <FormRow type="flex" label="Notice" error={errors?.offer_notice}>
+            <Textarea
+              type="textarea"
+              {...register("offer_notice")}
+              disabled={isLoading}
+              defaultValue={offer_notice}
             />
           </FormRow>
         </SectionData>

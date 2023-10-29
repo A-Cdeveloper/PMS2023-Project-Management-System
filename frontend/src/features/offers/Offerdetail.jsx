@@ -28,6 +28,12 @@ const ClientAdr = styled.div`
     `}
 `;
 
+const Notice = styled.div`
+  white-space: pre-wrap;
+  font-size: 1.3rem;
+  opacity: 0.8;
+`;
+
 const TotalPrice = styled.div`
   text-align: right;
   padding: 2rem 3.5rem;
@@ -57,6 +63,7 @@ const Offerdetail = () => {
     offer_caption,
     offer_date,
     offer_pdf,
+    offer_notice,
     offer_price,
     services,
   } = offer;
@@ -124,9 +131,21 @@ const Offerdetail = () => {
               )}
             />
           </Table>
+        </DataDetailsContainer>
 
+        <DataDetailsContainer>
+          {offer_notice && (
+            <>
+              <DataBoxContent>Notice:</DataBoxContent>
+              <DataBoxContent>
+                <Notice>{offer_notice}</Notice>
+              </DataBoxContent>
+            </>
+          )}
+        </DataDetailsContainer>
+
+        <DataDetailsContainer>
           <TotalPrice>Total price: {formatPrice(offer_price)}</TotalPrice>
-
           <Button variation="primary" size="medium">
             GENERATE PDF
           </Button>
