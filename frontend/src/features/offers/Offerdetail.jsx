@@ -126,11 +126,10 @@ const Offerdetail = () => {
           </Table>
 
           <TotalPrice>Total price: {formatPrice(offer_price)}</TotalPrice>
-          <TotalPrice>
-            <Button variation="primary" size="medium">
-              GENERATE PDF
-            </Button>
-          </TotalPrice>
+
+          <Button variation="primary" size="medium">
+            GENERATE PDF
+          </Button>
         </DataDetailsContainer>
       </Row>
 

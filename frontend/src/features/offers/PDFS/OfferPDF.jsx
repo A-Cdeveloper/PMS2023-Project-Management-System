@@ -38,6 +38,7 @@ const OfferPDF = () => {
       <Row type="horizontal">
         <ButtonText onClick={() => navigate("/offers")}> ← Back</ButtonText>
 
+        {/* download pdf */}
         <PDFDownloadLink
           document={
             <OfferPDFDocument offer={offer} serviceList={serviceList} />
@@ -50,6 +51,7 @@ const OfferPDF = () => {
         </PDFDownloadLink>
       </Row>
 
+      {/* shoe pdf */}
       <PDFViewer style={styles.viewer} showToolbar={false}>
         <OfferPDFDocument offer={offer} serviceList={serviceList} />
       </PDFViewer>
