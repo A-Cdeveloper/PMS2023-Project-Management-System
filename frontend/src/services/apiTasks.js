@@ -40,6 +40,15 @@ export const getFilteredTasks = async ({
   return await responseApiFn(response, "Tasks list could't be loaded!");
 };
 
+// //////////////////////////////////////////////////////////////////
+export const getTasksByClient = async ({ client_id, accessToken }) => {
+  const response = await fetch(`${API_URL}/tasks/tasksbyclient/${client_id}}`, {
+    headers: headerApiFn(accessToken),
+  });
+
+  return await responseApiFn(response, "Tasks list could't be loaded!");
+};
+
 // ///////////////////////////////////////////////////////////////////////
 export const singleTask = async ({ task_id, accessToken }) => {
   const response = await fetch(`${API_URL}/tasks/task/${task_id}`, {

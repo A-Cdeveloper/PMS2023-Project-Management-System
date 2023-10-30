@@ -31,7 +31,7 @@ const getTasksRange = async (
 ////////////////////////////////////////////////////////
 const getTasksByClient = async (sclient_id) => {
   const query =
-    'SELECT pms_tasks.*,pms_clients.client_name FROM pms_projects,pms_clients, pms_tasks WHERE client_id = project_client_id  AND project_client_id = ? AND task_project_id = pms_projects.project_id ORDER BY pms_projects.project_end_date DESC'
+    'SELECT pms_tasks.*,pms_clients.client_name FROM pms_projects,pms_clients, pms_tasks WHERE client_id = project_client_id  AND project_client_id = ? AND task_project_id = pms_projects.project_id ORDER BY pms_tasks.task_status DESC, pms_tasks.task_add_date DESC'
 
   const [tasks] = await db.query(query, [sclient_id])
   return tasks

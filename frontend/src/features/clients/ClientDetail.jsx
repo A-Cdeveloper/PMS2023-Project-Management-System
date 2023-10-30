@@ -1,7 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { HiOutlineArrowTopRightOnSquare } from "react-icons/hi2";
+
 import { useClient } from "./useClient";
 import { useParams } from "react-router-dom";
 import { useMoveBack } from "../../hooks/useMoveBack";
+import { useProjectsByClient } from "../../hooks-api/useProjectsByClient";
+import { useTasksByClient } from "../../hooks-api/useTasksByClient";
 
 import Headline from "../../ui/Headline";
 import ButtonText from "../../ui/Buttons/ButtonText";
@@ -14,17 +18,17 @@ import {
 } from "../../ui/Data/DataDetails";
 
 import { clientCols } from "./ClientParameters";
-import { HiOutlineArrowTopRightOnSquare } from "react-icons/hi2";
-import { useProjectsByClient } from "../../hooks-api/useProjectsByClient";
 import { ClientProjects } from "./ClientProjects";
+import { ClientTasks } from "./ClientTasks";
 
 const ClientDetail = () => {
   const moveBack = useMoveBack();
   const { isLoading, error, client: clientSingle = {} } = useClient();
   const { projects: clientProjects } = useProjectsByClient();
+  const { tasks: clientTasks } = useTasksByClient();
   const { clientId } = useParams();
 
-  console.log(clientProjects);
+  console.log(clientTasks);
 
   const queryClient = useQueryClient();
   const client = queryClient.getQueryData(["client", +clientId])
@@ -69,6 +73,11 @@ const ClientDetail = () => {
       <Headline as="h2">Projects ({clientProjects.length})</Headline>
       <DataDetailsContainer>
         <ClientProjects clientProjects={clientProjects} />
+      </DataDetailsContainer>
+
+      <Headline as="h2">Tasks ({clientTasks.length})</Headline>
+      <DataDetailsContainer>
+        <ClientTasks clientTasks={clientTasks} />
       </DataDetailsContainer>
     </>
   );
