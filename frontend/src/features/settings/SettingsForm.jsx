@@ -5,6 +5,16 @@ import { toast } from "react-hot-toast";
 import { useSettings } from "./useSettings";
 import { useUpdateSettings } from "./useUpdateSettings";
 import { useAccessToken } from "../../context/authContext";
+import Row from "../../ui/Row";
+import styled from "styled-components";
+
+const SeetingSection = styled.div`
+  background: white;
+  padding: 2rem 2rem 0 2rem;
+  box-shadow: ${(props) => props.theme.shadow.xs};
+  display: flex;
+  flex-direction: column;
+`;
 
 const SettingsForm = () => {
   const { isLoadingSettings, errorGetSettings, settings = {} } = useSettings();
@@ -38,64 +48,71 @@ const SettingsForm = () => {
   };
 
   return (
-    <Form>
-      <FormRow label="Clients per page">
-        <Input
-          type="number"
-          defaultValue={clients_per_page}
-          onBlur={(e) => handleBlur(e, "clients_per_page")}
-          disabled={isLoadingSettings || isUpdateSettings}
-          id="clientperpage"
-        />
-      </FormRow>
-      <FormRow label="Projects per page">
-        <Input
-          type="number"
-          defaultValue={projects_per_page}
-          onBlur={(e) => handleBlur(e, "projects_per_page")}
-          disabled={isLoadingSettings || isUpdateSettings}
-          id="projectsperpage"
-        />
-      </FormRow>
-      <FormRow label="Tasks per page">
-        <Input
-          type="number"
-          defaultValue={tasks_per_page}
-          onBlur={(e) => handleBlur(e, "tasks_per_page")}
-          disabled={isLoadingSettings || isUpdateSettings}
-          id="tasksperpage"
-        />
-      </FormRow>
-      <FormRow label="Users per page">
-        <Input
-          type="number"
-          defaultValue={users_per_page}
-          onBlur={(e) => handleBlur(e, "users_per_page")}
-          disabled={isLoadingSettings || isUpdateSettings}
-          id="usersperpage"
-        />
-      </FormRow>
+    <Row type="horizontalandgap">
+      <SeetingSection>
+        <Form>
+          <FormRow label="Clients per page">
+            <Input
+              type="number"
+              defaultValue={clients_per_page}
+              onBlur={(e) => handleBlur(e, "clients_per_page")}
+              disabled={isLoadingSettings || isUpdateSettings}
+              id="clientperpage"
+            />
+          </FormRow>
+          <FormRow label="Projects per page">
+            <Input
+              type="number"
+              defaultValue={projects_per_page}
+              onBlur={(e) => handleBlur(e, "projects_per_page")}
+              disabled={isLoadingSettings || isUpdateSettings}
+              id="projectsperpage"
+            />
+          </FormRow>
+          <FormRow label="Tasks per page">
+            <Input
+              type="number"
+              defaultValue={tasks_per_page}
+              onBlur={(e) => handleBlur(e, "tasks_per_page")}
+              disabled={isLoadingSettings || isUpdateSettings}
+              id="tasksperpage"
+            />
+          </FormRow>
+          <FormRow label="Users per page">
+            <Input
+              type="number"
+              defaultValue={users_per_page}
+              onBlur={(e) => handleBlur(e, "users_per_page")}
+              disabled={isLoadingSettings || isUpdateSettings}
+              id="usersperpage"
+            />
+          </FormRow>
 
-      <FormRow label="Services per page">
-        <Input
-          type="number"
-          defaultValue={services_per_page}
-          onBlur={(e) => handleBlur(e, "services_per_page")}
-          disabled={isLoadingSettings || isUpdateSettings}
-          id="servicesperpage"
-        />
-      </FormRow>
-      <FormRow label="Offers per page">
-        <Input
-          type="number"
-          defaultValue={offers_per_page}
-          onBlur={(e) => handleBlur(e, "offers_per_page")}
-          disabled={isLoadingSettings || isUpdateSettings}
-          id="offersperpage"
-        />
-      </FormRow>
-      <FormRow></FormRow>
-    </Form>
+          <FormRow label="Services per page">
+            <Input
+              type="number"
+              defaultValue={services_per_page}
+              onBlur={(e) => handleBlur(e, "services_per_page")}
+              disabled={isLoadingSettings || isUpdateSettings}
+              id="servicesperpage"
+            />
+          </FormRow>
+          <FormRow label="Offers per page">
+            <Input
+              type="number"
+              defaultValue={offers_per_page}
+              onBlur={(e) => handleBlur(e, "offers_per_page")}
+              disabled={isLoadingSettings || isUpdateSettings}
+              id="offersperpage"
+            />
+          </FormRow>
+          <FormRow></FormRow>
+        </Form>
+      </SeetingSection>
+      <SeetingSection>
+        <div>Backup database</div> <div>Restore database</div>
+      </SeetingSection>
+    </Row>
   );
 };
 

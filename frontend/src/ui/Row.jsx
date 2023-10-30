@@ -12,6 +12,15 @@ const Row = styled.div`
     `}
 
   ${(props) =>
+    props.type === "horizontalandgap" &&
+    css`
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 5rem;
+    `}
+
+
+  ${(props) =>
     props.type === "vertical" &&
     css`
       flex-direction: column;
