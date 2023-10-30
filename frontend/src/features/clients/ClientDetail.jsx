@@ -28,7 +28,7 @@ const ClientDetail = () => {
   const { tasks: clientTasks } = useTasksByClient();
   const { clientId } = useParams();
 
-  console.log(clientTasks);
+  // console.log(clientTasks);
 
   const queryClient = useQueryClient();
   const client = queryClient.getQueryData(["client", +clientId])

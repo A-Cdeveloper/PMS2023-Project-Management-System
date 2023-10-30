@@ -33,7 +33,7 @@ router.get('/filter/:from/:perPage/:order', verifyToken, async (req, res) => {
 })
 
 ///////////////////////////////Extra route //////////////////////////////////////////////////
-router.get('/projectsbyclient/:client_id', async (req, res) => {
+router.get('/projectsbyclient/:client_id', verifyToken, async (req, res) => {
   const { client_id } = req.params
   const projects = await dbfunctions.getProjectsByClient(client_id)
   if (projects.length == 0) {

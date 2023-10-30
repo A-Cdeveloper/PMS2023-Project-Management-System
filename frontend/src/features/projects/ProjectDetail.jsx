@@ -1,10 +1,13 @@
 import { useQueryClient } from "@tanstack/react-query";
-
+import { HiOutlineArrowTopRightOnSquare } from "react-icons/hi2";
 import { useParams } from "react-router-dom";
+
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useProject } from "./useProject";
+import { useTasksByProject } from "../../hooks-api/useTasksByProject";
 import { formatDate } from "../../utils/helpers";
 import { useAccessToken } from "../../context/authContext";
+import { ProjectTasks } from "./ProjectTasks";
 
 import Headline from "../../ui/Headline";
 import ButtonText from "../../ui/Buttons/ButtonText";
@@ -28,12 +31,12 @@ import Select from "../../ui/Form/Select";
 import useEditProject from "./useEditProject";
 import Input from "../../ui/Form/Input";
 import ButtonGroup from "../../ui/Buttons/ButtonGroup";
-import { HiOutlineArrowTopRightOnSquare } from "react-icons/hi2";
 
 const ProjectDetail = () => {
   const moveBack = useMoveBack();
   const { project: projectSingle = {} } = useProject();
   const { isEditLoading, editProject } = useEditProject();
+  const { tasks: projectTasks } = useTasksByProject();
   const { projectId } = useParams();
   const accessToken = useAccessToken();
 
@@ -301,9 +304,12 @@ const ProjectDetail = () => {
             </DataBoxContent>
           </DataBox>
         </DataDetailsContainer>
-      </Row>
 
-      {/* <Headline as="h2">Tasks</Headline> */}
+        <Headline as="h2">Tasks ({projectTasks.length})</Headline>
+        <DataDetailsContainer>
+          <ProjectTasks projectTasks={projectTasks} />
+        </DataDetailsContainer>
+      </Row>
     </>
   );
 };

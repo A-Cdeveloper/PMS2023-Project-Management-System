@@ -39,7 +39,7 @@ const getTasksByClient = async (sclient_id) => {
 
 const getTasksByProject = async (sproject_id) => {
   const query =
-    'SELECT pms_tasks.*, pms_projects.project_name FROM pms_projects,pms_tasks WHERE task_project_id = ? AND task_project_id = pms_projects.project_id ORDER BY pms_projects.project_end_date DESC'
+    'SELECT pms_tasks.*, pms_projects.project_name FROM pms_projects,pms_tasks WHERE task_project_id = ? AND task_project_id = pms_projects.project_id ORDER BY pms_tasks.task_status DESC, pms_tasks.task_add_date DESC'
 
   const [tasks] = await db.query(query, [sproject_id])
   return tasks
