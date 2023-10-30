@@ -15,30 +15,23 @@ import {
 
 import { clientCols } from "./ClientParameters";
 import { HiOutlineArrowTopRightOnSquare } from "react-icons/hi2";
+import { useProjectsByClient } from "../../hooks-api/useProjectsByClient";
+import { ClientProjects } from "./ClientProjects";
 
 const ClientDetail = () => {
   const moveBack = useMoveBack();
   const { isLoading, error, client: clientSingle = {} } = useClient();
+  const { projects: clientProjects } = useProjectsByClient();
   const { clientId } = useParams();
+
+  console.log(clientProjects);
 
   const queryClient = useQueryClient();
   const client = queryClient.getQueryData(["client", +clientId])
     ? queryClient.getQueryData(["client", +clientId])
     : clientSingle;
 
-  // console.log(clientSingle);
-
-  const {
-    client_id,
-    client_name,
-    client_adresse,
-    client_contact,
-    client_phone,
-    client_fax,
-    client_email,
-    client_site,
-    project_per_client,
-  } = client;
+  const { client_name } = client;
 
   const content = Object.values(client).map((element, index) => {
     if (index > 1) {
@@ -73,8 +66,10 @@ const ClientDetail = () => {
         <DataDetailsContainer>{content}</DataDetailsContainer>
       </Row>
 
-      <Headline as="h2">Projects</Headline>
-      {/* <ProjectsTable /> */}
+      <Headline as="h2">Projects ({clientProjects.length})</Headline>
+      <DataDetailsContainer>
+        <ClientProjects clientProjects={clientProjects} />
+      </DataDetailsContainer>
     </>
   );
 };

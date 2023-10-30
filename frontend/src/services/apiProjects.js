@@ -32,6 +32,18 @@ export const getFilteredProjects = async ({
   return await responseApiFn(response, "Projects list could't be loaded!");
 };
 
+// //////////////////////////////////////////////////////////////////
+export const getProjectsByClient = async ({ client_id, accessToken }) => {
+  const response = await fetch(
+    `${API_URL}/projects/projectsbyclient/${client_id}}`,
+    {
+      headers: headerApiFn(accessToken),
+    }
+  );
+
+  return await responseApiFn(response, "Projects list could't be loaded!");
+};
+
 // ///////////////////////////////////////////////////////////////////////
 export const addNewProject = async ({ newProject, accessToken }) => {
   const response = await fetch(`${API_URL}/projects/new`, {
