@@ -6,7 +6,7 @@ const verifyToken = require('../authMw')
 const router = express.Router()
 // /users
 
-router.get('/:order', verifyToken, async (req, res) => {
+router.get('/:order', async (req, res) => {
   const { order } = req.params
   const [orderBy, orderDirection] = order.split('=')
   const projects = await dbfunctions.getProjects(orderBy, orderDirection)
@@ -31,6 +31,19 @@ router.get('/filter/:from/:perPage/:order', verifyToken, async (req, res) => {
   }
   return res.status(231).send(projects)
 })
+
+///////////////////////////////Extra route //////////////////////////////////////////////////
+router.get('/projectsbyclient/:client_id', async (req, res) => {
+  const { client_id } = req.params
+  const projects = await dbfunctions.getProjectsByClient(client_id)
+  if (projects.length == 0) {
+    return res.status(400).json({ message: 'Projects list is empty.' })
+  }
+
+  return res.status(231).send(projects)
+})
+
+/////////////////////////////////////////////////////////////////////////////////
 
 router.get('/project/:project_id', verifyToken, async (req, res) => {
   const pid = req.params.project_id

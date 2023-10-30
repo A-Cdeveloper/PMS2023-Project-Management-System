@@ -28,6 +28,26 @@ const getTasksRange = async (
   return tasks
 }
 
+////////////////////////////////////////////////////////
+const getTasksByClient = async (sclient_id) => {
+  const query =
+    'SELECT pms_tasks.*,pms_clients.client_name FROM pms_projects,pms_clients, pms_tasks WHERE client_id = project_client_id  AND project_client_id = ? AND task_project_id = pms_projects.project_id ORDER BY pms_projects.project_end_date DESC'
+
+  const [tasks] = await db.query(query, [sclient_id])
+  return tasks
+}
+
+const getTasksByProject = async (sproject_id) => {
+  const query =
+    'SELECT pms_tasks.*, pms_projects.project_name FROM pms_projects,pms_tasks WHERE task_project_id = ? AND task_project_id = pms_projects.project_id ORDER BY pms_projects.project_end_date DESC'
+
+  const [tasks] = await db.query(query, [sproject_id])
+  return tasks
+}
+
+////////////////////////////////////////////////////////
+// getTasksByProject(22).then((res) => console.log(res))
+
 const getSingleTask = async (task_id) => {
   const [task] = await db.query('SELECT * FROM pms_tasks WHERE task_id=?', [
     task_id,
@@ -107,4 +127,6 @@ module.exports = {
   addTask,
   updateTask,
   deleteTask,
+  getTasksByClient,
+  getTasksByProject,
 }

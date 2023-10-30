@@ -35,6 +35,29 @@ router.get(
   }
 )
 
+///////////////////////////////Extra route //////////////////////////////////////////////////
+router.get('/tasksbyclient/:client_id', async (req, res) => {
+  const { client_id } = req.params
+  const tasks = await dbfunctions.getTasksByClient(client_id)
+  if (tasks.length == 0) {
+    return res.status(400).json({ message: 'Tasks list is empty.' })
+  }
+
+  return res.status(231).send(tasks)
+})
+
+router.get('/tasksbyproject/:project_id', async (req, res) => {
+  const { project_id } = req.params
+  const tasks = await dbfunctions.getTasksByProject(project_id)
+  if (tasks.length == 0) {
+    return res.status(400).json({ message: 'Tasks list is empty.' })
+  }
+
+  return res.status(231).send(tasks)
+})
+
+/////////////////////////////////////////////////////////////////////////////////
+
 router.get('/task/:task_id', verifyToken, async (req, res) => {
   const tid = req.params.task_id
   const task = await dbfunctions.getSingleTask(tid)
