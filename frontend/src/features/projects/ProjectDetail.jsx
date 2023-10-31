@@ -31,6 +31,7 @@ import Select from "../../ui/Form/Select";
 import useEditProject from "./useEditProject";
 import Input from "../../ui/Form/Input";
 import ButtonGroup from "../../ui/Buttons/ButtonGroup";
+import Accordion from "../../ui/Data/Accordion";
 
 const ProjectDetail = () => {
   const moveBack = useMoveBack();
@@ -305,9 +306,17 @@ const ProjectDetail = () => {
           </DataBox>
         </DataDetailsContainer>
 
-        <Headline as="h2">Tasks ({projectTasks.length})</Headline>
         <DataDetailsContainer>
-          <ProjectTasks projectTasks={projectTasks} />
+          <Accordion>
+            <Accordion.Item>
+              <Accordion.Caption index={0}>
+                Tasks ({projectTasks.length})
+              </Accordion.Caption>
+              <Accordion.Content index={0}>
+                <ProjectTasks projectTasks={projectTasks} />
+              </Accordion.Content>
+            </Accordion.Item>
+          </Accordion>
         </DataDetailsContainer>
       </Row>
     </>

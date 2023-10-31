@@ -10,6 +10,7 @@ import { useTasksByClient } from "../../hooks-api/useTasksByClient";
 import Headline from "../../ui/Headline";
 import ButtonText from "../../ui/Buttons/ButtonText";
 import Row from "../../ui/Row";
+import Accordion from "../../ui/Data/Accordion";
 import {
   DataDetailsContainer,
   DataBox,
@@ -70,14 +71,27 @@ const ClientDetail = () => {
         <DataDetailsContainer>{content}</DataDetailsContainer>
       </Row>
 
-      <Headline as="h2">Projects ({clientProjects.length})</Headline>
       <DataDetailsContainer>
-        <ClientProjects clientProjects={clientProjects} />
-      </DataDetailsContainer>
+        <Accordion>
+          <Accordion.Item>
+            <Accordion.Caption index={0}>
+              Projects ({clientProjects.length})
+            </Accordion.Caption>
+            <Accordion.Content index={0}>
+              <ClientProjects clientProjects={clientProjects} />
+            </Accordion.Content>
+          </Accordion.Item>
 
-      <Headline as="h2">Tasks ({clientTasks.length})</Headline>
-      <DataDetailsContainer>
-        <ClientTasks clientTasks={clientTasks} />
+          <Accordion.Item>
+            <Accordion.Caption index={1}>
+              Tasks ({clientTasks.length})
+            </Accordion.Caption>
+
+            <Accordion.Content index={1}>
+              <ClientTasks clientTasks={clientTasks} />
+            </Accordion.Content>
+          </Accordion.Item>
+        </Accordion>
       </DataDetailsContainer>
     </>
   );

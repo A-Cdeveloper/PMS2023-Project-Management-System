@@ -8,12 +8,10 @@ const AccordionItem = styled.div`
   margin-top: -1px;
 `;
 
-const AccordionItemCaption = styled.h2`
+const AccordionItemCaption = styled.h3`
   display: flex;
   align-items: center;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-  padding: 0.3rem 0;
+  padding: 0.7rem 0;
   cursor: pointer;
   & svg {
     width: 2rem;
