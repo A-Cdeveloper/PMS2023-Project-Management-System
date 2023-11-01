@@ -6,12 +6,7 @@ import Input from "../../../ui/Form/Input";
 import Textarea from "../../../ui/Form/Textarea";
 import { SectionCaption, Section, SectionData } from "./SectionsStyles";
 
-import {
-  offerType,
-  offerAllProjects,
-  offerAllClients,
-  clientByProject,
-} from "../OffersParameters";
+import { offerType, clientByProject } from "../OffersParameters";
 import Row from "../../../ui/Row";
 import { useEffect, useState } from "react";
 
@@ -29,6 +24,7 @@ const MetaData = ({
   setVals,
   data = {},
   isEditing,
+  fullProjectsList,
 }) => {
   const {
     offer_number,
@@ -51,10 +47,10 @@ const MetaData = ({
 
   console.log(currentClient);
 
-  // useEffect(() => {
-  //   register("offer_client_id");
-  //   setVals("offer_client_id", currentClient?.clientId);
-  // }, [currentProjectId]);
+  useEffect(() => {
+    register("offer_client_id");
+    setVals("offer_client_id", currentClient?.clientId);
+  }, [currentProjectId]);
 
   return (
     <>
@@ -188,7 +184,7 @@ const MetaData = ({
                         return field.onChange(e.target.value);
                       }}
                     >
-                      {offerAllProjects().map((project) => (
+                      {fullProjectsList.map((project) => (
                         <option key={project.value} value={project.value}>
                           {project.label}
                         </option>

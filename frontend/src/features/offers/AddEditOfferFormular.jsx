@@ -18,11 +18,16 @@ import useAddOffer from "./useAddOffer";
 import PromptModal from "../../ui/PromptModal";
 import { useOffer } from "./useOffer";
 import useEditOffer from "./useEditOffer";
+import { useProjectsDropDown } from "../../hooks/useProjectsDropDown";
+import { useServicesDropDown } from "../../hooks/useServicesDropDown";
 
 const AddEditOfferFormular = ({ isEditing }) => {
   const moveBack = useMoveBack();
   const accessToken = useAccessToken();
   const navigate = useNavigate();
+
+  const { fullProjectsList } = useProjectsDropDown();
+  const { fullServicesList } = useServicesDropDown();
 
   const { isAddNewLoading, addNewOffer } = useAddOffer();
   const { isEditLoading, editOffer } = useEditOffer();
@@ -111,12 +116,14 @@ const AddEditOfferFormular = ({ isEditing }) => {
             isLoading={isEditing ? isEditLoading : isAddNewLoading}
             data={isEditing && offer}
             isEditing={!!isEditing}
+            fullProjectsList={fullProjectsList}
           />
 
           <ServicesData
             register={register}
             setVals={setValue}
             data={isEditing && offer.services}
+            fullServicesList={fullServicesList}
           />
 
           <ButtonGroup>

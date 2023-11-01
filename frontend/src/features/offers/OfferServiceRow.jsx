@@ -1,6 +1,8 @@
+import { useServicesList } from "../../hooks/useServicesList";
+
 import styled from "styled-components";
 import Table from "../../ui/Data/Table";
-import { allServices } from "./OffersParameters";
+
 import { formatPrice } from "../../utils/helpers";
 import { HiMinusCircle } from "react-icons/hi2";
 import ButtonIcon from "../../ui/Buttons/ButtonIcon";
@@ -27,9 +29,10 @@ const CenterDiv = styled.div`
 
 const OfferServiceRow = ({ service, num, removeService }) => {
   const { service_id, qty_price_hour, qty_price_total } = service;
+  const { serviceList } = useServicesList();
 
-  const currentService = allServices()
-    ? allServices().filter((item) => item.service_id === service_id)[0]
+  const currentService = serviceList
+    ? serviceList.filter((item) => item.service_id === service_id)[0]
     : {};
 
   const activeQuantity = qty_price_hour ? qty_price_hour : qty_price_total;

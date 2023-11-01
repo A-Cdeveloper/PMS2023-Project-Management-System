@@ -15,5 +15,5 @@ export const useServicesList = () => {
     };
   });
 
-  return servicesFormated;
+  return { serviceList: servicesFormated };
 };

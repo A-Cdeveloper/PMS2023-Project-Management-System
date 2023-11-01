@@ -6,11 +6,10 @@ import { SectionCaption, Section, SectionCol } from "./SectionsStyles";
 
 import OfferServiceRow from "../OfferServiceRow";
 
-import { offerAllServices } from "../OffersParameters";
 import Button from "../../../ui/Buttons/Button";
 import { formatPrice } from "../../../utils/helpers";
 
-const ServicesData = ({ register, setVals, data }) => {
+const ServicesData = ({ register, setVals, data, fullServicesList }) => {
   const [serviceId, setServiceId] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [includedServices, setIncludedServices] = useState(
@@ -18,10 +17,10 @@ const ServicesData = ({ register, setVals, data }) => {
   );
 
   // console.log(includedServices);
-  // console.log(data);
+  //console.log(fullServicesList);
 
-  const currentService = offerAllServices()
-    ? offerAllServices().filter((item) => item.value === serviceId)[0]
+  const currentService = fullServicesList
+    ? fullServicesList.filter((item) => item.value === serviceId)[0]
     : {};
 
   const activePrice = currentService?.service_price_hour
@@ -101,7 +100,7 @@ const ServicesData = ({ register, setVals, data }) => {
         <SectionCol>
           <p>Service</p>
           <SelectComplex
-            options={offerAllServices()}
+            options={fullServicesList}
             value={serviceId}
             onChange={(e) => {
               setServiceId(+e.target.value);

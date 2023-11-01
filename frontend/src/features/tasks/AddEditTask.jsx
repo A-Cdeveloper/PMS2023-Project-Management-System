@@ -2,7 +2,7 @@ import { useForm, Controller } from "react-hook-form";
 import useEditTask from "./useEditTask";
 import useAddTask from "./useAddTask";
 import { useAccessToken } from "../../context/authContext";
-import { taskAllProjects, taskStatus } from "./TaskParameters";
+import { taskStatus } from "./TaskParameters";
 
 import Form from "../../ui/Form/Form";
 import FormRow from "../../ui/Form/FormRow";

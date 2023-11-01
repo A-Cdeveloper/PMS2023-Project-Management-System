@@ -12,5 +12,5 @@ export const useServicesDropDown = () => {
     };
   });
 
-  return [{ value: "", label: "" }, ...servicesList];
+  return { fullServicesList: [{ value: "", label: "" }, ...servicesList] };
 };

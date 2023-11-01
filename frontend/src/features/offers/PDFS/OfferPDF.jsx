@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { HiDocumentArrowDown } from "react-icons/hi2";
 
 import { useOffer } from "../useOffer";
-import { allServices } from "../OffersParameters";
+import { useServicesList } from "../../../hooks/useServicesList";
 
 import Row from "../../../ui/Row";
 import ButtonText from "../../../ui/Buttons/ButtonText";
@@ -26,14 +26,13 @@ const styles = StyleSheet.create({
 const OfferPDF = () => {
   const navigate = useNavigate();
   const { isLoading, offer: offerSingle = {} } = useOffer();
+  const { serviceList } = useServicesList();
   const { offerId } = useParams();
 
   const queryClient = useQueryClient();
   const offer = queryClient.getQueryData(["offer", +offerId])
     ? queryClient.getQueryData(["offer", +offerId])
     : offerSingle;
-
-  const serviceList = allServices();
 
   if (isLoading) return <Spinner />;
 
