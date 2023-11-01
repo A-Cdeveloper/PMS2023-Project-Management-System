@@ -1,4 +1,5 @@
 import { Controller } from "react-hook-form";
+import styled from "styled-components";
 import Select from "../../../ui/Form/Select";
 import FormRow from "../../../ui/Form/FormRow";
 import Input from "../../../ui/Form/Input";
@@ -9,7 +10,15 @@ import {
   offerType,
   offerAllProjects,
   offerAllClients,
+  clientByProject,
 } from "../OffersParameters";
+import Row from "../../../ui/Row";
+import { useEffect, useState } from "react";
+
+const Label = styled.label`
+  font-weight: 500;
+  font-size: 1.5rem;
+`;
 
 const MetaData = ({
   errors,
@@ -17,24 +26,35 @@ const MetaData = ({
   control,
   reset,
   isLoading,
+  setVals,
   data = {},
+  isEditing,
 }) => {
   const {
-    offer_id,
     offer_number,
-    offer_client_id,
-    client_name,
     client_adresse: default_client_addresse,
     offer_client_adresse,
     offer_project_id,
-    project_name,
-    offer_type,
     offer_caption,
     offer_date,
     offer_notice,
-    offer_pdf,
-    offer_price,
-  } = data;
+  } = isEditing && data;
+
+  const [currentProjectId, setCurrentProjectId] = useState(offer_project_id);
+
+  // console.log(isEditing);
+  console.log(currentProjectId);
+
+  const currentClient = clientByProject({
+    project_id: currentProjectId,
+  });
+
+  console.log(currentClient);
+
+  // useEffect(() => {
+  //   register("offer_client_id");
+  //   setVals("offer_client_id", currentClient?.clientId);
+  // }, [currentProjectId]);
 
   return (
     <>
@@ -116,9 +136,9 @@ const MetaData = ({
                   <option
                     key={type.label}
                     value={type.value}
-                    selected={
-                      offer_type && offer_type.toLowerCase() === type.value
-                    }
+                    // selected={
+                    //   offer_type && offer_type.toLowerCase() === type.value
+                    // }
                   >
                     {type.label}
                   </option>
@@ -127,6 +147,7 @@ const MetaData = ({
             </Select>
           </FormRow>
         </SectionData>
+
         <SectionData>
           <FormRow
             type="flex"
@@ -143,6 +164,7 @@ const MetaData = ({
               defaultValue={offer_caption}
             />
           </FormRow>
+
           <FormRow
             type="flex"
             label="Project"
@@ -156,61 +178,33 @@ const MetaData = ({
               rules={{ required: "This field is required" }}
               defaultValue={offer_project_id}
               render={({ field }) => {
+                setCurrentProjectId(+field.value);
+
                 return (
-                  <Select
-                    {...field}
-                    onChange={(e) => {
-                      return field.onChange(e.target.value);
-                    }}
-                  >
-                    {offerAllProjects().map((project) => (
-                      <option
-                        key={project.value}
-                        value={project.value}
-                        selected={offer_project_id === project.value}
-                      >
-                        {project.label}
-                      </option>
-                    ))}
-                  </Select>
+                  <>
+                    <Select
+                      {...field}
+                      onChange={(e) => {
+                        return field.onChange(e.target.value);
+                      }}
+                    >
+                      {offerAllProjects().map((project) => (
+                        <option key={project.value} value={project.value}>
+                          {project.label}
+                        </option>
+                      ))}
+                    </Select>
+                  </>
                 );
               }}
             />
           </FormRow>
-          <FormRow
-            type="flex"
-            label="Client"
-            error={errors?.offer_client_id}
-            errorposition="start"
-          >
-            <Controller
-              control={control}
-              name="offer_client_id"
-              disabled={isLoading}
-              rules={{ required: "This field is required" }}
-              defaultValue={offer_client_id}
-              render={({ field }) => {
-                return (
-                  <Select
-                    {...field}
-                    onChange={(e) => {
-                      return field.onChange(e.target.value);
-                    }}
-                  >
-                    {offerAllClients().map((client) => (
-                      <option
-                        key={client.value}
-                        value={client.value}
-                        selected={offer_client_id === client.value}
-                      >
-                        {client.label}
-                      </option>
-                    ))}
-                  </Select>
-                );
-              }}
-            />
-          </FormRow>
+
+          <Row type="verticalnogap">
+            <Label>Client</Label>
+            {/* {currentClient ? currentClient?.clientName : "-"} */}
+          </Row>
+
           <FormRow
             type="flex"
             label="Real client address"
@@ -218,6 +212,7 @@ const MetaData = ({
           >
             <Textarea
               type="textarea"
+              style={{ height: "10rem" }}
               {...register("offer_client_adresse")}
               aria-invalid={errors.offer_client_adresse ? "true" : "false"}
               disabled={isLoading}
@@ -228,6 +223,7 @@ const MetaData = ({
         <SectionData>
           <FormRow type="flex" label="Notice" error={errors?.offer_notice}>
             <Textarea
+              style={{ height: "20rem" }}
               type="textarea"
               {...register("offer_notice")}
               disabled={isLoading}

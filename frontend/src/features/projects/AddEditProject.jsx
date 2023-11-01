@@ -2,12 +2,12 @@ import { useForm, Controller } from "react-hook-form";
 import useEditProject from "./useEditProject";
 import useAddProject from "./useAddProject";
 import { useAccessToken } from "../../context/authContext";
+import { useClientsDropDown } from "../../hooks/useClientsDropDown";
 
 import {
   projectHosting,
   projectPlatforms,
   projectStatus,
-  projectAllClients,
 } from "./ProjectParameters";
 
 import Form from "../../ui/Form/Form";
@@ -20,6 +20,7 @@ import Button from "../../ui/Buttons/Button";
 const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
   const { isAddNewLoading, addNewProject } = useAddProject();
   const { isEditLoading, editProject } = useEditProject();
+  const { fullClientsList } = useClientsDropDown();
   const accessToken = useAccessToken();
 
   // console.log(projectToEdit);
@@ -87,7 +88,7 @@ const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
                   return field.onChange(e.target.value);
                 }}
               >
-                {projectAllClients().map((client) => (
+                {fullClientsList.map((client) => (
                   <option key={client.value} value={client.value}>
                     {client.label}
                   </option>

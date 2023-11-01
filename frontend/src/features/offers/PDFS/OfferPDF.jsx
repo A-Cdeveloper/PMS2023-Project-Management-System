@@ -1,15 +1,17 @@
 import { PDFViewer, PDFDownloadLink, StyleSheet } from "@react-pdf/renderer";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
+import { HiDocumentArrowDown } from "react-icons/hi2";
+
 import { useOffer } from "../useOffer";
 import { allServices } from "../OffersParameters";
 
 import Row from "../../../ui/Row";
-import ButtonIconText from "../../../ui/Buttons/ButtonIconText";
-import OfferPDFDocument from "./OfferPDFDocument";
-
-import { HiDocumentArrowDown } from "react-icons/hi2";
 import ButtonText from "../../../ui/Buttons/ButtonText";
+import ButtonIconText from "../../../ui/Buttons/ButtonIconText";
+import Spinner from "../../../ui/Spinner";
+
+import OfferPDFDocument from "./OfferPDFDocument";
 
 // Create styles
 const styles = StyleSheet.create({
@@ -23,7 +25,7 @@ const styles = StyleSheet.create({
 // Create Document Component
 const OfferPDF = () => {
   const navigate = useNavigate();
-  const { offer: offerSingle = {} } = useOffer();
+  const { isLoading, offer: offerSingle = {} } = useOffer();
   const { offerId } = useParams();
 
   const queryClient = useQueryClient();
@@ -32,6 +34,8 @@ const OfferPDF = () => {
     : offerSingle;
 
   const serviceList = allServices();
+
+  if (isLoading) return <Spinner />;
 
   return (
     <>

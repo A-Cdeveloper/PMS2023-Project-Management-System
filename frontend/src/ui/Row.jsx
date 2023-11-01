@@ -26,6 +26,12 @@ const Row = styled.div`
       flex-direction: column;
       gap: 1.6rem;
     `}
+
+    ${(props) =>
+    props.type === "verticalnogap" &&
+    css`
+      flex-direction: column;
+    `}
 `;
 
 Row.defaultProps = {

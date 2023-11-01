@@ -17,6 +17,7 @@ import {
   DataBoxTitle,
   DataBoxContent,
 } from "../../ui/Data/DataDetails";
+import Empty from "../../ui/Data/Empty";
 
 import { clientCols } from "./ClientParameters";
 import { ClientProjects } from "./ClientProjects";
@@ -25,8 +26,9 @@ import { ClientTasks } from "./ClientTasks";
 const ClientDetail = () => {
   const moveBack = useMoveBack();
   const { isLoading, error, client: clientSingle = {} } = useClient();
-  const { projects: clientProjects } = useProjectsByClient();
-  const { tasks: clientTasks } = useTasksByClient();
+  const { error: errorClientProjects, projects: clientProjects } =
+    useProjectsByClient();
+  const { error: errorClientTasks, tasks: clientTasks } = useTasksByClient();
   const { clientId } = useParams();
 
   // console.log(clientTasks);
@@ -78,7 +80,11 @@ const ClientDetail = () => {
               Projects ({clientProjects.length})
             </Accordion.Caption>
             <Accordion.Content index={0}>
-              <ClientProjects clientProjects={clientProjects} />
+              {errorClientProjects || clientProjects.length === 0 ? (
+                <Empty resource="projects" />
+              ) : (
+                <ClientProjects clientProjects={clientProjects} />
+              )}
             </Accordion.Content>
           </Accordion.Item>
 
@@ -88,7 +94,11 @@ const ClientDetail = () => {
             </Accordion.Caption>
 
             <Accordion.Content index={1}>
-              <ClientTasks clientTasks={clientTasks} />
+              {errorClientTasks || clientTasks.length === 0 ? (
+                <Empty resource="tasks" />
+              ) : (
+                <ClientTasks clientTasks={clientTasks} />
+              )}
             </Accordion.Content>
           </Accordion.Item>
         </Accordion>

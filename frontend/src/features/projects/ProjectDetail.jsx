@@ -32,12 +32,13 @@ import useEditProject from "./useEditProject";
 import Input from "../../ui/Form/Input";
 import ButtonGroup from "../../ui/Buttons/ButtonGroup";
 import Accordion from "../../ui/Data/Accordion";
+import Empty from "../../ui/Data/Empty";
 
 const ProjectDetail = () => {
   const moveBack = useMoveBack();
   const { project: projectSingle = {} } = useProject();
   const { isEditLoading, editProject } = useEditProject();
-  const { tasks: projectTasks } = useTasksByProject();
+  const { error: errorProjectTasks, tasks: projectTasks } = useTasksByProject();
   const { projectId } = useParams();
   const accessToken = useAccessToken();
 
@@ -313,7 +314,11 @@ const ProjectDetail = () => {
                 Tasks ({projectTasks.length})
               </Accordion.Caption>
               <Accordion.Content index={0}>
-                <ProjectTasks projectTasks={projectTasks} />
+                {errorProjectTasks || projectTasks.length === 0 ? (
+                  <Empty resource="tasks" />
+                ) : (
+                  <ProjectTasks projectTasks={projectTasks} />
+                )}
               </Accordion.Content>
             </Accordion.Item>
           </Accordion>

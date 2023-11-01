@@ -42,7 +42,7 @@ export const getFilteredTasks = async ({
 
 // //////////////////////////////////////////////////////////////////
 export const getTasksByClient = async ({ client_id, accessToken }) => {
-  const response = await fetch(`${API_URL}/tasks/tasksbyclient/${client_id}}`, {
+  const response = await fetch(`${API_URL}/tasks/tasksbyclient/${client_id}`, {
     headers: headerApiFn(accessToken),
   });
 
@@ -51,7 +51,7 @@ export const getTasksByClient = async ({ client_id, accessToken }) => {
 
 export const getTasksByProject = async ({ project_id, accessToken }) => {
   const response = await fetch(
-    `${API_URL}/tasks/tasksbyproject/${project_id}}`,
+    `${API_URL}/tasks/tasksbyproject/${project_id}`,
     {
       headers: headerApiFn(accessToken),
     }

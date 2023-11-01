@@ -21,6 +21,7 @@ import Table from "../../ui/Data/Table";
 import OfferServiceRow from "./OfferServiceRow";
 
 const ClientAdr = styled.div`
+  flex-direction: column;
   ${(props) =>
     props.type === "inactive" &&
     css`
@@ -101,6 +102,7 @@ const Offerdetail = () => {
             <DataBoxContent>
               <ClientAdr type={offer_client_adresse ? "inactive" : null}>
                 {client_name}
+                <br />
                 {default_client_addresse}
               </ClientAdr>
             </DataBoxContent>

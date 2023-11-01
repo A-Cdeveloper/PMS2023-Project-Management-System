@@ -71,20 +71,21 @@ const AddEditOfferFormular = ({ isEditing }) => {
         }
       );
     } else {
-      addNewOffer(
-        {
-          newOffer: {
-            ...data,
-            services: JSON.stringify(data.services),
-          },
-          accessToken,
-        },
-        {
-          onSuccess: () => {
-            navigate("/offers");
-          },
-        }
-      );
+      console.log(data);
+      // addNewOffer(
+      //   {
+      //     newOffer: {
+      //       ...data,
+      //       services: JSON.stringify(data.services),
+      //     },
+      //     accessToken,
+      //   },
+      //   {
+      //     onSuccess: () => {
+      //       navigate("/offers");
+      //     },
+      //   }
+      // );
     }
   };
 
@@ -106,8 +107,10 @@ const AddEditOfferFormular = ({ isEditing }) => {
             register={register}
             control={control}
             reset={reset}
+            setVals={setValue}
             isLoading={isEditing ? isEditLoading : isAddNewLoading}
             data={isEditing && offer}
+            isEditing={!!isEditing}
           />
 
           <ServicesData

@@ -18,10 +18,23 @@ export const offerAllProjects = () => {
   const { projects } = useProjects();
 
   const projectsList = projects.map((project) => {
-    return { value: project.project_id, label: project.project_name };
+    return {
+      value: project.project_id,
+      label: project.project_name,
+    };
   });
 
   return [{ value: "", label: "" }, ...projectsList];
+};
+
+export const clientByProject = ({ project_id }) => {
+  if (!project_id) return;
+  const { projects } = useProjects();
+  const { client_name: clientName, project_client_id: clientId } =
+    projects.filter((proj) => proj.project_id === project_id)[0];
+  //console.log(clientName, clientId);
+  return { clientName, clientId };
+  //return projects;
 };
 
 ///////////////////////////////////////////////////////////////
