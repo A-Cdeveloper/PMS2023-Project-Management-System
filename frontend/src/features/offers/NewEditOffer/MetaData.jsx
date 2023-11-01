@@ -1,14 +1,15 @@
 import { Controller } from "react-hook-form";
 import styled from "styled-components";
+
+import { useClientByProject } from "../../../hooks/useClientByProject";
+
 import Select from "../../../ui/Form/Select";
 import FormRow from "../../../ui/Form/FormRow";
 import Input from "../../../ui/Form/Input";
 import Textarea from "../../../ui/Form/Textarea";
 import { SectionCaption, Section, SectionData } from "./SectionsStyles";
-
-import { offerType, clientByProject } from "../OffersParameters";
+import { offerType } from "../OffersParameters";
 import Row from "../../../ui/Row";
-import { useEffect, useState } from "react";
 
 const Label = styled.label`
   font-weight: 500;
@@ -22,13 +23,13 @@ const MetaData = ({
   reset,
   isLoading,
   setVals,
+  watch,
   data = {},
   isEditing,
   fullProjectsList,
 }) => {
   const {
     offer_number,
-    client_adresse: default_client_addresse,
     offer_client_adresse,
     offer_project_id,
     offer_caption,
@@ -36,21 +37,16 @@ const MetaData = ({
     offer_notice,
   } = isEditing && data;
 
-  const [currentProjectId, setCurrentProjectId] = useState(offer_project_id);
+  // console.log(data);
 
-  // console.log(isEditing);
-  console.log(currentProjectId);
+  const currentProjectId = watch("offer_project_id") || offer_project_id;
 
-  const currentClient = clientByProject({
-    project_id: currentProjectId,
+  const { clientName, clientId } = useClientByProject({
+    project_id: +currentProjectId,
   });
 
-  console.log(currentClient);
-
-  useEffect(() => {
-    register("offer_client_id");
-    setVals("offer_client_id", currentClient?.clientId);
-  }, [currentProjectId]);
+  register("offer_client_id");
+  setVals("offer_client_id", clientId);
 
   return (
     <>
@@ -172,10 +168,8 @@ const MetaData = ({
               name="offer_project_id"
               disabled={isLoading}
               rules={{ required: "This field is required" }}
-              defaultValue={offer_project_id}
+              defaultValue={currentProjectId}
               render={({ field }) => {
-                setCurrentProjectId(+field.value);
-
                 return (
                   <>
                     <Select
@@ -198,7 +192,7 @@ const MetaData = ({
 
           <Row type="verticalnogap">
             <Label>Client</Label>
-            {/* {currentClient ? currentClient?.clientName : "-"} */}
+            {clientName}
           </Row>
 
           <FormRow

@@ -16,6 +16,7 @@ import MetaData from "./NewEditOffer/MetaData";
 import ServicesData from "./NewEditOffer/ServicesData";
 import useAddOffer from "./useAddOffer";
 import PromptModal from "../../ui/PromptModal";
+
 import { useOffer } from "./useOffer";
 import useEditOffer from "./useEditOffer";
 import { useProjectsDropDown } from "../../hooks/useProjectsDropDown";
@@ -56,6 +57,7 @@ const AddEditOfferFormular = ({ isEditing }) => {
   } = useForm();
 
   const onSubmit = (data) => {
+    //console.log(data);
     if (isEditing) {
       // console.log(data);
       // console.log(offer.offer_id);
@@ -76,21 +78,20 @@ const AddEditOfferFormular = ({ isEditing }) => {
         }
       );
     } else {
-      console.log(data);
-      // addNewOffer(
-      //   {
-      //     newOffer: {
-      //       ...data,
-      //       services: JSON.stringify(data.services),
-      //     },
-      //     accessToken,
-      //   },
-      //   {
-      //     onSuccess: () => {
-      //       navigate("/offers");
-      //     },
-      //   }
-      // );
+      addNewOffer(
+        {
+          newOffer: {
+            ...data,
+            services: JSON.stringify(data.services),
+          },
+          accessToken,
+        },
+        {
+          onSuccess: () => {
+            navigate("/offers");
+          },
+        }
+      );
     }
   };
 
@@ -113,6 +114,7 @@ const AddEditOfferFormular = ({ isEditing }) => {
             control={control}
             reset={reset}
             setVals={setValue}
+            watch={watch}
             isLoading={isEditing ? isEditLoading : isAddNewLoading}
             data={isEditing && offer}
             isEditing={!!isEditing}
