@@ -10,10 +10,12 @@ import Input from "../../ui/Form/Input";
 import Textarea from "../../ui/Form/Textarea";
 import Select from "../../ui/Form/Select";
 import Button from "../../ui/Buttons/Button";
+import { useProjectsDropDown } from "../../hooks/useProjectsDropDown";
 
 const AddEditTask = ({ taskToEdit = {}, onCloseModal }) => {
   const { isAddNewLoading, addNewTask } = useAddTask();
   const { isEditLoading, editTask } = useEditTask();
+  const { fullProjectsList } = useProjectsDropDown();
   const accessToken = useAccessToken();
 
   //console.log(taskToEdit);
@@ -84,7 +86,7 @@ const AddEditTask = ({ taskToEdit = {}, onCloseModal }) => {
                   return field.onChange(e.target.value);
                 }}
               >
-                {taskAllProjects().map((project) => (
+                {fullProjectsList.map((project) => (
                   <option key={project.value} value={project.value}>
                     {project.label}
                   </option>

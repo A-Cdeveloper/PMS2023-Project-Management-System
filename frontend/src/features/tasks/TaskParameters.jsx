@@ -1,15 +1,3 @@
-import { useProjects } from "../projects/useProjects";
-
-export const taskAllProjects = () => {
-  const { projects } = useProjects();
-
-  const projectsList = projects.map((project) => {
-    return { value: project.project_id, label: project.project_name };
-  });
-
-  return [{ value: "", label: "" }, ...projectsList];
-};
-
 export const taskCols = [
   "Task",
   "Project/Client",

@@ -10,5 +10,5 @@ export const useProjectsDropDown = () => {
     };
   });
 
-  return [{ value: "", label: "" }, ...projectsList];
+  return { fullProjectsList: [{ value: "", label: "" }, ...projectsList] };
 };
