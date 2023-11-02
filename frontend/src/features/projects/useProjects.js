@@ -19,6 +19,7 @@ export const useProjects = () => {
   } = useQuery({
     queryKey: ["projects", sortBy],
     queryFn: () => getProjectsApi({ sortBy, accessToken }),
+    cacheTime: Infinity,
   });
 
   return {

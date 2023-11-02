@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const StyledTable = styled.div`
   border: 1px solid ${(props) => props.theme.baseColors.grey200};
@@ -15,6 +15,13 @@ const TableRow = styled.div`
   grid-template-columns: ${(props) => props.columns};
   transition: none;
   align-items: center;
+
+  ${(props) =>
+    props.type === "optionalservice" &&
+    css`
+      opacity: 0.6;
+      font-style: italic;
+    `}
 `;
 
 const StyledHeader = styled(TableRow)`

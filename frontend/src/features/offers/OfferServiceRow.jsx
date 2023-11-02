@@ -35,16 +35,20 @@ const OfferServiceRow = ({ service, num, removeService }) => {
     ? serviceList.filter((item) => item.service_id === service_id)[0]
     : {};
 
+  console.log(currentService);
+
   const activeQuantity = qty_price_hour ? qty_price_hour : qty_price_total;
   const activePrice = currentService?.service_price_hour
     ? currentService?.service_price_hour
     : currentService?.service_price_total;
 
-  //console.log(currentService);
-
   return (
-    <Table.Row>
-      <div>{num + 1}</div>
+    <Table.Row
+      type={
+        currentService?.service_type === "optional" ? "optionalservice" : null
+      }
+    >
+      <div>{currentService?.service_type !== "optional" && num + 1}</div>
       <div>
         <ServiceName>{currentService?.service_name}</ServiceName>
         <ServiceDesc>{currentService?.service_description}</ServiceDesc>

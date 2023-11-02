@@ -116,6 +116,7 @@ const Offerdetail = () => {
           )}
         </DataDetailsContainer>
 
+        {/* services */}
         <DataDetailsContainer>
           <Table
             cols={["#", "Service", "Price/Hour", "Price/Item", "Qty", "Sum"]}
