@@ -37,9 +37,7 @@ const MetaData = ({
     offer_notice,
   } = isEditing && data;
 
-  // console.log(data);
-
-  const currentProjectId = watch("offer_project_id") || offer_project_id;
+  const currentProjectId = offer_project_id || watch("offer_project_id");
 
   const { clientName, clientId } = useClientByProject({
     project_id: +currentProjectId,
