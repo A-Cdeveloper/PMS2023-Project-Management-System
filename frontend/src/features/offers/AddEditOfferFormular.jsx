@@ -59,7 +59,7 @@ const AddEditOfferFormular = ({ isEditing }) => {
   const onSubmit = (data) => {
     //console.log(data);
     if (isEditing) {
-      // console.log(data);
+      //console.log(data);
       // console.log(offer.offer_id);
       // console.log(JSON.stringify(data.services));
       editOffer(

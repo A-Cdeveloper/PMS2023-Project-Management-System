@@ -20,32 +20,39 @@ export const OfferPDFDocumentServiceRow = ({
     ? currentService?.service_price_hour
     : currentService?.service_price_total;
 
+  const rowServiceStyle = (baseStyle) => {
+    if (currentService?.service_type !== "optional") return baseStyle;
+    return [baseStyle, styles.optional];
+  };
+
   return (
     <View style={styles.body} key={service.service_id}>
-      <Text style={styles.rnumber}>{rnb + 1}</Text>
+      <Text style={rowServiceStyle(styles.rnumber)}>{rnb + 1}</Text>
       <View style={styles.item}>
-        <Text style={styles.name}>{currentService.service_name}</Text>
-        <Text style={styles.description}>
+        <Text style={rowServiceStyle(styles.names)}>
+          {currentService.service_name}
+        </Text>
+        <Text style={rowServiceStyle(styles.description)}>
           {currentService?.service_description}
         </Text>
       </View>
 
-      <Text style={styles.price}>
+      <Text style={rowServiceStyle(styles.price)}>
         {currentService?.service_price_hour
           ? formatPrice(currentService?.service_price_hour)
           : "-"}
       </Text>
-      <Text style={styles.price}>
+      <Text style={rowServiceStyle(styles.price)}>
         {currentService?.service_price_total
           ? formatPrice(currentService?.service_price_total)
           : "-"}
       </Text>
-      <Text style={styles.std}>
+      <Text style={rowServiceStyle(styles.std)}>
         {service.qty_price_hour
           ? service.qty_price_hour
           : service.qty_price_total}
       </Text>
-      <Text style={styles.gesamt}>
+      <Text style={rowServiceStyle(styles.gesamt)}>
         {formatPrice(activeQuantity * +activePrice)}
       </Text>
     </View>

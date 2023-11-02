@@ -71,6 +71,9 @@ const styles = StyleSheet.create({
     borderBottom: "1px",
     borderBottomColor: "#ddd",
   },
+  optional: {
+    opacity: 0.7,
+  },
   name: {
     fontFamily: "Helvetica-Bold",
     opacity: 0.85,
@@ -146,6 +149,19 @@ const OfferPDFDocument = ({ offer, serviceList }) => {
     services,
   } = offer;
 
+  const includedServices = services && JSON.parse(services);
+
+  const basicServices =
+    includedServices &&
+    includedServices.filter((bservice) => bservice.service_type === "basic");
+
+  const optionalServices =
+    includedServices &&
+    includedServices.filter((bservice) => bservice.service_type === "optional");
+
+  console.log(basicServices);
+  console.log(optionalServices);
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -192,8 +208,8 @@ const OfferPDFDocument = ({ offer, serviceList }) => {
               <Text style={[styles.gesamt, styles.bold]}>Gesamt</Text>
             </View>
 
-            {services &&
-              JSON.parse(services).map((item, index) => {
+            {basicServices &&
+              basicServices.map((item, index) => {
                 return (
                   <OfferPDFDocumentServiceRow
                     key={item.service_id}
@@ -206,13 +222,7 @@ const OfferPDFDocument = ({ offer, serviceList }) => {
               })}
           </View>
 
-          <View style={styles.body}>
-            <View style={[styles.title, , styles.notice]}>
-              <Text>Notice:</Text>
-              <Text>{offer_notice}</Text>
-            </View>
-          </View>
-
+          {/* table footer */}
           <View style={styles.body}>
             <Text style={styles.rnumber}></Text>
             <Text style={[styles.item, styles.summe]}>Summe:</Text>
@@ -222,6 +232,29 @@ const OfferPDFDocument = ({ offer, serviceList }) => {
           </View>
         </View>
 
+        <View style={styles.mainSection}>
+          <View style={styles.table}>
+            {optionalServices &&
+              optionalServices.map((item, index) => {
+                return (
+                  <OfferPDFDocumentServiceRow
+                    key={item.service_id}
+                    service={item}
+                    serviceList={serviceList}
+                    styles={styles}
+                    rnb={index}
+                  />
+                );
+              })}
+          </View>
+        </View>
+
+        <View style={styles.body}>
+          <View style={[styles.title, , styles.notice]}>
+            <Text>Notice:</Text>
+            <Text>{offer_notice}</Text>
+          </View>
+        </View>
         <View style={styles.mainSection}>
           <Text>Preise in EUR ohne MwSt.</Text>
         </View>

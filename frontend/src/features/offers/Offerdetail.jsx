@@ -71,6 +71,14 @@ const Offerdetail = () => {
 
   const includedServices = services && JSON.parse(services);
 
+  const basicServices =
+    includedServices &&
+    includedServices.filter((bservice) => bservice.service_type === "basic");
+
+  const optionalServices =
+    includedServices &&
+    includedServices.filter((bservice) => bservice.service_type === "optional");
+
   return (
     <>
       <Row type="horizontal">
@@ -117,24 +125,51 @@ const Offerdetail = () => {
         </DataDetailsContainer>
 
         {/* services */}
+        {basicServices && basicServices.length !== 0 && (
+          <DataDetailsContainer>
+            <Table
+              cols={["#", "Service", "Price/Hour", "Price/Item", "Qty", "Sum"]}
+              columns="5rem 1fr 12rem 12rem 8rem 8rem"
+            >
+              <Table.Header />
+              <Table.Body
+                data={basicServices}
+                renderItem={(service, index) => (
+                  <OfferServiceRow
+                    key={service.service_id}
+                    service={service}
+                    num={index}
+                  />
+                )}
+              />
+            </Table>
+          </DataDetailsContainer>
+        )}
+
         <DataDetailsContainer>
-          <Table
-            cols={["#", "Service", "Price/Hour", "Price/Item", "Qty", "Sum"]}
-            columns="5rem 1fr 12rem 12rem 8rem 8rem"
-          >
-            <Table.Header />
-            <Table.Body
-              data={includedServices}
-              renderItem={(service, index) => (
-                <OfferServiceRow
-                  key={service.service_id}
-                  service={service}
-                  num={index}
-                />
-              )}
-            />
-          </Table>
+          <TotalPrice>Total price: {formatPrice(offer_price)}</TotalPrice>
         </DataDetailsContainer>
+
+        {optionalServices && optionalServices.length !== 0 && (
+          <DataDetailsContainer>
+            <Table
+              cols={["#", "Services", "Price/Hour", "Price/Item", "Qty", "Sum"]}
+              columns="5rem 1fr 12rem 12rem 8rem 8rem"
+            >
+              <Table.Caption caption="Optional services" />
+              <Table.Body
+                data={optionalServices}
+                renderItem={(service, index) => (
+                  <OfferServiceRow
+                    key={service.service_id}
+                    service={service}
+                    num={index}
+                  />
+                )}
+              />
+            </Table>
+          </DataDetailsContainer>
+        )}
 
         <DataDetailsContainer>
           {offer_notice && (
@@ -148,7 +183,6 @@ const Offerdetail = () => {
         </DataDetailsContainer>
 
         <DataDetailsContainer>
-          <TotalPrice>Total price: {formatPrice(offer_price)}</TotalPrice>
           <Button
             variation="primary"
             size="medium"

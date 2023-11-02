@@ -16,12 +16,19 @@ const ServicesData = ({ register, setVals, data, fullServicesList }) => {
     data ? JSON.parse(data) : []
   );
 
-  // console.log(includedServices);
-  //console.log(fullServicesList);
+  const basicServices =
+    includedServices &&
+    includedServices.filter((bservice) => bservice.service_type === "basic");
+
+  const optionalServices =
+    includedServices &&
+    includedServices.filter((bservice) => bservice.service_type === "optional");
 
   const currentService = fullServicesList
     ? fullServicesList.filter((item) => item.value === serviceId)[0]
     : {};
+
+  //console.log(currentService);
 
   const activePrice = currentService?.service_price_hour
     ? currentService?.service_price_hour
@@ -30,8 +37,10 @@ const ServicesData = ({ register, setVals, data, fullServicesList }) => {
     : 0;
 
   const totalPriceCalculator = includedServices.reduce((acc, cur) => {
-    return acc + cur.price;
+    return cur.service_type === "basic" ? acc + cur.price : acc;
   }, 0);
+
+  // console.log(totalPriceCalculator);
 
   useEffect(() => {
     register("services");
@@ -51,6 +60,7 @@ const ServicesData = ({ register, setVals, data, fullServicesList }) => {
           service_id: serviceId,
           qty_price_hour: currentService?.service_price_hour ? +quantity : 0,
           qty_price_total: currentService?.service_price_total ? +quantity : 0,
+          service_type: currentService?.service_type,
           price: quantity * +activePrice,
         },
       ];
@@ -72,14 +82,14 @@ const ServicesData = ({ register, setVals, data, fullServicesList }) => {
 
       {/* ***************************************************************************** */}
 
-      {includedServices.length !== 0 && (
+      {basicServices && basicServices.length !== 0 && (
         <Table
           cols={["#", "Service", "Price/Hour", "Price/Item", "Qty", "Sum", ""]}
           columns="5rem 1fr 12rem 12rem 8rem 8rem 4rem"
         >
           <Table.Header />
           <Table.Body
-            data={includedServices}
+            data={basicServices}
             renderItem={(serviceItem, index) => (
               <OfferServiceRow
                 key={serviceItem.service_id}
@@ -92,6 +102,29 @@ const ServicesData = ({ register, setVals, data, fullServicesList }) => {
           <Table.Footer style={{ justifyContent: "end", paddingRight: "8rem" }}>
             Total price: {formatPrice(totalPriceCalculator)}
           </Table.Footer>
+        </Table>
+      )}
+      {/* ************************************************ */}
+
+      {/* ***************************************************************************** */}
+
+      {optionalServices && optionalServices.length !== 0 && (
+        <Table
+          cols={["#", "Service", "Price/Hour", "Price/Item", "Qty", "Sum", ""]}
+          columns="5rem 1fr 12rem 12rem 8rem 8rem 4rem"
+        >
+          <Table.Caption caption="Optional services" />
+          <Table.Body
+            data={optionalServices}
+            renderItem={(serviceItem, index) => (
+              <OfferServiceRow
+                key={serviceItem.service_id}
+                service={serviceItem}
+                num={index}
+                removeService={removeServiceHandler}
+              />
+            )}
+          />
         </Table>
       )}
       {/* ************************************************ */}

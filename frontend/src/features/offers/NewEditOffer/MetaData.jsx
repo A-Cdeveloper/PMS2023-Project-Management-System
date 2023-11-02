@@ -211,7 +211,7 @@ const MetaData = ({
         <SectionData>
           <FormRow type="flex" label="Notice" error={errors?.offer_notice}>
             <Textarea
-              style={{ height: "20rem" }}
+              style={{ height: "10rem" }}
               type="textarea"
               {...register("offer_notice")}
               disabled={isLoading}

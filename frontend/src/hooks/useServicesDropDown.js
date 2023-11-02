@@ -9,6 +9,7 @@ export const useServicesDropDown = () => {
       label: service.service_name,
       service_price_hour: service.service_price_hour,
       service_price_total: service.service_price_total,
+      service_type: service.service_type,
     };
   });
 

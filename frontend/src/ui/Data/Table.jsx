@@ -19,8 +19,8 @@ const TableRow = styled.div`
   ${(props) =>
     props.type === "optionalservice" &&
     css`
-      opacity: 0.6;
       font-style: italic;
+      opacity: 0.8;
     `}
 `;
 
@@ -93,6 +93,14 @@ const Header = () => {
   );
 };
 
+const Caption = ({ caption }) => {
+  return (
+    <StyledHeader role="row" as="header">
+      {caption}
+    </StyledHeader>
+  );
+};
+
 const Row = ({ children, type }) => {
   const { columns } = useContext(TableContext);
   return (
@@ -108,6 +116,7 @@ const Body = ({ data, renderItem }) => {
 };
 
 Table.Header = Header;
+Table.Caption = Caption;
 Table.Body = Body;
 Table.Row = Row;
 Table.Footer = Footer;
