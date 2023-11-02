@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useTask } from "./useTask";
-import { formatDate, formatDateTime } from "../../utils/helpers";
+import { formatDate, formatDuration } from "../../utils/helpers";
 import { useAccessToken } from "../../context/authContext";
 
 import Headline from "../../ui/Headline";
@@ -23,7 +23,7 @@ import useEditTask from "./useEditTask";
 
 import ButtonGroup from "../../ui/Buttons/ButtonGroup";
 // import { HiOutlineArrowTopRightOnSquare } from "react-icons/hi2";
-import { formatDuration } from "../../utils/helpers";
+
 import Input from "../../ui/Form/Input";
 
 const TaskDetail = () => {
@@ -158,11 +158,16 @@ const TaskDetail = () => {
               />
             </DataBoxContent>
           </DataBox>
-        </DataDetailsContainer>
-
-        <DataDetailsContainer>
           <DataBox>
-            <DataBoxContent style={{ justifyContent: "end", border: "none" }}>
+            <DataBoxTitle>Duration</DataBoxTitle>
+            <DataBoxContent>
+              {formatDuration(task_start_time, task_end_time)}
+            </DataBoxContent>
+          </DataBox>
+
+          <DataBox>
+            <DataBoxTitle>Status</DataBoxTitle>
+            <DataBoxContent>
               <ButtonGroup>
                 {taskStatus.map((status, index) => {
                   return index !== 0 ? (
@@ -204,52 +209,6 @@ const TaskDetail = () => {
           </DataBox>
         </DataDetailsContainer>
       </Row>
-
-      {/*  
-
-
-
-        {project_status === "online" && (
-          <DataDetailsContainer>
-
-            <DataBox>
-              <DataBoxTitle>Last update</DataBoxTitle>
-              <DataBoxContent>
-                <Input
-                  type="date"
-                  defaultValue={
-                    project_last_update
-                      ? project_last_update.slice(0, -14)
-                      : null
-                  }
-                  onChange={(e) =>
-                    editProject(
-                      {
-                        projectId: project_id,
-                        updatedProject: {
-                          ...project,
-                          project_last_update: e.target.value,
-                        },
-                      },
-                      {
-                        onSettled: () => {
-                          queryClient.invalidateQueries({
-                            queryKey: ["project", project_id],
-                          });
-                        },
-                      }
-                    )
-                  }
-                />
-              </DataBoxContent>
-            </DataBox>
-          </DataDetailsContainer>
-        )}
-
-
-      
-
-      {/* <Headline as="h2">Tasks</Headline> */}
     </>
   );
 };

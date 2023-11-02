@@ -99,6 +99,7 @@ const AddEditTask = ({ taskToEdit = {}, onCloseModal }) => {
 
       <FormRow label="Description" error={errors?.task_description}>
         <Textarea
+          style={{ height: "10rem" }}
           type="textarea"
           {...register("task_description")}
           disabled={loadingState}
@@ -107,6 +108,7 @@ const AddEditTask = ({ taskToEdit = {}, onCloseModal }) => {
 
       <FormRow label="Notice" error={errors?.task_notice}>
         <Textarea
+          style={{ height: "10rem" }}
           type="textarea"
           {...register("task_notice")}
           disabled={loadingState}
