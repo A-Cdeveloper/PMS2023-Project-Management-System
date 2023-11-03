@@ -43,16 +43,20 @@ const addService = async (service) => {
     service_price_hour,
     service_price_total,
     service_type,
+    regular_whour_price,
+    special_whour_price,
   } = service
 
   await db.query(
-    `INSERT INTO pms_services (service_name, service_description, service_price_hour,service_price_total, service_type) VALUES (?,?,?,?,?)`,
+    `INSERT INTO pms_services (service_name, service_description, service_price_hour,service_price_total, service_type,regular_whour_price,special_whour_price) VALUES (?,?,?,?,?)`,
     [
       service_name,
       service_description,
       service_price_hour,
       service_price_total,
       service_type,
+      regular_whour_price,
+      special_whour_price,
     ]
   )
 }
@@ -64,15 +68,19 @@ const updateService = async (service, service_id) => {
     service_price_hour,
     service_price_total,
     service_type,
+    regular_whour_price,
+    special_whour_price,
   } = service
   await db.query(
-    'UPDATE pms_services SET service_name=? , service_description=?, service_price_hour=?,service_price_total=?,service_type=?  WHERE service_id=?',
+    'UPDATE pms_services SET service_name=? , service_description=?, service_price_hour=?,service_price_total=?,service_type=?,regular_whour_price=?,special_whour_price=?  WHERE service_id=?',
     [
       service_name,
       service_description,
       service_price_hour,
       service_price_total,
       service_type,
+      regular_whour_price,
+      special_whour_price,
       service_id,
     ]
   )

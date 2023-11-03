@@ -14,6 +14,10 @@ const SeetingSection = styled.div`
   box-shadow: ${(props) => props.theme.shadow.xs};
   display: flex;
   flex-direction: column;
+
+  & > h3 {
+    margin-bottom: 2rem;
+  }
 `;
 
 const SettingsForm = () => {
@@ -29,6 +33,8 @@ const SettingsForm = () => {
     users_per_page,
     services_per_page,
     offers_per_page,
+    regular_whour_price,
+    special_whour_price,
   } = settings;
 
   if (errorGetSettings) return <p>{errorGetSettings.message}</p>;
@@ -50,6 +56,7 @@ const SettingsForm = () => {
   return (
     <Row type="horizontalandgap">
       <SeetingSection>
+        <h3>Display settings</h3>
         <Form>
           <FormRow label="Clients per page">
             <Input
@@ -108,6 +115,32 @@ const SettingsForm = () => {
           </FormRow>
           <FormRow></FormRow>
         </Form>
+      </SeetingSection>
+      <SeetingSection>
+        <h3>Price settings</h3>
+        <FormRow label="Regular price/h (€)">
+          <Input
+            type="number"
+            style={{ width: "10rem" }}
+            defaultValue={regular_whour_price}
+            onBlur={(e) => handleBlur(e, "regular_whour_price")}
+            disabled={isLoadingSettings || isUpdateSettings}
+            id="regularwhourprice"
+          />
+        </FormRow>
+        <FormRow label="Special price/h (€)">
+          <>
+            <Input
+              type="number"
+              style={{ width: "10rem" }}
+              defaultValue={special_whour_price}
+              onBlur={(e) => handleBlur(e, "special_whour_price")}
+              disabled={isLoadingSettings || isUpdateSettings}
+              id="specialwhourprice"
+            />
+          </>
+        </FormRow>
+        <FormRow></FormRow>
       </SeetingSection>
       <SeetingSection>
         <div>Backup database</div> <div>Restore database</div>
