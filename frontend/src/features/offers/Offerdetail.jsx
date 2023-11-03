@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useOffer } from "./useOffer";
 import { formatDate, formatPrice } from "../../utils/helpers";
+import { useSplitServices } from "../../hooks/useSplitServices";
 
 import Headline from "../../ui/Headline";
 import ButtonText from "../../ui/Buttons/ButtonText";
@@ -70,14 +71,8 @@ const Offerdetail = () => {
   } = offer;
 
   const includedServices = services && JSON.parse(services);
-
-  const basicServices =
-    includedServices &&
-    includedServices.filter((bservice) => bservice.service_type === "basic");
-
-  const optionalServices =
-    includedServices &&
-    includedServices.filter((bservice) => bservice.service_type === "optional");
+  const { basicServices, optionalServices } =
+    useSplitServices(includedServices);
 
   return (
     <>

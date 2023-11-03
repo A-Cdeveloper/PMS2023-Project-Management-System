@@ -11,6 +11,7 @@ import {
 import logo from "./logo.png";
 import { formatDate, formatPrice } from "../../../utils/helpers";
 import { OfferPDFDocumentServiceRow } from "./OfferPDFDocumentServiceRow";
+import { useSplitServices } from "../../../hooks/useSplitServices";
 
 // Register font
 Font.register({ family: "Helvetica" });
@@ -151,16 +152,8 @@ const OfferPDFDocument = ({ offer, serviceList }) => {
 
   const includedServices = services && JSON.parse(services);
 
-  const basicServices =
-    includedServices &&
-    includedServices.filter((bservice) => bservice.service_type === "basic");
-
-  const optionalServices =
-    includedServices &&
-    includedServices.filter((bservice) => bservice.service_type === "optional");
-
-  console.log(basicServices);
-  console.log(optionalServices);
+  const { basicServices, optionalServices } =
+    useSplitServices(includedServices);
 
   return (
     <Document>
