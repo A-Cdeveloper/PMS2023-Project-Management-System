@@ -11,6 +11,9 @@ import ButtonText from "../../ui/Buttons/ButtonText";
 import Button from "../../ui/Buttons/Button";
 import Row from "../../ui/Row";
 import Tag from "../../ui/Data/Tag";
+import ButtonGroup from "../../ui/Buttons/ButtonGroup";
+import Input from "../../ui/Form/Input";
+import Accordion from "../../ui/Data/Accordion";
 import {
   DataDetailsContainer,
   DataBox,
@@ -21,10 +24,7 @@ import { taskStatus } from "./TaskParameters";
 
 import useEditTask from "./useEditTask";
 
-import ButtonGroup from "../../ui/Buttons/ButtonGroup";
 // import { HiOutlineArrowTopRightOnSquare } from "react-icons/hi2";
-
-import Input from "../../ui/Form/Input";
 
 const TaskDetail = () => {
   const moveBack = useMoveBack();
@@ -97,7 +97,6 @@ const TaskDetail = () => {
             <DataBoxContent>{formatDate(task_add_date)}</DataBoxContent>
           </DataBox>
         </DataDetailsContainer>
-
         <DataDetailsContainer>
           <DataBox>
             <DataBoxTitle>Start date</DataBoxTitle>
@@ -207,6 +206,16 @@ const TaskDetail = () => {
               </ButtonGroup>
             </DataBoxContent>
           </DataBox>
+        </DataDetailsContainer>
+      </Row>
+      <Row type="horizontal">
+        <DataDetailsContainer>
+          <Accordion>
+            <Accordion.Item>
+              <Accordion.Caption index={0}>Create invoice</Accordion.Caption>
+              <Accordion.Content index={0}>invoice content</Accordion.Content>
+            </Accordion.Item>
+          </Accordion>
         </DataDetailsContainer>
       </Row>
     </>
