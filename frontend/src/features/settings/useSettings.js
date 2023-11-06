@@ -11,6 +11,7 @@ export const useSettings = () => {
   } = useQuery({
     queryKey: ["settings"],
     queryFn: () => getSettingsApi({ accessToken }),
+    cacheTime: 0,
   });
   return {
     isLoadingSettings,

@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useTask } from "./useTask";
-import { formatDate, formatDuration } from "../../utils/helpers";
+import { durationHours, formatDate, formatDuration } from "../../utils/helpers";
 import { useAccessToken } from "../../context/authContext";
 
 import Headline from "../../ui/Headline";
@@ -23,6 +23,9 @@ import {
 import { taskStatus } from "./TaskParameters";
 
 import useEditTask from "./useEditTask";
+import TaskInvoice from "./TaskInvoice";
+import NewTaskInvoice from "./NewTaskInvoice";
+import { useSettings } from "../settings/useSettings";
 
 // import { HiOutlineArrowTopRightOnSquare } from "react-icons/hi2";
 
@@ -32,6 +35,7 @@ const TaskDetail = () => {
   const { isEditLoading, editTask } = useEditTask();
   const { taskId } = useParams();
   const accessToken = useAccessToken();
+  const { settings = {} } = useSettings();
 
   const queryClient = useQueryClient();
   const task = queryClient.getQueryData(["task", +taskId])
@@ -50,10 +54,16 @@ const TaskDetail = () => {
     task_start_time,
     task_end_time,
     task_status,
+    task_price_per_hour,
     client_id,
   } = task;
 
-  // console.log(task);
+  const duration = formatDuration(task_start_time, task_end_time);
+  const durationinHours = durationHours(task_start_time, task_end_time);
+  const pricePerhour =
+    task_price_per_hour === "regular"
+      ? settings?.regular_whour_price
+      : settings?.special_whour_price;
 
   return (
     <>
@@ -64,7 +74,7 @@ const TaskDetail = () => {
             {task_status}
           </Tag>
           &nbsp;&nbsp;
-          {formatDuration(task_start_time, task_end_time)}
+          {duration}
         </Row>
         <ButtonText onClick={moveBack}> ← Back</ButtonText>
       </Row>
@@ -158,10 +168,8 @@ const TaskDetail = () => {
             </DataBoxContent>
           </DataBox>
           <DataBox>
-            <DataBoxTitle>Duration</DataBoxTitle>
-            <DataBoxContent>
-              {formatDuration(task_start_time, task_end_time)}
-            </DataBoxContent>
+            <DataBoxTitle>Used time</DataBoxTitle>
+            <DataBoxContent>{duration}</DataBoxContent>
           </DataBox>
 
           <DataBox>
@@ -208,16 +216,34 @@ const TaskDetail = () => {
           </DataBox>
         </DataDetailsContainer>
       </Row>
-      <Row type="horizontal">
-        <DataDetailsContainer>
-          <Accordion>
-            <Accordion.Item>
-              <Accordion.Caption index={0}>Create invoice</Accordion.Caption>
-              <Accordion.Content index={0}>invoice content</Accordion.Content>
-            </Accordion.Item>
-          </Accordion>
-        </DataDetailsContainer>
-      </Row>
+
+      {task_status === "invoiced" || task_status === "closed" ? (
+        <Row type="horizontal">
+          <DataDetailsContainer>
+            <Accordion>
+              <Accordion.Item>
+                <Accordion.Caption index={0}>Invoice</Accordion.Caption>
+                <Accordion.Content index={0}>
+                  {task_status === "invoiced" && (
+                    <TaskInvoice
+                      task={task}
+                      duration={duration}
+                      pricePerhour={pricePerhour}
+                    />
+                  )}
+                  {task_status === "closed" && (
+                    <NewTaskInvoice
+                      task={task}
+                      duration={durationinHours}
+                      pricePerhour={pricePerhour}
+                    />
+                  )}
+                </Accordion.Content>
+              </Accordion.Item>
+            </Accordion>
+          </DataDetailsContainer>
+        </Row>
+      ) : null}
     </>
   );
 };

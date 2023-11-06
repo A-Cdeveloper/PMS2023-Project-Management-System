@@ -1,4 +1,9 @@
-import { format, differenceInMinutes, differenceInSeconds } from "date-fns";
+import {
+  format,
+  differenceInMinutes,
+  differenceInSeconds,
+  differenceInHours,
+} from "date-fns";
 
 export const sortingArray = (array, field, order = "asc") => {
   if (order !== "asc")
@@ -48,6 +53,11 @@ export const formatDuration = (startDate, endDate) => {
       duration % 60 !== 0 ? `${duration % 60}min` : ""
     }`;
   return duration;
+};
+
+export const durationHours = (startDate, endDate) => {
+  const duration = differenceInMinutes(new Date(endDate), new Date(startDate));
+  return duration / 60;
 };
 
 export const lastThirtyDays = () => {

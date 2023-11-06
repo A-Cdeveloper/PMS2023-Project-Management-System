@@ -134,7 +134,7 @@ router.post('/:task_id/duplicate', verifyToken, async (req, res) => {
   res.status(231).json({ task, message: 'Task succesfully copied.' })
 })
 
-router.patch('/:task_id/edit', verifyToken, async (req, res) => {
+router.patch('/:task_id/edit', async (req, res) => {
   const { updatedTask: postTask } = req.body
   const tid = req.params.task_id
   const task = await dbfunctions.getSingleTask(tid)

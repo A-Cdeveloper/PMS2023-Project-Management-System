@@ -97,9 +97,13 @@ const updateTask = async (task, task_id) => {
     task_start_time,
     task_end_time,
     task_status,
+    task_price_per_hour,
+    task_price,
+    task_client_adresse,
+    task_invoice_date,
   } = task
   await db.query(
-    'UPDATE pms_tasks SET task_project_id=? , task_name=?, task_description=?, task_notice=?, task_add_date=?, task_priority=?, task_plan_time=?, task_start_time=?, task_end_time=?, task_status=? WHERE task_id=?',
+    'UPDATE pms_tasks SET task_project_id=? , task_name=?, task_description=?, task_notice=?, task_add_date=?, task_priority=?, task_plan_time=?, task_start_time=?, task_end_time=?, task_status=?, task_price_per_hour=?, task_price=?, task_client_adresse=?, task_invoice_date=? WHERE task_id=?',
     [
       task_project_id,
       task_name,
@@ -111,6 +115,10 @@ const updateTask = async (task, task_id) => {
       task_start_time,
       task_end_time,
       task_status,
+      task_price_per_hour,
+      task_price,
+      task_client_adresse,
+      task_invoice_date,
       task_id,
     ]
   )

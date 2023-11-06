@@ -34,6 +34,7 @@ import NewOffer from "./pages/NewOffer";
 import Offer from "./pages/Offer";
 import EditOffer from "./pages/EditOffer";
 import PdfOffer from "./pages/PdfOffer";
+import PdfTask from "./pages/PdfTask";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -83,6 +84,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <Tasks /> },
           { path: ":taskId", element: <Task /> },
+          { path: "pdf/:taskId", element: <PdfTask /> },
         ],
       },
       { path: "/users", element: <Users /> },
