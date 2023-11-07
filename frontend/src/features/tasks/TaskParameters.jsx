@@ -15,8 +15,3 @@ export const taskStatus = [
   { value: "closed", label: "closed" },
   { value: "invoiced", label: "invoiced" },
 ];
-
-export const taskPrice = [
-  { value: "regular", label: "Regular price" },
-  { value: "special", label: "Special price" },
-];

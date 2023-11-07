@@ -11,8 +11,8 @@ import Textarea from "../../ui/Form/Textarea";
 
 import { useSettings } from "../settings/useSettings";
 import useEditTask from "./useEditTask";
-import { taskPrice } from "./TaskParameters";
 import { useAccessToken } from "../../context/authContext";
+import { usePricesPerHourDropDown } from "../../hooks/usePricesPerHourDropDown";
 
 const Label = styled.label`
   font-weight: 500;
@@ -22,6 +22,7 @@ const Label = styled.label`
 const NewTaskInvoice = ({ task, duration }) => {
   const { settings = {} } = useSettings();
   const { isEditLoading, editTask } = useEditTask();
+  const { pricePerHourList } = usePricesPerHourDropDown();
   const accessToken = useAccessToken();
   const queryClient = useQueryClient();
 
@@ -76,7 +77,7 @@ const NewTaskInvoice = ({ task, duration }) => {
               required: "This field is required",
             })}
           >
-            {taskPrice.map((price) => (
+            {pricePerHourList.map((price) => (
               <option key={price.label} value={price.value}>
                 {price.label}
               </option>
