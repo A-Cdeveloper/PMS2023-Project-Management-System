@@ -47,7 +47,6 @@ const NewTaskInvoice = ({ task, duration }) => {
       ...data,
       task_price: pricePerhour * duration,
       task_invoice_date: new Date().toISOString(),
-      task_status: "invoiced",
     };
 
     //console.log(updatedTask);

@@ -55,11 +55,15 @@ const TaskDetail = () => {
     task_end_time,
     task_status,
     task_price_per_hour,
+    task_price,
     client_id,
   } = task;
 
   const duration = formatDuration(task_start_time, task_end_time);
-  const durationinHours = durationHours(task_start_time, task_end_time);
+  const durationinHours = durationHours(task_start_time, task_end_time).toFixed(
+    2
+  );
+
   const pricePerhour =
     task_price_per_hour === "regular"
       ? settings?.regular_whour_price
@@ -217,27 +221,30 @@ const TaskDetail = () => {
         </DataDetailsContainer>
       </Row>
 
-      {task_status === "invoiced" || task_status === "closed" ? (
+      {task_status === "invoiced" ? (
         <Row type="horizontal">
           <DataDetailsContainer>
             <Accordion>
-              <Accordion.Item>
-                <Accordion.Caption index={0}>Invoice</Accordion.Caption>
-                <Accordion.Content index={0}>
-                  {task_status === "invoiced" && (
+              {task_price && (
+                <Accordion.Item>
+                  <Accordion.Caption index={0}>Invoice</Accordion.Caption>
+                  <Accordion.Content index={0}>
                     <TaskInvoice
                       task={task}
                       duration={duration}
                       pricePerhour={pricePerhour}
                     />
-                  )}
-                  {task_status === "closed" && (
-                    <NewTaskInvoice
-                      task={task}
-                      duration={durationinHours}
-                      pricePerhour={pricePerhour}
-                    />
-                  )}
+                  </Accordion.Content>
+                </Accordion.Item>
+              )}
+              <Accordion.Item>
+                <Accordion.Caption index={1}>New Invoice</Accordion.Caption>
+                <Accordion.Content index={1}>
+                  <NewTaskInvoice
+                    task={task}
+                    duration={durationinHours}
+                    pricePerhour={pricePerhour}
+                  />
                 </Accordion.Content>
               </Accordion.Item>
             </Accordion>

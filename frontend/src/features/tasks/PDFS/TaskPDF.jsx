@@ -40,8 +40,6 @@ const TaskPDF = () => {
       ? settings?.regular_whour_price
       : settings?.special_whour_price;
 
-  console.log(pricePerhour);
-
   if (isLoading) return <Spinner />;
 
   return (
