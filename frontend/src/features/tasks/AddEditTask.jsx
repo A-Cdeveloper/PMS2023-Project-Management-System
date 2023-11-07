@@ -142,7 +142,9 @@ const AddEditTask = ({ taskToEdit = {}, onCloseModal }) => {
                     onChange={(e) => {
                       field.onChange(e.target.value.toString());
                     }}
-                    disabled={loadingState}
+                    disabled={
+                      loadingState && taskToEdit.task_status === "invoiced"
+                    }
                   />
                 );
               }}
@@ -169,7 +171,9 @@ const AddEditTask = ({ taskToEdit = {}, onCloseModal }) => {
                     onChange={(e) => {
                       field.onChange(e.target.value.toString());
                     }}
-                    disabled={loadingState}
+                    disabled={
+                      loadingState && taskToEdit.task_status === "invoiced"
+                    }
                   />
                 );
               }}
@@ -184,8 +188,8 @@ const AddEditTask = ({ taskToEdit = {}, onCloseModal }) => {
               defaultValue={!isEdit && taskStatus[1].value}
               disabled={loadingState}
             >
-              {taskStatus.map((status, index) => {
-                return index !== 0 ? (
+              {taskStatus.map((status, index, original) => {
+                return index !== 0 && index !== original.length - 1 ? (
                   <option key={status.label} value={status.value}>
                     {status.label}
                   </option>

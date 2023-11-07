@@ -139,6 +139,7 @@ const TaskDetail = () => {
                     }
                   )
                 }
+                disabled={task_status === "invoiced"}
               />
             </DataBoxContent>
           </DataBox>
@@ -168,6 +169,7 @@ const TaskDetail = () => {
                     }
                   )
                 }
+                disabled={task_status === "invoiced"}
               />
             </DataBoxContent>
           </DataBox>

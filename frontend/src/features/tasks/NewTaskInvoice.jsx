@@ -65,48 +65,54 @@ const NewTaskInvoice = ({ task, duration }) => {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormRow
-        type="flex"
-        label="Task price"
-        error={errors?.task_price_per_hour}
-      >
-        <Select
-          {...register("task_price_per_hour", {
-            required: "This field is required",
-          })}
+      <Row type="horizontal">
+        <FormRow
+          type="flex"
+          label="Task price"
+          error={errors?.task_price_per_hour}
         >
-          {taskPrice.map((price) => (
-            <option key={price.label} value={price.value}>
-              {price.label}
-            </option>
-          ))}
-        </Select>
-      </FormRow>
+          <Select
+            {...register("task_price_per_hour", {
+              required: "This field is required",
+            })}
+          >
+            {taskPrice.map((price) => (
+              <option key={price.label} value={price.value}>
+                {price.label}
+              </option>
+            ))}
+          </Select>
+        </FormRow>
 
-      <FormRow label="Client adresse" error={errors?.task_client_adresse}>
-        <Textarea
-          style={{ height: "10rem" }}
-          type="textarea"
-          {...register("task_client_adresse")}
-          // disabled={loadingState}
-        />
-      </FormRow>
+        <FormRow
+          type="flex"
+          label="Client adresse"
+          error={errors?.task_client_adresse}
+        >
+          <Textarea
+            style={{ height: "10rem" }}
+            type="textarea"
+            {...register("task_client_adresse")}
+            // disabled={loadingState}
+          />
+        </FormRow>
 
-      <Row type="verticalnogap">
-        <Label>Used time (h)</Label>
-        {duration}
+        <Row type="verticalnogap">
+          <Label>Used time (h)</Label>
+          {duration}
+        </Row>
+
+        <FormRow>
+          <Button
+            variation="primary"
+            size="medium"
+            // disabled={loadingState}
+            active={null}
+          >
+            Add invoice
+          </Button>
+        </FormRow>
       </Row>
-
-      <FormRow>
-        <Button
-          variation="primary"
-          size="medium"
-          // disabled={loadingState}
-          active={null}
-        >
-          Add invoice
-        </Button>
-      </FormRow>
     </Form>
   );
 };
