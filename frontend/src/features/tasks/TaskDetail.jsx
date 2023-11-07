@@ -200,6 +200,12 @@ const TaskDetail = () => {
                             updatedTask: {
                               ...task,
                               task_status: status.value,
+                              task_price_per_hour:
+                                status.value !== "invoiced" ? "" : null,
+                              task_price:
+                                status.value !== "invoiced" ? "" : null,
+                              task_invoice_date:
+                                status.value !== "invoiced" ? "" : null,
                             },
                             accessToken,
                           },
@@ -235,20 +241,23 @@ const TaskDetail = () => {
                       task={task}
                       duration={duration}
                       pricePerhour={pricePerhour}
+                      deleteTaskInvoice={editTask}
                     />
                   </Accordion.Content>
                 </Accordion.Item>
               )}
-              <Accordion.Item>
-                <Accordion.Caption index={1}>New Invoice</Accordion.Caption>
-                <Accordion.Content index={1}>
-                  <NewTaskInvoice
-                    task={task}
-                    duration={durationinHours}
-                    pricePerhour={pricePerhour}
-                  />
-                </Accordion.Content>
-              </Accordion.Item>
+              {!task_price && (
+                <Accordion.Item>
+                  <Accordion.Caption index={1}>New Invoice</Accordion.Caption>
+                  <Accordion.Content index={1}>
+                    <NewTaskInvoice
+                      task={task}
+                      duration={durationinHours}
+                      pricePerhour={pricePerhour}
+                    />
+                  </Accordion.Content>
+                </Accordion.Item>
+              )}
             </Accordion>
           </DataDetailsContainer>
         </Row>

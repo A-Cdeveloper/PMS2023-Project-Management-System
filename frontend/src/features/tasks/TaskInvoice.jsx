@@ -1,10 +1,13 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useSettings } from "../settings/useSettings";
-import { formatDate, formatDateTime, formatPrice } from "../../utils/helpers";
+import { HiMinusCircle } from "react-icons/hi2";
+import { useQueryClient } from "@tanstack/react-query";
+
+import { formatDate, formatPrice } from "../../utils/helpers";
 import Button from "../../ui/Buttons/Button";
 import ButtonIcon from "../../ui/Buttons/ButtonIcon";
-import { HiMinusCircle } from "react-icons/hi2";
+
+import { useAccessToken } from "../../context/authContext";
 
 const Invoice = styled.div`
   font-size: 1.35rem;
@@ -29,22 +32,15 @@ const InvoiceCellSmall = styled(InvoiceCell)`
   width: 15rem;
 `;
 
-const TaskInvoice = ({ task, duration, pricePerhour }) => {
+const TaskInvoice = ({ task, duration, pricePerhour, deleteTaskInvoice }) => {
   const navigate = useNavigate();
+  const accessToken = useAccessToken();
+  const queryClient = useQueryClient();
 
   const {
     task_id,
-    task_project_id,
     task_name,
-    client_name,
     project_name,
-    task_description,
-    task_notice,
-    task_add_date,
-    task_start_time,
-    task_end_time,
-    task_status,
-    client_id,
     task_price,
     task_client_adresse,
     task_invoice_date,
@@ -75,7 +71,28 @@ const TaskInvoice = ({ task, duration, pricePerhour }) => {
           <InvoiceCellSmall>
             <ButtonIcon
               icon={<HiMinusCircle />}
-              onClick={() => removeService(2)}
+              onClick={(e) =>
+                deleteTaskInvoice(
+                  {
+                    task_id: task_id,
+                    updatedTask: {
+                      ...task,
+                      task_price_per_hour: "",
+                      task_price: "",
+                      task_invoice_date: "",
+                      task_status: "closed",
+                    },
+                    accessToken,
+                  },
+                  {
+                    onSettled: () => {
+                      queryClient.invalidateQueries({
+                        queryKey: ["task", task_id],
+                      });
+                    },
+                  }
+                )
+              }
             />
           </InvoiceCellSmall>
           <InvoiceCellSmall>

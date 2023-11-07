@@ -17,6 +17,7 @@ import { usePricesPerHourDropDown } from "../../hooks/usePricesPerHourDropDown";
 const Label = styled.label`
   font-weight: 500;
   font-size: 1.5rem;
+  margin-top: 1rem;
 `;
 
 const NewTaskInvoice = ({ task, duration }) => {
@@ -66,7 +67,7 @@ const NewTaskInvoice = ({ task, duration }) => {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Row type="horizontal">
+      <Row type="horizontal" style={{ alignItems: "start" }}>
         <FormRow
           type="flex"
           label="Task price"
@@ -93,6 +94,7 @@ const NewTaskInvoice = ({ task, duration }) => {
           <Textarea
             style={{ height: "10rem" }}
             type="textarea"
+            defaultValue={task?.task_client_adresse}
             {...register("task_client_adresse")}
             // disabled={loadingState}
           />

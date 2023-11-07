@@ -50,16 +50,14 @@ const TaskPDF = () => {
         </ButtonText>
 
         {/* download pdf */}
-        {/* <PDFDownloadLink
-          document={
-            <OfferPDFDocument offer={offer} serviceList={serviceList} />
-          }
-          fileName={`${offer.offer_number}.pdf`}
+        <PDFDownloadLink
+          document={<TaskPDFDocument task={task} pricePerhour={pricePerhour} />}
+          fileName={`${task.task_id}.pdf`}
         >
           <ButtonIconText icon={<HiDocumentArrowDown />} type="info">
             Download
           </ButtonIconText>
-        </PDFDownloadLink> */}
+        </PDFDownloadLink>
       </Row>
 
       {/* shoe pdf */}

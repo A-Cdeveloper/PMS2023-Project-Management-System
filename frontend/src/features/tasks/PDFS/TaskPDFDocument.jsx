@@ -211,6 +211,13 @@ const TaskPDFDocument = ({ task, pricePerhour }) => {
             </Text>
           </View>
 
+          <View style={styles.body}>
+            <View style={[styles.title, , styles.notice]}>
+              <Text>Notice:</Text>
+              <Text>{task_notice}</Text>
+            </View>
+          </View>
+
           <View style={styles.mainSection}>
             <Text>Preise in EUR ohne MwSt.</Text>
           </View>
