@@ -3,6 +3,7 @@ import Input from "./Form/Input";
 import styled from "styled-components";
 import { formatSqlDate, lastThirtyDays } from "../utils/helpers";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
+import { useEffect, useState } from "react";
 
 const FliterContainer = styled.div`
   display: flex;
@@ -23,24 +24,42 @@ const Label = styled.span`
 const FilterByDateInterval = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // const startIntervalDate = searchParams.get("startIntervalDate")
-  //   ? searchParams.get("startIntervalDate")
-  //   : lastThirtyDays();
+  const startIntervalDate = searchParams.get("startIntervalDate")
+    ? searchParams.get("startIntervalDate")
+    : lastThirtyDays();
 
-  // const endIntervalDate = searchParams?.get("endIntervalDate")
-  //   ? searchParams.get("endIntervalDate")
-  //   : formatSqlDate(new Date());
+  const endIntervalDate = searchParams?.get("endIntervalDate")
+    ? searchParams.get("endIntervalDate")
+    : formatSqlDate(new Date());
 
   const [startPoint, setStartPoint] = useLocalStorageState(
-    searchParams.get("startIntervalDate"),
+    startIntervalDate,
     "startPoint"
   );
   const [endPoint, setEndPoint] = useLocalStorageState(
-    searchParams?.get("endIntervalDate"),
+    endIntervalDate,
     "endPoint"
   );
 
-  //console.log(startIntervalDate, endIntervalDate);
+  console.log(startPoint);
+  console.log(endPoint);
+
+  // const [startPoint, setStartPoint] = useState(
+  //   localStorage.getItem("startPoint")
+  //     ? localStorage.getItem("startPoint")
+  //     : startIntervalDate
+  // );
+  // const [endPoint, setEndPoint] = useState(
+  //   localStorage.getItem("endPoint")
+  //     ? localStorage.getItem("endPoint")
+  //     : endIntervalDate
+  // );
+
+  useEffect(() => {
+    searchParams.set("startIntervalDate", startPoint || startIntervalDate);
+    searchParams.set("endIntervalDate", endPoint || endIntervalDate);
+    setSearchParams(searchParams);
+  }, [searchParams]);
 
   const handleChangeStartInterval = (e) => {
     if (e.target.value === "") {
