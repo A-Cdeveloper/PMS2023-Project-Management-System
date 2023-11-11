@@ -1,4 +1,4 @@
-import TaskPDF from "../features/tasks/PDFS/TaskPDF";
+import TaskPDF from "../features/tasks/pdf/TaskPDF";
 
 const PdfTask = () => {
   return <TaskPDF />;

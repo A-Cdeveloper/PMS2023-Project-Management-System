@@ -92,7 +92,7 @@ const OfferRow = ({ offer }) => {
           icon={<HiDocumentArrowDown />}
           onMouseOver={() => prefetchOfferHandler(offer_id)}
           onClick={() => {
-            navigate(`pdf/${offer_id}`, { replace: true });
+            navigate(`pdf/${offer_id}`);
           }}
         />
       </CellIcon>
