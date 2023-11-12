@@ -289,12 +289,14 @@ const Total = ({ sum }) => {
 const Footer = ({ notice }) => {
   return (
     <>
-      <View style={styles.body}>
-        <View style={[styles.title, styles.notice]}>
-          <Text>Notice:</Text>
-          <Text>{notice}</Text>
+      {notice ? (
+        <View style={styles.body}>
+          <View style={[styles.title, styles.notice]}>
+            <Text>Notice:</Text>
+            <Text>{notice}</Text>
+          </View>
         </View>
-      </View>
+      ) : null}
       <View style={styles.mainSection}>
         <Text>Preise in EUR ohne MwSt.</Text>
       </View>
