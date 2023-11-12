@@ -10,6 +10,7 @@ import Textarea from "../../../ui/Form/Textarea";
 import { SectionCaption, Section, SectionData } from "./SectionsStyles";
 import { offerType } from "../OffersParameters";
 import Row from "../../../ui/Row";
+import { useEffect } from "react";
 
 const Label = styled.label`
   font-weight: 500;
@@ -37,11 +38,20 @@ const MetaData = ({
     offer_notice,
   } = isEditing && data;
 
-  const currentProjectId = offer_project_id || watch("offer_project_id");
+  const currentProjectId = watch("offer_project_id")
+    ? watch("offer_project_id")
+    : offer_project_id;
 
-  const { clientName, clientId } = useClientByProject({
-    project_id: +currentProjectId,
-  });
+  // console.log("render");
+  // console.log(currentProjectId);
+  /////////////// PROBLEM////////////
+  const { client_name: clientName, project_client_id: clientId } =
+    useClientByProject({
+      project_id: +currentProjectId,
+    });
+  //const { clientName, clientId } = currentProject;
+
+  // console.log(clientName, clientId);
 
   register("offer_client_id");
   setVals("offer_client_id", clientId);
@@ -168,6 +178,7 @@ const MetaData = ({
               rules={{ required: "This field is required" }}
               defaultValue={currentProjectId}
               render={({ field }) => {
+                console.log(field);
                 return (
                   <>
                     <Select
