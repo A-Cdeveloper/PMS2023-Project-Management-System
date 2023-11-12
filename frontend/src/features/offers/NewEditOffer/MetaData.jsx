@@ -42,16 +42,16 @@ const MetaData = ({
     ? watch("offer_project_id")
     : offer_project_id;
 
-  // console.log("render");
-  // console.log(currentProjectId);
+  console.log("render");
+  console.log(currentProjectId);
   /////////////// PROBLEM////////////
+
   const { client_name: clientName, project_client_id: clientId } =
     useClientByProject({
-      project_id: +currentProjectId,
+      project_id: currentProjectId && +currentProjectId,
     });
-  //const { clientName, clientId } = currentProject;
 
-  // console.log(clientName, clientId);
+  console.log(clientName, clientId);
 
   register("offer_client_id");
   setVals("offer_client_id", clientId);
@@ -178,7 +178,6 @@ const MetaData = ({
               rules={{ required: "This field is required" }}
               defaultValue={currentProjectId}
               render={({ field }) => {
-                console.log(field);
                 return (
                   <>
                     <Select

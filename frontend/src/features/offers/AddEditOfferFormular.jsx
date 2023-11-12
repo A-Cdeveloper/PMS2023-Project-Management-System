@@ -116,7 +116,7 @@ const AddEditOfferFormular = ({ isEditing }) => {
             setVals={setValue}
             watch={watch}
             isLoading={isEditing ? isEditLoading : isAddNewLoading}
-            data={isEditing && offer}
+            data={isEditing ? offer : null}
             isEditing={!!isEditing}
             fullProjectsList={fullProjectsList}
           />
