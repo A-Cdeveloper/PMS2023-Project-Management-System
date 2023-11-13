@@ -8,6 +8,7 @@ import Row from "../ui/Row";
 import ButtonText from "../ui/Buttons/ButtonText";
 import ButtonIconText from "../ui/Buttons/ButtonIconText";
 import { createContext, useContext } from "react";
+import Headline from "../ui/Headline";
 
 // Create styles
 const styles = StyleSheet.create({
@@ -20,10 +21,11 @@ const styles = StyleSheet.create({
 
 const PdfPageContext = createContext();
 
-const PDFPage = ({ children, document, fileName }) => {
+const PDFPage = ({ children, document, fileName, error }) => {
   const value = {
     document,
     fileName,
+    error,
   };
   return (
     <PdfPageContext.Provider value={value}>{children}</PdfPageContext.Provider>
@@ -32,7 +34,17 @@ const PDFPage = ({ children, document, fileName }) => {
 
 const Header = () => {
   const moveBack = useMoveBack(2);
-  const { document, fileName } = useContext(PdfPageContext);
+  const { document, fileName, error } = useContext(PdfPageContext);
+
+  if (error) {
+    return (
+      <Row type="horizontal">
+        <Headline as="h1">PDF not exist</Headline>
+        <ButtonText onClick={moveBack}> ← Back</ButtonText>
+      </Row>
+    );
+  }
+
   return (
     <Row type="horizontal">
       <ButtonText onClick={moveBack}> ← Back</ButtonText>
@@ -47,7 +59,8 @@ const Header = () => {
 };
 
 const Body = () => {
-  const { document } = useContext(PdfPageContext);
+  const { document, error } = useContext(PdfPageContext);
+  if (error) return;
   return (
     <PDFViewer style={styles.viewer} showToolbar={false}>
       {document}

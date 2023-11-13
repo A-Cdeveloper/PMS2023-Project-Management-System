@@ -11,7 +11,7 @@ import PDFPage from "../../../pdf/PDFPage";
 
 // Create Document Component
 const OfferPDF = () => {
-  const { isLoading, offer: offerSingle = {} } = useOffer();
+  const { isLoading, error, offer: offerSingle = {} } = useOffer();
   const { serviceList } = useServicesList();
   const { offerId } = useParams();
 
@@ -26,6 +26,7 @@ const OfferPDF = () => {
     <PDFPage
       document={<OfferPDFDocument offer={offer} serviceList={serviceList} />}
       fileName={`${offer.offer_number}.pdf`}
+      error={error}
     >
       <PDFPage.Header />
       <PDFPage.Body>
