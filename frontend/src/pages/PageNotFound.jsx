@@ -21,19 +21,36 @@ const Box = styled.div`
   }
 `;
 
-const PageNotFound = () => {
-  const moveBack = useMoveBack();
+const PageNotFound = ({ onlineStatus }) => {
+  let message;
 
-  return (
-    <StyledPageNotFound>
-      <Box>
+  if (onlineStatus) {
+    const moveBack = useMoveBack();
+    message = (
+      <>
         <Headline as="h1">
           The page you are looking for could not be found 😢
         </Headline>
         <Button variation="danger" size="large" onClick={moveBack}>
           &larr; Go back
         </Button>
-      </Box>
+      </>
+    );
+  }
+
+  if (!onlineStatus) {
+    message = (
+      <>
+        <Headline as="h1">
+          You're offline. Check you Internet connection. 📶
+        </Headline>
+      </>
+    );
+  }
+
+  return (
+    <StyledPageNotFound>
+      <Box>{message}</Box>
     </StyledPageNotFound>
   );
 };

@@ -35,6 +35,7 @@ import Offer from "./pages/Offer";
 import EditOffer from "./pages/EditOffer";
 import PdfOffer from "./pages/PdfOffer";
 import PdfTask from "./pages/PdfTask";
+import { useConnectionStatus } from "./hooks/useConnectionStatus";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -62,7 +63,7 @@ const router = createBrowserRouter([
         <AppLayout />
       </ProtectedRoute>
     ),
-    errorElement: <PageNotFound />,
+    errorElement: <PageNotFound onlineStatus={true} />,
     children: [
       { path: "/", element: <Dashboard /> },
       {
@@ -107,13 +108,20 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const isOnline = useConnectionStatus();
+  console.log(isOnline);
+
   return (
     <ThemeStyle>
       <QueryClientProvider client={queryClient}>
         <AuthContextProvider>
           <ReactQueryDevtools />
           <GlobalStyle />
-          <RouterProvider router={router} />
+          {isOnline ? (
+            <RouterProvider router={router} />
+          ) : (
+            <PageNotFound onlineStatus={isOnline} />
+          )}
           <Notifications />
         </AuthContextProvider>
       </QueryClientProvider>
