@@ -35,7 +35,7 @@ export const getFilteredProjects = async ({
 // //////////////////////////////////////////////////////////////////
 export const getProjectsByClient = async ({ client_id, accessToken }) => {
   const response = await fetch(
-    `${API_URL}/projects/projectsbyclient/${client_id}}`,
+    `${API_URL}/projects/projectsbyclient/${client_id}`,
     {
       headers: headerApiFn(accessToken),
     }

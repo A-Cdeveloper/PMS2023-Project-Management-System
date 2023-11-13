@@ -109,7 +109,6 @@ const router = createBrowserRouter([
 
 function App() {
   const isOnline = useConnectionStatus();
-  console.log(isOnline);
 
   return (
     <ThemeStyle>

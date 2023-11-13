@@ -18,6 +18,7 @@ import {
   DataBoxContent,
 } from "../../ui/Data/DataDetails";
 import Empty from "../../ui/Data/Empty";
+import Spinner from "../../ui/Spinner";
 
 import { clientCols } from "./ClientParameters";
 import { ClientProjects } from "./ClientProjects";
@@ -62,6 +63,17 @@ const ClientDetail = () => {
       );
     }
   });
+
+  if (isLoading) return <Spinner />;
+
+  if (error) {
+    return (
+      <Row type="horizontal">
+        <Headline as="h1">{error.message}</Headline>
+        <ButtonText onClick={moveBack}> ← Back</ButtonText>
+      </Row>
+    );
+  }
 
   return (
     <>
