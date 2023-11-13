@@ -20,7 +20,7 @@ const StyledExpirationModal = styled.div`
   }
 `;
 
-function ExpirationModal({ onConfirm, onCloseModal }) {
+function LoginExpirationModal({ onConfirm, onCloseModal }) {
   const conformActionHandler = () => {
     onConfirm();
     onCloseModal();
@@ -43,4 +43,4 @@ function ExpirationModal({ onConfirm, onCloseModal }) {
   );
 }
 
-export default ExpirationModal;
+export default LoginExpirationModal;

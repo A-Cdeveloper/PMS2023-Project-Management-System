@@ -31,7 +31,7 @@ export const AuthContextProvider = ({ children }) => {
 export const useCurrentUserTokens = () => {
   const context = useContext(AuthContext);
   if (context === undefined)
-    throw new Error("Context was used outdise provider");
+    throw new Error("Context was used outside provider");
   return context;
 };
 

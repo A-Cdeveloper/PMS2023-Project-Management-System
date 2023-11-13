@@ -6,12 +6,12 @@ import MainNav from "./MainNav";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 
-// import ExpirationModal from "./ExpirationModal";
+import LoginExpirationModal from "./LoginExpirationModal";
 import { useCurrentUserTokens } from "../context/authContext";
-// import { endLoginSession } from "../utils/helpers";
-// import Modal from "./Modal";
-// import Headline from "./Headline";
-// import { useEffect } from "react";
+import { endLoginSession } from "../utils/helpers";
+import { useEffect } from "react";
+import { useLogout } from "../features/authentication/useLogout";
+import Modal from "./Modal";
 
 const StyledAppLayout = styled.div`
   display: flex;
@@ -42,18 +42,22 @@ const View = styled.div`
 
 const AppLayout = () => {
   const {
-    user: { expiresIn },
+    user: { expiresIn, refreshToken },
   } = useCurrentUserTokens();
+
+  const { logout } = useLogout();
 
   // useEffect(() => {
   //   let interval = setInterval(() => {
   //     console.log(endLoginSession(expiresIn));
-  //     if (endLoginSession(expiresIn) <= 0) {
-  //       console.log("HOOREY");
+  //     if (!endLoginSession(expiresIn)) {
+  //       logout({ refreshToken: refreshToken });
   //     }
-  //   }, 1000);
+  //   }, 500);
   //   return () => clearInterval(interval);
   // }, [expiresIn]);
+
+  //console.log(endLoginSession(expiresIn));
 
   return (
     <StyledAppLayout>
@@ -66,11 +70,14 @@ const AppLayout = () => {
         <Header />
 
         <Container>
-          {/* <Modal autoOpen={endLoginSession(expiresIn) <= 0 && "modalexp"}>
+          <Modal
+          //autoOpen={endLoginSession(expiresIn) <= 10 ? "modalexp" : null}
+          //autoOpen="modalexp"
+          >
             <Modal.Window name="modalexp">
-              <ExpirationModal />
+              <LoginExpirationModal />
             </Modal.Window>
-          </Modal> */}
+          </Modal>
 
           <View>
             <Outlet />
