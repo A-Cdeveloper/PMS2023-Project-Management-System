@@ -33,10 +33,11 @@ import Input from "../../ui/Form/Input";
 import ButtonGroup from "../../ui/Buttons/ButtonGroup";
 import Accordion from "../../ui/Data/Accordion";
 import Empty from "../../ui/Data/Empty";
+import Spinner from "../../ui/Spinner";
 
 const ProjectDetail = () => {
   const moveBack = useMoveBack();
-  const { project: projectSingle = {} } = useProject();
+  const { isLoading, error, project: projectSingle = {} } = useProject();
   const { isEditLoading, editProject } = useEditProject();
   const { error: errorProjectTasks, tasks: projectTasks } = useTasksByProject();
   const { projectId } = useParams();
@@ -65,7 +66,16 @@ const ProjectDetail = () => {
     task_per_project,
   } = project;
 
-  //console.log(project);
+  if (isLoading) return <Spinner />;
+
+  if (error) {
+    return (
+      <Row type="horizontal">
+        <Headline as="h1">{error.message}</Headline>
+        <ButtonText onClick={moveBack}> ← Back</ButtonText>
+      </Row>
+    );
+  }
 
   return (
     <>
