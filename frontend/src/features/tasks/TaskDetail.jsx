@@ -14,6 +14,8 @@ import Tag from "../../ui/Data/Tag";
 import ButtonGroup from "../../ui/Buttons/ButtonGroup";
 import Input from "../../ui/Form/Input";
 import Accordion from "../../ui/Data/Accordion";
+import Spinner from "../../ui/Spinner";
+
 import {
   DataDetailsContainer,
   DataBox,
@@ -31,7 +33,7 @@ import { useSettings } from "../settings/useSettings";
 
 const TaskDetail = () => {
   const moveBack = useMoveBack();
-  const { task: taskSingle = {} } = useTask();
+  const { isLoading, error, task: taskSingle = {} } = useTask();
   const { isEditLoading, editTask } = useEditTask();
   const { taskId } = useParams();
   const accessToken = useAccessToken();
@@ -68,6 +70,17 @@ const TaskDetail = () => {
     task_price_per_hour === "regular"
       ? settings?.regular_whour_price
       : settings?.special_whour_price;
+
+  if (isLoading) return <Spinner />;
+
+  if (error) {
+    return (
+      <Row type="horizontal">
+        <Headline as="h1">{error.message}</Headline>
+        <ButtonText onClick={moveBack}> ← Back</ButtonText>
+      </Row>
+    );
+  }
 
   return (
     <>

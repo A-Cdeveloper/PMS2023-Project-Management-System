@@ -41,20 +41,6 @@ const FilterByDateInterval = () => {
     "endPoint"
   );
 
-  console.log(startPoint);
-  console.log(endPoint);
-
-  // const [startPoint, setStartPoint] = useState(
-  //   localStorage.getItem("startPoint")
-  //     ? localStorage.getItem("startPoint")
-  //     : startIntervalDate
-  // );
-  // const [endPoint, setEndPoint] = useState(
-  //   localStorage.getItem("endPoint")
-  //     ? localStorage.getItem("endPoint")
-  //     : endIntervalDate
-  // );
-
   useEffect(() => {
     searchParams.set("startIntervalDate", startPoint || startIntervalDate);
     searchParams.set("endIntervalDate", endPoint || endIntervalDate);
