@@ -12,7 +12,7 @@ export const useLogout = () => {
     onSuccess: (data) => {
       toast.success(data.message);
       navigate("/login", { replace: true });
-      localStorage.removeItem("currentUser");
+      sessionStorage.removeItem("currentUser");
     },
 
     onSettled: () => {

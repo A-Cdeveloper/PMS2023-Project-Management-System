@@ -7,21 +7,17 @@ export const AuthContext = createContext({
 });
 
 export const AuthContextProvider = ({ children }) => {
-  const storedValue = JSON.parse(localStorage.getItem("currentUser")) || null;
+  const storedValue = JSON.parse(sessionStorage.getItem("currentUser")) || null;
   const [user, setUser] = useState(storedValue);
 
-  const setLocalStorageHandler = (key, value) => {
-    localStorage.setItem(key, value);
-    setUser(JSON.parse(localStorage.getItem(key)));
+  const setSessionStorageHandler = (key, value) => {
+    sessionStorage.setItem(key, value);
+    setUser(JSON.parse(sessionStorage.getItem(key)));
   };
-
-  useEffect(() => {
-    // console.log("TEST RENDER");
-  }, [storedValue]);
 
   const value = {
     user,
-    setLocalStorageHandler,
+    setSessionStorageHandler,
     isAuthenticated: !!user,
   };
 

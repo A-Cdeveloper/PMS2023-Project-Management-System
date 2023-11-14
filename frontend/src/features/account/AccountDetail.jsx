@@ -200,7 +200,7 @@ const AccountDetail = () => {
                         {
                           onSettled: () => {
                             navigate("/login", { replace: true });
-                            localStorage.removeItem("currentUser");
+                            sessionStorage.removeItem("currentUser");
                           },
                         }
                       )

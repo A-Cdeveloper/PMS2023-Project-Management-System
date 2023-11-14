@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import Input from "./Form/Input";
 import styled from "styled-components";
 import { formatSqlDate, lastThirtyDays } from "../utils/helpers";
-import { useLocalStorageState } from "../hooks/useLocalStorageState";
+import { useSessionStorageState } from "../hooks/useSessionStorageState";
 import { useEffect, useState } from "react";
 
 const FliterContainer = styled.div`
@@ -32,11 +32,11 @@ const FilterByDateInterval = () => {
     ? searchParams.get("endIntervalDate")
     : formatSqlDate(new Date());
 
-  const [startPoint, setStartPoint] = useLocalStorageState(
+  const [startPoint, setStartPoint] = useSessionStorageState(
     startIntervalDate,
     "startPoint"
   );
-  const [endPoint, setEndPoint] = useLocalStorageState(
+  const [endPoint, setEndPoint] = useSessionStorageState(
     endIntervalDate,
     "endPoint"
   );

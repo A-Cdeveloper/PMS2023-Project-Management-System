@@ -4,13 +4,13 @@ import { toast } from "react-hot-toast";
 import { useCurrentUserTokens } from "../../context/authContext";
 
 const useLogin = () => {
-  const { setLocalStorageHandler } = useCurrentUserTokens();
+  const { setSessionStorageHandler } = useCurrentUserTokens();
 
   const { isLoading: isLoginLoading, mutate: login } = useMutation({
     mutationFn: loginApi,
     onSuccess: (data) => {
       const { uid, role, accessToken, refreshToken, expiresIn } = data.user;
-      setLocalStorageHandler(
+      setSessionStorageHandler(
         "currentUser",
         JSON.stringify({ uid, accessToken, refreshToken, expiresIn, role })
       );
