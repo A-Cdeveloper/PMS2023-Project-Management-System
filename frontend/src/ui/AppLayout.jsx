@@ -9,7 +9,7 @@ import Header from "./Header";
 import LoginExpirationModal from "./LoginExpirationModal";
 import { useCurrentUserTokens } from "../context/authContext";
 import { endLoginSession } from "../utils/helpers";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLogout } from "../features/authentication/useLogout";
 import Modal from "./Modal";
 
@@ -46,18 +46,26 @@ const AppLayout = () => {
   } = useCurrentUserTokens();
 
   const { logout } = useLogout();
+  const [counter, setCounter] = useState(endLoginSession(expiresIn));
 
-  // useEffect(() => {
-  //   let interval = setInterval(() => {
-  //     console.log(endLoginSession(expiresIn));
-  //     if (!endLoginSession(expiresIn)) {
-  //       logout({ refreshToken: refreshToken });
-  //     }
-  //   }, 500);
-  //   return () => clearInterval(interval);
-  // }, [expiresIn]);
+  const logOutHandler = () => {
+    logout({ refreshToken: refreshToken });
+  };
 
-  //console.log(endLoginSession(expiresIn));
+  useEffect(() => {
+    let interval = setInterval(() => {
+      setCounter(endLoginSession(expiresIn));
+
+      // console.log(endLoginSession(expiresIn));
+      if (!endLoginSession(expiresIn)) {
+        logOutHandler();
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [endLoginSession(expiresIn)]);
+
+  console.log(counter);
 
   return (
     <StyledAppLayout>
@@ -70,14 +78,19 @@ const AppLayout = () => {
         <Header />
 
         <Container>
-          <Modal
-          //autoOpen={endLoginSession(expiresIn) <= 10 ? "modalexp" : null}
-          //autoOpen="modalexp"
-          >
-            <Modal.Window name="modalexp">
-              <LoginExpirationModal />
-            </Modal.Window>
-          </Modal>
+          {counter < 20 && (
+            <Modal
+              //autoOpen={endLoginSession(expiresIn) <= 10 ? "modalexp" : null}
+              autoOpen="modalexp"
+            >
+              <Modal.Window name="modalexp">
+                <LoginExpirationModal
+                  counter={counter}
+                  logout={logOutHandler}
+                />
+              </Modal.Window>
+            </Modal>
+          )}
 
           <View>
             <Outlet />

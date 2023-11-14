@@ -20,7 +20,7 @@ const StyledExpirationModal = styled.div`
   }
 `;
 
-function LoginExpirationModal({ onConfirm, onCloseModal }) {
+function LoginExpirationModal({ onConfirm, onCloseModal, counter, logout }) {
   const conformActionHandler = () => {
     onConfirm();
     onCloseModal();
@@ -28,15 +28,17 @@ function LoginExpirationModal({ onConfirm, onCloseModal }) {
 
   return (
     <StyledExpirationModal>
-      <Headline as="h3">Login session end!</Headline>
+      <Headline as="h3">
+        ou will be automatically logged out for {counter}s !!!
+      </Headline>
 
       <div>
-        <Button variation="secondary" size="medium" onClick={onCloseModal}>
-          Cancel
+        <Button variation="secondary" size="medium" onClick={logout}>
+          Logout
         </Button>
 
         <Button variation="info" size="medium" onClick={conformActionHandler}>
-          Continue
+          Stay login
         </Button>
       </div>
     </StyledExpirationModal>
