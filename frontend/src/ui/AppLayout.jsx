@@ -6,13 +6,7 @@ import MainNav from "./MainNav";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 
-import LoginExpirationModal from "./LoginExpirationModal";
-import { useCurrentUserTokens } from "../context/authContext";
-import { endLoginSession } from "../utils/helpers";
-import { useEffect, useState } from "react";
-import { useLogout } from "../features/authentication/useLogout";
-import Modal from "./Modal";
-import useRefreshToken from "../features/authentication/useRefreshToken";
+import RefreshTokenWarrning from "../features/authentication/RefreshTokenWarrning";
 
 const StyledAppLayout = styled.div`
   display: flex;
@@ -42,37 +36,6 @@ const View = styled.div`
 `;
 
 const AppLayout = () => {
-  const {
-    user: { expiresIn, refreshToken, accessToken },
-  } = useCurrentUserTokens();
-
-  const { logout } = useLogout();
-  const { refreshToken: extendSessionFn } = useRefreshToken();
-  const [counter, setCounter] = useState(endLoginSession(expiresIn));
-
-  const logOutHandler = () => {
-    logout({ refreshToken });
-  };
-
-  const extendSessionHander = () => {
-    extendSessionFn({ refreshToken, accessToken });
-  };
-
-  useEffect(() => {
-    let interval = setInterval(() => {
-      setCounter(endLoginSession(expiresIn));
-
-      // console.log(endLoginSession(expiresIn));
-      if (!endLoginSession(expiresIn)) {
-        logOutHandler();
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [endLoginSession(expiresIn)]);
-
-  console.log(counter);
-
   return (
     <StyledAppLayout>
       <Sidebar>
@@ -84,19 +47,7 @@ const AppLayout = () => {
         <Header />
 
         <Container>
-          {/* auto logout warrning 120s before */}
-          {counter < 121 && (
-            <Modal autoOpen="modalexp">
-              <Modal.Window name="modalexp">
-                <LoginExpirationModal
-                  counter={counter}
-                  logout={logOutHandler}
-                  extendSession={extendSessionHander}
-                />
-              </Modal.Window>
-            </Modal>
-          )}
-
+          <RefreshTokenWarrning />
           <View>
             <Outlet />
           </View>
