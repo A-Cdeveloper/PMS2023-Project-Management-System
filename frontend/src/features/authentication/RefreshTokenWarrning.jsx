@@ -34,7 +34,7 @@ const RefreshTokenWarrning = () => {
     return () => clearInterval(interval);
   }, [endLoginSession(expiresIn)]);
 
-  console.log(counter);
+  //console.log(counter);
 
   if (counter > 121) return;
 
