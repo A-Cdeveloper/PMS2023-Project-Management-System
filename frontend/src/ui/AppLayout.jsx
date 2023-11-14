@@ -78,11 +78,8 @@ const AppLayout = () => {
         <Header />
 
         <Container>
-          {counter < 20 && (
-            <Modal
-              //autoOpen={endLoginSession(expiresIn) <= 10 ? "modalexp" : null}
-              autoOpen="modalexp"
-            >
+          {counter && (
+            <Modal autoOpen="modalexp">
               <Modal.Window name="modalexp">
                 <LoginExpirationModal
                   counter={counter}

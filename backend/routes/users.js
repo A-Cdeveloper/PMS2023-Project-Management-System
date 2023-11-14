@@ -37,7 +37,7 @@ router.post('/login', async (req, res) => {
 
   //
   let timeObject = new Date()
-  timeObject = new Date(timeObject.getTime() + 1000 * 60 * 0.5)
+  timeObject = new Date(timeObject.getTime() + 1000 * 60 * 5)
 
   if (user == undefined) {
     return res.status(400).json({ message: 'Username not exist.' })
@@ -68,7 +68,11 @@ router.post('/login', async (req, res) => {
       existingUser,
       process.env.REFRESH_TOKEN_SECRET
     )
-    await dbfunctions.updateRefreshToken(refreshToken, user.uid)
+
+    await dbfunctions.updateRefreshToken({
+      refToken: refreshToken,
+      user_id: user.uid,
+    })
 
     res.status(200).json({
       message: `Welcome ${user.first_name} ${user.last_name}.`,
@@ -88,7 +92,7 @@ router.post('/login', async (req, res) => {
     res.status(500).send()
   }
 })
-
+/////
 router.post('/logout', async (req, res) => {
   const refreshToken = req.body.refreshToken
 
@@ -106,44 +110,57 @@ router.post('/logout', async (req, res) => {
 })
 
 // // refresh token
-// router.post('/refresh_token', async (req, res) => {
-//   const refreshToken = req.body.refreshToken
+router.post('/refresh_token', async (req, res) => {
+  const refreshToken = req.body.refreshToken
 
-//   if (refreshToken === undefined)
-//     return res.status(400).json({ message: 'Bad refresh token.' })
+  if (refreshToken === undefined)
+    return res.status(400).json({ message: 'Bad refresh token.' })
 
-//   const existingUser = await dbfunctions.getRefreshToken(refreshToken)
-//   if (existingUser === undefined) {
-//     return res.status(400).json({ message: 'Refresh token not found.' })
-//   }
+  const existingUser = await dbfunctions.getRefreshToken(refreshToken)
+  if (existingUser === undefined) {
+    return res.status(400).json({ message: 'Refresh token not found.' })
+  }
 
-//   jwt.verify(
-//     refreshToken,
-//     process.env.REFRESH_TOKEN_SECRET,
-//     async (err, user) => {
-//       if (err) return res.sendStatus(403)
+  jwt.verify(
+    refreshToken,
+    process.env.REFRESH_TOKEN_SECRET,
+    async (err, user) => {
+      if (err) return res.sendStatus(403)
 
-//       let timeObject = new Date()
-//       timeObject = new Date(timeObject.getTime() + 1000 * 60 * 60)
+      let timeObject = new Date()
+      timeObject = new Date(timeObject.getTime() + 1000 * 60 * 5)
 
-//       const accessToken = jwt.sign(
-//         { username: existingUser.username },
-//         process.env.ACCESS_TOKEN_SECRET,
-//         { expiresIn: '1h' }
-//       )
-//       const newRefreshToken = jwt.sign(
-//         { username: existingUser.username },
-//         process.env.REFRESH_TOKEN_SECRET
-//       )
-//       await dbfunctions.updateRefreshToken(newRefreshToken, existingUser.uid)
-//       res.json({
-//         accessToken: accessToken,
-//         refreshToken: newRefreshToken,
-//         expiresIn: timeObject,
-//       })
-//     }
-//   )
-// })
+      const accessToken = jwt.sign(
+        { username: existingUser.username },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: '5min' }
+      )
+      const newRefreshToken = jwt.sign(
+        { username: existingUser.username },
+        process.env.REFRESH_TOKEN_SECRET
+      )
+
+      await dbfunctions.updateRefreshToken({
+        refToken: newRefreshToken,
+        user_id: existingUser.uid,
+      })
+
+      res.status(200).json({
+        message: `Your session has been extended`,
+        user: {
+          uid: existingUser.uid,
+          first_name: existingUser.first_name,
+          last_name: existingUser.last_name,
+          email: existingUser.email,
+          role: existingUser.role,
+          accessToken: accessToken,
+          refreshToken: newRefreshToken,
+          expiresIn: timeObject,
+        },
+      })
+    }
+  )
+})
 
 router.post('/new', verifyToken, async (req, res) => {
   const { first_name, last_name, username, email, role } = req.body

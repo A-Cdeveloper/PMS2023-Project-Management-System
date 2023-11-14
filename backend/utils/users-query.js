@@ -83,7 +83,7 @@ const getRefreshToken = async (refToken) => {
   return refreshTkn[0]
 }
 
-const updateRefreshToken = async (refToken, user_id) => {
+const updateRefreshToken = async ({ refToken, user_id }) => {
   await db.query('UPDATE pms_users SET refreshToken = ? WHERE uid=?', [
     refToken,
     user_id,

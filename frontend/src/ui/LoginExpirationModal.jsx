@@ -29,7 +29,7 @@ function LoginExpirationModal({ onConfirm, onCloseModal, counter, logout }) {
   return (
     <StyledExpirationModal>
       <Headline as="h3">
-        ou will be automatically logged out for {counter}s !!!
+        You will be automatically logout for {counter}s !!!
       </Headline>
 
       <div>
