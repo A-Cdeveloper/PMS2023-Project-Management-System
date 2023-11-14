@@ -36,11 +36,11 @@ const RefreshTokenWarrning = () => {
 
   console.log(counter);
 
-  if (counter > 270) return;
+  if (counter > 121) return;
 
   return (
     <>
-      {/* auto logout warrning 120s before */}
+      {/* auto logout warrning fireup 120s before */}
       <Modal autoOpen="modalexp">
         <Modal.Window name="modalexp">
           <LoginExpirationModal
