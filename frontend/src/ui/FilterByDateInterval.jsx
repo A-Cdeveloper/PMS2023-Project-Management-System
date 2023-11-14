@@ -41,6 +41,8 @@ const FilterByDateInterval = () => {
     "endPoint"
   );
 
+  console.log(startPoint, endPoint);
+
   useEffect(() => {
     searchParams.set("startIntervalDate", startPoint || startIntervalDate);
     searchParams.set("endIntervalDate", endPoint || endIntervalDate);

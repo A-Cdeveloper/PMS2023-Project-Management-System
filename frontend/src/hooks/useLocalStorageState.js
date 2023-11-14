@@ -5,11 +5,13 @@ export function useLocalStorageState(initialState, key) {
     ? localStorage.getItem(key)
     : initialState;
 
-  const [value, setValue] = useState(JSON.parse(storedvalue));
+  // console.log(typeof storedvalue);
+
+  const [value, setValue] = useState(storedvalue);
 
   useEffect(
     function () {
-      localStorage.setItem(key, JSON.stringify(value));
+      localStorage.setItem(key, value);
     },
     [value, key]
   );
