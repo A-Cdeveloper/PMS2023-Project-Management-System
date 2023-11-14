@@ -1,5 +1,5 @@
 import { API_URL } from "../utils/constants";
-import { responseApiFn } from "../utils/helpers";
+import { responseApiFn, headerApiFn } from "../utils/helpers";
 
 export const wait = (duration) => {
   return new Promise((resolve) => setTimeout(resolve, duration));
@@ -54,4 +54,18 @@ export const forgotPassword = async ({ entry }) => {
   });
 
   return await responseApiFn(response, "Failed! Please try again");
+};
+
+///////////////////////////////////////////////////////////////////////
+export const refreshToken = async ({ refreshToken, accessToken }) => {
+  const response = await fetch(`${API_URL}/users/refresh_token`, {
+    method: "POST",
+    headers: headerApiFn(accessToken),
+    body: JSON.stringify({ refreshToken }),
+  });
+
+  return await responseApiFn(
+    response,
+    "Refresh session failed! Please try again"
+  );
 };

@@ -12,6 +12,7 @@ import { endLoginSession } from "../utils/helpers";
 import { useEffect, useState } from "react";
 import { useLogout } from "../features/authentication/useLogout";
 import Modal from "./Modal";
+import useRefreshToken from "../features/authentication/useRefreshToken";
 
 const StyledAppLayout = styled.div`
   display: flex;
@@ -42,14 +43,19 @@ const View = styled.div`
 
 const AppLayout = () => {
   const {
-    user: { expiresIn, refreshToken },
+    user: { expiresIn, refreshToken, accessToken },
   } = useCurrentUserTokens();
 
   const { logout } = useLogout();
+  const { refreshToken: extendSessionFn } = useRefreshToken();
   const [counter, setCounter] = useState(endLoginSession(expiresIn));
 
   const logOutHandler = () => {
-    logout({ refreshToken: refreshToken });
+    logout({ refreshToken });
+  };
+
+  const extendSessionHander = () => {
+    extendSessionFn({ refreshToken, accessToken });
   };
 
   useEffect(() => {
@@ -78,12 +84,14 @@ const AppLayout = () => {
         <Header />
 
         <Container>
-          {counter && (
+          {/* auto logout warrning 120s before */}
+          {counter < 121 && (
             <Modal autoOpen="modalexp">
               <Modal.Window name="modalexp">
                 <LoginExpirationModal
                   counter={counter}
                   logout={logOutHandler}
+                  extendSession={extendSessionHander}
                 />
               </Modal.Window>
             </Modal>

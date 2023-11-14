@@ -9,8 +9,8 @@ export const useLogout = () => {
 
   const { isLoading, mutate: logout } = useMutation({
     mutationFn: logoutApi,
-    onSuccess: () => {
-      toast.success(`You are succesfully loged out!`);
+    onSuccess: (data) => {
+      toast.success(data.message);
       navigate("/login", { replace: true });
       localStorage.removeItem("currentUser");
     },

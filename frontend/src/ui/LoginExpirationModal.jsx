@@ -20,7 +20,13 @@ const StyledExpirationModal = styled.div`
   }
 `;
 
-function LoginExpirationModal({ onConfirm, onCloseModal, counter, logout }) {
+function LoginExpirationModal({
+  onConfirm,
+  onCloseModal,
+  counter,
+  logout,
+  extendSession,
+}) {
   const conformActionHandler = () => {
     onConfirm();
     onCloseModal();
@@ -37,7 +43,7 @@ function LoginExpirationModal({ onConfirm, onCloseModal, counter, logout }) {
           Logout
         </Button>
 
-        <Button variation="info" size="medium" onClick={conformActionHandler}>
+        <Button variation="info" size="medium" onClick={extendSession}>
           Stay login
         </Button>
       </div>

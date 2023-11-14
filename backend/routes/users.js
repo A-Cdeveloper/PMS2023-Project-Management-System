@@ -106,11 +106,11 @@ router.post('/logout', async (req, res) => {
   }
 
   await dbfunctions.clearRefreshToken(refreshToken)
-  return res.status(231).json({ message: 'You are logout.' })
+  return res.status(231).json({ message: 'You are succesfully loged out!' })
 })
 
 // // refresh token
-router.post('/refresh_token', async (req, res) => {
+router.post('/refresh_token', verifyToken, async (req, res) => {
   const refreshToken = req.body.refreshToken
 
   if (refreshToken === undefined)
