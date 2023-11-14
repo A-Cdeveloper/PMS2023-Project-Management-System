@@ -37,7 +37,7 @@ router.post('/login', async (req, res) => {
 
   //
   let timeObject = new Date()
-  timeObject = new Date(timeObject.getTime() + 1000 * 60 * 5)
+  timeObject = new Date(timeObject.getTime() + 1000 * 60 * 60 * 4)
 
   if (user == undefined) {
     return res.status(400).json({ message: 'Username not exist.' })
@@ -62,7 +62,7 @@ router.post('/login', async (req, res) => {
     const accessToken = jwt.sign(
       existingUser,
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '5min' }
+      { expiresIn: '4h' }
     )
     const refreshToken = jwt.sign(
       existingUser,
@@ -128,12 +128,12 @@ router.post('/refresh_token', verifyToken, async (req, res) => {
       if (err) return res.sendStatus(403)
 
       let timeObject = new Date()
-      timeObject = new Date(timeObject.getTime() + 1000 * 60 * 5)
+      timeObject = new Date(timeObject.getTime() + 1000 * 60 * 60 + 4)
 
       const accessToken = jwt.sign(
         { username: existingUser.username },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '5min' }
+        { expiresIn: '4h' }
       )
       const newRefreshToken = jwt.sign(
         { username: existingUser.username },
