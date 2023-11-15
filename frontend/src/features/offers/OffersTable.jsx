@@ -22,7 +22,7 @@ const OffersTable = () => {
 
   const shownOffers = filteredTextValue
     ? allOffers.filter((offer) =>
-        offer.offer_name.trim().toLowerCase().includes(filteredTextValue)
+        offer.client_name.trim().toLowerCase().includes(filteredTextValue)
       )
     : offers;
 

@@ -1,13 +1,15 @@
 import { HiPlusCircle } from "react-icons/hi2";
+import { useNavigate } from "react-router-dom";
 import TableOperations from "../../ui/Data/TableOperations";
 import SortBy from "../../ui/SortBy";
 import ButtonIconText from "../../ui/Buttons/ButtonIconText";
-import { useNavigate } from "react-router-dom";
+import FilterText from "../../ui/FilterText";
 
 function ServicesTableOperations() {
   const navigate = useNavigate();
   return (
     <TableOperations>
+      <FilterText placeholder="Search offers by client..." />
       <SortBy
         options={[
           { value: "offer_number-asc", label: "Sort by number (asc)" },
