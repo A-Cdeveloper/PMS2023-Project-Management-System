@@ -106,7 +106,7 @@ const AccountDetail = () => {
     refreshToken,
   } = userCurrent;
 
-  console.log(userCurrent);
+  // console.log(userCurrent);
 
   return (
     <>

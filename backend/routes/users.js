@@ -45,10 +45,16 @@ router.post('/login', async (req, res) => {
   if (user.verified == 0) {
     return res.status(400).json({ message: 'Account is not verified.' })
   }
+  // if (user.refreshToken) {
+  //   return res
+  //     .status(400)
+  //     .json({ message: 'You are already loged in in other device.' })
+  // }
   if (user.refreshToken) {
-    return res
-      .status(400)
-      .json({ message: 'You are already loged in in other device.' })
+    await dbfunctions.updateRefreshToken({
+      refToken: null,
+      user_id: user.uid,
+    })
   }
 
   try {
