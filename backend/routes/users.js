@@ -134,7 +134,7 @@ router.post('/refresh_token', verifyToken, async (req, res) => {
       if (err) return res.sendStatus(403)
 
       let timeObject = new Date()
-      timeObject = new Date(timeObject.getTime() + 1000 * 60 * 60 + 4)
+      timeObject = new Date(timeObject.getTime() + 1000 * 60 * 60 * 4)
 
       const accessToken = jwt.sign(
         { username: existingUser.username },
