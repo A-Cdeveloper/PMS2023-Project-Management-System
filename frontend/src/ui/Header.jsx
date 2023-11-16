@@ -1,7 +1,6 @@
 import { styled } from "styled-components";
 import HeaderMenu from "./HeaderMenu";
 import UserAvatar from "../features/account/UserAvatar";
-import ClearOnExit from "../features/authentication/ClearOnExit";
 
 const StyledHeader = styled.header`
   width: 100%;
