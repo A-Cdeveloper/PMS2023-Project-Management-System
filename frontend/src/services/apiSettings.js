@@ -2,9 +2,11 @@ import { API_URL } from "../utils/constants";
 import { headerApiFn, responseApiFn } from "../utils/helpers";
 
 //////////////////////////////////////////////////////////////////
-export const getSettings = async ({ accessToken }) => {
+export const getSettings = async () => {
   const response = await fetch(`${API_URL}/settings/`, {
-    headers: headerApiFn(accessToken),
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 
   return await responseApiFn(response, "Settings could't be loaded!");

@@ -4,7 +4,7 @@ const verifyToken = require('../authMw')
 
 const router = express.Router()
 
-router.get('/', verifyToken, async (req, res) => {
+router.get('/', async (req, res) => {
   const settings = await dbfunctions.getSettings()
   if (!settings) {
     return res.status(400).json({ message: 'No settings.' })

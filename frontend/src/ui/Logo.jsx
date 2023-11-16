@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useSettings } from "../features/settings/useSettings";
 
 const StyledLogo = styled.div`
   text-align: center;
@@ -17,6 +18,8 @@ const Img = styled.img`
 `;
 
 function Logo() {
+  const { settings = {} } = useSettings();
+  console.log(settings);
   return (
     <>
       <StyledLogo>
