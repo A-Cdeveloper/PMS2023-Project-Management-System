@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useSingleUser } from "./useSingleUser";
+import { NavLink } from "react-router-dom";
 
 const StyledUserAvatar = styled.div`
   display: flex;
@@ -28,10 +29,12 @@ const UserAvatar = () => {
   if (user_avatar || first_name || last_name) {
     uAvatar = (
       <>
-        <Avatar
-          src={user_avatar ? user_avatar : "default-user.jpg"}
-          alt={`Avatar for ${first_name}`}
-        />
+        <NavLink to="/account">
+          <Avatar
+            src={user_avatar ? user_avatar : "default-user.jpg"}
+            alt={`Avatar for ${first_name}`}
+          />
+        </NavLink>
         <span>
           {first_name} {last_name}
         </span>
