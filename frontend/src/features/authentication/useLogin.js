@@ -16,7 +16,9 @@ const useLogin = () => {
       );
       toast.success(data.message);
     },
-    onError: (err) => toast.error(err.message),
+    onError: (err) => {
+      toast.error("Server connection problem" || err.message);
+    },
   });
 
   return { isLoginLoading, login };
