@@ -14,21 +14,31 @@ export const theme = {
   },
   colors: {
     primary: {
+      50: "#E28C69",
       100: "#eb5e28",
       700: "#DF4F16",
     },
     secondary: {
+      50: "#706F6A",
       100: "#3D3C39",
       700: "#252422",
     },
     danger: {
+      50: "##B44D4D",
       100: "#b91c1c",
       700: "#9B0B0B",
     },
     info: {
+      50: "#71CEB5",
       100: "#06d6a0",
       700: "#0C775A",
     },
+    blue: {
+      50: "#7C9AEB",
+      100: "#264DB8",
+      700: "#0C2977",
+    },
+
     light: "#ccc5b9",
     lighter: "#fffcf2",
   },
