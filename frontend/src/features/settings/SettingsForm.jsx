@@ -1,19 +1,24 @@
-import Form from "../../ui/Form/Form";
-import FormRow from "../../ui/Form/FormRow";
-import Input from "../../ui/Form/Input";
+import styled from "styled-components";
 import { toast } from "react-hot-toast";
+
 import { useSettings } from "./useSettings";
 import { useUpdateSettings } from "./useUpdateSettings";
 import { useAccessToken } from "../../context/authContext";
-import Row from "../../ui/Row";
-import styled from "styled-components";
 
-const SeetingSection = styled.div`
+import Row from "../../ui/Row";
+import Form from "../../ui/Form/Form";
+import FormRow from "../../ui/Form/FormRow";
+import Input from "../../ui/Form/Input";
+import Textarea from "../../ui/Form/Textarea";
+import Button from "../../ui/Buttons/Button";
+
+const SettingSection = styled.div`
   background: white;
   padding: 2rem 2rem 0 2rem;
   box-shadow: ${(props) => props.theme.shadow.xs};
   display: flex;
   flex-direction: column;
+  flex: 1;
 
   & > h3 {
     margin-bottom: 2rem;
@@ -35,6 +40,9 @@ const SettingsForm = () => {
     offers_per_page,
     regular_whour_price,
     special_whour_price,
+    company_logo,
+    company_name,
+    company_adresse,
   } = settings;
 
   if (errorGetSettings) return <p>{errorGetSettings.message}</p>;
@@ -55,7 +63,45 @@ const SettingsForm = () => {
 
   return (
     <Row type="horizontalandgap">
-      <SeetingSection>
+      <SettingSection>
+        <h3>Company details</h3>
+        <Form>
+          <FormRow label="Company logo">
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={() => {}}
+              disabled={isLoadingSettings || isUpdateSettings}
+            />
+          </FormRow>
+          <Button size="small">Change Image</Button>
+          <FormRow></FormRow>
+        </Form>
+
+        <Form>
+          <FormRow label="Company name">
+            <Input
+              defaultValue={company_name}
+              onBlur={(e) => handleBlur(e, "company_name")}
+              disabled={isLoadingSettings || isUpdateSettings}
+              id="companyname"
+            />
+          </FormRow>
+
+          <FormRow label="Company adresse">
+            <Textarea
+              defaultValue={company_adresse}
+              type="textarea"
+              style={{ height: "10rem" }}
+              disabled={isLoadingSettings || isUpdateSettings}
+            />
+          </FormRow>
+
+          <FormRow></FormRow>
+        </Form>
+      </SettingSection>
+
+      <SettingSection>
         <h3>Display settings</h3>
         <Form>
           <FormRow label="Clients per page">
@@ -115,8 +161,8 @@ const SettingsForm = () => {
           </FormRow>
           <FormRow></FormRow>
         </Form>
-      </SeetingSection>
-      <SeetingSection>
+      </SettingSection>
+      <SettingSection>
         <h3>Price settings</h3>
         <FormRow label="Regular price/h (€)">
           <Input
@@ -141,10 +187,10 @@ const SettingsForm = () => {
           </>
         </FormRow>
         <FormRow></FormRow>
-      </SeetingSection>
-      <SeetingSection>
+      </SettingSection>
+      <SettingSection>
         <div>Backup database</div> <div>Restore database</div>
-      </SeetingSection>
+      </SettingSection>
     </Row>
   );
 };
