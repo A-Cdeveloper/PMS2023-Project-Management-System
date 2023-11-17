@@ -51,28 +51,6 @@ export const changeLogo = async ({ formData, accessToken }) => {
   }
 
   return filename;
-
-  // ////////////  2. change user_avatar ////////////
-  // const response2 = await fetch(`${API_URL}/users/change-avatar/${user_id}`, {
-  //   method: "PATCH",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     Authorization: `token ${accessToken}`,
-  //   },
-  //   body: JSON.stringify({ newAvatarPath: `${API_URL}/${filename}` }),
-  // });
-
-  // if (response2.status === 404) {
-  //   throw new Error("Can't change avatar image!");
-  // }
-
-  // const data2 = await response2.json();
-
-  // if (response2.status === 400 || response2.status === 401) {
-  //   throw new Error(data.message);
-  // }
-
-  // return data2;
 };
 
 // /////////////////////////////////////////////////////////////////////
