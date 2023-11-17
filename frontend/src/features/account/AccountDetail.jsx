@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useCurrentUserTokens } from "../../context/authContext";
@@ -21,12 +22,11 @@ import {
 
 import ChangePassword from "./ChangePassword";
 import ChangeProfileImage from "./ChangeProfileImage";
-import { HiXMark } from "react-icons/hi2";
 import Button from "../../ui/Buttons/Button";
 import useDeleteUser from "../users/useDeleteUser";
 import Modal from "../../ui/Modal";
 import ConfirmModal from "../../ui/ConfirmModal";
-import { useNavigate } from "react-router-dom";
+import RemoveButton from "../../ui/Buttons/RemoveButton";
 
 const ImageHolder = styled.div`
   position: relative;
@@ -42,38 +42,6 @@ const ProfileImage = styled.img`
   margin-bottom: 2rem;
   border-radius: 50%;
   position: relative;
-`;
-
-const CloseButton = styled.button`
-  background-color: ${(props) => props.theme.colors.danger[100]};
-  border: none;
-  padding: 0.3rem;
-  border-radius: 50%;
-  text-align: center;
-  transform: translateX(0.8rem);
-  position: absolute;
-  top: 0.5rem;
-  left: -0.5rem;
-  width: 2.3rem;
-  height: 2.3rem;
-
-  &:focus,
-  &:active {
-    outline: none;
-  }
-
-  &:hover {
-    background-color: ${(props) => props.theme.colors.danger[700]};
-  }
-
-  & svg {
-    width: 1.6rem;
-    height: 1.6rem;
-    /* Sometimes we need both */
-    fill: white;
-    stroke: white;
-    color: white;
-  }
 `;
 
 const AccountDetail = () => {
@@ -93,7 +61,6 @@ const AccountDetail = () => {
     : userSingle;
 
   const {
-    uid,
     user_avatar,
     first_name,
     last_name,
@@ -102,8 +69,6 @@ const AccountDetail = () => {
     created_date,
     last_login,
     role,
-    verified,
-    refreshToken,
   } = userCurrent;
 
   // console.log(userCurrent);
@@ -136,13 +101,11 @@ const AccountDetail = () => {
                     alt={`profile image for ${first_name}`}
                   />
                   {user_avatar && (
-                    <CloseButton
+                    <RemoveButton
                       onClick={() => {
                         removeProfileImage({ user_id, accessToken });
                       }}
-                    >
-                      <HiXMark />
-                    </CloseButton>
+                    />
                   )}
                 </ImageHolder>
 

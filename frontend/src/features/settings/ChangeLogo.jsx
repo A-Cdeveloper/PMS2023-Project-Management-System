@@ -7,40 +7,7 @@ import Input from "../../ui/Form/Input";
 import Button from "../../ui/Buttons/Button";
 import Logo from "../../ui/Logo";
 import Row from "../../ui/Row";
-import styled from "styled-components";
-import { HiXMark } from "react-icons/hi2";
-
-const CloseButton = styled.button`
-  background-color: ${(props) => props.theme.colors.danger[100]};
-  border: none;
-  padding: 0.3rem;
-  border-radius: 50%;
-  text-align: center;
-  transform: translateX(0.8rem);
-  position: absolute;
-  top: 0.5rem;
-  left: -0.5rem;
-  width: 2.3rem;
-  height: 2.3rem;
-
-  &:focus,
-  &:active {
-    outline: none;
-  }
-
-  &:hover {
-    background-color: ${(props) => props.theme.colors.danger[700]};
-  }
-
-  & svg {
-    width: 1.6rem;
-    height: 1.6rem;
-    /* Sometimes we need both */
-    fill: white;
-    stroke: white;
-    color: white;
-  }
-`;
+import RemoveButton from "../../ui/Buttons/RemoveButton";
 
 const ChangeLogo = ({ updateSettings, accessToken }) => {
   const { isEditLoading, changeLogo } = useChangeLogo();
@@ -72,15 +39,7 @@ const ChangeLogo = ({ updateSettings, accessToken }) => {
   return (
     <Form onSubmit={handleSubmit}>
       <Row type="horizontal" style={{ position: "relative" }}>
-        <CloseButton
-          onClick={(e) => {
-            e.preventDefault();
-            console.log("test");
-            //removeProfileImage({ user_id, accessToken });
-          }}
-        >
-          <HiXMark />
-        </CloseButton>
+        <RemoveButton onClick={() => console.log("test")} />
 
         <Logo align="left" />
         <Input
