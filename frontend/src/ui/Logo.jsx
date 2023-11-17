@@ -13,7 +13,8 @@ const StyledLogo = styled.div`
 
 const Img = styled.img`
   height: auto;
-  width: 70%;
+  max-height: 6rem;
+  width: auto;
   /* width: auto; */
 `;
 
