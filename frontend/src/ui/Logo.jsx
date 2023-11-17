@@ -3,8 +3,7 @@ import { useSettings } from "../features/settings/useSettings";
 import demoLogo from "../assets/demo-logo.png";
 
 const StyledLogo = styled.div`
-  text-align: center;
-
+  text-align: ${(props) => (props.align ? props.align : "center")};
   object-fit: cover;
 
   & h2 {
@@ -18,12 +17,12 @@ const Img = styled.img`
   /* width: auto; */
 `;
 
-function Logo() {
+function Logo({ align }) {
   const { settings = {} } = useSettings();
   const { company_logo, company_name } = settings;
   return (
     <>
-      <StyledLogo>
+      <StyledLogo align={align}>
         <Img
           src={company_logo || demoLogo}
           alt={company_name || "Demo company"}

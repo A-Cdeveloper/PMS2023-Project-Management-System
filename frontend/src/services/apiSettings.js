@@ -25,3 +25,65 @@ export const updateSettings = async ({ updatedSettings, accessToken }) => {
     "Settings could't be edit! Please try again"
   );
 };
+
+/////////////////////////////////////////////////////////////////////
+export const changeLogo = async ({ formData, accessToken }) => {
+  if (!formData) return;
+
+  ////////////  1. upload logo to server ////////////
+  const response = await fetch(`${API_URL}/upload`, {
+    method: "POST",
+    headers: {
+      Authorization: `token ${accessToken}`,
+    },
+    body: formData,
+  });
+
+  if (response.status === 404) {
+    throw new Error("Can't upload image to server.");
+  }
+
+  const data = await response.json();
+
+  const { filename } = data;
+  if (!filename || response.status === 400 || response.status === 401) {
+    throw new Error(data.message);
+  }
+
+  return filename;
+
+  // ////////////  2. change user_avatar ////////////
+  // const response2 = await fetch(`${API_URL}/users/change-avatar/${user_id}`, {
+  //   method: "PATCH",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     Authorization: `token ${accessToken}`,
+  //   },
+  //   body: JSON.stringify({ newAvatarPath: `${API_URL}/${filename}` }),
+  // });
+
+  // if (response2.status === 404) {
+  //   throw new Error("Can't change avatar image!");
+  // }
+
+  // const data2 = await response2.json();
+
+  // if (response2.status === 400 || response2.status === 401) {
+  //   throw new Error(data.message);
+  // }
+
+  // return data2;
+};
+
+// /////////////////////////////////////////////////////////////////////
+// export const removeProfileImage = async ({ user_id, accessToken }) => {
+//   const response = await fetch(`${API_URL}/users/change-avatar/${user_id}`, {
+//     method: "PATCH",
+//     headers: headerApiFn(accessToken),
+//   });
+
+//   return await responseApiFn(
+//     response,
+//     "Profile image can't be deleted. Please try again"
+//   );
+// };

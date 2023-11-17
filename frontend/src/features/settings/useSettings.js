@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getSettings as getSettingsApi } from "../../services/apiSettings";
-import { useAccessToken } from "../../context/authContext";
+
 export const useSettings = () => {
   const {
     isLoading: isLoadingSettings,

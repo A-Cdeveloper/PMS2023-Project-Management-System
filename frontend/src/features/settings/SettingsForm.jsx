@@ -11,6 +11,8 @@ import FormRow from "../../ui/Form/FormRow";
 import Input from "../../ui/Form/Input";
 import Textarea from "../../ui/Form/Textarea";
 import Button from "../../ui/Buttons/Button";
+import Logo from "../../ui/Logo";
+import ChangeLogo from "./ChangeLogo";
 
 const SettingSection = styled.div`
   background: white;
@@ -47,40 +49,45 @@ const SettingsForm = () => {
 
   if (errorGetSettings) return <p>{errorGetSettings.message}</p>;
 
-  //console.log(settings);
+  const updateSettingsHandler = (field, value) => {
+    updateSettings({
+      updatedSettings: { ...settings, [field]: value },
+      accessToken,
+    });
+  };
 
   const handleBlur = (e, field) => {
-    if (e.target.value === "" || +e.target.value <= 0) {
+    if (e.target.value === "") {
+      toast.error(`Empty value not allow`);
+      return;
+    }
+    if (+e.target.value <= 0) {
       toast.error(`Value must be greater then 0`);
       return;
     }
-    //console.log({ ...settings, [field]: +e.target.value });
-    updateSettings({
-      updatedSettings: { ...settings, [field]: +e.target.value },
-      accessToken,
-    });
+
+    updateSettingsHandler(field, e.target.value);
+
+    // console.log({ ...settings, [field]: e.target.value });
+    // updateSettings({
+    //   updatedSettings: { ...settings, [field]: e.target.value },
+    //   accessToken,
+    // });
   };
 
   return (
     <Row type="horizontalandgap">
       <SettingSection>
         <h3>Company details</h3>
-        <Form>
-          <FormRow label="Company logo">
-            <Input
-              type="file"
-              accept="image/*"
-              onChange={() => {}}
-              disabled={isLoadingSettings || isUpdateSettings}
-            />
-          </FormRow>
-          <Button size="small">Change Image</Button>
-          <FormRow></FormRow>
-        </Form>
+        <ChangeLogo
+          updateSettings={updateSettingsHandler}
+          accessToken={accessToken}
+        />
 
         <Form>
           <FormRow label="Company name">
             <Input
+              type="text"
               defaultValue={company_name}
               onBlur={(e) => handleBlur(e, "company_name")}
               disabled={isLoadingSettings || isUpdateSettings}
@@ -90,10 +97,12 @@ const SettingsForm = () => {
 
           <FormRow label="Company adresse">
             <Textarea
-              defaultValue={company_adresse}
               type="textarea"
               style={{ height: "10rem" }}
+              defaultValue={company_adresse}
+              onBlur={(e) => handleBlur(e, "company_adresse")}
               disabled={isLoadingSettings || isUpdateSettings}
+              id="companyadresse"
             />
           </FormRow>
 
