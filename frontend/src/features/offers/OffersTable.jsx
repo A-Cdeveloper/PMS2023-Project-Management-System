@@ -7,6 +7,7 @@ import Table from "../../ui/Data/Table";
 import OfferRow from "./OfferRow";
 import Pagination from "../../ui/Pagination";
 import Empty from "../../ui/Data/Empty";
+import Error from "../../ui/Data/Error";
 
 import { offersCols } from "./OffersParameters";
 
@@ -27,7 +28,7 @@ const OffersTable = () => {
     : offers;
 
   if (isLoading) return <Spinner />;
-  if (error) return <p>{error.message}</p>;
+  if (error) return <Error message={error.message} />;
   if (shownOffers.length === 0) return <Empty resource="offers" />;
 
   return (

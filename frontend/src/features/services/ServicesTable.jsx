@@ -7,6 +7,7 @@ import Table from "../../ui/Data/Table";
 import ServiceRow from "./ServiceRow";
 import Pagination from "../../ui/Pagination";
 import Empty from "../../ui/Data/Empty";
+import Error from "../../ui/Data/Error";
 
 import { servicesCols } from "./ServiceParameters";
 
@@ -25,7 +26,7 @@ const ServicesTable = () => {
     : services;
 
   if (isLoading) return <Spinner />;
-  if (error) return <p>{error.message}</p>;
+  if (error) return <Error message={error.message} />;
   if (shownServices.length === 0) return <Empty resource="services" />;
 
   return (

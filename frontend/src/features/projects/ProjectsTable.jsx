@@ -6,6 +6,7 @@ import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Data/Table";
 import Pagination from "../../ui/Pagination";
 import Empty from "../../ui/Data/Empty";
+import Error from "../../ui/Data/Error";
 import ProjectRow from "./ProjectRow";
 
 import { projectCols } from "./ProjectParameters";
@@ -56,7 +57,7 @@ const ProjectsTable = () => {
   );
 
   if (isLoading) return <Spinner />;
-  if (error) return <p>{error.message}</p>;
+  if (error) return <Error message={error.message} />;
   if (shownProjects.length === 0) return <Empty resource="projects" />;
 
   return (

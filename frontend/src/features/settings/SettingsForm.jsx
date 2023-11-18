@@ -11,6 +11,7 @@ import FormRow from "../../ui/Form/FormRow";
 import Input from "../../ui/Form/Input";
 import Textarea from "../../ui/Form/Textarea";
 import ChangeLogo from "./ChangeLogo";
+import Error from "../../ui/Data/Error";
 
 const SettingSection = styled.div`
   background: white;
@@ -45,7 +46,7 @@ const SettingsForm = () => {
     company_adresse,
   } = settings;
 
-  if (errorGetSettings) return <p>{errorGetSettings.message}</p>;
+  if (errorGetSettings) return <Error message={errorGetSettings.message} />;
 
   const updateSettingsHandler = (field, value) => {
     updateSettings({

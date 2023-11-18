@@ -8,12 +8,12 @@ const FullArea = styled.div`
   align-items: center;
 `;
 
-function Empty({ resource }) {
+function Error({ message }) {
   return (
     <FullArea>
-      <Headline as="h3">No {resource} could be found. ⚠</Headline>
+      <Headline as="h3">{message} ⚠</Headline>
     </FullArea>
   );
 }
 
-export default Empty;
+export default Error;

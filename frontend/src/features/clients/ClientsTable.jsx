@@ -9,6 +9,7 @@ import Pagination from "../../ui/Pagination";
 import Empty from "../../ui/Data/Empty";
 
 import { clientCols } from "./ClientParameters";
+import Error from "../../ui/Data/Error";
 
 const ClientsTable = () => {
   const [searchParams] = useSearchParams();
@@ -33,7 +34,7 @@ const ClientsTable = () => {
     : clients;
 
   if (isLoading) return <Spinner />;
-  if (error) return <p>{error.message}</p>;
+  if (error) return <Error message={error.message} />;
   if (shownClients.length === 0) return <Empty resource="clients" />;
 
   return (

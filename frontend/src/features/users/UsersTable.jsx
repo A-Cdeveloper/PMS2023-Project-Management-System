@@ -2,7 +2,7 @@ import { useUsers } from "./useUsers";
 
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Data/Table";
-// import Pagination from "../../ui/Pagination";
+import Error from "../../ui/Data/Error";
 import Empty from "../../ui/Data/Empty";
 import UserRow from "./UserRow";
 
@@ -32,7 +32,7 @@ const UsersTable = () => {
   const shownUsers = filteredUsers(allUsers, filteredTextValue);
 
   if (isLoading) return <Spinner />;
-  if (error) return <p>{error.message}</p>;
+  if (error) return <Error message={error.message} />;
   if (shownUsers.length === 0) return <Empty resource="users" />;
 
   return (

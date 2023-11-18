@@ -9,7 +9,7 @@ export const useSettings = () => {
   } = useQuery({
     queryKey: ["settings"],
     queryFn: () => getSettingsApi(),
-    cacheTime: 0,
+    retry: 1,
   });
   return {
     isLoadingSettings,

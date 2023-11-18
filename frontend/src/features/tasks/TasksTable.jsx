@@ -6,6 +6,7 @@ import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Data/Table";
 import Pagination from "../../ui/Pagination";
 import Empty from "../../ui/Data/Empty";
+import Error from "../../ui/Data/Error";
 import TaskRow from "./TaskRow";
 
 import { taskCols } from "./TaskParameters";
@@ -50,7 +51,7 @@ const TasksTable = () => {
   );
 
   if (isLoading) return <Spinner />;
-  if (error) return <p>{error.message}</p>;
+  if (error) return <Error message={error.message} />;
   if (shownTasks.length === 0) return <Empty resource="tasks" />;
 
   return (
