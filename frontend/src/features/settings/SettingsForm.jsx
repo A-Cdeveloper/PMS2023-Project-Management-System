@@ -76,6 +76,7 @@ const SettingsForm = () => {
         <ChangeLogo
           updateSettings={updateSettingsHandler}
           accessToken={accessToken}
+          isLogoExist={!!company_logo}
         />
 
         <Form>

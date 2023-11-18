@@ -8,8 +8,9 @@ import Button from "../../ui/Buttons/Button";
 import Logo from "../../ui/Logo";
 import Row from "../../ui/Row";
 import RemoveButton from "../../ui/Buttons/RemoveButton";
+import Spinner from "../../ui/Spinner";
 
-const ChangeLogo = ({ updateSettings, accessToken }) => {
+const ChangeLogo = ({ updateSettings, accessToken, isLogoExist }) => {
   const { isEditLoading, changeLogo } = useChangeLogo();
 
   const [file, setFile] = useState(null);
@@ -36,10 +37,14 @@ const ChangeLogo = ({ updateSettings, accessToken }) => {
     );
   };
 
+  if (isEditLoading) return <Spinner />;
+
   return (
     <Form onSubmit={handleSubmit}>
       <Row type="horizontal" style={{ position: "relative" }}>
-        <RemoveButton onClick={() => updateSettings("company_logo", null)} />
+        {isLogoExist && (
+          <RemoveButton onClick={() => updateSettings("company_logo", null)} />
+        )}
 
         <Logo align="left" />
         <Input
