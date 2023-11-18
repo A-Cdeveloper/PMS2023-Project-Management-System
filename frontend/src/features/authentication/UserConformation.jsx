@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import React from "react";
+import { useConformUser } from "./useConformUser";
+
 import Headline from "../../ui/Headline";
 import Button from "../../ui/Buttons/Button";
-import { useConformUser } from "./useConformUser";
 import Spinner from "../../ui/Spinner";
+import Error from "../../ui/Data/Error";
 
 const UserConformation = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const UserConformation = () => {
   let content;
 
   if (isLoading) return <Spinner />;
-  if (error) content = error.message;
+  if (error) content = <Error message={error.message} />;
   if (data) content = data.message;
 
   const conformed = !!data;

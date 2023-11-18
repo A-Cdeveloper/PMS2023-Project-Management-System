@@ -34,6 +34,7 @@ import ButtonGroup from "../../ui/Buttons/ButtonGroup";
 import Accordion from "../../ui/Data/Accordion";
 import Empty from "../../ui/Data/Empty";
 import Spinner from "../../ui/Spinner";
+import Error from "../../ui/Data/Error";
 
 const ProjectDetail = () => {
   const moveBack = useMoveBack();
@@ -70,10 +71,12 @@ const ProjectDetail = () => {
 
   if (error) {
     return (
-      <Row type="horizontal">
-        <Headline as="h1">{error.message}</Headline>
-        <ButtonText onClick={moveBack}> ← Back</ButtonText>
-      </Row>
+      <>
+        <Row type="horizontal">
+          <ButtonText onClick={moveBack}> ← Back</ButtonText>
+        </Row>
+        <Error message={error.message} />
+      </>
     );
   }
 

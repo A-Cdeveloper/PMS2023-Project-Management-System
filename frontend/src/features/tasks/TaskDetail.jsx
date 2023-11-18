@@ -28,6 +28,7 @@ import useEditTask from "./useEditTask";
 import TaskInvoice from "./TaskInvoice";
 import NewTaskInvoice from "./NewTaskInvoice";
 import { useSettings } from "../settings/useSettings";
+import Error from "../../ui/Data/Error";
 
 // import { HiOutlineArrowTopRightOnSquare } from "react-icons/hi2";
 
@@ -75,10 +76,12 @@ const TaskDetail = () => {
 
   if (error) {
     return (
-      <Row type="horizontal">
-        <Headline as="h1">{error.message}</Headline>
-        <ButtonText onClick={moveBack}> ← Back</ButtonText>
-      </Row>
+      <>
+        <Row type="horizontal">
+          <ButtonText onClick={moveBack}> ← Back</ButtonText>
+        </Row>
+        <Error message={error.message} />
+      </>
     );
   }
 

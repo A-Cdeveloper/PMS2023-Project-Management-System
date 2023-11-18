@@ -11,6 +11,7 @@ import Headline from "../../ui/Headline";
 import ButtonText from "../../ui/Buttons/ButtonText";
 import Row from "../../ui/Row";
 import Accordion from "../../ui/Data/Accordion";
+import Error from "../../ui/Data/Error";
 import {
   DataDetailsContainer,
   DataBox,
@@ -68,10 +69,12 @@ const ClientDetail = () => {
 
   if (error) {
     return (
-      <Row type="horizontal">
-        <Headline as="h1">{error.message}</Headline>
-        <ButtonText onClick={moveBack}> ← Back</ButtonText>
-      </Row>
+      <>
+        <Row type="horizontal">
+          <ButtonText onClick={moveBack}> ← Back</ButtonText>
+        </Row>
+        <Error message={error.message} />
+      </>
     );
   }
 

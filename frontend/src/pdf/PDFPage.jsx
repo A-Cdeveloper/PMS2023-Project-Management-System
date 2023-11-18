@@ -9,6 +9,7 @@ import ButtonText from "../ui/Buttons/ButtonText";
 import ButtonIconText from "../ui/Buttons/ButtonIconText";
 import { createContext, useContext } from "react";
 import Headline from "../ui/Headline";
+import Error from "../ui/Data/Error";
 
 // Create styles
 const styles = StyleSheet.create({
@@ -38,10 +39,12 @@ const Header = () => {
 
   if (error) {
     return (
-      <Row type="horizontal">
-        <Headline as="h1">PDF not exist</Headline>
-        <ButtonText onClick={moveBack}> ← Back</ButtonText>
-      </Row>
+      <>
+        <Row type="horizontal">
+          <ButtonText onClick={moveBack}> ← Back</ButtonText>
+        </Row>
+        <Error message={error.message} />
+      </>
     );
   }
 

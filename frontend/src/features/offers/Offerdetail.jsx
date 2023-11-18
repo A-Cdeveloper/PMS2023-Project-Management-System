@@ -21,6 +21,7 @@ import styled, { css } from "styled-components";
 import Table from "../../ui/Data/Table";
 import OfferServiceRow from "./OfferServiceRow";
 import Spinner from "../../ui/Spinner";
+import Error from "../../ui/Data/Error";
 
 const ClientAdr = styled.div`
   flex-direction: column;
@@ -79,10 +80,12 @@ const Offerdetail = () => {
 
   if (error) {
     return (
-      <Row type="horizontal">
-        <Headline as="h1">{error.message}</Headline>
-        <ButtonText onClick={moveBack}> ← Back</ButtonText>
-      </Row>
+      <>
+        <Row type="horizontal">
+          <ButtonText onClick={moveBack}> ← Back</ButtonText>
+        </Row>
+        <Error message={error.message} />
+      </>
     );
   }
 
