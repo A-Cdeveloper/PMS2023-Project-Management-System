@@ -54,7 +54,7 @@ export const changeLogo = async ({ formData, accessToken }) => {
 };
 
 // /////////////////////////////////////////////////////////////////////
-// export const removeProfileImage = async ({ user_id, accessToken }) => {
+// export const removeLogo = async ({ accessToken }) => {
 //   const response = await fetch(`${API_URL}/users/change-avatar/${user_id}`, {
 //     method: "PATCH",
 //     headers: headerApiFn(accessToken),

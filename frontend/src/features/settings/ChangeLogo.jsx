@@ -39,7 +39,7 @@ const ChangeLogo = ({ updateSettings, accessToken }) => {
   return (
     <Form onSubmit={handleSubmit}>
       <Row type="horizontal" style={{ position: "relative" }}>
-        <RemoveButton onClick={() => console.log("test")} />
+        <RemoveButton onClick={() => updateSettings("company_logo", null)} />
 
         <Logo align="left" />
         <Input

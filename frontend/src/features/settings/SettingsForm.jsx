@@ -67,12 +67,6 @@ const SettingsForm = () => {
     }
 
     updateSettingsHandler(field, e.target.value);
-
-    // console.log({ ...settings, [field]: e.target.value });
-    // updateSettings({
-    //   updatedSettings: { ...settings, [field]: e.target.value },
-    //   accessToken,
-    // });
   };
 
   return (

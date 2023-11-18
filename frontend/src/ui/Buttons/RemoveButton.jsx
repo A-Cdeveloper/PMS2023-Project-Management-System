@@ -1,4 +1,4 @@
-import React from "react";
+import styled from "styled-components";
 import { HiXMark } from "react-icons/hi2";
 
 const StyledRemoveButton = styled.button`
