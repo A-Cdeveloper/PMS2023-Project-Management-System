@@ -12,8 +12,9 @@ import Spinner from "../../../ui/Spinner";
 // Create Document Component
 const TaskPDF = () => {
   const { isLoading, taks: taskSingle = {} } = useTask();
-  const { settings = {} } = useSettings();
   const { taskId } = useParams();
+  const { settings = {} } = useSettings();
+  const { company_name, company_adresse } = settings;
 
   const queryClient = useQueryClient();
   const task = queryClient.getQueryData(["task", +taskId])
@@ -29,7 +30,13 @@ const TaskPDF = () => {
 
   return (
     <PDFPage
-      document={<TaskPDFDocument task={task} pricePerhour={pricePerhour} />}
+      document={
+        <TaskPDFDocument
+          task={task}
+          pricePerhour={pricePerhour}
+          owner={{ company_name, company_adresse }}
+        />
+      }
       fileName={`${task.task_id}.pdf`}
     >
       <PDFPage.Header />

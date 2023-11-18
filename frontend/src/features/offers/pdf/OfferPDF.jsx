@@ -3,6 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { useOffer } from "../useOffer";
 import { useServicesList } from "../../../hooks/useServicesList";
+import { useSettings } from "../../settings/useSettings";
 
 import Spinner from "../../../ui/Spinner";
 
@@ -14,6 +15,8 @@ const OfferPDF = () => {
   const { isLoading, error, offer: offerSingle = {} } = useOffer();
   const { serviceList } = useServicesList();
   const { offerId } = useParams();
+  const { settings = {} } = useSettings();
+  const { company_name, company_adresse } = settings;
 
   const queryClient = useQueryClient();
   const offer = queryClient.getQueryData(["offer", +offerId])
@@ -24,7 +27,13 @@ const OfferPDF = () => {
 
   return (
     <PDFPage
-      document={<OfferPDFDocument offer={offer} serviceList={serviceList} />}
+      document={
+        <OfferPDFDocument
+          offer={offer}
+          serviceList={serviceList}
+          owner={{ company_name, company_adresse }}
+        />
+      }
       fileName={`${offer.offer_number}.pdf`}
       error={error}
     >

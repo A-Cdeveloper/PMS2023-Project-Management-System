@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import {
   Document,
   Page,
@@ -156,11 +156,12 @@ const Logo = () => {
   );
 };
 
-const OwnerClientAdresse = ({ children }) => {
+const OwnerClientAdresse = ({ owner, children }) => {
+  const { company_name, company_adresse } = owner;
   return (
     <View style={styles.mainSection}>
       <Text style={styles.author}>
-        Norbert Rixner Webdesign Grillparzerstr. 5 79102 Freiburg
+        {company_name} {company_adresse}
       </Text>
       <Text style={styles.client}>{children}</Text>
     </View>
