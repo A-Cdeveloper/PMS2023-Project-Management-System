@@ -10,8 +10,6 @@ import Form from "../../ui/Form/Form";
 import FormRow from "../../ui/Form/FormRow";
 import Input from "../../ui/Form/Input";
 import Textarea from "../../ui/Form/Textarea";
-import Button from "../../ui/Buttons/Button";
-import Logo from "../../ui/Logo";
 import ChangeLogo from "./ChangeLogo";
 
 const SettingSection = styled.div`
