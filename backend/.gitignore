@@ -8,6 +8,7 @@
 request.rest
 # testing
 /coverage
+/public
 
 # production
 /build
