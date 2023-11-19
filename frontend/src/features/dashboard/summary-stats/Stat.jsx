@@ -1,36 +1,26 @@
 import styled, { css } from "styled-components";
+import { NavLink } from "react-router-dom";
 
 const variations = {
-  primary: css`
+  projects: css`
     color: white;
     background-color: ${(props) => props.theme.colors.primary[50]};
   `,
-  secondary: css`
+  clients: css`
     color: white;
     background-color: ${(props) => props.theme.colors.secondary[50]};
   `,
-  blue: css`
+  users: css`
     color: white;
     background-color: ${(props) => props.theme.colors.blue[50]};
   `,
-  info: css`
+  services: css`
     color: ${(props) => props.theme.colors.grey700};
     background-color: ${(props) => props.theme.colors.info[50]};
   `,
 };
 
-export const Section = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  background: RED;
-`;
-
-export const StatSection = styled(Section)`
-  width: 60%;
-`;
-
-export const StatSectionBox = styled.div`
+const StatSectionBox = styled.div`
   display: flex;
   background: white;
   border: 1px solid ${(props) => props.theme.baseColors.grey100};
@@ -43,60 +33,60 @@ export const StatSectionBox = styled.div`
   gap: 0.5rem;
 `;
 
-export const Icon = styled.div`
+const Icon = styled.div`
   border-radius: 50%;
   display: flex;
-  align-items: center;
   align-self: center;
   justify-content: center;
-  padding: 1.3rem;
+  padding: 0.7rem 1rem 0.4rem 1rem;
+  opacity: 0.85;
   ${(props) => variations[props.bgcolor]};
+  transition: all 0.5s ease-in-out;
+  &:hover {
+    opacity: 1;
+  }
   & svg {
-    width: 3.2rem;
-    height: 3.2rem;
+    width: 3.4rem;
+    height: 3.4rem;
     color: white;
   }
 `;
 
-export const BoxData = styled.div`
+const BoxData = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1rem;
   gap: 0.3rem;
 `;
 
-export const Title = styled.h5`
+const Title = styled.h5`
   width: 100%;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   text-transform: uppercase;
   letter-spacing: 0.4px;
   font-weight: ${(props) => props.theme.fontWeight.bold};
   color: ${(props) => props.theme.baseColors.grey400};
 `;
 
-export const Value = styled.p`
+const Value = styled.p`
   font-size: 2.7rem;
   line-height: 1;
   font-weight: 500;
 `;
 
-// export const DataBoxTitle = styled(DataBox)`
-//   padding: 1rem 2rem;
-//   background: ${(props) => props.theme.baseColors.grey200};
-//   font-weight: 600;
-//   flex: 20%;
-//   border-bottom: 1px solid #fff;
-//   align-items: center;
-// `;
-// export const DataBoxContent = styled(DataBox)`
-//   padding: 1rem 2rem;
-//   flex: 50%;
-//   border-bottom: 1px solid ${(props) => props.theme.baseColors.grey200};
-//   white-space: pre-wrap;
+const Stat = ({ items, icon, count }) => {
+  return (
+    <StatSectionBox>
+      <Icon bgcolor={items}>
+        <NavLink to={`/${items}`}>{icon}</NavLink>
+      </Icon>
 
-//   & > a svg {
-//     width: 2rem;
-//     height: 2rem;
-//     margin-left: 1rem;
-//   }
-// `;
+      <BoxData>
+        <Title>{items}</Title>
+        <Value>{count}</Value>
+      </BoxData>
+    </StatSectionBox>
+  );
+};
+
+export default Stat;
