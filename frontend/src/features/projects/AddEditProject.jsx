@@ -2,7 +2,7 @@ import { useForm, Controller } from "react-hook-form";
 import useEditProject from "./useEditProject";
 import useAddProject from "./useAddProject";
 import { useAccessToken } from "../../context/authContext";
-import { useClientsDropDown } from "../../hooks/useClientsDropDown";
+import { useClientsDropDown } from "../../hooks-api/useClientsDropDown";
 
 import {
   projectHosting,

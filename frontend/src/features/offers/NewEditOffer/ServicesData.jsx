@@ -8,7 +8,7 @@ import OfferServiceRow from "../OfferServiceRow";
 
 import Button from "../../../ui/Buttons/Button";
 import { formatPrice } from "../../../utils/helpers";
-import { useSplitServices } from "../../../hooks/useSplitServices";
+import { useSplitServices } from "../../../hooks-api/useSplitServices";
 
 const ServicesData = ({ register, setVals, data, fullServicesList }) => {
   const [serviceId, setServiceId] = useState("");

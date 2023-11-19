@@ -1,7 +1,7 @@
 import { Controller } from "react-hook-form";
 import styled from "styled-components";
 
-import { useClientByProject } from "../../../hooks/useClientByProject";
+import { useClientByProject } from "../../../hooks-api/useClientByProject";
 
 import Select from "../../../ui/Form/Select";
 import FormRow from "../../../ui/Form/FormRow";
@@ -42,16 +42,12 @@ const MetaData = ({
     ? watch("offer_project_id")
     : offer_project_id;
 
-  console.log("render");
-  console.log(currentProjectId);
   /////////////// PROBLEM////////////
 
   const { client_name: clientName, project_client_id: clientId } =
     useClientByProject({
       project_id: currentProjectId && +currentProjectId,
     });
-
-  console.log(clientName, clientId);
 
   register("offer_client_id");
   setVals("offer_client_id", clientId);

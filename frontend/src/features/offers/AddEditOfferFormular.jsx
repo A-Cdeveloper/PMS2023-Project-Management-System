@@ -19,8 +19,8 @@ import PromptModal from "../../ui/PromptModal";
 
 import { useOffer } from "./useOffer";
 import useEditOffer from "./useEditOffer";
-import { useProjectsDropDown } from "../../hooks/useProjectsDropDown";
-import { useServicesDropDown } from "../../hooks/useServicesDropDown";
+import { useProjectsDropDown } from "../../hooks-api/useProjectsDropDown";
+import { useServicesDropDown } from "../../hooks-api/useServicesDropDown";
 
 const AddEditOfferFormular = ({ isEditing }) => {
   const moveBack = useMoveBack();

@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { useOffer } from "../useOffer";
-import { useServicesList } from "../../../hooks/useServicesList";
+import { useServicesList } from "../../../hooks-api/useServicesList";
 import { useSettings } from "../../settings/useSettings";
 
 import Spinner from "../../../ui/Spinner";

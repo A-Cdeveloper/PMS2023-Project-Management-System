@@ -1,5 +1,5 @@
 import { OfferPDFDocumentServiceRow } from "./OfferPDFDocumentServiceRow";
-import { useSplitServices } from "../../../hooks/useSplitServices";
+import { useSplitServices } from "../../../hooks-api/useSplitServices";
 
 import PDFDocument from "../../../pdf/PDFDocument";
 

@@ -1,4 +1,4 @@
-import { useServicesList } from "../../hooks/useServicesList";
+import { useServicesList } from "../../hooks-api/useServicesList";
 
 import styled from "styled-components";
 import Table from "../../ui/Data/Table";

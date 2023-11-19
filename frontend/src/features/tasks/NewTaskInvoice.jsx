@@ -12,7 +12,7 @@ import Textarea from "../../ui/Form/Textarea";
 import { useSettings } from "../settings/useSettings";
 import useEditTask from "./useEditTask";
 import { useAccessToken } from "../../context/authContext";
-import { usePricesPerHourDropDown } from "../../hooks/usePricesPerHourDropDown";
+import { usePricesPerHourDropDown } from "../../hooks-api/usePricesPerHourDropDown";
 
 const Label = styled.label`
   font-weight: 500;

@@ -10,7 +10,7 @@ import Input from "../../ui/Form/Input";
 import Textarea from "../../ui/Form/Textarea";
 import Select from "../../ui/Form/Select";
 import Button from "../../ui/Buttons/Button";
-import { useProjectsDropDown } from "../../hooks/useProjectsDropDown";
+import { useProjectsDropDown } from "../../hooks-api/useProjectsDropDown";
 
 const AddEditTask = ({ taskToEdit = {}, onCloseModal }) => {
   const { isAddNewLoading, addNewTask } = useAddTask();
