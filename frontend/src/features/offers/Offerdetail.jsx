@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useOffer } from "./useOffer";
 import { formatDate, formatPrice } from "../../utils/helpers";
-import { useSplitServices } from "../../hooks/useSplitServices";
+import { useSplitServices } from "../../hooks-api/useSplitServices";
 
 import Headline from "../../ui/Headline";
 import ButtonText from "../../ui/Buttons/ButtonText";

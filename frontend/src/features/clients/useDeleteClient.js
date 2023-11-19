@@ -8,7 +8,7 @@ const useDeleteClient = () => {
   const { isLoading: isDeleteLoading, mutate: deleteClient } = useMutation({
     mutationFn: deleteClientApi,
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["clients"] });
+      queryClient.invalidateQueries({ queryKey: ["clients"], exact: false });
       toast.success(`Client ${data.client.client_name} succesfully deleted!`);
     },
     onError: (err) => toast.error(err.message),

@@ -21,6 +21,7 @@ import AddEditClient from "./AddEditClient";
 import ConfirmModal from "../../ui/ConfirmModal";
 import useCloneClient from "./useCloneClient";
 import useDeleteClient from "./useDeleteClient";
+import Spinner from "../../ui/Spinner";
 
 const Client = styled.div`
   font-weight: 500;
@@ -60,6 +61,8 @@ const ClientRow = ({ client }) => {
       queryFn: () => singleClient({ client_id, accessToken }),
     });
   };
+
+  if (isDeleteLoading || isCloneLoading) return <Spinner />;
 
   return (
     <Table.Row>
