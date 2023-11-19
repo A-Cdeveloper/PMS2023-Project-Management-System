@@ -1,4 +1,3 @@
-import { useQueryClient } from "@tanstack/react-query";
 import TableOperations from "../../ui/Data/TableOperations";
 import SortBy from "../../ui/SortBy";
 import FilterText from "../../ui/FilterText";
@@ -7,14 +6,14 @@ import NewRecord from "../../ui/Buttons/NewRecord";
 import AddEditProject from "./AddEditProject";
 
 import { projectStatus } from "./ProjectParameters";
+import useCountResurces from "../../hooks-api/useCountResurces";
 
 function ClientsTableOperations() {
-  const queryClient = useQueryClient();
-  const projects = queryClient.getQueryData(["projects"]) || [];
+  const { projectsCount } = useCountResurces();
 
   return (
     <TableOperations>
-      {projects.length !== 0 && (
+      {projectsCount > 1 && (
         <>
           <FilterText placeholder="Search projects..." />
           <Filter
