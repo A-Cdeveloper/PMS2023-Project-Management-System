@@ -49,6 +49,14 @@ export const getTasksByClient = async ({ client_id, accessToken }) => {
   return await responseApiFn(response, "Tasks list could't be loaded!");
 };
 
+export const getTasksByStatus = async ({ status, accessToken }) => {
+  const response = await fetch(`${API_URL}/tasks/${status}`, {
+    headers: headerApiFn(accessToken),
+  });
+
+  return await responseApiFn(response, "Tasks list could't be loaded!");
+};
+
 export const getTasksByProject = async ({ project_id, accessToken }) => {
   const response = await fetch(
     `${API_URL}/tasks/tasksbyproject/${project_id}`,
