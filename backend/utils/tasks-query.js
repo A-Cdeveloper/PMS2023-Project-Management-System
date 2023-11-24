@@ -29,6 +29,15 @@ const getTasksRange = async (
 }
 
 ////////////////////////////////////////////////////////
+
+const getTasksByStatus = async (status) => {
+  const [tasks] = await db.query(
+    'SELECT pms_tasks.* FROM pms_tasks WHERE task_status=? ORDER BY task_add_date DESC',
+    [status]
+  )
+  return tasks
+}
+
 const getTasksByClient = async (sclient_id) => {
   const query =
     'SELECT pms_tasks.*,pms_clients.client_name FROM pms_projects,pms_clients, pms_tasks WHERE client_id = project_client_id  AND project_client_id = ? AND task_project_id = pms_projects.project_id ORDER BY pms_tasks.task_status DESC, pms_tasks.task_add_date DESC'
@@ -137,4 +146,5 @@ module.exports = {
   deleteTask,
   getTasksByClient,
   getTasksByProject,
+  getTasksByStatus,
 }
