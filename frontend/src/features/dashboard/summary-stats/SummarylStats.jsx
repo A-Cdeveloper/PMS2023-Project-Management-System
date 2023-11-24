@@ -14,7 +14,7 @@ const StatSection = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
-  width: 60%;
+  width: 70%;
 `;
 
 const SummarylStats = () => {
