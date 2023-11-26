@@ -1,6 +1,6 @@
 const db = require('./connection')
 
-const getClients = async (orderBy, orderDirection) => {
+const getClients = async (orderBy = 'client_name', orderDirection = 'asc') => {
   const query =
     'SELECT pms_clients.*, count(project_client_id) as project_per_client FROM pms_clients LEFT JOIN pms_projects ON client_id = project_client_id GROUP BY client_id ORDER BY ' +
     orderBy +

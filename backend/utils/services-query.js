@@ -1,6 +1,9 @@
 const db = require('./connection')
 
-const getServices = async (orderBy, orderDirection) => {
+const getServices = async (
+  orderBy = 'service_name',
+  orderDirection = 'asc'
+) => {
   const query =
     'SELECT  * FROM pms_services ORDER BY ' + orderBy + ' ' + orderDirection
 

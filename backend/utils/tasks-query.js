@@ -1,5 +1,12 @@
 const db = require('./connection')
 
+const getAllTasks = async () => {
+  const [tasks] = await db.query(
+    'SELECT pms_tasks.*, pms_clients.client_name,client_id, pms_projects.project_name FROM pms_tasks, pms_clients, pms_projects WHERE project_client_id=client_id AND task_project_id = project_id ORDER BY task_add_date DESC'
+  )
+  return tasks
+}
+
 const getTasks = async (startIntervalDate, endItervalDate) => {
   const [tasks] = await db.query(
     'SELECT pms_tasks.*, pms_clients.client_name,client_id, pms_projects.project_name FROM pms_tasks, pms_clients, pms_projects WHERE project_client_id=client_id AND task_project_id = project_id AND DATE(task_add_date) BETWEEN "' +
@@ -138,6 +145,7 @@ const deleteTask = async (task_id) => {
 }
 
 module.exports = {
+  getAllTasks,
   getTasks,
   getTasksRange,
   getSingleTask,
