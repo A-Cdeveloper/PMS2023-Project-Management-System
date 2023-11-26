@@ -1,9 +1,15 @@
 import styled from "styled-components";
 import Headline from "../../../ui/Headline";
-import { useUsers } from "../../users/useUsers";
-import { useTasks } from "../../tasks/useTasks";
+
+import { useTasksByStatus } from "../../../hooks-api/useTasksByStatus";
 import { formatDateTime } from "../../../utils/helpers";
 import Tag from "../../../ui/Data/Tag";
+import ButtonGroup from "../../../ui/Buttons/ButtonGroup";
+import Button from "../../../ui/Buttons/Button";
+import Row from "../../../ui/Row";
+import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useProjects } from "../../projects/useProjects";
 
 const Sections = styled.div`
   display: flex;
@@ -52,18 +58,41 @@ const ActivityHeader = styled(ActivityItem)`
 `;
 
 const Activities = () => {
-  const { users } = useUsers();
-  const { tasks } = useTasks();
+  // const [taskStatus, setTaskStatus] = useState("open");
+  // const [projectStatus, setProjectStatus] = useState("working");
+
+  // const { tasks } = useTasksByStatus(taskStatus);
+  // const { projects } = useProjects();
+
+  // const queryClient = useQueryClient();
+
+  // // const projects =
+  // //   queryClient.getQueryData(["projects"], { exact: false }) || [];
+
+  // const filteredProjects =
+  //   projects &&
+  //   projects.filter((proj) => proj.project_status === projectStatus);
+
+  // const users = queryClient.getQueryData(["users"], { exact: false }) || [];
+
+  // //console.log("RENDER");
+  // console.log(projects);
+  // console.log(users);
+
+  // const changeTaskStatusHandler = (status) => {
+  //   setTaskStatus(status);
+  // };
+  // const changeProjectStatusHandler = (status) => {
+  //   setProjectStatus(status);
+  // };
 
   // const onlineUsers = users?.filter((user) =>
   //   user.refreshToken ? user : null
   // );
 
-  console.log(tasks);
-
   return (
     <Sections>
-      <Section>
+      {/* <Section>
         <Headline as="h3">Users status</Headline>
         <ActivityList>
           <ActivityHeader>
@@ -75,49 +104,104 @@ const Activities = () => {
           <ActivityBody>
             {users.map((user) => {
               return (
-                <>
-                  <ActivityItem key={user.uid}>
-                    <span>
-                      <strong>{user.username}</strong>
-                    </span>
-                    <span>{user.role}</span>
-                    <span>{formatDateTime(user.last_login)}</span>
-                    <Tag type={user.refreshToken ? "online" : null}>
-                      {user.refreshToken ? "online" : null}
-                    </Tag>
-                  </ActivityItem>
-                </>
+                <ActivityItem key={user.uid}>
+                  <span>
+                    <strong>{user.username}</strong>
+                  </span>
+                  <span>{user.role}</span>
+                  <span>{formatDateTime(user.last_login)}</span>
+                  <Tag type={user.refreshToken ? "online" : null}>
+                    {user.refreshToken ? "online" : null}
+                  </Tag>
+                </ActivityItem>
               );
             })}
           </ActivityBody>
         </ActivityList>
       </Section>
       <Section>
-        <Headline as="h3">Open tasks</Headline>
+        <Row type="horizontal" style={{ padding: 0 }}>
+          <Headline as="h3">Tasks {tasks.length}</Headline>
+          <ButtonGroup>
+            <Button
+              size="small"
+              onClick={() => changeTaskStatusHandler("open")}
+            >
+              open
+            </Button>
+            <Button
+              size="small"
+              onClick={() => changeTaskStatusHandler("working")}
+            >
+              working
+            </Button>
+            <Button
+              size="small"
+              onClick={() => changeTaskStatusHandler("closed")}
+            >
+              closed
+            </Button>
+          </ButtonGroup>
+        </Row>
         <ActivityList>
           <ActivityHeader>
             <span>Task</span>
             <span>Add date</span>
           </ActivityHeader>
           <ActivityBody>
-            {users.map((user) => {
+            {tasks.map((task) => {
               return (
-                <>
-                  <ActivityItem key={user.uid}>
-                    <span>
-                      <strong>{user.username}</strong>
-                    </span>
-                    <span>{formatDateTime(user.last_login)}</span>
-                  </ActivityItem>
-                </>
+                <ActivityItem key={task.task_id}>
+                  <span>
+                    <strong>{task.task_name}</strong>
+                  </span>
+                  <span>{formatDateTime(task.task_add_date)}</span>
+                </ActivityItem>
               );
             })}
           </ActivityBody>
         </ActivityList>
       </Section>
       <Section>
-        <Headline as="h3">Working/Planed projects</Headline>
-      </Section>
+        <Row type="horizontal" style={{ padding: 0 }}>
+          <Headline as="h3">Projects{filteredProjects.length}</Headline>
+          <ButtonGroup>
+            <Button
+              size="small"
+              onClick={() => changeProjectStatusHandler("working")}
+            >
+              working
+            </Button>
+            <Button
+              size="small"
+              onClick={() => changeProjectStatusHandler("future")}
+            >
+              planed
+            </Button>
+          </ButtonGroup>
+        </Row>
+        <ActivityList>
+          <ActivityHeader>
+            <span>Project</span>
+            <span>Client</span>
+            <span>Add date</span>
+            <span>Start date</span>
+          </ActivityHeader>
+          <ActivityBody>
+            {filteredProjects.map((project) => {
+              return (
+                <ActivityItem key={project.project_id}>
+                  <span>
+                    <strong>{project.project_name}</strong>
+                  </span>
+                  <span>{project.client_name}</span>
+                  <span>{formatDateTime(project.project_start_date)}</span>
+                </ActivityItem>
+              );
+            })}
+          </ActivityBody>
+        </ActivityList>
+      </Section> */}
     </Sections>
   );
 };

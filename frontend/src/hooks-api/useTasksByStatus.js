@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getTasksByStatus as getTasksByStatusApi } from "../services/apiTasks";
 import { useAccessToken } from "../context/authContext";
 
-export const useTasksByStatus = () => {
+export const useTasksByStatus = (taskStatus) => {
   const accessToken = useAccessToken();
 
   const {
@@ -10,8 +10,8 @@ export const useTasksByStatus = () => {
     error,
     data: tasks = [],
   } = useQuery({
-    queryKey: ["tasks", { status: taskStatus }],
-    queryFn: () => getTasksByStatusApi({ status: taskStatus, accessToken }),
+    queryKey: ["tasks", { taskStatus }],
+    queryFn: () => getTasksByStatusApi({ taskStatus, accessToken }),
   });
 
   return {

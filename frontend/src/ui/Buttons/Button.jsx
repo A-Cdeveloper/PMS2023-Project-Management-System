@@ -62,7 +62,7 @@ const variations = {
     &:focus {
       background-color: ${(props) => props.theme.colors.grey400};
       transform: translateY(0px);
-      box-shadow: ${(props) => props.theme.shadow.md};
+      box-shadow: ${(props) => props.theme.shadow.xs};
     }
   `,
 };

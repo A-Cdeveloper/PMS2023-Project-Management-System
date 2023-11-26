@@ -4,8 +4,8 @@ import Activities from "./activities/Activities";
 const DashboardLayout = () => {
   return (
     <>
-      <SummarylStats />
-      <Activities />
+      {/* <SummarylStats />
+      <Activities /> */}
       {/* <Section>TEST</Section> */}
     </>
   );

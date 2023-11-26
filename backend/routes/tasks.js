@@ -6,16 +6,6 @@ const verifyToken = require('../authMw')
 const router = express.Router()
 // /users
 
-router.get('/:status', verifyToken, async (req, res) => {
-  const { status } = req.params
-  const tasks = await dbfunctions.getTasksByStatus(status)
-  if (tasks.length == 0) {
-    return res.status(400).json({ message: 'Tasks list is empty.' })
-  }
-  //return res.status(231).send({ tasks: tasks.length })
-  return res.status(231).send(tasks)
-})
-
 router.get('/tasks/:startDate/:endDate', verifyToken, async (req, res) => {
   const { startDate, endDate } = req.params
   const tasks = await dbfunctions.getTasks(startDate, endDate)
@@ -53,6 +43,16 @@ router.get('/tasksbyclient/:client_id', verifyToken, async (req, res) => {
     return res.status(400).json({ message: 'Tasks list is empty.' })
   }
 
+  return res.status(231).send(tasks)
+})
+
+router.get('/tasksbystatus/:taskStatus', verifyToken, async (req, res) => {
+  const { taskStatus } = req.params
+  const tasks = await dbfunctions.getTasksByStatus(taskStatus)
+  if (tasks.length == 0) {
+    return res.status(400).json({ message: 'Tasks list is empty.' })
+  }
+  //return res.status(231).send({ tasks: tasks.length })
   return res.status(231).send(tasks)
 })
 

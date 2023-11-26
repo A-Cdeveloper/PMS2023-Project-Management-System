@@ -6,6 +6,16 @@ const verifyToken = require('../authMw')
 const router = express.Router()
 // /users
 
+router.get('/status/:projectStatus', verifyToken, async (req, res) => {
+  const { projectStatus } = req.params
+  const projects = await dbfunctions.getProjectsByStatus(projectStatus)
+  if (projects.length == 0) {
+    return res.status(400).json({ message: 'Projects list is empty.' })
+  }
+  //return res.status(231).send({ tasks: tasks.length })
+  return res.status(231).send(projects)
+})
+
 router.get('/:order', async (req, res) => {
   const { order } = req.params
   const [orderBy, orderDirection] = order.split('=')

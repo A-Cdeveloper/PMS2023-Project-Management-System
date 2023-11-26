@@ -30,10 +30,10 @@ const getTasksRange = async (
 
 ////////////////////////////////////////////////////////
 
-const getTasksByStatus = async (status) => {
+const getTasksByStatus = async (taskStatus) => {
   const [tasks] = await db.query(
     'SELECT pms_tasks.* FROM pms_tasks WHERE task_status=? ORDER BY task_add_date DESC',
-    [status]
+    [taskStatus]
   )
   return tasks
 }

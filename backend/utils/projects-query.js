@@ -24,6 +24,15 @@ const getProjectsRange = async (from, perPage, orderBy, orderDirection) => {
 }
 
 ////////////////////////////////////////////////////////
+
+const getProjectsByStatus = async (projectStatus) => {
+  const [projects] = await db.query(
+    'SELECT pms_projects.* FROM pms_projects WHERE project_status=? ORDER BY project_start_date DESC',
+    [projectStatus]
+  )
+  return projects
+}
+
 const getProjectsByClient = async (sclient_id) => {
   const query =
     'SELECT pms_projects.* FROM pms_projects,pms_clients WHERE client_id = project_client_id AND project_client_id = ? ORDER BY pms_projects.project_status DESC, pms_projects.project_end_date DESC'
@@ -133,4 +142,5 @@ module.exports = {
   updateProject,
   deleteProject,
   getProjectsByClient,
+  getProjectsByStatus,
 }

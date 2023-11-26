@@ -78,8 +78,8 @@ export const theme = {
     },
   },
   shadow: {
-    xs: "0 0.3rem .8rem rgba(0, 0, 0, 0.1)",
-    sm: "0 0.3rem .8rem rgba(0, 0, 0, 0.2)",
+    xs: "0 0.1rem .3rem rgba(0, 0, 0, 0.2)",
+    sm: "0 0.3rem .2rem rgba(0, 0, 0, 0.2)",
     md: "0 0.1rem .8rem rgba(0, 0, 0, 0.3)",
     lg: "0 2.4rem 3.2rem rgba(0, 0, 0, 0.3)",
   },
