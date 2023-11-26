@@ -9,6 +9,7 @@ const useDeleteOffer = () => {
     mutationFn: deleteOfferApi,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["offers"] });
+      queryClient.invalidateQueries({ queryKey: ["settings"] });
       toast.success(`Offer ${data.offer.offer_number} succesfully deleted!`);
     },
     onError: (err) => toast.error(err.message),

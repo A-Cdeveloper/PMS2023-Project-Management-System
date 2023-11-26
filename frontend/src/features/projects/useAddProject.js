@@ -9,6 +9,7 @@ const useAddProject = () => {
     mutationFn: addNewProjectApi,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({ queryKey: ["settings"] });
       toast.success("Project succesfully added!");
     },
     onError: (err) => toast.error(err.message),

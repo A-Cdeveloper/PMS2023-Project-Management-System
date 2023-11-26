@@ -9,6 +9,7 @@ const useDeleteUser = () => {
     mutationFn: deleteUserApi,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
+      queryClient.invalidateQueries({ queryKey: ["settings"] });
       toast.success(`User ${data.user.username} succesfully deleted!`);
     },
     onError: (err) => toast.error(err.message),

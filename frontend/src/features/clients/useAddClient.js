@@ -9,6 +9,7 @@ const useAddClient = () => {
     mutationFn: addNewClientApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["clients"] });
+      queryClient.invalidateQueries({ queryKey: ["settings"] });
       toast.success("Client succesfully added!");
     },
     onError: (err) => toast.error(err.message),

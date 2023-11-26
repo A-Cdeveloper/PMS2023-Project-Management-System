@@ -9,6 +9,7 @@ const useAddTask = () => {
     mutationFn: addNewTaskApi,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["settings"] });
       toast.success("Taks succesfully added!");
     },
     onError: (err) => toast.error(err.message),

@@ -9,6 +9,7 @@ const useCloneClient = () => {
     mutationFn: cloneClientApi,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["clients"] });
+      queryClient.invalidateQueries({ queryKey: ["settings"] });
       toast.success(
         `Client ${data.client.client_name} succesfully duplicated!`
       );

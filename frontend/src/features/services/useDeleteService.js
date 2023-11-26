@@ -9,6 +9,7 @@ const useDeleteService = () => {
     mutationFn: deleteServiceApi,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["services"] });
+      queryClient.invalidateQueries({ queryKey: ["settings"] });
       toast.success(
         `Service ${data.service.service_name} succesfully deleted!`
       );

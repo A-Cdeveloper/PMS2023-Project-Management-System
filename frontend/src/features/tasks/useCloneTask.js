@@ -9,6 +9,7 @@ const useCloneTask = () => {
     mutationFn: cloneTaskApi,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["settings"] });
       toast.success(`Task ${data.task.task_name} succesfully duplicated!`);
     },
     onError: (err) => toast.error(err.message),

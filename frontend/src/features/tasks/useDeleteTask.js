@@ -9,6 +9,7 @@ const useDeleteTask = () => {
     mutationFn: deleteTaskApi,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["settings"] });
       toast.success(`Task ${data.task.task_name} succesfully deleted!`);
     },
     onError: (err) => toast.error(err.message),

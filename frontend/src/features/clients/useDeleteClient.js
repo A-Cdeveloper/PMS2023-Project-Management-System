@@ -9,6 +9,7 @@ const useDeleteClient = () => {
     mutationFn: deleteClientApi,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["clients"], exact: false });
+      queryClient.invalidateQueries({ queryKey: ["settings"] });
       toast.success(`Client ${data.client.client_name} succesfully deleted!`);
     },
     onError: (err) => toast.error(err.message),

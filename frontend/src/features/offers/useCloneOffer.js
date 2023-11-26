@@ -9,6 +9,7 @@ const useCloneOffer = () => {
     mutationFn: cloneOfferApi,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["offers"] });
+      queryClient.invalidateQueries({ queryKey: ["settings"] });
       toast.success(`Offer ${data.offer.offer_number} succesfully duplicated!`);
     },
     onError: (err) => toast.error(err.message),

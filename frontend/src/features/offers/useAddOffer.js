@@ -9,6 +9,7 @@ const useAddOffer = () => {
     mutationFn: addNewOfferApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["offers"] });
+      queryClient.invalidateQueries({ queryKey: ["settings"] });
       toast.success("Offer succesfully added!");
     },
     onError: (err) => toast.error(err.message),

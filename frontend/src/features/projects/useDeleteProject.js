@@ -9,6 +9,7 @@ const useDeleteProject = () => {
     mutationFn: deleteProjectApi,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({ queryKey: ["settings"] });
       toast.success(
         `Project ${data.project.project_name} succesfully deleted!`
       );
