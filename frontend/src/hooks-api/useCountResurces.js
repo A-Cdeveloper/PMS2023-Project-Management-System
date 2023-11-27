@@ -1,25 +1,24 @@
-import { useClients } from "../features/clients/useClients";
-import { useProjects } from "../features/projects/useProjects";
-import { useTasks } from "../features/tasks/useTasks";
-import { useServices } from "../features/services/useServices";
-import { useOffers } from "../features/offers/useOffers";
-import { useUsers } from "../features/users/useUsers";
+import { useQueryClient } from "@tanstack/react-query";
 
 const useCountResurces = () => {
-  const { clients } = useClients();
-  // const { projects } = useProjects();
-  // const { tasks } = useTasks();
-  // const { services } = useServices();
-  // const { offers } = useOffers();
-  // const { users } = useUsers();
+  const queryClient = useQueryClient();
+
+  const settings = queryClient.getQueryData(["settings"]) || {};
+
+  const {
+    number_of_clients: clientsCount,
+    number_of_projects: projectsCount,
+    number_of_services: servicesCount,
+    number_of_tasks: tasksCount,
+    number_of_users: usersCount,
+  } = settings;
 
   return {
-    clientsCount: clients.length,
-    // projectsCount: projects.length,
-    // tasksCount: tasks.length,
-    // servicesCount: services.length,
-    // offersCount: offers.length,
-    // usersCount: users.length,
+    clientsCount,
+    projectsCount,
+    tasksCount,
+    servicesCount,
+    usersCount,
   };
 };
 

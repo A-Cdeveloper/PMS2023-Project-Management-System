@@ -2,14 +2,18 @@ import styled from "styled-components";
 import Headline from "../../../ui/Headline";
 
 import { useTasksByStatus } from "../../../hooks-api/useTasksByStatus";
-import { formatDateTime } from "../../../utils/helpers";
-import Tag from "../../../ui/Data/Tag";
 import ButtonGroup from "../../../ui/Buttons/ButtonGroup";
 import Button from "../../../ui/Buttons/Button";
 import Row from "../../../ui/Row";
 import { useEffect, useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
+
 import { useProjects } from "../../projects/useProjects";
+import { useUsers } from "../../users/useUsers";
+import ActivitiesList from "./ActivitiesList";
+
+import UsersList from "./UsersList";
+import TasksList from "./TasksList";
+import ProjectsList from "./ProjectsList";
 
 const Sections = styled.div`
   display: flex;
@@ -26,75 +30,85 @@ const Section = styled.div`
   border-radius: ${(props) => props.theme.border.borderRadius.md};
 `;
 
-const ActivityList = styled.ul`
-  list-style: none;
-  padding: 1.5rem 0;
-`;
-
-const ActivityBody = styled.div`
-  height: 20rem;
-  overflow: hidden;
-  overflow-y: auto;
-  padding-right: 1rem;
-`;
-
-const ActivityItem = styled.li`
-  display: grid;
-  gap: 1.2rem;
-  grid-template-columns: 7.5rem 6rem 11rem 6rem;
-  border-bottom: 1px solid ${(props) => props.theme.baseColors.grey200};
-  align-items: center;
-  padding: 0.8rem 0.6rem;
-  font-size: 1.25rem;
-`;
-
-const ActivityHeader = styled(ActivityItem)`
-  border-top: 1px solid ${(props) => props.theme.baseColors.grey200};
-  background: ${(props) => props.theme.baseColors.grey100};
-  text-transform: uppercase;
-  padding: 0.4rem 0.6rem;
-  color: ${(props) => props.theme.baseColors.grey700};
-  font-size: 1.1rem;
-`;
-
 const Activities = () => {
-  // const [taskStatus, setTaskStatus] = useState("open");
-  // const [projectStatus, setProjectStatus] = useState("working");
+  const [taskStatus, setTaskStatus] = useState("open");
+  const [projectStatus, setProjectStatus] = useState("working");
 
-  // const { tasks } = useTasksByStatus(taskStatus);
-  // const { projects } = useProjects();
+  const { tasks } = useTasksByStatus(taskStatus);
+  const { projects } = useProjects(projectStatus);
+  const { users } = useUsers();
 
-  // const queryClient = useQueryClient();
+  const filteredProjects =
+    projects &&
+    projects.filter((proj) => proj.project_status === projectStatus);
 
-  // // const projects =
-  // //   queryClient.getQueryData(["projects"], { exact: false }) || [];
+  const changeTaskStatusHandler = (status) => {
+    setTaskStatus(status);
+  };
+  const changeProjectStatusHandler = (status) => {
+    setProjectStatus(status);
+  };
 
-  // const filteredProjects =
-  //   projects &&
-  //   projects.filter((proj) => proj.project_status === projectStatus);
+  const filteredUsers =
+    users &&
+    users.sort((a, b) => new Date(b.last_login) - new Date(a.last_login));
 
-  // const users = queryClient.getQueryData(["users"], { exact: false }) || [];
-
-  // //console.log("RENDER");
-  // console.log(projects);
-  // console.log(users);
-
-  // const changeTaskStatusHandler = (status) => {
-  //   setTaskStatus(status);
-  // };
-  // const changeProjectStatusHandler = (status) => {
-  //   setProjectStatus(status);
-  // };
-
-  // const onlineUsers = users?.filter((user) =>
-  //   user.refreshToken ? user : null
-  // );
+  console.log(filteredUsers);
 
   return (
     <Sections>
+      <Section>
+        <ActivitiesList
+          cols={["Username", "Role", "Last login", "Status"]}
+          columns="7.5rem 6rem 11rem 7rem"
+          status={null}
+        >
+          <ActivitiesList.Caption caption="Users status" />
+          <ActivitiesList.Header />
+          <ActivitiesList.Body
+            data={filteredUsers}
+            renderItem={(user) => <UsersList user={user} key={user.uid} />}
+          />
+        </ActivitiesList>
+      </Section>
+
+      <Section>
+        <ActivitiesList
+          cols={["Task", "Add date"]}
+          columns="25rem 15rem"
+          status={null}
+        >
+          <ActivitiesList.Caption caption="Tasks" />
+          <ActivitiesList.Header />
+          <ActivitiesList.Body
+            data={tasks}
+            renderItem={(task) => <TasksList task={task} key={task.task_id} />}
+          />
+        </ActivitiesList>
+      </Section>
+
+      <Section>
+        <ActivitiesList
+          cols={["Project", "Client", "Add date", "Start date"]}
+          columns="11rem 9rem 7rem 7rem"
+          status={null}
+        >
+          <ActivitiesList.Caption caption="Projects" />
+          <ActivitiesList.Header />
+          <ActivitiesList.Body
+            data={filteredProjects}
+            renderItem={(project) => (
+              <ProjectsList project={project} key={project.project_id} />
+            )}
+          />
+        </ActivitiesList>
+      </Section>
+
       {/* <Section>
-        <Headline as="h3">Users status</Headline>
         <ActivityList>
+          <ActivityCaption>
+            <Headline as="h3">Users status</Headline>
+          </ActivityCaption>
           <ActivityHeader>
             <span>Username</span>
             <span>Role</span>
@@ -120,30 +134,30 @@ const Activities = () => {
         </ActivityList>
       </Section>
       <Section>
-        <Row type="horizontal" style={{ padding: 0 }}>
-          <Headline as="h3">Tasks {tasks.length}</Headline>
-          <ButtonGroup>
-            <Button
-              size="small"
-              onClick={() => changeTaskStatusHandler("open")}
-            >
-              open
-            </Button>
-            <Button
-              size="small"
-              onClick={() => changeTaskStatusHandler("working")}
-            >
-              working
-            </Button>
-            <Button
-              size="small"
-              onClick={() => changeTaskStatusHandler("closed")}
-            >
-              closed
-            </Button>
-          </ButtonGroup>
-        </Row>
         <ActivityList>
+          <ActivityCaption>
+            <Headline as="h3">Tasks {tasks.length}</Headline>
+            <ButtonGroup>
+              <Button
+                size="small"
+                onClick={() => changeTaskStatusHandler("open")}
+              >
+                open
+              </Button>
+              <Button
+                size="small"
+                onClick={() => changeTaskStatusHandler("working")}
+              >
+                working
+              </Button>
+              <Button
+                size="small"
+                onClick={() => changeTaskStatusHandler("closed")}
+              >
+                closed
+              </Button>
+            </ButtonGroup>
+          </ActivityCaption>
           <ActivityHeader>
             <span>Task</span>
             <span>Add date</span>
@@ -163,24 +177,25 @@ const Activities = () => {
         </ActivityList>
       </Section>
       <Section>
-        <Row type="horizontal" style={{ padding: 0 }}>
-          <Headline as="h3">Projects{filteredProjects.length}</Headline>
-          <ButtonGroup>
-            <Button
-              size="small"
-              onClick={() => changeProjectStatusHandler("working")}
-            >
-              working
-            </Button>
-            <Button
-              size="small"
-              onClick={() => changeProjectStatusHandler("future")}
-            >
-              planed
-            </Button>
-          </ButtonGroup>
-        </Row>
         <ActivityList>
+          <ActivityCaption>
+            <Headline as="h3">Projects{filteredProjects.length}</Headline>
+            <ButtonGroup>
+              <Button
+                size="small"
+                onClick={() => changeProjectStatusHandler("working")}
+              >
+                working
+              </Button>
+              <Button
+                size="small"
+                onClick={() => changeProjectStatusHandler("future")}
+              >
+                planed
+              </Button>
+            </ButtonGroup>
+          </ActivityCaption>
+
           <ActivityHeader>
             <span>Project</span>
             <span>Client</span>

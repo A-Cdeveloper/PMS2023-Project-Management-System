@@ -4,6 +4,11 @@ const status = {
   online: css`
     background: #6fa111;
   `,
+  offline: css`
+    background: #8c8f88;
+    color: dark;
+  `,
+
   open: css`
     background: #6fa111;
   `,
