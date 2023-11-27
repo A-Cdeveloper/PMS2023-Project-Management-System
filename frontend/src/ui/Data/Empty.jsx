@@ -3,14 +3,14 @@ import Headline from "../../ui/Headline";
 
 const FullArea = styled.div`
   display: flex;
-  height: 50vh;
+  height: ${(props) => (props.size === "small" ? "25rem" : "50vh")};
   justify-content: center;
   align-items: center;
 `;
 
-function Empty({ resource }) {
+function Empty({ resource, size }) {
   return (
-    <FullArea>
+    <FullArea size={size}>
       <Headline as="h3">No {resource} could be found. ⚠</Headline>
     </FullArea>
   );

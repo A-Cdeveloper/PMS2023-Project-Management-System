@@ -9,6 +9,7 @@ import ActivitiesList from "./ActivitiesList";
 import UserListItem from "./UserListItem";
 import TaskListItem from "./TaskListItem";
 import ProjectListItem from "./ProjectListItem";
+import Empty from "../../../ui/Data/Empty";
 
 const Sections = styled.div`
   display: flex;
@@ -30,6 +31,9 @@ const Activities = () => {
   const { projects } = useProjects();
   const { users } = useUsers();
 
+  // const tasks = [];
+  // const projects = [];
+
   return (
     <Sections>
       <Section>
@@ -50,39 +54,47 @@ const Activities = () => {
       </Section>
 
       <Section>
-        <ActivitiesList
-          data={tasks}
-          cols={["Task", "Add date"]}
-          columns="25rem 15rem"
-          statusList={["open", "working", "closed"]}
-          keyField="task_status"
-        >
-          <ActivitiesList.Caption caption="Tasks" />
-          <ActivitiesList.Header />
-          <ActivitiesList.Body
-            renderItem={(task) => (
-              <TaskListItem task={task} key={task.task_id} />
-            )}
-          />
-        </ActivitiesList>
+        {tasks.length !== 0 ? (
+          <ActivitiesList
+            data={tasks}
+            cols={["Task", "Add date"]}
+            columns="25rem 15rem"
+            statusList={["open", "working", "closed"]}
+            keyField="task_status"
+          >
+            <ActivitiesList.Caption caption="Tasks" />
+            <ActivitiesList.Header />
+            <ActivitiesList.Body
+              renderItem={(task) => (
+                <TaskListItem task={task} key={task.task_id} />
+              )}
+            />
+          </ActivitiesList>
+        ) : (
+          <Empty resource="Tasks" size="small" />
+        )}
       </Section>
 
       <Section>
-        <ActivitiesList
-          data={projects}
-          cols={["Project", "Client", "Start date"]}
-          columns="15rem 9rem 9rem"
-          statusList={["working", "future"]}
-          keyField="project_status"
-        >
-          <ActivitiesList.Caption caption="Projects" />
-          <ActivitiesList.Header />
-          <ActivitiesList.Body
-            renderItem={(project) => (
-              <ProjectListItem project={project} key={project.project_id} />
-            )}
-          />
-        </ActivitiesList>
+        {projects.length !== 0 ? (
+          <ActivitiesList
+            data={projects}
+            cols={["Project", "Client", "Start date"]}
+            columns="15rem 9rem 9rem"
+            statusList={["working", "future"]}
+            keyField="project_status"
+          >
+            <ActivitiesList.Caption caption="Projects" />
+            <ActivitiesList.Header />
+            <ActivitiesList.Body
+              renderItem={(project) => (
+                <ProjectListItem project={project} key={project.project_id} />
+              )}
+            />
+          </ActivitiesList>
+        ) : (
+          <Empty resource="Projects" size="small" />
+        )}
       </Section>
 
       {/* 
