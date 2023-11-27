@@ -1,6 +1,9 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 import styled from "styled-components";
 import Headline from "../../../ui/Headline";
+import ButtonGroup from "../../../ui/Buttons/ButtonGroup";
+import Button from "../../../ui/Buttons/Button";
+import { filterArrayObjects, sortingDateArray } from "../../../utils/helpers";
 
 const ActivityList = styled.ul`
   list-style: none;
@@ -44,19 +47,72 @@ const ActivityItem = styled.li`
 
 const ActivitiesListContext = createContext();
 
-const ActivitiesList = ({ children, cols, columns, status }) => {
+const ActivitiesList = ({
+  data,
+  children,
+  cols,
+  columns,
+  statusList,
+  keyField,
+  sorting,
+}) => {
+  const [itemStatus, setItemStatus] = useState(statusList[0]);
+
+  let filteredData;
+
+  if (sorting) {
+    filteredData = data && sortingDateArray(data, keyField, sorting);
+  } else {
+    filteredData = data && filterArrayObjects(data, keyField, itemStatus);
+  }
+  console.log(filteredData);
+
+  const changeStatusHandler = (status) => {
+    setItemStatus(status);
+  };
+
+  // console.log(status);
+
   return (
-    <ActivitiesListContext.Provider value={{ cols, columns, status }}>
+    <ActivitiesListContext.Provider
+      value={{
+        filteredData,
+        cols,
+        columns,
+        statusList,
+        itemStatus,
+        changeStatusHandler,
+      }}
+    >
       {children}
     </ActivitiesListContext.Provider>
   );
 };
 
 const Caption = ({ caption }) => {
-  const { status } = useContext(ActivitiesListContext);
+  const { filteredData, itemStatus, statusList, changeStatusHandler } =
+    useContext(ActivitiesListContext);
   return (
     <ActivityCaption>
-      <Headline as="h3">{caption}</Headline>
+      <Headline as="h3">
+        {caption} {`(${filteredData.length})`}
+      </Headline>
+      {statusList.length !== 0 && (
+        <ButtonGroup>
+          {statusList.map((statusBtn) => {
+            return (
+              <Button
+                key={statusBtn}
+                size="small"
+                onClick={() => changeStatusHandler(statusBtn)}
+                active={statusBtn === itemStatus}
+              >
+                {statusBtn}
+              </Button>
+            );
+          })}
+        </ButtonGroup>
+      )}
     </ActivityCaption>
   );
 };
@@ -72,8 +128,11 @@ const Header = () => {
   );
 };
 
-const Body = ({ data, renderItem }) => {
-  return <ActivityBody>{data && data.map(renderItem)}</ActivityBody>;
+const Body = ({ renderItem }) => {
+  const { filteredData } = useContext(ActivitiesListContext);
+  return (
+    <ActivityBody>{filteredData && filteredData.map(renderItem)}</ActivityBody>
+  );
 };
 
 const Item = ({ children }) => {

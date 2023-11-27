@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import ActivitiesList from "./ActivitiesList";
 import { formatDateTime } from "../../../utils/helpers";
 
-const TasksList = ({ task }) => {
+const TaskListItem = ({ task }) => {
   return (
     <ActivitiesList.Item key={task.task_id}>
       <span>
@@ -15,4 +15,4 @@ const TasksList = ({ task }) => {
   );
 };
 
-export default TasksList;
+export default TaskListItem;

@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import ActivitiesList from "./ActivitiesList";
 import { formatDate } from "../../../utils/helpers";
 
-const ProjectsList = ({ project }) => {
+const ProjectListItem = ({ project }) => {
   return (
     <ActivitiesList.Item key={project.project_id}>
       <span>
@@ -18,4 +18,4 @@ const ProjectsList = ({ project }) => {
   );
 };
 
-export default ProjectsList;
+export default ProjectListItem;

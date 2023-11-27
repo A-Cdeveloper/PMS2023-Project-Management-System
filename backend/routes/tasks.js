@@ -6,6 +6,15 @@ const verifyToken = require('../authMw')
 const router = express.Router()
 // /users
 
+router.get('/allTasks', verifyToken, async (req, res) => {
+  const tasks = await dbfunctions.getAllTasks()
+  if (tasks.length == 0) {
+    return res.status(400).json({ message: 'Tasks list is empty.' })
+  }
+  //return res.status(231).send({ tasks: tasks.length })
+  return res.status(231).send(tasks)
+})
+
 router.get('/tasks/:startDate/:endDate', verifyToken, async (req, res) => {
   const { startDate, endDate } = req.params
   const tasks = await dbfunctions.getTasks(startDate, endDate)

@@ -2,6 +2,15 @@ import { API_URL } from "../utils/constants";
 import { headerApiFn, responseApiFn } from "../utils/helpers";
 
 //////////////////////////////////////////////////////////////////
+export const getAllTasks = async ({ accessToken }) => {
+  const response = await fetch(`${API_URL}/tasks/allTasks`, {
+    headers: headerApiFn(accessToken),
+  });
+
+  return await responseApiFn(response, "Tasks list could't be loaded!");
+};
+
+//////////////////////////////////////////////////////////////////
 export const getTasks = async ({
   startIntervalDate,
   endIntervalDate,

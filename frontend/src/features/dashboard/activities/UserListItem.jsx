@@ -3,7 +3,7 @@ import ActivitiesList from "./ActivitiesList";
 import { formatDateTime } from "../../../utils/helpers";
 import Tag from "../../../ui/Data/Tag";
 
-const UsersList = ({ user }) => {
+const UserListItem = ({ user }) => {
   return (
     <ActivitiesList.Item key={user.uid}>
       <span>
@@ -18,4 +18,4 @@ const UsersList = ({ user }) => {
   );
 };
 
-export default UsersList;
+export default UserListItem;

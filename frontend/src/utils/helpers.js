@@ -15,6 +15,17 @@ export const sortingArray = (array, field, order = "asc") => {
   );
 };
 
+export const sortingDateArray = (array, field, order = "asc") => {
+  if (order !== "asc")
+    return array.sort((a, b) => new Date(b[field]) - new Date(a[field]));
+
+  return array.sort((a, b) => new Date(a[field]) - new Date(b[field]));
+};
+
+export const filterArrayObjects = (array, field, filterValue) => {
+  return array.filter((item) => item[field] === filterValue);
+};
+
 export const formatDate = (date) => {
   if (!date) return "-";
   const convertDate = new Date(date).toLocaleString("de-DE", {
