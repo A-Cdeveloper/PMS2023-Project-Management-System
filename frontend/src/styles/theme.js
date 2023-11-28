@@ -38,6 +38,11 @@ export const theme = {
       100: "#264DB8",
       700: "#0C2977",
     },
+    pink: {
+      50: "#D48BB8",
+      100: "#c45f9d",
+      700: "#AC4183",
+    },
 
     light: "#ccc5b9",
     lighter: "#fffcf2",

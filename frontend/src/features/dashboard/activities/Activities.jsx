@@ -17,6 +17,7 @@ const Sections = styled.div`
   justify-content: space-between;
   gap: 2rem;
   padding: 2rem 0;
+  margin: 3rem 0;
 `;
 const Section = styled.div`
   background: white;

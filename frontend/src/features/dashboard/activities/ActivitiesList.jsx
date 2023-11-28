@@ -65,7 +65,6 @@ const ActivitiesList = ({
   } else {
     filteredData = data && filterArrayObjects(data, keyField, itemStatus);
   }
-  console.log(filteredData);
 
   const changeStatusHandler = (status) => {
     setItemStatus(status);

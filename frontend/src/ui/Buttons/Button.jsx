@@ -93,7 +93,7 @@ const Button = ({ children, variation, size, active, onClick }) => {
     <StyledButton
       variation={variation}
       size={size}
-      active={active && active}
+      active={active}
       onClick={onClick}
     >
       {children}
