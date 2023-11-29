@@ -36,7 +36,7 @@ const RefreshTokenWarrning = () => {
 
   //console.log(counter);
 
-  if (counter > 121) return;
+  if (counter > 61) return;
 
   return (
     <>
