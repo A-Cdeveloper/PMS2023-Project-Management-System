@@ -11,6 +11,8 @@ import {
 import Headline from "../../../ui/Headline";
 import { theme } from "../../../styles/theme";
 import { useProjectsChart } from "../../../hooks-api/useProjectsChart";
+import useCountResurces from "../../../hooks-api/useCountResurces";
+import { useTasksChart } from "../../../hooks-api/useTasksChart";
 
 const Sections = styled.div`
   display: flex;
@@ -33,41 +35,91 @@ const Section = styled.div`
 // `;
 
 const ChartStats = () => {
-  const { data } = useProjectsChart();
+  const { data: dataProjects } = useProjectsChart();
+  const { data: dataTasks } = useTasksChart();
+  const { projectsCount } = useCountResurces();
+
+  const renderCustomizedLabel = ({ x, y, value }) => {
+    return (
+      <>
+        <text
+          x={x}
+          y={y}
+          fill="black"
+          textAnchor="start"
+          fontWeight="500"
+          fontSize="1.4rem"
+          dominantBaseline="central"
+        >
+          {`${((value / projectsCount) * 100).toFixed(2)}%`}
+        </text>
+      </>
+    );
+  };
 
   return (
     <Sections>
       <Section>
-        <Headline as="h3">Projects</Headline>
-        <PieChart width={450} height={250}>
-          <Pie
-            data={data}
-            cx={120}
-            cy={120}
-            innerRadius={70}
-            outerRadius={100}
-            fill="#8884d8"
-            paddingAngle={8}
-            dataKey="value"
-            label
-          >
-            {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={theme.colors[entry.fill][100]}
-              />
-            ))}
-          </Pie>
-          <Tooltip />
-          <Legend
-            iconType="square"
-            verticalAlign="middle"
-            align="right"
-            width="30%"
-            layout="vertical"
-            iconSize={15}
-          />
-        </PieChart>
+        <Headline as="h3">Projects status</Headline>
+        <ResponsiveContainer width="100%" height={300}>
+          <PieChart width={450} height={300}>
+            <Pie
+              data={dataProjects}
+              cx={120}
+              cy={150}
+              innerRadius={70}
+              outerRadius={95}
+              fill="#8884d8"
+              paddingAngle={8}
+              dataKey="value"
+              label={renderCustomizedLabel}
+            >
+              {dataProjects.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.fill} />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend
+              iconType="square"
+              verticalAlign="middle"
+              align="right"
+              width="50%"
+              layout="vertical"
+              iconSize={15}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      </Section>
+      <Section>
+        <Headline as="h3">Tasks status</Headline>
+        <ResponsiveContainer width="100%" height={300}>
+          <PieChart width={450} height={300}>
+            <Pie
+              data={dataTasks}
+              cx={120}
+              cy={150}
+              innerRadius={70}
+              outerRadius={95}
+              fill="#8884d8"
+              paddingAngle={8}
+              dataKey="value"
+              label={renderCustomizedLabel}
+            >
+              {dataTasks.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.fill} />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend
+              iconType="square"
+              verticalAlign="middle"
+              align="right"
+              width="50%"
+              layout="vertical"
+              iconSize={15}
+            />
+          </PieChart>
+        </ResponsiveContainer>
       </Section>
     </Sections>
   );

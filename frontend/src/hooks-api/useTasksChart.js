@@ -1,18 +1,17 @@
-import { useProjects } from "../features/projects/useProjects";
+import { useAllTasks } from "./useAllTasks";
 import { statusColors } from "../styles/theme";
 
-export const useProjectsChart = () => {
-  const { projects } = useProjects();
+export const useTasksChart = () => {
+  const { tasks } = useAllTasks();
 
   let data = [];
 
-  projects.map((pro) => {
+  tasks.map((task) => {
     const obj = {
       name:
-        pro.project_status.slice(0, 1).toUpperCase() +
-        pro.project_status.slice(1),
+        task.task_status.slice(0, 1).toUpperCase() + task.task_status.slice(1),
       value: 1,
-      fill: statusColors[pro.project_status],
+      fill: statusColors[task.project_status],
     };
     return data.find((el) => el.name === obj.name)
       ? data[data.findIndex((el) => el.name === obj.name)].value++

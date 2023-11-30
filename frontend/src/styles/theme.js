@@ -31,6 +31,7 @@ export const theme = {
     info: {
       50: "#71CEB5",
       100: "#06d6a0",
+      500: "#6fa111",
       700: "#0C775A",
     },
     blue: {
@@ -47,6 +48,7 @@ export const theme = {
     light: "#ccc5b9",
     lighter: "#fffcf2",
   },
+
   fonts: {
     Poppins: ["Poppins", "sans-serif"],
     Sono: ["Sono", "sans-serif"],
@@ -91,4 +93,12 @@ export const theme = {
   outline: {
     sm: "#4CAF50 solid 1px",
   },
+};
+
+export const statusColors = {
+  online: theme.colors.info[500],
+  future: theme.colors.pink[100],
+  archive: theme.colors.danger[100],
+  waiting: theme.colors.secondary[100],
+  working: theme.colors.blue[100],
 };
