@@ -6,8 +6,8 @@ const DashboardLayout = () => {
   return (
     <>
       <SummarylStats />
-      <Activities />
       <ChartStats />
+      <Activities />
     </>
   );
 };
