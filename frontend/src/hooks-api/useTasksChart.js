@@ -1,3 +1,4 @@
+import { useSearchParams } from "react-router-dom";
 import { useAllTasks } from "./useAllTasks";
 
 import { eachMonthOfInterval, format, isSameMonth, subMonths } from "date-fns";
@@ -5,12 +6,26 @@ import { eachMonthOfInterval, format, isSameMonth, subMonths } from "date-fns";
 export const useTasksChart = () => {
   const { tasks } = useAllTasks();
 
-  console.log(tasks);
+  //const tasks = [];
+
+  let haveTasks = true;
+  if (tasks.length === 0) {
+    haveTasks = !haveTasks;
+  }
+
+  const [searchParams] = useSearchParams();
+
+  const filteredPeriod = searchParams.get("last")
+    ? searchParams.get("last")
+    : 6;
 
   const allDates = eachMonthOfInterval({
-    start: subMonths(new Date(), 5),
+    start: subMonths(new Date(), +filteredPeriod),
     end: new Date(),
   });
+
+  const dateFrom = format(allDates[0], "MMM yyyy");
+  const dateTo = format(allDates.pop(), "MMM yyyy");
 
   const dataTasks = allDates.map((date) => {
     return {
@@ -27,5 +42,5 @@ export const useTasksChart = () => {
     };
   });
 
-  return { dataTasks };
+  return { dataTasks, dateFrom, dateTo, haveTasks };
 };

@@ -1,16 +1,16 @@
 import Filter from "../../../ui/Filter";
 
-function DashboardFilter() {
+function TaskPeriodFilter() {
   return (
     <Filter
       filterField="last"
       options={[
         { value: "6", label: "Last 6 months" },
-        { value: "11", label: "Last year" },
-        { value: "360", label: "All time" },
+        { value: "13", label: "Last 12 months" },
+        { value: "61", label: "Last 5 years" },
       ]}
     />
   );
 }
 
-export default DashboardFilter;
+export default TaskPeriodFilter;

@@ -31,10 +31,14 @@ const Section = styled.div`
 
 const ChartStats = () => {
   const { dataProjectByStatus, dataProjectByClient } = useProjectsChart();
-  const { dataTasks } = useTasksChart();
+  const {
+    dataTasks,
+    filteredPeriod: period,
+    dateFrom,
+    dateTo,
+    haveTasks,
+  } = useTasksChart();
   const { projectsCount } = useCountResurces();
-
-  // console.log(data);
 
   return (
     <Sections>
@@ -56,8 +60,9 @@ const ChartStats = () => {
       <Section style={{ width: "100%" }}>
         <AreaChartComponent
           data={dataTasks}
-          title="Tasks from X to Y"
+          title={`Invoiced Tasks (${dateFrom} - ${dateTo})`}
           tooltipTitle="Tasks"
+          haveTasks={haveTasks}
         />
       </Section>
     </Sections>
