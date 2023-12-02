@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Headline from "../../../ui/Headline";
 import ButtonGroup from "../../../ui/Buttons/ButtonGroup";
 import Button from "../../../ui/Buttons/Button";
+import Empty from "../../../ui/Data/Empty";
 import { filterArrayObjects, sortingDateArray } from "../../../utils/helpers";
 
 const ActivityList = styled.ul`
@@ -129,9 +130,15 @@ const Header = () => {
 };
 
 const Body = ({ renderItem }) => {
-  const { filteredData } = useContext(ActivitiesListContext);
+  const { filteredData, data } = useContext(ActivitiesListContext);
   return (
-    <ActivityBody>{filteredData && filteredData.map(renderItem)}</ActivityBody>
+    <ActivityBody>
+      {filteredData.length !== 0 ? (
+        filteredData.map(renderItem)
+      ) : (
+        <Empty resource="items" size="small" />
+      )}
+    </ActivityBody>
   );
 };
 

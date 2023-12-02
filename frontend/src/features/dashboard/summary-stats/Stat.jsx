@@ -23,6 +23,7 @@ const variations = {
 const StatSectionBox = styled.div`
   display: flex;
   background: white;
+  align-items: center;
   border: 1px solid ${(props) => props.theme.baseColors.grey100};
   padding: 0.4rem 1.4rem;
   border-radius: ${(props) => props.theme.border.borderRadius.md};
