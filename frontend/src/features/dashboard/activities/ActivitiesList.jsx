@@ -91,6 +91,7 @@ const ActivitiesList = ({
 const Caption = ({ caption }) => {
   const { filteredData, itemStatus, statusList, changeStatusHandler } =
     useContext(ActivitiesListContext);
+
   return (
     <ActivityCaption>
       <Headline as="h3">
@@ -104,7 +105,7 @@ const Caption = ({ caption }) => {
                 key={statusBtn}
                 size="small"
                 onClick={() => changeStatusHandler(statusBtn)}
-                active={statusBtn === itemStatus}
+                active={statusBtn === itemStatus ? statusBtn : null}
               >
                 {statusBtn}
               </Button>

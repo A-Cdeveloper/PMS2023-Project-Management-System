@@ -4,7 +4,7 @@ import { statusColors } from "../styles/theme";
 export const useProjectsChart = () => {
   const { projects } = useProjects();
 
-  console.log(projects);
+  // const projects = [];
 
   let dataProjectByStatus = [];
   let dataProjectByClient = [];
@@ -41,8 +41,6 @@ export const useProjectsChart = () => {
     dataProjectByStatus,
     dataProjectByClient: dataProjectByClient.filter((el) => el.value > 5),
   };
-
-  console.log(dataProjects);
 
   // const data = [
   //   { name: "future", value: 2, fill: "pink" },

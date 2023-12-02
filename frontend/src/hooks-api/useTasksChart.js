@@ -1,29 +1,31 @@
 import { useAllTasks } from "./useAllTasks";
-import { statusColors } from "../styles/theme";
+
+import { eachMonthOfInterval, format, isSameMonth, subMonths } from "date-fns";
 
 export const useTasksChart = () => {
   const { tasks } = useAllTasks();
 
-  let data = [];
+  console.log(tasks);
 
-  tasks.map((task) => {
-    const obj = {
-      name:
-        task.task_status.slice(0, 1).toUpperCase() + task.task_status.slice(1),
-      value: 1,
-      fill: statusColors[task.project_status],
-    };
-    return data.find((el) => el.name === obj.name)
-      ? data[data.findIndex((el) => el.name === obj.name)].value++
-      : data.push(obj);
+  const allDates = eachMonthOfInterval({
+    start: subMonths(new Date(), 5),
+    end: new Date(),
   });
 
-  // const data = [
-  //   { name: "future", value: 2, fill: "pink" },
-  //   { name: "working", value: 1, fill: "blue" },
-  //   { name: "online", value: 176, fill: "info" },
-  //   { name: "archive", value: 42, fill: "danger" },
-  // ];
+  const dataTasks = allDates.map((date) => {
+    return {
+      name: format(date, "MMM yyyy"),
+      value: tasks
+        .filter(
+          (task) =>
+            isSameMonth(new Date(task.task_add_date), date) &&
+            task.task_status === "invoiced"
+        )
+        .reduce((acc, cur) => {
+          return acc + 1;
+        }, 0),
+    };
+  });
 
-  return { data };
+  return { dataTasks };
 };

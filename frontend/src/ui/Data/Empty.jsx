@@ -3,7 +3,7 @@ import Headline from "../../ui/Headline";
 
 const FullArea = styled.div`
   display: flex;
-  height: ${(props) => (props.size === "small" ? "25rem" : "50vh")};
+  height: ${(props) => (props.size === "small" ? "15rem" : "50vh")};
   justify-content: center;
   align-items: center;
 `;

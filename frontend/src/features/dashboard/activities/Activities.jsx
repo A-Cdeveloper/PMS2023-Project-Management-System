@@ -15,12 +15,13 @@ const Sections = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 2rem;
+
   padding: 2rem 0;
   margin: 3rem 0;
 `;
 const Section = styled.div`
   background: white;
+
   flex: 1;
   padding: 1.5rem 1rem 1.5rem 2rem;
   border: 1px solid ${(props) => props.theme.baseColors.grey100};
@@ -59,7 +60,7 @@ const Activities = () => {
           <ActivitiesList
             data={tasks}
             cols={["Task", "Add date"]}
-            columns="25rem 15rem"
+            columns="20rem 15rem"
             statusList={["open", "working", "closed"]}
             keyField="task_status"
           >
@@ -97,92 +98,6 @@ const Activities = () => {
           <Empty resource="Projects" size="small" />
         )}
       </Section>
-
-      {/* 
-      <Section>
-        <ActivityList>
-          <ActivityCaption>
-            <Headline as="h3">Tasks {tasks.length}</Headline>
-            <ButtonGroup>
-              <Button
-                size="small"
-                onClick={() => changeTaskStatusHandler("open")}
-              >
-                open
-              </Button>
-              <Button
-                size="small"
-                onClick={() => changeTaskStatusHandler("working")}
-              >
-                working
-              </Button>
-              <Button
-                size="small"
-                onClick={() => changeTaskStatusHandler("closed")}
-              >
-                closed
-              </Button>
-            </ButtonGroup>
-          </ActivityCaption>
-          <ActivityHeader>
-            <span>Task</span>
-            <span>Add date</span>
-          </ActivityHeader>
-          <ActivityBody>
-            {tasks.map((task) => {
-              return (
-                <ActivityItem key={task.task_id}>
-                  <span>
-                    <strong>{task.task_name}</strong>
-                  </span>
-                  <span>{formatDateTime(task.task_add_date)}</span>
-                </ActivityItem>
-              );
-            })}
-          </ActivityBody>
-        </ActivityList>
-      </Section>
-      <Section>
-        <ActivityList>
-          <ActivityCaption>
-            <Headline as="h3">Projects{filteredProjects.length}</Headline>
-            <ButtonGroup>
-              <Button
-                size="small"
-                onClick={() => changeProjectStatusHandler("working")}
-              >
-                working
-              </Button>
-              <Button
-                size="small"
-                onClick={() => changeProjectStatusHandler("future")}
-              >
-                planed
-              </Button>
-            </ButtonGroup>
-          </ActivityCaption>
-
-          <ActivityHeader>
-            <span>Project</span>
-            <span>Client</span>
-            <span>Add date</span>
-            <span>Start date</span>
-          </ActivityHeader>
-          <ActivityBody>
-            {filteredProjects.map((project) => {
-              return (
-                <ActivityItem key={project.project_id}>
-                  <span>
-                    <strong>{project.project_name}</strong>
-                  </span>
-                  <span>{project.client_name}</span>
-                  <span>{formatDateTime(project.project_start_date)}</span>
-                </ActivityItem>
-              );
-            })}
-          </ActivityBody>
-        </ActivityList>
-      </Section> */}
     </Sections>
   );
 };
