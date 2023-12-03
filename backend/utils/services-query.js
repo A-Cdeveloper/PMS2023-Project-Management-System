@@ -46,20 +46,16 @@ const addService = async (service) => {
     service_price_hour,
     service_price_total,
     service_type,
-    regular_whour_price,
-    special_whour_price,
   } = service
 
   await db.query(
-    `INSERT INTO pms_services (service_name, service_description, service_price_hour,service_price_total, service_type,regular_whour_price,special_whour_price) VALUES (?,?,?,?,?)`,
+    `INSERT INTO pms_services (service_name, service_description, service_price_hour,service_price_total, service_type) VALUES (?,?,?,?,?)`,
     [
       service_name,
       service_description,
       service_price_hour,
       service_price_total,
       service_type,
-      regular_whour_price,
-      special_whour_price,
     ]
   )
 }
