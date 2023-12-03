@@ -54,14 +54,11 @@ export const changeLogo = async ({ formData, accessToken }) => {
 };
 
 // /////////////////////////////////////////////////////////////////////
-// export const removeLogo = async ({ accessToken }) => {
-//   const response = await fetch(`${API_URL}/users/change-avatar/${user_id}`, {
-//     method: "PATCH",
-//     headers: headerApiFn(accessToken),
-//   });
+export const createBackup = async ({ accessToken }) => {
+  const response = await fetch(`${API_URL}/backup`, {
+    method: "PATCH",
+    headers: headerApiFn(accessToken),
+  });
 
-//   return await responseApiFn(
-//     response,
-//     "Profile image can't be deleted. Please try again"
-//   );
-// };
+  return await responseApiFn(response, "Backup not created.Please try again.");
+};

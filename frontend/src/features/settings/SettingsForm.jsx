@@ -3,6 +3,7 @@ import { toast } from "react-hot-toast";
 
 import { useSettings } from "./useSettings";
 import { useUpdateSettings } from "./useUpdateSettings";
+import { useCreateBackup } from "./useCreateBackup";
 import { useAccessToken } from "../../context/authContext";
 
 import Row from "../../ui/Row";
@@ -12,6 +13,9 @@ import Input from "../../ui/Form/Input";
 import Textarea from "../../ui/Form/Textarea";
 import ChangeLogo from "./ChangeLogo";
 import Error from "../../ui/Data/Error";
+import Headline from "../../ui/Headline";
+import Button from "../../ui/Buttons/Button";
+import { Link } from "react-router-dom";
 
 const SettingSection = styled.div`
   background: white;
@@ -30,6 +34,7 @@ const SettingsForm = () => {
   const { isLoadingSettings, errorGetSettings, settings = {} } = useSettings();
   const { isUpdateSettings, errorUpdateSettings, updateSettings } =
     useUpdateSettings();
+  const { createBackup } = useCreateBackup();
   const accessToken = useAccessToken();
 
   const {
@@ -44,6 +49,7 @@ const SettingsForm = () => {
     company_logo,
     company_name,
     company_adresse,
+    backup_path,
   } = settings;
 
   if (errorGetSettings) return <Error message={errorGetSettings.message} />;
@@ -71,7 +77,7 @@ const SettingsForm = () => {
   return (
     <Row type="horizontalandgap">
       <SettingSection>
-        <h3>Company details</h3>
+        <Headline as="h3">Company details</Headline>
         <ChangeLogo
           updateSettings={updateSettingsHandler}
           accessToken={accessToken}
@@ -105,7 +111,7 @@ const SettingsForm = () => {
       </SettingSection>
 
       <SettingSection>
-        <h3>Display settings</h3>
+        <Headline as="h3">Display settings</Headline>
         <Form>
           <FormRow label="Clients per page">
             <Input
@@ -165,8 +171,9 @@ const SettingsForm = () => {
           <FormRow></FormRow>
         </Form>
       </SettingSection>
+
       <SettingSection>
-        <h3>Price settings</h3>
+        <Headline as="h3">Price settings</Headline>
         <FormRow label="Regular price/h (€)">
           <Input
             type="number"
@@ -191,8 +198,29 @@ const SettingsForm = () => {
         </FormRow>
         <FormRow></FormRow>
       </SettingSection>
+
       <SettingSection>
-        <div>Backup database</div> <div>Restore database</div>
+        <Headline as="h3">Backup/restore</Headline>
+        <Row type="horizontalandgap">
+          <span>Backup database</span>
+          <Button
+            size="small"
+            variation="primary"
+            onClick={() => createBackup({ accessToken })}
+          >
+            Create backup
+          </Button>
+        </Row>
+        <Row type="horizontalandgap">
+          {backup_path && (
+            <>
+              <span>{backup_path.slice(-13)}</span>
+              <Button size="small" variation="primary">
+                <Link to={backup_path}>Download</Link>
+              </Button>
+            </>
+          )}
+        </Row>
       </SettingSection>
     </Row>
   );
