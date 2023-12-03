@@ -14,7 +14,6 @@ import Row from "../../../ui/Row";
 import Empty from "../../../ui/Data/Empty";
 
 const AreaChartComponent = ({ data, title, tooltipTitle, haveTasks }) => {
-  console.log(haveTasks);
   return (
     <>
       <Row type="horizontal">
