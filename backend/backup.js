@@ -1,16 +1,12 @@
-const fs = require('fs')
-const { spawn } = require('child_process')
-const dumpFileName = `${Math.round(Date.now() / 1000)}.dump.sql`
-
-const writeStream = fs.createWriteStream(dumpFileName)
-
-const dump = spawn('mysqldump', ['-u', 'root', '', 'logindb'])
-
-dump.stdout
-  .pipe(writeStream)
-  .on('finish', function () {
-    console.log('Completed')
-  })
-  .on('error', function (err) {
-    console.log(err)
-  })
+mysqldump = require('mysqldump')
+// const dumpFileName = `${Math.round(Date.now() / 1000)}.dump.sql`
+// dump the result straight to a file
+mysqldump({
+  connection: {
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'logindb',
+  },
+  dumpToFile: `./public/backup/pms_dump.sql`,
+})

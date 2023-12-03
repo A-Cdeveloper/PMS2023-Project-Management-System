@@ -40,9 +40,14 @@ const updateSettings = async (settings) => {
   )
 }
 
+const setBackupPath = async (backupPath) => {
+  await db.query('UPDATE pms_settings SET backup_path = ?', [backupPath])
+}
+
 // updateSettings().then((res) => console.log(res))
 
 module.exports = {
   getSettings,
   updateSettings,
+  setBackupPath,
 }
