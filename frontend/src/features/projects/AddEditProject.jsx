@@ -138,14 +138,9 @@ const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
       </FormRow>
 
       <FormRow label="Access data" error={errors?.project_access_data}>
-        <Input
-          type="url"
-          {...register("project_access_data", {
-            pattern: {
-              value: /^(http(s)?:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$/,
-              message: "Please specify a valid url (ex.https://)",
-            },
-          })}
+        <Textarea
+          type="textarea"
+          {...register("project_access_data")}
           aria-invalid={errors.project_access_data ? "true" : "false"}
           disabled={loadingState}
         />
