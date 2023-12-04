@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Logo from "../ui/Logo";
+import { Logo } from "../ui/Logo";
 import UserConformation from "../features/authentication/UserConformation";
 
 const LoginLayout = styled.main`

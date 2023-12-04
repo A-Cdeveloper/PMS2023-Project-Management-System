@@ -18,7 +18,7 @@ const Img = styled.img`
   /* width: auto; */
 `;
 
-function Logo({ align }) {
+export const Logo = ({ align }) => {
   const { settings = {} } = useSettings();
   const { company_logo, company_name } = settings;
   return (
@@ -31,6 +31,4 @@ function Logo({ align }) {
       </StyledLogo>
     </>
   );
-}
-
-export default Logo;
+};

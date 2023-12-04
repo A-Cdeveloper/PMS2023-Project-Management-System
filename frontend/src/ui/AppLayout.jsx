@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 
-import Logo from "./Logo";
+import { Logo } from "./Logo";
 import MainNav from "./MainNav";
 import Sidebar from "./Sidebar";
 import Header from "./Header";

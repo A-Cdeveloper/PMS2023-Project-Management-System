@@ -7,7 +7,7 @@ import ButtonText from "./Buttons/ButtonText";
 import ButtonIconText from "./Buttons/ButtonIconText";
 import ButtonGroup from "./Buttons/ButtonGroup";
 import Row from "./Row";
-import Logo from "./Logo";
+import { Logo } from "./Logo";
 
 const ComponentsExample = () => {
   return (

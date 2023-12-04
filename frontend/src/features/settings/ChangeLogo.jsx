@@ -5,7 +5,7 @@ import useChangeLogo from "./useChangeLogo";
 import Form from "../../ui/Form/Form";
 import Input from "../../ui/Form/Input";
 import Button from "../../ui/Buttons/Button";
-import Logo from "../../ui/Logo";
+import { Logo } from "../../ui/Logo";
 import Row from "../../ui/Row";
 import RemoveButton from "../../ui/Buttons/RemoveButton";
 import Spinner from "../../ui/Spinner";
