@@ -33,7 +33,6 @@ const ChartStats = () => {
   const { dataProjectByStatus, dataProjectByClient } = useProjectsChart();
   const {
     dataTasks,
-    filteredPeriod: period,
     dateFrom,
     dateTo,
     haveTasks,

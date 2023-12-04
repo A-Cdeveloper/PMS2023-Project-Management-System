@@ -9,7 +9,8 @@ export const useTasksChart = () => {
   //const tasks = [];
 
   let haveTasks = true;
-  if (tasks.length === 0) {
+  const invoicedTasks = tasks.filter((task) => task.task_status === "invoiced");
+  if (invoicedTasks.length === 0) {
     haveTasks = !haveTasks;
   }
 
@@ -30,12 +31,8 @@ export const useTasksChart = () => {
   const dataTasks = allDates.map((date) => {
     return {
       name: format(date, "MMM yyyy"),
-      value: tasks
-        .filter(
-          (task) =>
-            isSameMonth(new Date(task.task_add_date), date) &&
-            task.task_status === "invoiced"
-        )
+      value: invoicedTasks
+        .filter((task) => isSameMonth(new Date(task.task_add_date), date))
         .reduce((acc, cur) => {
           return acc + 1;
         }, 0),
