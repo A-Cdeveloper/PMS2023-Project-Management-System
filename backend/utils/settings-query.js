@@ -21,9 +21,10 @@ const updateSettings = async (settings) => {
     company_logo,
     company_name,
     company_adresse,
+    backup_path,
   } = settings
   await db.query(
-    'UPDATE pms_settings SET clients_per_page=?,projects_per_page=?,tasks_per_page=?,users_per_page=?,services_per_page=?,offers_per_page=?,regular_whour_price=?,special_whour_price=?,company_logo=?,company_name=?,company_adresse=?',
+    'UPDATE pms_settings SET clients_per_page=?,projects_per_page=?,tasks_per_page=?,users_per_page=?,services_per_page=?,offers_per_page=?,regular_whour_price=?,special_whour_price=?,company_logo=?,company_name=?,company_adresse=?,backup_path=?',
     [
       clients_per_page,
       projects_per_page,
@@ -36,6 +37,7 @@ const updateSettings = async (settings) => {
       company_logo,
       company_name,
       company_adresse,
+      backup_path,
     ]
   )
 }
