@@ -10,8 +10,10 @@ const router = express.Router()
 
 router.patch('/backup', verifyToken, async (req, res) => {
   const dumpFileName = `${new Date(Date.now())
-    .toLocaleDateString()
-    .replaceAll('/', '-')}.sql`
+    .toLocaleString('en-US', { hour12: false })
+    .replaceAll('/', '-')
+    .replaceAll(', ', '-')
+    .replaceAll(':', '-')}.sql`
 
   const results = mysqldump({
     connection: {
@@ -33,6 +35,11 @@ router.patch('/backup', verifyToken, async (req, res) => {
     await fs.unlink(`./public/backup/${dumpFileName}`)
     return res.status(400).json({ message: `Backup not created. ${error}` })
   }
+})
+
+router.post('/initial-state', async (req, res) => {
+  await dbfunctions2.resetToInitialState()
+  res.status(231).json({ message: 'System set to initial state.' })
 })
 
 module.exports = router

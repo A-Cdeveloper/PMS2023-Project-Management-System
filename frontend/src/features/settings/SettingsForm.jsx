@@ -214,12 +214,20 @@ const SettingsForm = () => {
         <Row type="horizontalandgap">
           {backup_path && (
             <>
-              <span>{backup_path.slice(-13)}</span>
+              <span>Latest backup: {backup_path.slice(-22)}</span>
               <Button size="small" variation="primary">
                 <Link to={backup_path}>Download</Link>
               </Button>
             </>
           )}
+        </Row>
+        <Row type="horizontalandgap">
+          <>
+            <span></span>
+            <Button size="medium" variation="danger">
+              <Link to={backup_path}>RESET ALL</Link>
+            </Button>
+          </>
         </Row>
       </SettingSection>
     </Row>

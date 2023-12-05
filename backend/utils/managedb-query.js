@@ -6,6 +6,8 @@ const dbfunctions = require('./settings-query')
 const resetToInitialState = async () => {
   const [tables] = await db.query('SHOW TABLES')
 
+  let res
+
   tables.forEach((table) => {
     const tableName = table[`Tables_in_${process.env.DATABASE}`]
     if (tableName === 'pms_users' || tableName === 'pms_settings') {
@@ -26,10 +28,10 @@ const resetToInitialState = async () => {
       return
     }
     const query = `TRUNCATE TABLE ${tableName}`
-    db.query(query)
+    res = db.query(query)
   })
 
-  return
+  return res
 }
 
 module.exports = {
