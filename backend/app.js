@@ -32,7 +32,7 @@ const servicesRoute = require('./routes/services')
 const offersRoute = require('./routes/offers')
 const settingsRoute = require('./routes/settings')
 const uploadRoute = require('./routes/upload')
-const backupRoute = require('./routes/backup')
+const managedbRoute = require('./routes/managedb')
 
 app.use('/users', usersRoute)
 app.use('/clients', clientsRoute)
@@ -42,7 +42,7 @@ app.use('/services', servicesRoute)
 app.use('/offers', offersRoute)
 app.use('/settings', settingsRoute)
 app.use('/upload', uploadRoute)
-app.use('/backup', backupRoute)
+app.use('/managedb', managedbRoute)
 //
 
 // error handler

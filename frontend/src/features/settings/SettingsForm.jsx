@@ -208,7 +208,7 @@ const SettingsForm = () => {
             variation="primary"
             onClick={() => createBackup({ accessToken })}
           >
-            Create backup
+            Create new backup
           </Button>
         </Row>
         <Row type="horizontalandgap">

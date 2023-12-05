@@ -55,7 +55,7 @@ export const changeLogo = async ({ formData, accessToken }) => {
 
 // /////////////////////////////////////////////////////////////////////
 export const createBackup = async ({ accessToken }) => {
-  const response = await fetch(`${API_URL}/backup`, {
+  const response = await fetch(`${API_URL}/managedb/backup`, {
     method: "PATCH",
     headers: headerApiFn(accessToken),
   });

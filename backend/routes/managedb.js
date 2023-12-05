@@ -8,7 +8,7 @@ const verifyToken = require('../authMw')
 
 const router = express.Router()
 
-router.patch('/', verifyToken, async (req, res) => {
+router.patch('/backup', verifyToken, async (req, res) => {
   const dumpFileName = `${new Date(Date.now())
     .toLocaleDateString()
     .replaceAll('/', '-')}.sql`
