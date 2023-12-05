@@ -4,7 +4,7 @@ import { useSplitServices } from "../../../hooks-api/useSplitServices";
 import PDFDocument from "../../../pdf/PDFDocument";
 
 // Create Document Component
-const OfferPDFDocument = ({ offer, serviceList, owner }) => {
+const OfferPDFDocument = ({ offer, serviceList, owner, logo }) => {
   const {
     offer_id,
     offer_number,
@@ -26,7 +26,7 @@ const OfferPDFDocument = ({ offer, serviceList, owner }) => {
 
   return (
     <PDFDocument>
-      <PDFDocument.Logo />
+      <PDFDocument.Logo logo={logo} />
 
       <PDFDocument.OwnerClientAdresse owner={owner}>
         {offer_client_adresse ? offer_client_adresse : default_client_addresse}

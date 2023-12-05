@@ -9,7 +9,8 @@ import {
   Font,
 } from "@react-pdf/renderer";
 
-import logo from "./logo.png";
+import demoLogo from "../assets/demo-logo.png";
+
 import { formatDate, formatPrice, formatDuration } from "../utils/helpers";
 
 // Register font
@@ -148,10 +149,10 @@ const PDFDocument = ({ children }) => {
   );
 };
 
-const Logo = () => {
+const Logo = ({ logo }) => {
   return (
     <View style={styles.logoSection}>
-      <Image src={logo} style={styles.logo} />
+      <Image src={logo ? logo : demoLogo} style={styles.logo} />
     </View>
   );
 };

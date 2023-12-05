@@ -16,7 +16,7 @@ const OfferPDF = () => {
   const { serviceList } = useServicesList();
   const { offerId } = useParams();
   const { settings = {} } = useSettings();
-  const { company_name, company_adresse } = settings;
+  const { company_name, company_adresse, company_logo } = settings;
 
   const queryClient = useQueryClient();
   const offer = queryClient.getQueryData(["offer", +offerId])
@@ -32,6 +32,7 @@ const OfferPDF = () => {
           offer={offer}
           serviceList={serviceList}
           owner={{ company_name, company_adresse }}
+          logo={company_logo}
         />
       }
       fileName={`${offer.offer_number}.pdf`}
