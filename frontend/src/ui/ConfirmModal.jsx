@@ -53,6 +53,18 @@ function ConfirmModal({
     );
   }
 
+  if (resourceName === "system") {
+    message = (
+      <>
+        <p>
+          Are you sure you want to reset application? All your data will be
+          deleted! <br />
+          This action cannot be undone.
+        </p>
+      </>
+    );
+  }
+
   if (connectedResurces) {
     message = (
       <>
@@ -70,7 +82,10 @@ function ConfirmModal({
   return (
     <StyledConfirmModal>
       <Headline as="h3">
-        {operation === "delete" ? "Delete" : "Duplicate"} {resourceName}
+        {operation === "delete" && "Delete"}
+        {operation === "duplicate" && "Duplicate"}
+        {operation === "" && "Reset "}
+        {resourceName}
       </Headline>
       {message}
 
@@ -90,7 +105,9 @@ function ConfirmModal({
             disabled={disabled}
             onClick={conformActionHandler}
           >
-            {operation === "delete" ? "Delete" : "Duplicate"}
+            {operation === "delete" && "Delete"}
+            {operation === "duplicate" && "Duplicate"}
+            {operation === "" && "Reset all"}
           </Button>
         )}
       </div>

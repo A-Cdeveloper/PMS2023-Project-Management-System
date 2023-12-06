@@ -5,6 +5,7 @@ import { useSettings } from "./useSettings";
 import { useUpdateSettings } from "./useUpdateSettings";
 import { useCreateBackup } from "./useCreateBackup";
 import { useAccessToken } from "../../context/authContext";
+import { useResetAll } from "./useResetAll";
 
 import Row from "../../ui/Row";
 import Form from "../../ui/Form/Form";
@@ -16,6 +17,9 @@ import Error from "../../ui/Data/Error";
 import Headline from "../../ui/Headline";
 import Button from "../../ui/Buttons/Button";
 import { Link } from "react-router-dom";
+import { useRef } from "react";
+import Modal from "../../ui/Modal";
+import ConfirmModal from "../../ui/ConfirmModal";
 
 const SettingSection = styled.div`
   background: white;
@@ -35,6 +39,7 @@ const SettingsForm = () => {
   const { isUpdateSettings, errorUpdateSettings, updateSettings } =
     useUpdateSettings();
   const { createBackup } = useCreateBackup();
+  const { resetAll } = useResetAll();
   const accessToken = useAccessToken();
 
   const {
@@ -51,6 +56,22 @@ const SettingsForm = () => {
     company_adresse,
     backup_path,
   } = settings;
+
+  // console.log(settings);
+
+  // const clientsPerPageRef = useRef(clients_per_page);
+  // const projectsPerPageRef = useRef(projects_per_page);
+  // const tasksPerPageRef = useRef(tasks_per_page);
+  // const userssPerPageRef = useRef(users_per_page);
+  // const servicesPerPageRef = useRef(services_per_page);
+  // const offersPerPageRef = useRef(offers_per_page);
+
+  // const regularPriceRef = useRef(regular_whour_price);
+  // const specialPriceRef = useRef(special_whour_price);
+
+  // const companyNameRef = useRef(company_name);
+  // const companyLogoRef = useRef(company_logo);
+  // const companyAdresseRef = useRef(company_adresse);
 
   if (errorGetSettings) return <Error message={errorGetSettings.message} />;
 
@@ -73,6 +94,8 @@ const SettingsForm = () => {
 
     updateSettingsHandler(field, e.target.value);
   };
+
+  const resetHandler = () => {};
 
   return (
     <Row type="horizontalandgap">
@@ -223,10 +246,22 @@ const SettingsForm = () => {
         </Row>
         <Row type="horizontalandgap">
           <>
-            <span></span>
-            <Button size="medium" variation="danger">
-              <Link to={backup_path}>RESET ALL</Link>
-            </Button>
+            <Modal>
+              <Modal.OpenButton opens="sistem-delete">
+                <Button size="medium" variation="danger">
+                  RESET ALL
+                </Button>
+              </Modal.OpenButton>
+              <Modal.Window name="sistem-delete">
+                <ConfirmModal
+                  resourceName="system"
+                  operation=""
+                  connectedResurces={false}
+                  onConfirm={() => resetAll({ accessToken })}
+                  disabled={() => {}}
+                />
+              </Modal.Window>
+            </Modal>
           </>
         </Row>
       </SettingSection>

@@ -37,9 +37,9 @@ router.patch('/backup', verifyToken, async (req, res) => {
   }
 })
 
-router.post('/initial-state', async (req, res) => {
+router.post('/initial-state', verifyToken, async (req, res) => {
   await dbfunctions2.resetToInitialState()
-  res.status(231).json({ message: 'System set to initial state.' })
+  return res.status(231).json({ message: 'System set to initial state.' })
 })
 
 module.exports = router
