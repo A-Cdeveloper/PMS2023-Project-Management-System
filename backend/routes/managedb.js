@@ -10,7 +10,6 @@ const connObj = {
   user: process.env.USER,
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
-  ignore,
 }
 
 const dumpFileName = `${new Date(Date.now())
