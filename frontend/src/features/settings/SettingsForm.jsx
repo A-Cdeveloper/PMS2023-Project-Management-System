@@ -19,7 +19,7 @@ import Button from "../../ui/Buttons/Button";
 import { Link, useNavigate } from "react-router-dom";
 import Modal from "../../ui/Modal";
 import ConfirmModal from "../../ui/ConfirmModal";
-import { useEffect } from "react";
+import ButtonGroup from "../../ui/Buttons/ButtonGroup";
 
 const SettingSection = styled.div`
   background: white;
@@ -221,9 +221,14 @@ const SettingsForm = () => {
           {backup_path && (
             <>
               <span>Latest backup: {backup_path.slice(-22)}</span>
-              <Button size="small" variation="primary">
-                <Link to={backup_path}>Download</Link>
-              </Button>
+              <ButtonGroup>
+                <Button size="small" variation="primary">
+                  <Link to={backup_path}>Download</Link>
+                </Button>
+                <Button size="small" variation="primary">
+                  <Link to={backup_path}>Restore</Link>
+                </Button>
+              </ButtonGroup>
             </>
           )}
         </Row>

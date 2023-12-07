@@ -75,6 +75,10 @@ const StyledButton = styled.button`
   transition: all 0.1s ease-in;
   text-transform: uppercase;
 
+  & a:hover {
+    color: white;
+  }
+
   &:focus {
     box-shadow: ${(props) => props.theme.shadow.xs};
     outline: none;
