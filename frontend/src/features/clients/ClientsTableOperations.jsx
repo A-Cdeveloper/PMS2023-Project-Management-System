@@ -9,6 +9,8 @@ import useCountResurces from "../../hooks-api/useCountResurces";
 function ClientsTableOperations() {
   const { clientsCount } = useCountResurces();
 
+  console.log(clientsCount);
+
   return (
     <TableOperations>
       {clientsCount > 1 && (
@@ -28,13 +30,15 @@ function ClientsTableOperations() {
               },
             ]}
             defaultOptionIndex={0}
-          />
+          />{" "}
         </>
       )}
 
-      <NewRecord record="client">
-        <AddEditClient />
-      </NewRecord>
+      {clientsCount !== 0 && (
+        <NewRecord record="client">
+          <AddEditClient />
+        </NewRecord>
+      )}
     </TableOperations>
   );
 }

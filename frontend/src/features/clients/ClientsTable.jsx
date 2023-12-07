@@ -10,6 +10,9 @@ import Empty from "../../ui/Data/Empty";
 
 import { clientCols } from "./ClientParameters";
 import Error from "../../ui/Data/Error";
+import ClientsTableOperations from "./ClientsTableOperations";
+import Row from "../../ui/Row";
+import Headline from "../../ui/Headline";
 
 const ClientsTable = () => {
   const [searchParams] = useSearchParams();
@@ -34,11 +37,16 @@ const ClientsTable = () => {
     : clients;
 
   if (isLoading) return <Spinner />;
-  if (error) return <Error message={error.message} />;
+  if (error)
+    return <Error message={error.message} record="client" firstRecord={true} />;
   if (shownClients.length === 0) return <Empty resource="clients" />;
 
   return (
     <>
+      <Row type="horizontal">
+        <Headline as="h1">Clients</Headline>
+        <ClientsTableOperations />
+      </Row>
       <Table
         cols={clientCols}
         columns="repeat(3, 1fr) 8rem 8rem 8rem 8rem 10rem 4rem"
