@@ -39,29 +39,30 @@ const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
   const loadingState = isAddNewLoading || isEditLoading;
 
   const onSubmit = (data) => {
-    if (isEdit) {
-      editProject(
-        {
-          project_id: projectToEdit.project_id,
-          updatedProject: data,
-          accessToken,
-        },
-        {
-          onSuccess: () => {
-            onCloseModal();
-          },
-        }
-      );
-    } else {
-      addNewProject(
-        { newProject: data, accessToken },
-        {
-          onSuccess: () => {
-            onCloseModal();
-          },
-        }
-      );
-    }
+    console.log(data);
+    // if (isEdit) {
+    //   editProject(
+    //     {
+    //       project_id: projectToEdit.project_id,
+    //       updatedProject: data,
+    //       accessToken,
+    //     },
+    //     {
+    //       onSuccess: () => {
+    //         onCloseModal();
+    //       },
+    //     }
+    //   );
+    // } else {
+    //   addNewProject(
+    //     { newProject: data, accessToken },
+    //     {
+    //       onSuccess: () => {
+    //         onCloseModal();
+    //       },
+    //     }
+    //   );
+    // }
   };
 
   return (
@@ -79,7 +80,7 @@ const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
           control={control}
           name="project_client_id"
           disabled={loadingState}
-          required="This field is required"
+          rules={{ required: "This field is required" }}
           render={({ field }) => {
             return (
               <Select
