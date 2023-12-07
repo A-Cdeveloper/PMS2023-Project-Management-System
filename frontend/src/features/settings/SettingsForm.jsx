@@ -220,7 +220,7 @@ const SettingsForm = () => {
         <Row type="horizontalandgap">
           {backup_path && (
             <>
-              <span>Latest backup: {backup_path.slice(-22)}</span>
+              <span>Latest backup: {backup_path.slice(-13)}</span>
               <ButtonGroup>
                 <Button size="small" variation="primary">
                   <Link to={backup_path}>Download</Link>
@@ -232,12 +232,12 @@ const SettingsForm = () => {
             </>
           )}
         </Row>
-        <Row type="horizontalandgap">
+        {/* <Row type="horizontalandgap">
           <>
             <Modal>
               <Modal.OpenButton opens="sistem-delete">
                 <Button size="medium" variation="danger">
-                  RESET ALL
+                  RESET SETTINGS
                 </Button>
               </Modal.OpenButton>
               <Modal.Window name="sistem-delete">
@@ -253,7 +253,7 @@ const SettingsForm = () => {
               </Modal.Window>
             </Modal>
           </>
-        </Row>
+        </Row> */}
       </SettingSection>
     </Row>
   );
