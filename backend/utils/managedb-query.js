@@ -5,7 +5,7 @@ const dbfunctions = require('./settings-query')
 
 const resetToInitialState = async () => {
   const [tables] = await db.query('SHOW TABLES')
-
+  const settings = await dbfunctions.getSettings()
   let res
 
   tables.forEach((table) => {
@@ -23,7 +23,7 @@ const resetToInitialState = async () => {
         company_logo: '',
         company_name: '',
         company_adresse: '',
-        backup_path: '',
+        backup_path: settings.backup_path,
       })
       return
     }

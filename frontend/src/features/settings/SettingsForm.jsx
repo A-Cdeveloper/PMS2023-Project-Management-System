@@ -16,10 +16,10 @@ import ChangeLogo from "./ChangeLogo";
 import Error from "../../ui/Data/Error";
 import Headline from "../../ui/Headline";
 import Button from "../../ui/Buttons/Button";
-import { Link } from "react-router-dom";
-import { useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Modal from "../../ui/Modal";
 import ConfirmModal from "../../ui/ConfirmModal";
+import { useEffect } from "react";
 
 const SettingSection = styled.div`
   background: white;
@@ -41,6 +41,7 @@ const SettingsForm = () => {
   const { createBackup } = useCreateBackup();
   const { resetAll } = useResetAll();
   const accessToken = useAccessToken();
+  const navigate = useNavigate();
 
   const {
     clients_per_page,
@@ -56,22 +57,6 @@ const SettingsForm = () => {
     company_adresse,
     backup_path,
   } = settings;
-
-  // console.log(settings);
-
-  // const clientsPerPageRef = useRef(clients_per_page);
-  // const projectsPerPageRef = useRef(projects_per_page);
-  // const tasksPerPageRef = useRef(tasks_per_page);
-  // const userssPerPageRef = useRef(users_per_page);
-  // const servicesPerPageRef = useRef(services_per_page);
-  // const offersPerPageRef = useRef(offers_per_page);
-
-  // const regularPriceRef = useRef(regular_whour_price);
-  // const specialPriceRef = useRef(special_whour_price);
-
-  // const companyNameRef = useRef(company_name);
-  // const companyLogoRef = useRef(company_logo);
-  // const companyAdresseRef = useRef(company_adresse);
 
   if (errorGetSettings) return <Error message={errorGetSettings.message} />;
 
@@ -94,8 +79,6 @@ const SettingsForm = () => {
 
     updateSettingsHandler(field, e.target.value);
   };
-
-  const resetHandler = () => {};
 
   return (
     <Row type="horizontalandgap">
@@ -257,7 +240,9 @@ const SettingsForm = () => {
                   resourceName="system"
                   operation=""
                   connectedResurces={false}
-                  onConfirm={() => resetAll({ accessToken })}
+                  onConfirm={() => {
+                    resetAll({ accessToken });
+                  }}
                   disabled={() => {}}
                 />
               </Modal.Window>

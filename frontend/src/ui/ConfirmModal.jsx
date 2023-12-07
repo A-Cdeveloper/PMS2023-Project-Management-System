@@ -59,7 +59,6 @@ function ConfirmModal({
         <p>
           Are you sure you want to reset application? <br />
           All your data will be deleted! <br />
-          This action cannot be undone.
         </p>
       </>
     );
