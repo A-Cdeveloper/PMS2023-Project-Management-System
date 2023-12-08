@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import Headline from "../../ui/Headline";
 import NewRecord from "../../ui/Buttons/NewRecord";
+import ButtonIconText from "../Buttons/ButtonIconText";
+import { HiPlusCircle } from "react-icons/hi2";
 
 const FullArea = styled.div`
   display: flex;
@@ -16,13 +18,20 @@ const FullArea = styled.div`
   }
 `;
 
-function Error({ message, record, firstRecord, addeditForm }) {
+function Error({ message, record, firstRecord, addeditForm, onClick }) {
   return (
     <FullArea>
       <Headline as="h3">{message} ⚠</Headline>
-      <NewRecord record={record} firstRecord={firstRecord}>
-        {addeditForm}
-      </NewRecord>
+      {addeditForm && (
+        <NewRecord record={record} firstRecord={firstRecord}>
+          {addeditForm}
+        </NewRecord>
+      )}
+      {onClick && (
+        <ButtonIconText icon={<HiPlusCircle />} type="info" onClick={onClick}>
+          Add first offer
+        </ButtonIconText>
+      )}
     </FullArea>
   );
 }

@@ -1,6 +1,6 @@
 import { useFilterOffers } from "./useFilterOffers";
 import { useOffers } from "./useOffers";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Data/Table";
@@ -10,11 +10,15 @@ import Empty from "../../ui/Data/Empty";
 import Error from "../../ui/Data/Error";
 
 import { offersCols } from "./OffersParameters";
+import Headline from "../../ui/Headline";
+import Row from "../../ui/Row";
+import OffersTableOperations from "./OffersTableOperations";
 
 const OffersTable = () => {
   const [searchParams] = useSearchParams();
   const { isLoading, error, offers = {} } = useFilterOffers();
   const { offers: allOffers } = useOffers();
+  const navigate = useNavigate();
 
   // console.log(offers);
 
@@ -28,11 +32,23 @@ const OffersTable = () => {
     : offers;
 
   if (isLoading) return <Spinner />;
-  if (error) return <Error message={error.message} />;
+  if (error)
+    return (
+      <Error
+        message={error.message}
+        record="offers"
+        firstRecord={true}
+        onClick={() => navigate("/offers/new")}
+      />
+    );
   if (shownOffers.length === 0) return <Empty resource="offers" />;
 
   return (
     <>
+      <Row type="horizontal">
+        <Headline as="h1">Offers</Headline>
+        <OffersTableOperations />
+      </Row>
       <Table cols={offersCols} columns="15rem 15rem 1fr 1fr 20rem 6rem 8rem">
         <Table.Header />
         <Table.Body
