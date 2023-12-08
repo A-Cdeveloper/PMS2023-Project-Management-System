@@ -66,7 +66,7 @@ const TasksTable = () => {
         addeditForm={<AddEditTask />}
       />
     );
-  if (shownTasks.length === 0) return <Empty resource="tasks" />;
+  if (allTasks.length === 0) return <Empty resource="tasks" />;
 
   return (
     <>
@@ -80,10 +80,14 @@ const TasksTable = () => {
 
       <Table cols={taskCols} columns="30rem 26rem repeat(4, 1fr) 10rem 6rem">
         <Table.Header />
-        <Table.Body
-          data={shownTasks}
-          renderItem={(task) => <TaskRow key={task.task_id} task={task} />}
-        />
+        {shownTasks.length === 0 ? (
+          <Empty resource="tasks" />
+        ) : (
+          <Table.Body
+            data={shownTasks}
+            renderItem={(task) => <TaskRow key={task.task_id} task={task} />}
+          />
+        )}
       </Table>
       <Table.Footer>
         <Pagination
