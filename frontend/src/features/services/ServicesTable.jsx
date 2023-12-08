@@ -10,6 +10,10 @@ import Empty from "../../ui/Data/Empty";
 import Error from "../../ui/Data/Error";
 
 import { servicesCols } from "./ServiceParameters";
+import Row from "../../ui/Row";
+import Headline from "../../ui/Headline";
+import ServicesTableOperations from "./ServicesTableOperations";
+import AddEditService from "./AddEditService";
 
 const ServicesTable = () => {
   const [searchParams] = useSearchParams();
@@ -26,11 +30,23 @@ const ServicesTable = () => {
     : services;
 
   if (isLoading) return <Spinner />;
-  if (error) return <Error message={error.message} />;
+  if (error)
+    return (
+      <Error
+        message={error.message}
+        record="services"
+        firstRecord={true}
+        addeditForm={<AddEditService />}
+      />
+    );
   if (shownServices.length === 0) return <Empty resource="services" />;
 
   return (
     <>
+      <Row type="horizontal">
+        <Headline as="h1">Services</Headline>
+        <ServicesTableOperations />
+      </Row>
       <Table cols={servicesCols} columns="1fr 20rem 20rem 20rem 4rem">
         <Table.Header />
         <Table.Body
