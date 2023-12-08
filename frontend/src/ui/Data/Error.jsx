@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Headline from "../../ui/Headline";
 import NewRecord from "../../ui/Buttons/NewRecord";
-import AddEditClient from "../../features/clients/AddEditClient";
 
 const FullArea = styled.div`
   display: flex;
@@ -17,12 +16,12 @@ const FullArea = styled.div`
   }
 `;
 
-function Error({ message, record, firstRecord }) {
+function Error({ message, record, firstRecord, addeditForm }) {
   return (
     <FullArea>
       <Headline as="h3">{message} ⚠</Headline>
       <NewRecord record={record} firstRecord={firstRecord}>
-        <AddEditClient />
+        {addeditForm}
       </NewRecord>
     </FullArea>
   );

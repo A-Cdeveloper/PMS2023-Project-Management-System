@@ -10,6 +10,12 @@ import Error from "../../ui/Data/Error";
 import TaskRow from "./TaskRow";
 
 import { taskCols } from "./TaskParameters";
+import Row from "../../ui/Row";
+import Headline from "../../ui/Headline";
+
+import FilterByDateInterval from "../../ui/FilterByDateInterval";
+import TasksTableOperations from "./TasksTableOperations";
+import AddEditTask from "./AddEditTask";
 
 const filteredTasks = (allTasks, tasks, filteredTextValue, filteredStatus) => {
   if (!filteredTextValue && filteredStatus) {
@@ -51,11 +57,27 @@ const TasksTable = () => {
   );
 
   if (isLoading) return <Spinner />;
-  if (error) return <Error message={error.message} />;
+  if (error)
+    return (
+      <Error
+        message={error.message}
+        record="tasks"
+        firstRecord={true}
+        addeditForm={<AddEditTask />}
+      />
+    );
   if (shownTasks.length === 0) return <Empty resource="tasks" />;
 
   return (
     <>
+      <Row>
+        <Headline as="h1">Tasks</Headline>
+      </Row>
+      <Row type="horizontal">
+        <FilterByDateInterval />
+        <TasksTableOperations />
+      </Row>
+
       <Table cols={taskCols} columns="30rem 26rem repeat(4, 1fr) 10rem 6rem">
         <Table.Header />
         <Table.Body

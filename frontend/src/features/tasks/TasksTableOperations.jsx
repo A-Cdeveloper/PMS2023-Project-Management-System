@@ -21,9 +21,11 @@ function TasksTableOperations() {
           />
         </>
       )}
-      <NewRecord record="task">
-        <AddEditTask />
-      </NewRecord>
+      {tasksCount !== 0 && (
+        <NewRecord record="task">
+          <AddEditTask />
+        </NewRecord>
+      )}
     </TableOperations>
   );
 }

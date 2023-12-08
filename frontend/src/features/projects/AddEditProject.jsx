@@ -39,30 +39,29 @@ const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
   const loadingState = isAddNewLoading || isEditLoading;
 
   const onSubmit = (data) => {
-    console.log(data);
-    // if (isEdit) {
-    //   editProject(
-    //     {
-    //       project_id: projectToEdit.project_id,
-    //       updatedProject: data,
-    //       accessToken,
-    //     },
-    //     {
-    //       onSuccess: () => {
-    //         onCloseModal();
-    //       },
-    //     }
-    //   );
-    // } else {
-    //   addNewProject(
-    //     { newProject: data, accessToken },
-    //     {
-    //       onSuccess: () => {
-    //         onCloseModal();
-    //       },
-    //     }
-    //   );
-    // }
+    if (isEdit) {
+      editProject(
+        {
+          project_id: projectToEdit.project_id,
+          updatedProject: data,
+          accessToken,
+        },
+        {
+          onSuccess: () => {
+            onCloseModal();
+          },
+        }
+      );
+    } else {
+      addNewProject(
+        { newProject: data, accessToken },
+        {
+          onSuccess: () => {
+            onCloseModal();
+          },
+        }
+      );
+    }
   };
 
   return (

@@ -13,7 +13,7 @@ function ClientsTableOperations() {
 
   return (
     <TableOperations>
-      {projectsCount > 1 && (
+      {projectsCount > 0 && (
         <>
           <FilterText placeholder="Search projects..." />
           <Filter
@@ -59,9 +59,11 @@ function ClientsTableOperations() {
           />
         </>
       )}
-      <NewRecord record="project">
-        <AddEditProject />
-      </NewRecord>
+      {projectsCount !== 0 && (
+        <NewRecord record="project">
+          <AddEditProject />
+        </NewRecord>
+      )}
     </TableOperations>
   );
 }

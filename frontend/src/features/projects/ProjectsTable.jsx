@@ -10,7 +10,10 @@ import Error from "../../ui/Data/Error";
 import ProjectRow from "./ProjectRow";
 
 import { projectCols } from "./ProjectParameters";
-
+import Row from "../../ui/Row";
+import Headline from "../../ui/Headline";
+import AddEditProject from "./AddEditProject";
+import ProjectsTableOperations from "./ProjectsTableOperations";
 const filteredProjects = (
   allProjects,
   projects,
@@ -57,11 +60,23 @@ const ProjectsTable = () => {
   );
 
   if (isLoading) return <Spinner />;
-  if (error) return <Error message={error.message} />;
+  if (error)
+    return (
+      <Error
+        message={error.message}
+        record="project"
+        firstRecord={true}
+        addeditForm={<AddEditProject />}
+      />
+    );
   if (shownProjects.length === 0) return <Empty resource="projects" />;
 
   return (
     <>
+      <Row type="horizontal">
+        <Headline as="h1">Projects</Headline>
+        <ProjectsTableOperations />
+      </Row>
       <Table
         cols={projectCols}
         columns="23rem 23rem 6rem 6rem 10rem repeat(2, 1fr) 12rem 10rem 10rem 4rem 4rem"

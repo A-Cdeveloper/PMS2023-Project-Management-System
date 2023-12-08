@@ -13,6 +13,7 @@ import Error from "../../ui/Data/Error";
 import ClientsTableOperations from "./ClientsTableOperations";
 import Row from "../../ui/Row";
 import Headline from "../../ui/Headline";
+import AddEditClient from "./AddEditClient";
 
 const ClientsTable = () => {
   const [searchParams] = useSearchParams();
@@ -38,7 +39,14 @@ const ClientsTable = () => {
 
   if (isLoading) return <Spinner />;
   if (error)
-    return <Error message={error.message} record="client" firstRecord={true} />;
+    return (
+      <Error
+        message={error.message}
+        record="client"
+        firstRecord={true}
+        addeditForm={<AddEditClient />}
+      />
+    );
   if (shownClients.length === 0) return <Empty resource="clients" />;
 
   return (
