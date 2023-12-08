@@ -77,7 +77,7 @@ const AddEditTask = ({ taskToEdit = {}, onCloseModal }) => {
           control={control}
           name="task_project_id"
           disabled={loadingState}
-          required="This field is required"
+          rules={{ required: "This field is required" }}
           render={({ field }) => {
             return (
               <Select
