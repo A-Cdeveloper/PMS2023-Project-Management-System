@@ -39,7 +39,7 @@ const ServicesTable = () => {
         addeditForm={<AddEditService />}
       />
     );
-  if (shownServices.length === 0) return <Empty resource="services" />;
+  if (allServices.length === 0) return <Empty resource="services" />;
 
   return (
     <>
@@ -49,12 +49,18 @@ const ServicesTable = () => {
       </Row>
       <Table cols={servicesCols} columns="1fr 20rem 20rem 20rem 4rem">
         <Table.Header />
-        <Table.Body
-          data={shownServices}
-          renderItem={(service) => (
-            <ServiceRow key={service.service_id} service={service} />
-          )}
-        />
+
+        {shownServices.length === 0 ? (
+          <Empty resource="services" />
+        ) : (
+          <Table.Body
+            data={shownServices}
+            renderItem={(service) => (
+              <ServiceRow key={service.service_id} service={service} />
+            )}
+          />
+        )}
+
         <Table.Footer>
           <Pagination
             count={

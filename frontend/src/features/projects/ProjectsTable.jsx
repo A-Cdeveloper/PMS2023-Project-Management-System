@@ -69,7 +69,7 @@ const ProjectsTable = () => {
         addeditForm={<AddEditProject />}
       />
     );
-  if (shownProjects.length === 0) return <Empty resource="projects" />;
+  if (allProjects.length === 0) return <Empty resource="projects" />;
 
   return (
     <>
@@ -82,12 +82,18 @@ const ProjectsTable = () => {
         columns="23rem 23rem 6rem 6rem 10rem repeat(2, 1fr) 12rem 10rem 10rem 4rem 4rem"
       >
         <Table.Header />
-        <Table.Body
-          data={shownProjects}
-          renderItem={(project) => (
-            <ProjectRow key={project.project_id} project={project} />
-          )}
-        />
+
+        {shownProjects.length === 0 ? (
+          <Empty resource="projects" />
+        ) : (
+          <Table.Body
+            data={shownProjects}
+            renderItem={(project) => (
+              <ProjectRow key={project.project_id} project={project} />
+            )}
+          />
+        )}
+
         <Table.Footer>
           <Pagination
             count={

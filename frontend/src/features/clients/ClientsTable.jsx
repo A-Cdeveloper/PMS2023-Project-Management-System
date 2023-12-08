@@ -47,7 +47,7 @@ const ClientsTable = () => {
         addeditForm={<AddEditClient />}
       />
     );
-  if (shownClients.length === 0) return <Empty resource="clients" />;
+  if (allClients.length === 0) return <Empty resource="clients" />;
 
   return (
     <>
@@ -60,12 +60,16 @@ const ClientsTable = () => {
         columns="repeat(3, 1fr) 8rem 8rem 8rem 8rem 10rem 4rem"
       >
         <Table.Header />
-        <Table.Body
-          data={shownClients}
-          renderItem={(client) => (
-            <ClientRow key={client.client_id} client={client} />
-          )}
-        />
+        {shownClients.length === 0 ? (
+          <Empty resource="clients" />
+        ) : (
+          <Table.Body
+            data={shownClients}
+            renderItem={(client) => (
+              <ClientRow key={client.client_id} client={client} />
+            )}
+          />
+        )}
         <Table.Footer>
           <Pagination
             count={filteredTextValue ? shownClients.length : allClients.length}
