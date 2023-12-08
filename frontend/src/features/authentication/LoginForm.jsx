@@ -23,7 +23,7 @@ function LoginForm() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!username || !password) return;
+    //if (!username || !password) return;
 
     login(
       { username, password },
@@ -50,6 +50,7 @@ function LoginForm() {
             disabled={isLoginLoading}
           />
         </FormRowVertical>
+
         <FormRowVertical type="vertical" label="Password">
           <>
             <Input
@@ -73,7 +74,13 @@ function LoginForm() {
             variation={!isLoginLoading ? "primary" : "disabled"}
             active=""
           >
-            {!isLoginLoading ? "Login" : <SpinnerMini />}
+            {!isLoginLoading ? (
+              "Login"
+            ) : (
+              <>
+                Working... <SpinnerMini />
+              </>
+            )}
           </Button>
         </FormRowVertical>
       </Form>
