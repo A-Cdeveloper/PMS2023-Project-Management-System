@@ -81,8 +81,8 @@ function ConfirmModal({
   return (
     <StyledConfirmModal>
       <Headline as="h3">
-        {operation === "delete" && "Delete"}
-        {operation === "duplicate" && "Duplicate"}
+        {operation === "delete" && "Delete "}
+        {operation === "clone" && "Duplicate "}
         {operation === "" && "Reset "}
         {resourceName}
       </Headline>
@@ -105,7 +105,7 @@ function ConfirmModal({
             onClick={conformActionHandler}
           >
             {operation === "delete" && "Delete"}
-            {operation === "duplicate" && "Duplicate"}
+            {operation === "clone" && "Duplicate"}
             {operation === "" && "Reset all"}
           </Button>
         )}
