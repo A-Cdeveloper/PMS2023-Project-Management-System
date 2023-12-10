@@ -20,6 +20,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Modal from "../../ui/Modal";
 import ConfirmModal from "../../ui/ConfirmModal";
 import ButtonGroup from "../../ui/Buttons/ButtonGroup";
+import { useRestore } from "./useRestore";
 
 const SettingSection = styled.div`
   background: white;
@@ -39,6 +40,7 @@ const SettingsForm = () => {
   const { isUpdateSettings, errorUpdateSettings, updateSettings } =
     useUpdateSettings();
   const { createBackup } = useCreateBackup();
+  const { restore } = useRestore();
   const { resetAll } = useResetAll();
   const accessToken = useAccessToken();
   const navigate = useNavigate();
@@ -232,8 +234,14 @@ const SettingsForm = () => {
           {backup_path && (
             <>
               <span>Restore from backup</span>
-              <Button size="small" variation="primary">
-                <Link to={backup_path}>Restore</Link>
+              <Button
+                size="small"
+                variation="primary"
+                onClick={() => {
+                  restore({ accessToken });
+                }}
+              >
+                Restore
               </Button>
             </>
           )}

@@ -24,7 +24,7 @@ const verifyToken = require('../authMw')
 
 const router = express.Router()
 
-router.patch('/backup', async (req, res) => {
+router.patch('/backup', verifyToken, async (req, res) => {
   const results = mysqldump({
     connection: connObj,
     dumpToFile: `./public/backup/${dumpFileName}`,
@@ -52,7 +52,7 @@ router.post('/initial-state', async (req, res) => {
 })
 
 ////////////////////////
-router.post('/restore', async (req, res) => {
+router.post('/restore', verifyToken, async (req, res) => {
   await dbfunctions2.clearAllTables()
   importer
     .import(`./public/backup/${dumpFileName}`)

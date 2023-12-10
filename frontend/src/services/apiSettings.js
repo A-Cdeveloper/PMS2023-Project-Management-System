@@ -64,6 +64,16 @@ export const createBackup = async ({ accessToken }) => {
 };
 
 // /////////////////////////////////////////////////////////////////////
+export const restore = async ({ accessToken }) => {
+  const response = await fetch(`${API_URL}/managedb/restore`, {
+    method: "POST",
+    headers: headerApiFn(accessToken),
+  });
+
+  return await responseApiFn(response, "Backup not created.Please try again.");
+};
+
+// /////////////////////////////////////////////////////////////////////
 export const resetAll = async ({ accessToken }) => {
   const response = await fetch(`${API_URL}/managedb/initial-state`, {
     method: "POST",
