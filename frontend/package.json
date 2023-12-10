@@ -24,6 +24,7 @@
     "react-router-dom": "^6.15.0",
     "react-router-prompt": "^0.5.4",
     "recharts": "^2.10.1",
+    "rollup-plugin-visualizer": "^5.10.0",
     "styled-components": "^6.0.7"
   },
   "devDependencies": {

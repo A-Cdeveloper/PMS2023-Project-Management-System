@@ -1,14 +1,11 @@
 import { PDFViewer, PDFDownloadLink, StyleSheet } from "@react-pdf/renderer";
-import { useParams } from "react-router-dom";
 import { useMoveBack } from "../hooks/useMoveBack";
-import { useQueryClient } from "@tanstack/react-query";
 import { HiDocumentArrowDown } from "react-icons/hi2";
 
 import Row from "../ui/Row";
 import ButtonText from "../ui/Buttons/ButtonText";
 import ButtonIconText from "../ui/Buttons/ButtonIconText";
 import { createContext, useContext } from "react";
-import Headline from "../ui/Headline";
 import Error from "../ui/Data/Error";
 
 // Create styles

@@ -1,40 +1,41 @@
+import { Suspense, lazy } from "react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import GlobalStyle from "./styles/GlobalStyles";
 import ThemeStyle from "./styles/ThemeStyle";
-import {
-  Navigate,
-  RouterProvider,
-  createBrowserRouter,
-} from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import { AuthContextProvider } from "./context/authContext";
 
-import AppLayout from "./ui/AppLayout";
-import Dashboard from "./pages/Dashboard";
-import Users from "./pages/Users";
-import Account from "./pages/Account";
-import Projects from "./pages/Projects";
 import Project from "./pages/Project";
-import Tasks from "./pages/Tasks";
 import Task from "./pages/Task";
-import Clients from "./pages/Clients";
 import Client from "./pages/Client";
 import PageNotFound from "./pages/PageNotFound";
 import Login from "./pages/Login";
 import UserConformPage from "./pages/UserConformPage";
-import Settings from "./pages/Settings";
 import Notifications from "./ui/Notifications";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import ForgotPassword from "./pages/ForgotPassword";
-import Services from "./pages/Services";
-import Offers from "./pages/Offers";
 import NewOffer from "./pages/NewOffer";
 import Offer from "./pages/Offer";
 import EditOffer from "./pages/EditOffer";
-import PdfOffer from "./pages/PdfOffer";
-import PdfTask from "./pages/PdfTask";
+
+import Spinner from "./ui/Spinner.jsx";
+
+const AppLayout = lazy(() => import("./ui/AppLayout.jsx"));
+const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
+const Users = lazy(() => import("./pages/Users.jsx"));
+const Account = lazy(() => import("./pages/Account.jsx"));
+const Projects = lazy(() => import("./pages/Projects.jsx"));
+const Tasks = lazy(() => import("./pages/Tasks.jsx"));
+const Clients = lazy(() => import("./pages/Clients.jsx"));
+const Settings = lazy(() => import("./pages/Settings.jsx"));
+const Services = lazy(() => import("./pages/Services.jsx"));
+const Offers = lazy(() => import("./pages/Offers.jsx"));
+const PdfOffer = lazy(() => import("./pages/PdfOffer.jsx"));
+const PdfTask = lazy(() => import("./pages/PdfTask.jsx"));
+
 import { useConnectionStatus } from "./hooks/useConnectionStatus";
 
 const queryClient = new QueryClient({
@@ -118,11 +119,13 @@ function App() {
         <AuthContextProvider>
           <ReactQueryDevtools />
           <GlobalStyle />
-          {isOnline ? (
-            <RouterProvider router={router} />
-          ) : (
-            <PageNotFound onlineStatus={isOnline} />
-          )}
+          <Suspense fallback={<Spinner />}>
+            {isOnline ? (
+              <RouterProvider router={router} />
+            ) : (
+              <PageNotFound onlineStatus={isOnline} />
+            )}
+          </Suspense>
           <Notifications />
         </AuthContextProvider>
       </QueryClientProvider>
