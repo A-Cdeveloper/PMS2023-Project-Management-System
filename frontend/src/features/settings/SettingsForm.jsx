@@ -247,7 +247,7 @@ const SettingsForm = () => {
           )}
         </Row>
 
-        {/* <Row type="horizontalandgap">
+        <Row type="horizontalandgap">
           <>
             <Modal>
               <Modal.OpenButton opens="sistem-delete">
@@ -268,7 +268,7 @@ const SettingsForm = () => {
               </Modal.Window>
             </Modal>
           </>
-        </Row> */}
+        </Row>
       </SettingSection>
     </Row>
   );
