@@ -221,17 +221,24 @@ const SettingsForm = () => {
           {backup_path && (
             <>
               <span>Latest backup: {backup_path.slice(-13)}</span>
-              <ButtonGroup>
-                <Button size="small" variation="primary">
-                  <Link to={backup_path}>Download</Link>
-                </Button>
-                <Button size="small" variation="primary">
-                  <Link to={backup_path}>Restore</Link>
-                </Button>
-              </ButtonGroup>
+
+              <Button size="small" variation="primary">
+                <Link to={backup_path}>Download</Link>
+              </Button>
             </>
           )}
         </Row>
+        <Row type="horizontalandgap">
+          {backup_path && (
+            <>
+              <span>Restore from backup</span>
+              <Button size="small" variation="primary">
+                <Link to={backup_path}>Restore</Link>
+              </Button>
+            </>
+          )}
+        </Row>
+
         {/* <Row type="horizontalandgap">
           <>
             <Modal>

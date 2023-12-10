@@ -1,7 +1,20 @@
 const db = require('./connection')
 const dotenv = require('dotenv')
 dotenv.config()
-const dbfunctions = require('./settings-query')
+// const dbfunctions = require('./settings-query')
+
+const clearAllTables = async () => {
+  const [tables] = await db.query('SHOW TABLES')
+  let res
+
+  tables.forEach((table) => {
+    const tableName = table[`Tables_in_${process.env.DATABASE}`]
+    const query = `TRUNCATE TABLE ${tableName}`
+    res = db.query(query)
+  })
+
+  return res
+}
 
 const resetToInitialState = async () => {
   const [tables] = await db.query('SHOW TABLES')
@@ -35,4 +48,5 @@ const resetToInitialState = async () => {
 
 module.exports = {
   resetToInitialState,
+  clearAllTables,
 }
