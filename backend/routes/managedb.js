@@ -27,7 +27,7 @@ const router = express.Router()
 router.patch('/backup', verifyToken, async (req, res) => {
   const results = mysqldump({
     connection: connObj,
-    dumpToFile: `./public/backup/${dumpFileName}`,
+    dumpToFile: `./backup/${dumpFileName}`,
     dump: {
       excludeTables: ['pms_users'],
     },
