@@ -26,7 +26,7 @@ export const Logo = ({ align }) => {
       <StyledLogo align={align}>
         <Img
           src={company_logo || demoLogo}
-          alt={company_name || "Demo company"}
+          alt={company_name || "Demo company 2023"}
         />
       </StyledLogo>
     </>
