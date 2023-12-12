@@ -18,8 +18,6 @@ const OfferPDF = () => {
   const { settings = {} } = useSettings();
   const { company_name, company_adresse, company_logo } = settings;
 
-  console.log(company_logo);
-
   const queryClient = useQueryClient();
   const offer = queryClient.getQueryData(["offer", +offerId])
     ? queryClient.getQueryData(["offer", +offerId])
