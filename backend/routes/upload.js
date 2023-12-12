@@ -9,7 +9,7 @@ router.post('/', verifyToken, (req, res) => {
 
   const { image } = req.files
   const { name: imageName } = image
-  const filename = `${Math.random()}-${imageName}`
+  const filename = `${Math.floor(Math.random() * 10000)}-${imageName}`
 
   // If no image submitted, exit
   if (!/^image/.test(image.mimetype))
