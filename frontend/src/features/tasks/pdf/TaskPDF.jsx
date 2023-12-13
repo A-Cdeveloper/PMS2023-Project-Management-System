@@ -14,7 +14,7 @@ const TaskPDF = () => {
   const { isLoading, taks: taskSingle = {} } = useTask();
   const { taskId } = useParams();
   const { settings = {} } = useSettings();
-  const { company_name, company_adresse } = settings;
+  const { company_name, company_adresse, company_logo } = settings;
 
   const queryClient = useQueryClient();
   const task = queryClient.getQueryData(["task", +taskId])
@@ -35,6 +35,7 @@ const TaskPDF = () => {
           task={task}
           pricePerhour={pricePerhour}
           owner={{ company_name, company_adresse }}
+          logo={company_logo}
         />
       }
       fileName={`${task.task_id}.pdf`}

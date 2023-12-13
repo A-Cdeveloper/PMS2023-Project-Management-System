@@ -1,7 +1,7 @@
 import PDFDocument from "../../../pdf/PDFDocument";
 
 // Create Document Component
-const TaskPDFDocument = ({ task, pricePerhour, owner }) => {
+const TaskPDFDocument = ({ task, pricePerhour, owner, logo }) => {
   const {
     project_name,
     task_notice,
@@ -12,7 +12,7 @@ const TaskPDFDocument = ({ task, pricePerhour, owner }) => {
 
   return (
     <PDFDocument>
-      <PDFDocument.Logo />
+      <PDFDocument.Logo logo={logo} />
 
       <PDFDocument.OwnerClientAdresse owner={owner}>
         {task_client_adresse}
