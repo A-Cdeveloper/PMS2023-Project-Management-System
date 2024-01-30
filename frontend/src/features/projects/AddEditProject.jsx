@@ -165,6 +165,7 @@ const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
           control={control}
           name="project_start_date"
           disabled={loadingState}
+          rules={{ required: "This field is required" }}
           render={({ field }) => {
             const defDate = {
               ...field,
