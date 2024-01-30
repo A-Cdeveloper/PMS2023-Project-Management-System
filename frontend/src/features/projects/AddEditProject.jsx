@@ -173,6 +173,8 @@ const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
                 ? field.value.slice(0, -14)
                 : new Date(new Date()).toISOString().slice(0, -5),
             };
+
+            console.log(defDate.value);
             return (
               <Input
                 type="date"
