@@ -51,7 +51,7 @@ const getProjectsByClient = async (sclient_id) => {
 const getSingleProject = async (project_name, project_id) => {
   const [project] = await db.query(
     //'SELECT * FROM pms_projects WHERE project_name=? OR project_id=?',
-    'SELECT pms_projects.*,pms_clients.client_name, count(task_project_id) as task_per_project FROM pms_projects LEFT JOIN pms_tasks ON project_id = task_project_id LEFT JOIN pms_clients ON client_id = project_client_id WHERE (project_name=? OR project_id = ?)',
+    'SELECT MAX(pms_projects.project_id),pms_projects.*,pms_clients.client_name, count(task_project_id) as task_per_project FROM pms_projects LEFT JOIN pms_tasks ON project_id = task_project_id LEFT JOIN pms_clients ON client_id = project_client_id WHERE (project_name=? OR project_id = ?)',
     [project_name, project_id]
   )
   return project[0]
