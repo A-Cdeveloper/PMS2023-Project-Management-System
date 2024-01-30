@@ -5,7 +5,7 @@ const getProjects = async (
   orderDirection = 'asc'
 ) => {
   const query =
-    'SELECT pms_projects.*,pms_clients.client_name, count(task_project_id) as task_per_project FROM pms_projects LEFT JOIN pms_tasks ON project_id = task_project_id LEFT JOIN pms_clients ON client_id = project_client_id GROUP BY project_id ORDER BY ' +
+    'SELECT MAX(pms_projects.project_id),pms_projects.*,pms_clients.client_name, count(task_project_id) as task_per_project FROM pms_projects LEFT JOIN pms_tasks ON project_id = task_project_id LEFT JOIN pms_clients ON client_id = project_client_id GROUP BY project_id ORDER BY ' +
     orderBy +
     ' ' +
     orderDirection
@@ -16,7 +16,7 @@ const getProjects = async (
 
 const getProjectsRange = async (from, perPage, orderBy, orderDirection) => {
   const query =
-    'SELECT pms_projects.*,pms_clients.client_name, count(task_project_id) as task_per_project FROM pms_projects LEFT JOIN pms_tasks ON project_id = task_project_id LEFT JOIN pms_clients ON client_id = project_client_id GROUP BY project_id ORDER BY ' +
+    'SELECT MAX(pms_projects.project_id),pms_projects.*,pms_clients.client_name, count(task_project_id) as task_per_project FROM pms_projects LEFT JOIN pms_tasks ON project_id = task_project_id LEFT JOIN pms_clients ON client_id = project_client_id GROUP BY project_id ORDER BY ' +
     orderBy +
     ' ' +
     orderDirection +
