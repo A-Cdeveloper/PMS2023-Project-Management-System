@@ -11,6 +11,7 @@ const getProjects = async (
     orderDirection
 
   const [projects] = await db.query(query)
+
   return projects
 }
 
@@ -38,7 +39,7 @@ const getProjectsByStatus = async (projectStatus) => {
 
 const getProjectsByClient = async (sclient_id) => {
   const query =
-    'SELECT pms_projects.* FROM pms_projects,pms_clients WHERE client_id = project_client_id AND project_client_id = ? ORDER BY pms_projects.project_status DESC, pms_projects.project_end_date DESC'
+    'SELECT MAX(pms_projects.project_id),pms_projects.* FROM pms_projects,pms_clients WHERE client_id = project_client_id AND project_client_id = ? ORDER BY pms_projects.project_status DESC, pms_projects.project_end_date DESC'
 
   const [projects] = await db.query(query, [sclient_id])
   return projects
