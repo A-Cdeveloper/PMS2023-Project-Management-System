@@ -16,6 +16,7 @@ import Input from "../../ui/Form/Input";
 import Textarea from "../../ui/Form/Textarea";
 import Select from "../../ui/Form/Select";
 import Button from "../../ui/Buttons/Button";
+import { formatJsToSqlDate } from "../../utils/helpers";
 
 const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
   const { isAddNewLoading, addNewProject } = useAddProject();
@@ -43,7 +44,11 @@ const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
       editProject(
         {
           project_id: projectToEdit.project_id,
-          updatedProject: data,
+          updatedProject: {
+            ...data,
+            project_start_date: formatJsToSqlDate(data.project_start_date),
+            project_end_date: formatJsToSqlDate(data.project_end_date),
+          },
           accessToken,
         },
         {
@@ -54,13 +59,21 @@ const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
       );
     } else {
       addNewProject(
-        { newProject: data, accessToken },
+        {
+          newProject: {
+            ...data,
+            project_start_date: formatJsToSqlDate(data.project_start_date),
+            project_end_date: formatJsToSqlDate(data.project_end_date),
+          },
+          accessToken,
+        },
         {
           onSuccess: () => {
             onCloseModal();
           },
         }
       );
+      console.log(data);
     }
   };
 
@@ -170,8 +183,8 @@ const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
             const defDate = {
               ...field,
               value: field.value
-                ? field.value.slice(0, -14)
-                : new Date(new Date()).toISOString().slice(0, -5),
+                ? field.value.slice(0, 10).replace("T", " ")
+                : new Date().toISOString().slice(0, 10).replace("T", " "),
             };
 
             console.log(defDate.value);
@@ -208,9 +221,10 @@ const AddEditProject = ({ projectToEdit = {}, onCloseModal }) => {
             const defDate = {
               ...field,
               value: field.value
-                ? field.value.slice(0, -14)
-                : new Date(new Date()).toISOString().slice(0, -5),
+                ? field.value.slice(0, 10).replace("T", " ")
+                : "",
             };
+            console.log(defDate.value);
             return (
               <Input
                 type="date"

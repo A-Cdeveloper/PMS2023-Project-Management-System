@@ -36,6 +36,10 @@ export const formatDate = (date) => {
   return convertDate;
 };
 
+export const formatJsToSqlDate = (date) => {
+  return date.toISOString().slice(0, 19).replace("T", " ");
+};
+
 export const formatSqlDate = (date) => {
   if (!date) return "-";
   return format(new Date(date), "yyyy-MM-dd");
