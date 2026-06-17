@@ -64,6 +64,6 @@ app.use((error, req, res, next) => {
   })
 })
 
-app.listen(8080, () => {
-  console.log(`Server run on port ${PORT}`)
+app.listen(PORT || 8080, () => {
+  console.log(`Server run on port ${PORT || 8080}`)
 })
