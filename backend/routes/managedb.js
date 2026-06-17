@@ -5,33 +5,9 @@ const fs = require('fs').promises
 const dotenv = require('dotenv')
 dotenv.config()
 
-const getConnObj = () => {
-  if (process.env.DATABASE_URL) {
-    const url = new URL(process.env.DATABASE_URL)
-    return {
-      host: url.hostname,
-      port: Number(url.port) || 3306,
-      user: decodeURIComponent(url.username),
-      password: decodeURIComponent(url.password),
-      database: url.pathname.replace(/^\//, ''),
-      ssl: { rejectUnauthorized: true },
-    }
-  }
+const { getDbConfig } = require('../utils/db-config')
 
-  const connObj = {
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
-  }
-
-  if (process.env.DB_PORT) connObj.port = Number(process.env.DB_PORT)
-  if (process.env.DB_SSL === 'true') {
-    connObj.ssl = { rejectUnauthorized: true }
-  }
-
-  return connObj
-}
+const getConnObj = () => getDbConfig()
 
 const dumpFileName = `${new Date(Date.now())
   .toLocaleDateString()

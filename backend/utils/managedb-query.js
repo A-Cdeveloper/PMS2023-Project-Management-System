@@ -1,6 +1,5 @@
 const db = require('./connection')
-const dotenv = require('dotenv')
-dotenv.config()
+const { getDatabaseName } = require('./db-config')
 const dbfunctions = require('./settings-query')
 
 const clearAllTables = async () => {
@@ -8,7 +7,7 @@ const clearAllTables = async () => {
   let res
 
   tables.forEach((table) => {
-    const tableName = table[`Tables_in_${process.env.DATABASE}`]
+    const tableName = table[`Tables_in_${getDatabaseName()}`]
     const query = `TRUNCATE TABLE ${tableName}`
     res = db.query(query)
   })
@@ -21,7 +20,7 @@ const resetToInitialState = async () => {
   let res
 
   tables.forEach((table) => {
-    const tableName = table[`Tables_in_${process.env.DATABASE}`]
+    const tableName = table[`Tables_in_${getDatabaseName()}`]
     if (tableName === 'pms_users' || tableName === 'pms_settings') {
       dbfunctions.updateSettings({
         clients_per_page: 10,
