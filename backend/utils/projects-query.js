@@ -1,11 +1,25 @@
 const db = require('./connection')
 
+const projectsBaseQuery = `
+  SELECT pms_projects.*,
+    pms_clients.client_name,
+    COALESCE(task_counts.task_per_project, 0) AS task_per_project
+  FROM pms_projects
+  LEFT JOIN pms_clients ON pms_clients.client_id = pms_projects.project_client_id
+  LEFT JOIN (
+    SELECT task_project_id, COUNT(*) AS task_per_project
+    FROM pms_tasks
+    GROUP BY task_project_id
+  ) AS task_counts ON task_counts.task_project_id = pms_projects.project_id
+`
+
 const getProjects = async (
   orderBy = 'project_name',
   orderDirection = 'asc'
 ) => {
   const query =
-    'SELECT MAX(pms_projects.project_id),pms_projects.*,pms_clients.client_name, count(task_project_id) as task_per_project FROM pms_projects LEFT JOIN pms_tasks ON project_id = task_project_id LEFT JOIN pms_clients ON client_id = project_client_id GROUP BY project_id ORDER BY ' +
+    projectsBaseQuery +
+    ' ORDER BY ' +
     orderBy +
     ' ' +
     orderDirection
@@ -17,7 +31,8 @@ const getProjects = async (
 
 const getProjectsRange = async (from, perPage, orderBy, orderDirection) => {
   const query =
-    'SELECT MAX(pms_projects.project_id),pms_projects.*,pms_clients.client_name, count(task_project_id) as task_per_project FROM pms_projects LEFT JOIN pms_tasks ON project_id = task_project_id LEFT JOIN pms_clients ON client_id = project_client_id GROUP BY project_id ORDER BY ' +
+    projectsBaseQuery +
+    ' ORDER BY ' +
     orderBy +
     ' ' +
     orderDirection +
@@ -51,8 +66,8 @@ const getProjectsByClient = async (sclient_id) => {
 
 const getSingleProject = async (project_name, project_id) => {
   const [project] = await db.query(
-    //'SELECT * FROM pms_projects WHERE project_name=? OR project_id=?',
-    'SELECT MAX(pms_projects.project_id),pms_projects.*,pms_clients.client_name, count(task_project_id) as task_per_project FROM pms_projects LEFT JOIN pms_tasks ON project_id = task_project_id LEFT JOIN pms_clients ON client_id = project_client_id WHERE (project_name=? OR project_id = ?) GROUP BY project_id',
+    projectsBaseQuery +
+      ' WHERE (project_name=? OR project_id = ?)',
     [project_name, project_id]
   )
   return project[0]

@@ -1,8 +1,20 @@
 const db = require('./connection')
 
+const clientsBaseQuery = `
+  SELECT pms_clients.*,
+    COALESCE(project_counts.project_per_client, 0) AS project_per_client
+  FROM pms_clients
+  LEFT JOIN (
+    SELECT project_client_id, COUNT(*) AS project_per_client
+    FROM pms_projects
+    GROUP BY project_client_id
+  ) AS project_counts ON project_counts.project_client_id = pms_clients.client_id
+`
+
 const getClients = async (orderBy = 'client_name', orderDirection = 'asc') => {
   const query =
-    'SELECT MAX(pms_clients.client_id),pms_clients.*, count(project_client_id) as project_per_client FROM pms_clients LEFT JOIN pms_projects ON client_id = project_client_id GROUP BY client_id ORDER BY ' +
+    clientsBaseQuery +
+    ' ORDER BY ' +
     orderBy +
     ' ' +
     orderDirection
@@ -13,7 +25,8 @@ const getClients = async (orderBy = 'client_name', orderDirection = 'asc') => {
 
 const getClientsRange = async (from, perPage, orderBy, orderDirection) => {
   const query =
-    'SELECT MAX(pms_clients.client_id),pms_clients.*, count(project_client_id) as project_per_client FROM pms_clients LEFT JOIN pms_projects ON client_id = project_client_id GROUP BY client_id ORDER BY ' +
+    clientsBaseQuery +
+    ' ORDER BY ' +
     orderBy +
     ' ' +
     orderDirection +
@@ -25,7 +38,7 @@ const getClientsRange = async (from, perPage, orderBy, orderDirection) => {
 
 const getSingleClient = async (client_id) => {
   const [client] = await db.query(
-    'SELECT pms_clients.*, count(client_id) as project_per_client FROM pms_clients,pms_projects WHERE (client_id =? and client_id = project_client_id)',
+    clientsBaseQuery + ' WHERE pms_clients.client_id = ?',
     [client_id]
   )
   return client[0]
